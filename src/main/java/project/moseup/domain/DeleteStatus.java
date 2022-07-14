@@ -1,5 +1,5 @@
 package project.moseup.domain;
 
-public enum MemberStatus {
+public enum DeleteStatus {
 	TRUE, FALSE
 }
