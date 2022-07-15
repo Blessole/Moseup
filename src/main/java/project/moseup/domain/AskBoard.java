@@ -51,6 +51,6 @@ public class AskBoard {
 	private DeleteStatus delete;
 	
 	@OneToMany(mappedBy = "askboard")
-	private List<AskBoard> askboard = new ArrayList<>();
+	private List<AskBoardReply> askboardreply = new ArrayList<>();
 	
 }
