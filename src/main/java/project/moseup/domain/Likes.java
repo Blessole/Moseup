@@ -1,5 +1,7 @@
 package project.moseup.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -11,7 +13,8 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class Likes {
+@SuppressWarnings("serial")
+public class Likes implements Serializable{
 	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)

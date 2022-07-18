@@ -10,18 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Setter @Getter
-public class CertificationBoard {
+public class CheckBoard {
 
-	@Column(name = "certi_no")
+	@Column(name = "check_no")
     @GeneratedValue
     @Id
-    private int cno;
+    private Long cno;
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
@@ -31,24 +32,23 @@ public class CertificationBoard {
     @JoinColumn(name = "team_no")
     private Team team;
     
-    @Column(name = "certi_date")
-    @NotEmpty
-    private LocalDateTime cdate;
+    @Column(name = "check_date")
+    private LocalDateTime checkDate;
 
-    @Column(name = "certi_content")
-    private String cContent;
+    @Column(name = "check_content")
+    private String checkContent;
 
-    @Column(name = "certi_photo")
+    @Column(name = "check_photo")
     @NotEmpty
-    private String cphoto;
+    private String checkPhoto;
 
-    @Column(name = "certi_like")
-    @NotEmpty
-    private int clike;
+    @Column(name = "check_like")
+    @NotNull
+    private int checkLike;
 
-    @Column(name = "certi_readcount")
-    @NotEmpty
-    private int creadCount;
+    @Column(name = "check_readcount")
+    @NotNull
+    private int checkReadCount;
 
 
 }

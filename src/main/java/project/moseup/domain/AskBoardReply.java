@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,26 +21,25 @@ import lombok.Setter;
 public class AskBoardReply {
 
 	@Id @GeneratedValue
-	@Column(name = "ask_reply_no")
-	private String arno;
+	@Column(name = "ask_replyno")
+	private Long arno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ask_no")
-	private AskBoard askboard;
+	private AskBoard askBoard;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
 	
 	@NotEmpty
-	@Column(name = "ask_reply_content")
-	private int content;
+	@Column(name = "ask_replycontent")
+	private String askReplyContent;
 	
-	@NotEmpty
-	@Column(name = "ask_reply_date")
-	private LocalDateTime ardate;
+	@Column(name = "ask_replydate")
+	private LocalDateTime askReplyDate;
 	
-	@NotEmpty
-	@Column(name = "ask_reply_delete")
-	private DeleteStatus delete;
+	@Column(name = "ask_replydelete")
+	@Enumerated(EnumType.STRING)
+	private DeleteStatus askReplyDelete;
 }
