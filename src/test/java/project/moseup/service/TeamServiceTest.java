@@ -33,7 +33,7 @@ public class TeamServiceTest {
 	@Autowired EntityManager em;
 	
 	@Test
-	@Rollback(true)
+	@Rollback(false)
 	public void 팀생성() throws Exception {
 		// given
 		Member member = new Member();
@@ -45,23 +45,24 @@ public class TeamServiceTest {
 		member.setGender(MemberGender.MALE);
 		member.setAddress("서울");
 		member.setPhone("010");
-		member.setMdelete(DeleteStatus.FALSE);
-		member.setDate(date);
+		member.setMemberDelete(DeleteStatus.FALSE);
+		member.setMemberDate(date);
 		
 		Team team = new Team();
 		
-		team.setTname("모습");
-		team.setVolume(4);
-		team.setTdeposit(0);
+		team.setTeamName("모습");
+		team.setTeamVolume(4);
+		team.setTeamDeposit(0);
 		team.setTeamDate(date);
 		team.setStartDate(date);
 		team.setEndDate(date);
-		team.setIntroduce("반갑습니다.");
-		team.setTdelete(DeleteStatus.FALSE);
+		team.setTeamIntroduce("반갑습니다.");
+		team.setTeamDelete(DeleteStatus.FALSE);
 		
 		// when
 		Long saveId = teamService.create(team);
 		Long memberId = memberService.join(member);
+		em.flush();
 		
 		// then
 		assertEquals(team, teamRepository.findOne(saveId));

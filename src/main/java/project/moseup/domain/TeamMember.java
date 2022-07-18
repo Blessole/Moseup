@@ -31,5 +31,5 @@ public class TeamMember implements Serializable{
 	private Team team;
 	
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus tmdelete;
+	private DeleteStatus teamMemberDelete;
 }

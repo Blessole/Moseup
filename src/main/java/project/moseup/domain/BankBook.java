@@ -32,16 +32,14 @@ public class BankBook {
 	private String dealList;
 
 	@Column(name = "bankbook_deposit")
-	private int deposit;
+	private int bankbookDeposit;
 
 	@Column(name = "bankbook_withdraw")
-	private int withdraw;
+	private int bankbookWithdraw;
 
-	@NotEmpty
 	@Column(name = "bankbook_total")
-	private int btotal;
+	private int bankbookTotal;
 
-	@NotEmpty
 	@Column(name = "bankbook_date")
-	private LocalDateTime bdate;
+	private LocalDateTime bankbookDate;
 }

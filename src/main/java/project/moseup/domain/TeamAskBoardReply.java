@@ -21,8 +21,7 @@ import lombok.Setter;
 public class TeamAskBoardReply {
 
 	@Column(name = "team_askreplyno")
-    @GeneratedValue
-    @Id
+    @GeneratedValue @Id
     private Long tarno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,11 +37,10 @@ public class TeamAskBoardReply {
     private String teamAskReplyContent;
 
     @Column(name = "team_askreplydate")
-    @NotEmpty
     private LocalDateTime teamAskReplyDate;
     
-    @Column(name = "team_replydelete")
+    @Column(name = "team_askreplydelete")
     @Enumerated(EnumType.STRING)
-    private DeleteStatus tabrdelete;
+    private DeleteStatus teamAskReplyDelete;
 
 }

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,14 +36,15 @@ public class Team {
 
 	@NotEmpty
 	@Column(name = "team_name")
-	private String tname;
+	private String teamName;
 
+	@NotNull
 	@Column(name = "team_volume")
-	private int volume;
+	private int teamVolume;
 
-	
+	@NotNull
 	@Column(name = "team_deposit")
-	private int tdeposit;
+	private int teamDeposit;
 	
 	
 	private LocalDateTime teamDate;
@@ -55,13 +57,13 @@ public class Team {
 
 	@NotEmpty
 	@Column(name = "team_Introduce")
-	private String introduce;
+	private String teamIntroduce;
 
 	@Column(name = "team_photo")
-	private String tphoto;
+	private String teamPhoto;
 
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus tdelete;
+	private DeleteStatus teamDelete;
 	
 	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();
@@ -70,5 +72,5 @@ public class Team {
     private List<TeamMember> teamMembers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "team")
-    private List<CertificationBoard> certificationboard = new ArrayList<>();
+    private List<CheckBoard> checkBoards = new ArrayList<>();
 }

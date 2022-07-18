@@ -33,24 +33,24 @@ public class AskBoard {
 	
 	@NotEmpty
 	@Column(name = "ask_subject")
-	private String subject;
+	private String askSubject;
 	
 	@NotEmpty
 	@Column(name = "ask_content")
-	private String acontent;
+	private String askContent;
 	
 	@Column(name = "ask_photo")
-	private String aphoto;
+	private String askPhoto;
 	
 	@NotEmpty
 	@Column(name = "ask_date")
-	private LocalDateTime adate;
+	private LocalDateTime askDate;
 	
 	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus adelete;
+	private DeleteStatus askDelete;
 	
-	@OneToMany(mappedBy = "askboard")
-	private List<AskBoardReply> askboardreply = new ArrayList<>();
+	@OneToMany(mappedBy = "askBoard")
+	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 	
 }
