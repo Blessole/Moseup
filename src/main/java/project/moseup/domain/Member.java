@@ -4,14 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
@@ -19,11 +12,12 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@Table(name = "members")
 public class Member {
 
 	@Id @GeneratedValue
 	@Column(name = "member_no")
-	private int mno;
+	private Long mno;
 	
 	@NotEmpty
 	@Column(name = "member_email")
@@ -56,15 +50,15 @@ public class Member {
 	private String photo;
 	
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
-	
-	@NotEmpty
+	private DeleteStatus memberDelete;
+
 	@Column(name = "member_date")
-	private LocalDateTime date;
-	
+	private LocalDateTime memberDate;
+
+	// 연관관계 맵핑
 	@OneToMany(mappedBy = "member")
     private List<Team> teams = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
 	
@@ -72,24 +66,27 @@ public class Member {
     private List<TeamMember> teamMembers = new ArrayList<>();
 	
 	@OneToOne(mappedBy = "member")
-	private List<BankBook> bankbooks = new ArrayList<>();
+	private Bankbook bankbook;
 	
 	@OneToMany(mappedBy = "member")
-	private List<FreeBoard> freeboard = new ArrayList<>();
+	private List<FreeBoard> freeBoards = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<AskBoard> askBoards = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "member")
-	private List<AskBoard> askboard = new ArrayList<>();
+	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "member")
-	private List<AskBoardReply> askboardReply = new ArrayList<>();
+	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "member")
-	private List<TeamAskBoard> teamAskboard = new ArrayList<>();
+	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "member")
-	private List<TeamAskBoardReply> teamAskboardReply = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "member")
-	private List<CertificationBoard> certificationboard = new ArrayList<>();
+	private List<CheckBoard> checkBoards = new ArrayList<>();
 
 }
