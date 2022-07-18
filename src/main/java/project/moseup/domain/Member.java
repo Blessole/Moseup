@@ -23,7 +23,7 @@ public class Member {
 
 	@Id @GeneratedValue
 	@Column(name = "member_no")
-	private int mno;
+	private Long mno;
 	
 	@NotEmpty
 	@Column(name = "member_email")
@@ -56,9 +56,8 @@ public class Member {
 	private String photo;
 	
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
+	private DeleteStatus mdelete;
 	
-	@NotEmpty
 	@Column(name = "member_date")
 	private LocalDateTime date;
 	
@@ -72,7 +71,7 @@ public class Member {
     private List<TeamMember> teamMembers = new ArrayList<>();
 	
 	@OneToOne(mappedBy = "member")
-	private List<BankBook> bankbooks = new ArrayList<>();
+	private BankBook bankbook;
 	
 	@OneToMany(mappedBy = "member")
 	private List<FreeBoard> freeboard = new ArrayList<>();

@@ -25,7 +25,7 @@ public class TeamAskBoard {
 
 	@Column(name = "team_askno")
 	@GeneratedValue @Id
-	private int tano;
+	private Long tano;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -55,7 +55,7 @@ public class TeamAskBoard {
 	@Column(name = "team_delete")
 	@Enumerated(EnumType.STRING)
 	@NotEmpty
-	private DeleteStatus delete;
+	private DeleteStatus tabdelete;
 	
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamaskboardreply = new ArrayList<>();

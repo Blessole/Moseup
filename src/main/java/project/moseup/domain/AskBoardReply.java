@@ -20,7 +20,7 @@ public class AskBoardReply {
 
 	@Id @GeneratedValue
 	@Column(name = "ask_reply_no")
-	private String arno;
+	private Long arno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ask_no")
@@ -40,5 +40,5 @@ public class AskBoardReply {
 	
 	@NotEmpty
 	@Column(name = "ask_reply_delete")
-	private DeleteStatus delete;
+	private DeleteStatus ardelete;
 }

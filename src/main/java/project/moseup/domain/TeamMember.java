@@ -1,5 +1,7 @@
 package project.moseup.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +17,8 @@ import lombok.Setter;
 @Entity
 @Setter @Getter
 @Table(name = "team_members")
-public class TeamMember {
+@SuppressWarnings("serial")
+public class TeamMember implements Serializable{
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -28,5 +31,5 @@ public class TeamMember {
 	private Team team;
 	
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
+	private DeleteStatus tmdelete;
 }

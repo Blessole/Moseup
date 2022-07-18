@@ -22,12 +22,12 @@ import lombok.Setter;
 
 @Entity
 @Setter @Getter
-@Table(name = "teams")
+@Table(name = "team")
 public class Team {
 
 	@Id @GeneratedValue
 	@Column(name = "team_no")
-	private int tno;
+	private Long tno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -37,21 +37,20 @@ public class Team {
 	@Column(name = "team_name")
 	private String tname;
 
-	@NotEmpty
 	@Column(name = "team_volume")
 	private int volume;
 
-	@NotEmpty
+	
 	@Column(name = "team_deposit")
 	private int tdeposit;
 	
-	@NotEmpty
+	
 	private LocalDateTime teamDate;
 
-	@NotEmpty
+	
 	private LocalDateTime startDate;
 
-	@NotEmpty
+	
 	private LocalDateTime endDate;
 
 	@NotEmpty
@@ -61,9 +60,8 @@ public class Team {
 	@Column(name = "team_photo")
 	private String tphoto;
 
-	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
+	private DeleteStatus tdelete;
 	
 	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();

@@ -22,7 +22,7 @@ public class BankBook {
 
 	@Id @GeneratedValue
 	@Column(name = "bankbook_dealno")
-	private int dno;
+	private Long dno;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")

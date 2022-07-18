@@ -25,7 +25,7 @@ public class FreeBoard {
 
 	@Id @GeneratedValue
 	@Column(name = "free_no")
-	private int fno;				//게시물 번호
+	private Long fno;				//게시물 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -51,7 +51,7 @@ public class FreeBoard {
 
 	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;	//게시물 삭제 여부
+	private DeleteStatus fdelete;	//게시물 삭제 여부
 	
 	@OneToMany(mappedBy = "freeboard")
 	private List<FreeBoardReply> freeboardreply = new ArrayList<>();

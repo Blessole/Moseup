@@ -23,7 +23,7 @@ public class TeamAskBoardReply {
 	@Column(name = "team_askreplyno")
     @GeneratedValue
     @Id
-    private int tarno;
+    private Long tarno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
@@ -43,11 +43,6 @@ public class TeamAskBoardReply {
     
     @Column(name = "team_replydelete")
     @Enumerated(EnumType.STRING)
-    private DeleteStatus delete;
+    private DeleteStatus tabrdelete;
 
-
-
-
-
-    
 }

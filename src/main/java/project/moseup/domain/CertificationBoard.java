@@ -21,7 +21,7 @@ public class CertificationBoard {
 	@Column(name = "certi_no")
     @GeneratedValue
     @Id
-    private int cno;
+    private Long cno;
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")

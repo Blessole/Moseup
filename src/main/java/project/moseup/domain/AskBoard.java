@@ -25,7 +25,7 @@ public class AskBoard {
 
 	@Id @GeneratedValue
 	@Column(name = "ask_no")
-	private int ano;
+	private Long ano;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -48,7 +48,7 @@ public class AskBoard {
 	
 	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
+	private DeleteStatus adelete;
 	
 	@OneToMany(mappedBy = "askboard")
 	private List<AskBoardReply> askboardreply = new ArrayList<>();

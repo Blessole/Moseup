@@ -22,7 +22,7 @@ public class FreeBoardReply {
 
 	@Id @GeneratedValue
 	@Column(name = "free_reply_no")
-	private int frno;					//자게 댓글 번호
+	private Long frno;					//자게 댓글 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "free_no")
@@ -45,5 +45,5 @@ public class FreeBoardReply {
 
 	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;		//댓글 삭제 여부
+	private DeleteStatus frdelete;		//댓글 삭제 여부
 }
