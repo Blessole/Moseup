@@ -5,21 +5,19 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import project.moseup.domain.Member;
-
+import project.moseup.domain.Team;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepository {
+public class TeamRepository {
 
     private final EntityManager em;
 
-    public void save(Member member) {
-        em.persist(member);
+    public void save(Team team) {
+        em.persist(team);
     }
 
-    public Member findOne(Long mno) {
-        return em.find(Member.class, mno);
+    public Team findOne(Long tno) {
+        return em.find(Team.class, tno);
     }
-
 }

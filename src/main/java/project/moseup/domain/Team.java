@@ -45,7 +45,7 @@ public class Team {
 	@NotNull
 	@Column(name = "team_deposit")
 	private int teamDeposit;
-	
+
 	private LocalDateTime teamDate;
 
 	private LocalDateTime startDate;
@@ -64,10 +64,10 @@ public class Team {
 	
 	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
 }

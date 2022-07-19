@@ -27,11 +27,11 @@ public class CheckBoard {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
     private Member member;
-    
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_no")
     private Team team;
-    
+
     @Column(name = "check_date")
     private LocalDateTime checkDate;
 
@@ -49,6 +49,5 @@ public class CheckBoard {
     @Column(name = "check_readcount")
     @NotNull
     private int checkReadCount;
-
 
 }

@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +26,7 @@ public class TeamAskBoard {
 	@Column(name = "team_askno")
 	@GeneratedValue @Id
 	private Long tano;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
@@ -53,8 +52,8 @@ public class TeamAskBoard {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
-	
+
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
-	
+
 }

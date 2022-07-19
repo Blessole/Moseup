@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +22,11 @@ public class Bankbook {
 	@Id @GeneratedValue
 	@Column(name = "bankbook_dealno")
 	private Long dno;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
-	
+
 	@Column(name = "bankbook_deallist")
 	private String dealList;
 

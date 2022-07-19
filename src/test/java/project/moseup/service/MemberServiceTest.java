@@ -1,10 +1,5 @@
 package project.moseup.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.time.LocalDateTime;
-
-import javax.persistence.EntityManager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,37 +14,44 @@ import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.repository.MemberRepository;
 
+import javax.persistence.EntityManager;
+
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
 
-	@Autowired MemberService memberService;
-	@Autowired MemberRepository memberRepository;
-	@Autowired EntityManager em;
-	
-	@Test
-	@Rollback(false)
-	public void 회원가입() throws Exception {
-		 //given
-        Member member = new Member();
-        LocalDateTime date = LocalDateTime.now();
-                
-        member.setEmail("구글");
-        member.setPassword("1234");
-        member.setNickname("testId");
-        member.setName("kim");
-        member.setGender(MemberGender.MALE);
-        member.setAddress("의정부");
-        member.setPhone("010-111-1111");
-        member.setMemberDelete(DeleteStatus.FALSE);
-        member.setMemberDate(date);
-        
-        //when
-        Long savedId = memberService.join(member);
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    EntityManager em;
 
-        //then
-        assertEquals(member, memberRepository.findOne(savedId));
-	}
+    @Test
+    @Rollback(false)
+    public void 멤버생성() throws Exception {
+        // given
+        Member member = new Member();
+        member.setEmail("k1@k.com");
+        member.setName("김솔");
+        member.setPassword("1234");
+        member.setNickname("밍구");
+        member.setGender(MemberGender.FEMALE);
+        member.setAddress("강남구");
+        member.setPhone("010-1234-1234");
+        member.setMemberDate(LocalDateTime.now());
+        member.setMemberDelete(DeleteStatus.FALSE);
+
+        // when
+        Long saveId = memberService.join(member);
+
+        // then
+        assertEquals(member, memberRepository.findOne(saveId));
+    }
 
 }
