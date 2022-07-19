@@ -23,7 +23,7 @@ import lombok.Setter;
 
 @Entity
 @Setter @Getter
-@Table(name = "team")
+@Table(name = "teams")
 public class Team {
 
 	@Id @GeneratedValue
@@ -46,13 +46,13 @@ public class Team {
 	@Column(name = "team_deposit")
 	private int teamDeposit;
 	
-	
+
 	private LocalDateTime teamDate;
 
-	
+
 	private LocalDateTime startDate;
 
-	
+
 	private LocalDateTime endDate;
 
 	@NotEmpty
@@ -67,10 +67,10 @@ public class Team {
 	
 	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
 }

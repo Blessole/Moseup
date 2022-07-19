@@ -1,11 +1,5 @@
 package project.moseup.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.time.LocalDateTime;
-
-import javax.persistence.EntityManager;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +15,23 @@ import project.moseup.domain.Team;
 import project.moseup.repository.MemberRepository;
 import project.moseup.repository.TeamRepository;
 
+import javax.persistence.EntityManager;
+
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class TeamServiceTest {
-	
+
 	@Autowired TeamService teamService;
 	@Autowired TeamRepository teamRepository;
 	@Autowired MemberService memberService;
 	@Autowired MemberRepository memberRepository;
 	@Autowired EntityManager em;
-	
+
 	@Test
 	@Rollback(false)
 	public void 팀생성() throws Exception {
@@ -47,9 +47,9 @@ public class TeamServiceTest {
 		member.setPhone("010");
 		member.setMemberDelete(DeleteStatus.FALSE);
 		member.setMemberDate(date);
-		
+
 		Team team = new Team();
-		
+
 		team.setTeamName("모습");
 		team.setTeamVolume(4);
 		team.setTeamDeposit(0);
@@ -58,16 +58,16 @@ public class TeamServiceTest {
 		team.setEndDate(date);
 		team.setTeamIntroduce("반갑습니다.");
 		team.setTeamDelete(DeleteStatus.FALSE);
-		
+
 		// when
 		Long saveId = teamService.create(team);
 		Long memberId = memberService.join(member);
 		em.flush();
-		
+
 		// then
 		assertEquals(team, teamRepository.findOne(saveId));
 		assertEquals(member, memberRepository.findOne(memberId));
-		
+
 	}
 
 }

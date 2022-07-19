@@ -13,13 +13,13 @@ import project.moseup.repository.MemberRepository;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-	
+
 	@Transactional
 	public Long join(Member member) {
 		memberRepository.save(member);
 		return member.getMno();
 	}
-	
+
 	// 회원 단건 조회
 	public Member findOne(Long memberId) {
 		return memberRepository.findOne(memberId);

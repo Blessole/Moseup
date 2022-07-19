@@ -11,13 +11,13 @@ import project.moseup.domain.Team;
 @RequiredArgsConstructor
 public class TeamRepository {
 
-	private final EntityManager em;
-	
-	public void save(Team team) {
-		em.persist(team);
-	}
-	
-	public Team findOne(Long tno) {
-		return em.find(Team.class, tno);
-	}
+    private final EntityManager em;
+
+    public void save(Team team) {
+        em.persist(team);
+    }
+
+    public Team findOne(Long tno) {
+        return em.find(Team.class, tno);
+    }
 }

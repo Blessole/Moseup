@@ -21,17 +21,18 @@ import lombok.Setter;
 public class TeamAskBoardReply {
 
 	@Column(name = "team_askreplyno")
-    @GeneratedValue @Id
+    @GeneratedValue
+    @Id
     private Long tarno;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
     private Member member;
-    
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_askno")
     private TeamAskBoard teamAskBoard;
-    
+
     @Column(name = "team_askreplycontent")
     @NotEmpty
     private String teamAskReplyContent;

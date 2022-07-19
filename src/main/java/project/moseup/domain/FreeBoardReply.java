@@ -29,11 +29,11 @@ public class FreeBoardReply {
 	private FreeBoard freeBoard;		//게시물 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no")
-    private Member member;
+	@JoinColumn(name = "member_no")
+	private Member member;
 
-	@Column(name = "free_replycontent")
 	@NotEmpty
+	@Column(name = "free_replycontent")
 	private String freeReplyContent;				//댓글 내용
 
 	@Column(name = "free_replydate")

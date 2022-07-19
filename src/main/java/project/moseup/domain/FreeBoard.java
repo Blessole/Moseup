@@ -46,11 +46,11 @@ public class FreeBoard {
 	private LocalDateTime freeDate;	//게시물 작성일
 
 	@Column(name = "free_readcount")
-	private int freeReadcount;				//조회수
+	private int freeReadCount;				//조회수
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus freeDelete;	//게시물 삭제 여부
-	
+
 	@OneToMany(mappedBy = "freeBoard")
 	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
 }
