@@ -12,9 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,23 +24,13 @@ public class Member {
 	@Id @GeneratedValue
 	@Column(name = "member_no")
 	private Long mno;
-
-	public Member(){}
-	public Member(String email, String password, String nickname, String name) {
-		this.email = email;
-		this.password = password;
-		this.nickname = nickname;
-		this.name = name;
-	}
-
+	
 	@NotEmpty
 	@Column(name = "member_email")
-	@Email(message = "올바른 이메일 주소를 입력해주세요")
 	private String email;
 	
 	@NotEmpty
 	@Column(name = "member_password")
-	@Size(min = 10, max = 30, message = "비밀번호는 10자 이상 30자 이하로 입력해주세요")
 	private String password;
 	
 	@NotEmpty
@@ -53,36 +41,57 @@ public class Member {
 	@Column(name = "member_name")
 	private String name;
 	
-
-
-	@OneToMany(mappedBy = "teamMember")
+	@Enumerated(EnumType.STRING)
+	private MemberGender gender;
+	
+	@NotEmpty
+	@Column(name = "member_address")
+	private String address;
+	
+	@NotEmpty
+	@Column(name = "member_phone")
+	private String phone;
+	
+	@Column(name = "member_photo")
+	private String photo;
+	
+	@Enumerated(EnumType.STRING)
+	private DeleteStatus memberDelete;
+	
+	@Column(name = "member_date")
+	private LocalDateTime memberDate;
+	
+	@OneToMany(mappedBy = "member")
     private List<Team> teams = new ArrayList<>();
-
-	@OneToMany(mappedBy = "likeMember")
+	
+	@OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
-
-	@OneToMany(mappedBy = "teamInMember")
+	
+	@OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
-
-	@OneToOne(mappedBy = "bankMember")
-	private BankBook bankbooks = new BankBook();
-
-	@OneToMany(mappedBy = "freeBoardMember")
+	
+	@OneToOne(mappedBy = "member")
+	private BankBook bankbook;
+	
+	@OneToMany(mappedBy = "member")
 	private List<FreeBoard> freeBoards = new ArrayList<>();
-
-	@OneToMany(mappedBy = "askBoardMember")
+	
+	@OneToMany(mappedBy = "member")
+	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
 	private List<AskBoard> askBoards = new ArrayList<>();
-
-	@OneToMany(mappedBy = "askBoardReplyMember")
-	private List<AskBoardReply> askBoardReply = new ArrayList<>();
-
-	@OneToMany(mappedBy = "teamAskBoardMember")
+	
+	@OneToMany(mappedBy = "member")
+	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
-
-	@OneToMany(mappedBy = "teamAskBoardReplyMember")
-	private List<TeamAskBoardReply> teamAskBoardReply = new ArrayList<>();
-
-	@OneToMany(mappedBy = "certificationBoardMember")
-	private List<CertificationBoard> certificationBoards = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
+	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
+	private List<CheckBoard> checkBoards = new ArrayList<>();
 
 }

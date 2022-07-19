@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,24 +23,23 @@ public class BankBook {
 	@Id @GeneratedValue
 	@Column(name = "bankbook_dealno")
 	private Long dno;
-
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member bankMember;
-
+	private Member member;
+	
 	@Column(name = "bankbook_deallist")
 	private String dealList;
 
 	@Column(name = "bankbook_deposit")
-	private int deposit;
+	private int bankbookDeposit;
 
 	@Column(name = "bankbook_withdraw")
-	private int withdraw;
+	private int bankbookWithdraw;
 
-	@NotNull
 	@Column(name = "bankbook_total")
-	private int btotal;
+	private int bankbookTotal;
 
 	@Column(name = "bankbook_date")
-	private LocalDateTime bdate;
+	private LocalDateTime bankbookDate;
 }

@@ -23,16 +23,16 @@ import lombok.Setter;
 
 @Entity
 @Setter @Getter
-@Table(name = "teams")
+@Table(name = "team")
 public class Team {
 
 	@Id @GeneratedValue
 	@Column(name = "team_no")
 	private Long tno;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member teamMember;
+	private Member member;
 
 	@NotEmpty
 	@Column(name = "team_name")
@@ -40,34 +40,37 @@ public class Team {
 
 	@NotNull
 	@Column(name = "team_volume")
-	private int volume;
+	private int teamVolume;
 
 	@NotNull
 	@Column(name = "team_deposit")
 	private int teamDeposit;
-
+	
+	
 	private LocalDateTime teamDate;
 
+	
 	private LocalDateTime startDate;
 
+	
 	private LocalDateTime endDate;
 
 	@NotEmpty
 	@Column(name = "team_Introduce")
-	private String introduce;
+	private String teamIntroduce;
 
 	@Column(name = "team_photo")
 	private String teamPhoto;
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamDelete;
-
-	@OneToMany(mappedBy = "likeTeam")
+	
+	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();
-
+	
 	@OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
-
+	
 	@OneToMany(mappedBy = "team")
-    private List<CertificationBoard> certificationBoards = new ArrayList<>();
+    private List<CheckBoard> checkBoards = new ArrayList<>();
 }

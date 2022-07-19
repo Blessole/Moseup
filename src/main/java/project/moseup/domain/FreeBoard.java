@@ -29,29 +29,28 @@ public class FreeBoard {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member freeBoardMember;			//회원번호
+	private Member member;			//회원번호
 
 	@NotEmpty
 	@Column(name = "free_title")
-	private String ftitle;			//게시물 제목
+	private String freeTitle;			//게시물 제목
 
 	@NotEmpty
 	@Column(name = "free_content")
-	private String fcontent;		//게시물 내용
+	private String freeContent;		//게시물 내용
 
 	@Column(name = "free_like")
-	private int flike;				//좋아요
+	private int freeLike;				//좋아요
 
-	@NotEmpty
 	@Column(name = "free_date")
-	private LocalDateTime fdate;	//게시물 작성일
+	private LocalDateTime freeDate;	//게시물 작성일
 
 	@Column(name = "free_readcount")
-	private int fcount;				//조회수
+	private int freeReadcount;				//조회수
 
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus freeBoardDelete;	//게시물 삭제 여부
-
-	@OneToMany(mappedBy = "freeboard")
-	private List<FreeBoardReply> freeBoardReply = new ArrayList<>();
+	private DeleteStatus freeDelete;	//게시물 삭제 여부
+	
+	@OneToMany(mappedBy = "freeBoard")
+	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
 }

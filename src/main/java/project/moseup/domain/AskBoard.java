@@ -26,29 +26,31 @@ public class AskBoard {
 	@Id @GeneratedValue
 	@Column(name = "ask_no")
 	private Long ano;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member askBoardMember;
-
+	private Member member;
+	
 	@NotEmpty
 	@Column(name = "ask_subject")
-	private String subject;
-
+	private String askSubject;
+	
 	@NotEmpty
 	@Column(name = "ask_content")
-	private String acontent;
-
+	private String askContent;
+	
 	@Column(name = "ask_photo")
-	private String aphoto;
-
+	private String askPhoto;
+	
+	@NotEmpty
 	@Column(name = "ask_date")
-	private LocalDateTime adate;
-
+	private LocalDateTime askDate;
+	
+	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus askBoardDelete;
-
-	@OneToMany(mappedBy = "askboard")
-	private List<AskBoardReply> askboardreply = new ArrayList<>();
-
+	private DeleteStatus askDelete;
+	
+	@OneToMany(mappedBy = "askBoard")
+	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
+	
 }

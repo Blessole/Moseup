@@ -27,33 +27,35 @@ public class TeamAskBoard {
 	@Column(name = "team_askno")
 	@GeneratedValue @Id
 	private Long tano;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member teamAskBoardMember;
+	private Member member;
 
 	@Column(name = "team_asksubject")
+	@NotEmpty
 	private String teamAskSubject;
 
 	@Column(name = "team_askcontent")
+	@NotEmpty
 	private String teamAskContent;
 
 	@Column(name = "team_askdate")
 	private LocalDateTime teamAskDate;
 
-	@Column(name = "team_readcount")
-	private int teamReadCount;
+	@Column(name = "team_askreadcount")
+	private int teamAskReadCount;
 
-	@Column(name = "secret")
+	@Column(name = "team_asksecret")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus secret;
 
-	@Column(name = "team_delete")
+	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus teamAskBoardDelete;
-
+	private DeleteStatus teamAskDelete;
+	
 	@OneToMany(mappedBy = "teamAskBoard")
-	private List<TeamAskBoardReply> teamAskBoardReply = new ArrayList<>();
+	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 
 
 }
