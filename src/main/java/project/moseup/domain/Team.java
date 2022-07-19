@@ -46,13 +46,13 @@ public class Team {
 	@Column(name = "team_deposit")
 	private int teamDeposit;
 	
-	@NotEmpty
+
 	private LocalDateTime teamDate;
 
-	@NotEmpty
+
 	private LocalDateTime startDate;
 
-	@NotEmpty
+
 	private LocalDateTime endDate;
 
 	@NotEmpty
@@ -64,7 +64,7 @@ public class Team {
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamDelete;
-
+	
 	@OneToMany(mappedBy = "team")
     private List<Likes> likes = new ArrayList<>();
 
@@ -74,4 +74,3 @@ public class Team {
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
 }
-

@@ -39,14 +39,9 @@ public class TeamAskBoardReply {
 
     @Column(name = "team_askreplydate")
     private LocalDateTime teamAskReplyDate;
-
+    
     @Column(name = "team_askreplydelete")
     @Enumerated(EnumType.STRING)
     private DeleteStatus teamAskReplyDelete;
-
-
-
-
-
 
 }

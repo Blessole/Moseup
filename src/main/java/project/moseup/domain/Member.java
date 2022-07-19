@@ -67,10 +67,10 @@ public class Member {
 	
 	@OneToOne(mappedBy = "member")
 	private Bankbook bankbook;
-	
+
 	@OneToMany(mappedBy = "member")
 	private List<FreeBoard> freeBoards = new ArrayList<>();
-
+	
 	@OneToMany(mappedBy = "member")
 	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class Member {
 	
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 

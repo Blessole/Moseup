@@ -12,11 +12,16 @@ import project.moseup.repository.TeamRepository;
 @RequiredArgsConstructor
 public class TeamService {
 
-    private final TeamRepository teamRepository;
+	private final TeamRepository teamRepository;
 
-    @Transactional
-    public Long create(Team team) {
-        teamRepository.save(team);
-        return team.getTno();
-    }
+	@Transactional
+	public Long create(Team team) {
+		teamRepository.save(team);
+		return team.getTno();
+	}
+
+	// 회원 단건 조회
+	public Team findOne(Long tno) {
+		return teamRepository.findOne(tno);
+	}
 }

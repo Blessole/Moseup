@@ -36,13 +36,13 @@ public class FreeBoardReply {
 	@Column(name = "free_replycontent")
 	private String freeReplyContent;				//댓글 내용
 
-	@Column(name = "free_reply_date")
+	@Column(name = "free_replydate")
 	private LocalDateTime freeReplyDate;			//댓글 작성일
 
-	@Column(name = "free_reply_step")
+	@Column(name = "free_replystep")
 	private int step;					//댓글 순서
 
-	@Column(name = "free_reply_level")
+	@Column(name = "free_replylevel")
 	private int level;					//댓글 깊이
 
 	@Enumerated(EnumType.STRING)
