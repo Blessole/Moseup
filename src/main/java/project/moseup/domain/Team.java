@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,31 +28,28 @@ public class Team {
 
 	@Id @GeneratedValue
 	@Column(name = "team_no")
-	private int tno;
-	
+	private Long tno;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
+	private Member teamMember;
 
 	@NotEmpty
 	@Column(name = "team_name")
-	private String tname;
+	private String teamName;
 
-	@NotEmpty
+	@NotNull
 	@Column(name = "team_volume")
 	private int volume;
 
-	@NotEmpty
+	@NotNull
 	@Column(name = "team_deposit")
-	private int tdeposit;
-	
-	@NotEmpty
+	private int teamDeposit;
+
 	private LocalDateTime teamDate;
 
-	@NotEmpty
 	private LocalDateTime startDate;
 
-	@NotEmpty
 	private LocalDateTime endDate;
 
 	@NotEmpty
@@ -59,18 +57,17 @@ public class Team {
 	private String introduce;
 
 	@Column(name = "team_photo")
-	private String tphoto;
+	private String teamPhoto;
 
-	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
-	
-	@OneToMany(mappedBy = "team")
+	private DeleteStatus teamDelete;
+
+	@OneToMany(mappedBy = "likeTeam")
     private List<Likes> likes = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "team")
-    private List<CertificationBoard> certificationboard = new ArrayList<>();
+    private List<CertificationBoard> certificationBoards = new ArrayList<>();
 }

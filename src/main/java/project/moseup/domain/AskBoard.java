@@ -25,32 +25,30 @@ public class AskBoard {
 
 	@Id @GeneratedValue
 	@Column(name = "ask_no")
-	private int ano;
-	
+	private Long ano;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
-	
+	private Member askBoardMember;
+
 	@NotEmpty
 	@Column(name = "ask_subject")
 	private String subject;
-	
+
 	@NotEmpty
 	@Column(name = "ask_content")
 	private String acontent;
-	
+
 	@Column(name = "ask_photo")
 	private String aphoto;
-	
-	@NotEmpty
+
 	@Column(name = "ask_date")
 	private LocalDateTime adate;
-	
-	@NotEmpty
+
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
-	
+	private DeleteStatus askBoardDelete;
+
 	@OneToMany(mappedBy = "askboard")
 	private List<AskBoardReply> askboardreply = new ArrayList<>();
-	
+
 }

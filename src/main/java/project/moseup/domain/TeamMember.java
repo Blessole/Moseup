@@ -12,21 +12,24 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Setter @Getter
+@SuppressWarnings("serial")
 @Table(name = "team_members")
-public class TeamMember {
+public class TeamMember implements Serializable {
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
-	
+	private Member teamInMember;
+
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_no")
 	private Team team;
-	
+
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;
+	private DeleteStatus teamMemberDelete;
 }

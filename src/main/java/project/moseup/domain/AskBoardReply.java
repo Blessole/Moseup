@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,24 +22,22 @@ public class AskBoardReply {
 	@Id @GeneratedValue
 	@Column(name = "ask_reply_no")
 	private String arno;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ask_no")
 	private AskBoard askboard;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
-	
-	@NotEmpty
+	private Member askBoardReplyMember;
+
+	@NotNull
 	@Column(name = "ask_reply_content")
-	private int content;
-	
-	@NotEmpty
+	private String content;
+
 	@Column(name = "ask_reply_date")
 	private LocalDateTime ardate;
-	
-	@NotEmpty
+
 	@Column(name = "ask_reply_delete")
-	private DeleteStatus delete;
+	private DeleteStatus askBoardReplyDelete;
 }

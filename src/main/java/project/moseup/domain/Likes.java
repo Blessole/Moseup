@@ -9,17 +9,20 @@ import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Getter @Setter
-public class Likes {
-	
+@SuppressWarnings("serial")
+public class Likes implements Serializable {
+
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
-	
+	private Member likeMember;
+
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_no")
-	private Team team;
+	private Team likeTeam;
 }

@@ -23,31 +23,30 @@ public class TeamAskBoardReply {
 	@Column(name = "team_askreplyno")
     @GeneratedValue
     @Id
-    private int tarno;
-	
+    private Long tarno;
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
-    private Member member;
-    
+    private Member teamAskBoardReplyMember;
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_askno")
     private TeamAskBoard teamAskBoard;
-    
+
     @Column(name = "team_askreplycontent")
     @NotEmpty
     private String teamAskReplyContent;
 
     @Column(name = "team_askreplydate")
-    @NotEmpty
     private LocalDateTime teamAskReplyDate;
-    
+
     @Column(name = "team_replydelete")
     @Enumerated(EnumType.STRING)
-    private DeleteStatus delete;
+    private DeleteStatus teamAskBoardReplyDelete;
 
 
 
 
 
-    
+
 }

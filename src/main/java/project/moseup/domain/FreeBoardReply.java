@@ -22,7 +22,7 @@ public class FreeBoardReply {
 
 	@Id @GeneratedValue
 	@Column(name = "free_reply_no")
-	private int frno;					//자게 댓글 번호
+	private Long frno;					//자게 댓글 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "free_no")
@@ -35,7 +35,7 @@ public class FreeBoardReply {
 	private String content;				//댓글 내용
 
 	@Column(name = "free_reply_date")
-	private LocalDateTime date;			//댓글 작성일
+	private LocalDateTime freeBoardReplyDate;			//댓글 작성일
 
 	@Column(name = "free_reply_step")
 	private int step;					//댓글 순서
@@ -43,7 +43,7 @@ public class FreeBoardReply {
 	@Column(name = "free_reply_level")
 	private int level;					//댓글 깊이
 
-	@NotEmpty
+
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;		//댓글 삭제 여부
+	private DeleteStatus freeBoardReplyDelete;		//댓글 삭제 여부
 }

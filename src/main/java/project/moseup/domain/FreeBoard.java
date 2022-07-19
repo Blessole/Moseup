@@ -25,11 +25,11 @@ public class FreeBoard {
 
 	@Id @GeneratedValue
 	@Column(name = "free_no")
-	private int fno;				//게시물 번호
+	private Long fno;				//게시물 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;			//회원번호
+	private Member freeBoardMember;			//회원번호
 
 	@NotEmpty
 	@Column(name = "free_title")
@@ -49,10 +49,9 @@ public class FreeBoard {
 	@Column(name = "free_readcount")
 	private int fcount;				//조회수
 
-	@NotEmpty
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus delete;	//게시물 삭제 여부
-	
+	private DeleteStatus freeBoardDelete;	//게시물 삭제 여부
+
 	@OneToMany(mappedBy = "freeboard")
-	private List<FreeBoardReply> freeboardreply = new ArrayList<>();
+	private List<FreeBoardReply> freeBoardReply = new ArrayList<>();
 }
