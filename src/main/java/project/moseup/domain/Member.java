@@ -21,6 +21,20 @@ import lombok.Setter;
 @Getter @Setter
 public class Member {
 
+	public Member(){}
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate) {
+		this.email = email;
+		this.password = password;
+		this.nickname = nickname;
+		this.name = name;
+		this.gender = gender;
+		this.address = address;
+		this.phone = phone;
+		this.photo = photo;
+		this.memberDelete = memberDelete;
+		this.memberDate = memberDate;
+	}
+
 	@Id @GeneratedValue
 	@Column(name = "member_no")
 	private Long mno;

@@ -1,23 +1,23 @@
 package project.moseup.repository;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import project.moseup.domain.Member;
+
+import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
 
-	private final EntityManager em;
+	private final EntityManager entityManager;
 	
-	public void save(Member member) {
-		em.persist(member);
+	public Member save(Member member) {
+		entityManager.persist(member);
+		return member;
 	}
 	
 	public Member findOne(Long mno) {
-		return em.find(Member.class, mno);
+		return entityManager.find(Member.class, mno);
 	}
 }
