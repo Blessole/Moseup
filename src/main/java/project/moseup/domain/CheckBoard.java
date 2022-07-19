@@ -43,7 +43,6 @@ public class CheckBoard {
     private String checkPhoto;
 
     @Column(name = "check_like")
-    @NotNull
     private int checkLike;
 
     @Column(name = "check_readcount")

@@ -42,7 +42,6 @@ public class AskBoard {
 	@Column(name = "ask_photo")
 	private String askPhoto;
 
-	@NotEmpty
 	@Column(name = "ask_date")
 	private LocalDateTime askDate;
 
