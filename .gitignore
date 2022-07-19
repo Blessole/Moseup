@@ -133,6 +133,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+application.properties
+
 HELP.md
 build/
 !gradle/wrapper/gradle-wrapper.jar
