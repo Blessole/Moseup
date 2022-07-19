@@ -127,13 +127,17 @@ cmake-build-*/
 
 # IntelliJ
 out/
+
 .idea
 *.iml
 *.ipr
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+application.properties
+
 HELP.md
+
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
