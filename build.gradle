@@ -25,7 +25,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	implementation 'mysql:mysql-connector-java' // MySql
+<<<<<<< HEAD
+=======
 	implementation 'junit:junit:4.13.2'
+>>>>>>> d2790097495f5c29535c5749ae460e4e2ea0622b
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

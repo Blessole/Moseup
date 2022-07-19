@@ -45,13 +45,10 @@ public class Team {
 	@NotNull
 	@Column(name = "team_deposit")
 	private int teamDeposit;
-	
 
 	private LocalDateTime teamDate;
 
-
 	private LocalDateTime startDate;
-
 
 	private LocalDateTime endDate;
 

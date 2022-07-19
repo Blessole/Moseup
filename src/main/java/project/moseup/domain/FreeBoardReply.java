@@ -47,4 +47,5 @@ public class FreeBoardReply {
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus freeReplyDelete;		//댓글 삭제 여부
+
 }

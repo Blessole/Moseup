@@ -24,7 +24,7 @@ public class TeamAskBoardReply {
     @GeneratedValue
     @Id
     private Long tarno;
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no")
     private Member member;

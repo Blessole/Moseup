@@ -1,5 +1,6 @@
 package project.moseup.service;
 
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
@@ -46,7 +48,7 @@ public class MemberServiceTest {
         member.setMemberDelete(DeleteStatus.FALSE);
 
         // when
-        Long saveId = memberService.create(member);
+        Long saveId = memberService.join(member);
 
         // then
         assertEquals(member, memberRepository.findOne(saveId));

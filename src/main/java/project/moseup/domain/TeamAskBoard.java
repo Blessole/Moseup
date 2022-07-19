@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -56,6 +55,5 @@ public class TeamAskBoard {
 
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
-
 
 }

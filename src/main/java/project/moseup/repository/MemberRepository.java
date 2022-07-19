@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 
+
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
@@ -20,4 +21,5 @@ public class MemberRepository {
     public Member findOne(Long mno) {
         return em.find(Member.class, mno);
     }
+
 }

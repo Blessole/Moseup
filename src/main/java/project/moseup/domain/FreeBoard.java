@@ -28,8 +28,8 @@ public class FreeBoard {
 	private Long fno;				//게시물 번호
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_no")
-	private Member member;			//회원번호
+    @JoinColumn(name = "member_no")
+    private Member member;				//회원 번호
 
 	@NotEmpty
 	@Column(name = "free_title")
