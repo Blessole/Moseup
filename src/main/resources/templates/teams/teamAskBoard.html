@@ -6,7 +6,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" type="text/css" href="/css/team.css" />
-<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/jquery.dropotron.min.js"></script>
@@ -16,6 +15,9 @@
 <script src="assets/js/main.js"></script>
 </head>
 <body class="homepage is-preload">
+<header th:replace="fragments/header :: header"></header>
+	<!-- 네비바 -->
+	<nav th:insert="fragments/navbar :: nav"></nav>
 	<div id="page-wrapper">
 		<!-- Header -->
 		<section id="header">
