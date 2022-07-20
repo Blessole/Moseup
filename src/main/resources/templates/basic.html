@@ -5,25 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link th:href="@{/css/main.css}" rel="stylesheet" type="text/css" />
 </head>
 <!-- nav -->
 <div th:replace="fragments/layout :: navbar"></div>
 <body>
-	<!-- main -->
-	<div class="mainContainer">
 	<!-- quicBtn -->
 	<div th:replace="fragments/layout :: quicBtn" ></div>
-		<section class="slidesSection">
-			슬라이드이미지 ?
-		</section>
-		<section class="searchSection">
-			검색
-		</section>
-		<section class="mainSection">
-			팀 리스트
-		</section>
-	</div>
+
 </body>
 <!-- footer -->
 <div th:replace="fragments/layout :: footer"></div>
