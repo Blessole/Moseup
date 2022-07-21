@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<!-- header -->
-<head th:replace="fragments/layout :: header"></head>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
 </head>
-<!-- nav -->
-<div th:replace="fragments/layout :: navbar"></div>
 <body>
-	<!-- quicBtn -->
-	<div th:replace="fragments/layout :: quicBtn" ></div>
-
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+	
 </body>
-<!-- footer -->
-<div th:replace="fragments/layout :: footer"></div>
 </html>
