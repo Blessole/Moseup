@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("admin")
 public class adminController {
 
-    @GetMapping("/hello")
-    public String admin(@RequestParam(name="name", required = false, defaultValue = "JeongChanWoo")String name, Model model){
+    @GetMapping("")
+    public String index(@RequestParam(name="name", required = false, defaultValue = "JeongChanWoo")String name, Model model){
         model.addAttribute("name", name);
-        return "admin/adminSidebar";
+        return "admin/adminIndex";
     }
+
+    @GetMapping("/memberList")
+    public String list(){
+        return "admin/memberList";
+    }
+
 }
