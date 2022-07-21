@@ -7,12 +7,13 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter @Setter
+@Getter
 @Table(name = "members")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Member {
 
 	@Id @GeneratedValue
@@ -54,6 +55,20 @@ public class Member {
 
 	@Column(name = "member_date")
 	private LocalDateTime memberDate;
+
+	@Builder
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate) {
+		this.email = email;
+		this.password = password;
+		this.nickname = nickname;
+		this.name = name;
+		this.gender = gender;
+		this.address = address;
+		this.phone = phone;
+		this.photo = photo;
+		this.memberDelete = memberDelete;
+		this.memberDate = memberDate;
+	}
 
 	// 연관관계 맵핑
 	@OneToMany(mappedBy = "member")

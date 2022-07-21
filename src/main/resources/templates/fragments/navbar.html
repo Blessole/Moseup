@@ -1,25 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <style type="text/css">
-        #navbar {
-            position: sticky;
-            top: 0;
-            background: white;
-        }
-    </style>
-</head>
-<body>
-<div th:fragment="nav">
-    <!-- navbar -->
-    <nav class="p-3 mb-3 border-bottom" id="navbar">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="navbar" id="navbar">
+    <nav class="p-3 mb-3 border-bottom">
+        <div class="nav-container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start nav-width">
                 <!-- 로고 이미지 -->
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                    <img class="bi me-2" width="45" height="35" alt="moseup" src="images/logo.png">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none nav-left">
+                    <img class="bi me-2" width="45" height="35" alt="moseup" src="/images/logo.png">
                 </a>
 
                 <!-- 메뉴 리스트 -->
@@ -37,12 +23,12 @@
                 </form>
 
                 <div class="dropdown text-end">
-                    <!-- 비로그인(로그인/회원가입)-->
+                    <!-- 비로그인(로그인/회원가입) -->
 
                     <!-- 로그인(마이페이지) -->
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle nav-right"
                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="images/profile.png" alt="..." width="40" height="40" class="rounded-circle">
+                        <img src="/images/profile.png" alt="..." width="40" height="40" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="#">New team...</a></li>
@@ -56,5 +42,4 @@
         </div>
     </nav>
 </div>
-</body>
 </html>
