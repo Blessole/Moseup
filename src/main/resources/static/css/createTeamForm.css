@@ -1,0 +1,31 @@
+/* 메인 컨테이너 */
+.mainContainer {
+	width: 80%;
+	margin: 0 auto;
+}
+
+/* 메인 컨테이너 밑 form감싸는 태그 */
+.formContainer{
+	margin: 0 auto;
+}
+
+/* 모집 인원 값 태그 */
+#teamVolumeValue{
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+/* 모집 인원 range width */
+#teamVolume{
+	width: 100%;
+}
+
+/* 예지금 텍스트 가운데 정렬 */
+#teamDeposit>option{
+	text-align: center;
+}
+
+/* 텍스트 가운데 정렬 */
+.text-center{
+	text-align: center;
+}

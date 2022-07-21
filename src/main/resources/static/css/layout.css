@@ -82,17 +82,13 @@
 	top: 0;
 	background: white;
 }
-.nav-left {
-	padding-left: 130px;
-}
-.nav-right {
-	padding-right: 130px;
+.nav-width{
+	margin: 0 auto;
+	width: 80%
 }
 
 /* footer */
-.footer-left {
-	padding-left: 145px;
-}
-.footer-right {
-	padding-right: 145px;
+.footer-width{
+	margin: 0 auto;
+	width: 80%
 }
