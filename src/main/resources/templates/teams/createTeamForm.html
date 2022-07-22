@@ -13,26 +13,26 @@
 		<div class="mainContainer">
 			<div class="col-md-7 col-lg-8 formContainer">
 				<h4 class="mb-3 text-center">팀 생성</h4>
-				<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}" method="post" novalidate>
+				<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}" method="post">
 					<div class="row g-3">
 						<div class="col-12">
 							<label for="teamName" class="form-label">팀명</label>
 							<div class="input-group has-validation">
-								<input type="text" class="form-control" id="teamName" placeholder="teamName" required>
-								
+								<input type="text" class="form-control" th:field="*{teamName}" id="teamName" placeholder="teamName" required>
+
 							</div>
 						</div>
 
 						<div class="col-12">
 							<label for="teamVolume" class="form-label">모집 인원</label><br>
-							<input type="range" name="points" id="teamVolume" min="2" max="100" required>
+							<input type="range" name="points" th:field="*{teamVolume}" id="teamVolume" min="2" max="100" required>
 							<div id="teamVolumeValue" align="center"></div>
 						</div>
 
 						<div class="col-12">
 							<label for="teamDeposit" class="form-label">예치금</label>
-							<select class="form-select" id="teamDeposit" required>
-								<option>인당</option>
+							<select class="form-select" th:field="*{teamDeposit}" id="teamDeposit" required>
+								<option value="0">==인당==</option>
 								<option value="1">10,000￦</option>
 								<option value="2">20,000￦</option>
 								<option value="3">30,000￦</option>
@@ -49,26 +49,26 @@
 
 						<div class="col-12">
 							<label for="startDate" class="form-label">습관 시작일</label>
-							<input type="date"	class="form-control" id="startDate">
+							<input type="date" class="form-control" th:field="*{startDate}" id="startDate" required>
 							
 						</div>
 
 						<div class="col-12">
 							<label for="endDate" class="form-label">습관 종료일</label>
-							<input type="date"	class="form-control" id="endDate">
+							<input type="date" class="form-control" th:field="*{endDate}" id="endDate" required>
 							
 						</div>
 						
 						<div class="col-12">
 							<label for="teamPhoto" class="form-label">팀 소개 사진</label>
-							<input type="file"	class="form-control" id=teamPhoto>
+							<input type="file"	class="form-control" th:field="*{teamPhoto}" id="teamPhoto">
 							
 						</div>
 
 						<div class="col-12">
-							<label for="teamDelete" class="form-label">팀 소개 글</label>  (<span id="nowByte">0</span>/1000bytes)
-							<textarea  class="form-control" rows="8" cols="82" name="teamDelete"
-											placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"></textarea>
+							<label for="teamIntroduce" class="form-label">팀 소개 글</label>  (<span id="nowByte">0</span>/1000bytes)
+							<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}" id="teamIntroduce"
+											placeholder="팀 소개 내용을 입력하세요. (1000bytes)" required onkeyup="fn_checkByte(this)"></textarea>
 						</div>
 					</div>
 
