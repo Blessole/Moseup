@@ -25,6 +25,25 @@
 	text-align: center;
 }
 
+/* 에러 인풋 박스 보더 빨간색 */
+.fieldError {
+		border-color: red;
+}
+
+/* 에러 텍스트 빨간색 */
+.text-err {
+	color: red;
+}
+
+.text-gray {
+	color: gray;
+}
+
+/* 텍스트 볼드 */
+.tont-bold {
+	font-weight: bold;
+}
+
 /* 텍스트 가운데 정렬 */
 .text-center{
 	text-align: center;
