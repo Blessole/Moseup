@@ -26,4 +26,9 @@ public class TeamPageController {
 	public String teamCheckBoardPage() {
 		return "teams/teamCheckBoard";
 	}
+	
+	@GetMapping("teamAskBoard/teamAskBoardWriteForm")
+	public String teamAskBoardWriteForm() {
+		return "teams/askBoardWriteForm";
+	}
 }

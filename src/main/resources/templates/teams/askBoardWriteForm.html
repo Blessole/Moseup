@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="/css/team.css" />
+<style type="text/css">
+	.err { color: red; font-weight: bold;}
+	th {background: green; color: white; }
+</style>
+</head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+	<!-- 네비바 -->
+	<nav th:insert="fragments/navbar :: nav"></nav>
+	<div class="container" align="center">
+		<h2 class="text-primary">문의 하기</h2>
+		<form action="/board/insertBoard.do" method="post">
+			<table class="table table-bordered">
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="title" required="required" autofocus="autofocus"></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td><textarea rows="5" cols="40" name="contents" required="required"></textarea></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type="submit" class="btn btn-warning" value="등록"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
