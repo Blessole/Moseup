@@ -1,14 +1,12 @@
 package project.moseup.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter @Setter
