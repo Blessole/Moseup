@@ -48,7 +48,7 @@ public class teamController {
 		
 		team.setMember(member1);
 		team.setTeamName(teamForm.getTeamName());
-		team.setTeamDeposit(team.getTeamDeposit());
+		team.setTeamVolume(teamForm.getTeamVolume());
 		team.setTeamDeposit(teamForm.getTeamDeposit());
 		team.setTeamDate(LocalDate.now());
 		team.setStartDate(teamForm.getStartDate());

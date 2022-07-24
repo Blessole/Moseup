@@ -17,7 +17,7 @@
 					method="post" name="frm" onsubmit="return submitChk()">
 					<div class="row g-3">
 						<div class="col-12">
-							<label th:for="teamName" class="form-label tont-bold">팀명</label>
+							<label for="teamName" class="form-label tont-bold">팀명</label>
 							<p clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></p><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
 							<div class="input-group has-validation">
 								<input type="text" class="form-control" th:field="*{teamName}" placeholder="팀명을 입력하세요."
@@ -27,7 +27,7 @@
 
 						<div class="col-12">
 							<label for="teamVolume" class="form-label tont-bold">모집 인원</label>
-							<input type="range" class="form-control" id="teamVolume" name="teamVolume" min="2" max="100" value="50">
+							<input type="range" class="form-control" th:field="*{teamVolume}" min="2" max="100">
 							<div id="teamVolumeValue" align="center"></div>
 						</div>
 
@@ -102,7 +102,7 @@
 			    output.innerHTML = this.value + "명";
 			}
 			
-			//textarea 바이트 수 체크하는 함수
+			/*textarea 바이트 수 체크하는 함수*/
 		    function fn_checkByte(obj){
 		        const maxByte = 1000; //최대 1000바이트
 		        const text_val = obj.value; //입력한 문자
@@ -131,9 +131,9 @@
 		        }
 		    }
 			
-			/* 예치금, 습관시작/종료일 확인하는 함수 */
+			/* onsubmit 함수 */
 			function submitChk() {
-				
+				/* 예치금 확인 함수 */
 				var teamDeposit = document.getElementById("teamDeposit");
 				var teamDepositErr = document.getElementById("teamDepositErr");
 
@@ -144,13 +144,12 @@
 					return false;
 				}
 				
+				/* 습관시작/종료일 확인 함수 */
 				var startDate = document.getElementById("startDate");
 				var endDate = document.getElementById("endDate");
 				var dateErr = document.getElementById("dateErr");
 				
-				var result = startDate.value.compareTo(endDate.value);
-				
-				if (result == 0) {
+				if (startDate.value == endDate.value || startDate.value > endDate.value) {
 					var dateErrText="습관 종료일을 습관 시작일보다 크게 해주세요. :)";
 					dateErr.innerText=dateErrText;
 					endDate.focus();
