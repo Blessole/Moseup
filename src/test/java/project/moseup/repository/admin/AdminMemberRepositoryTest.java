@@ -1,8 +1,8 @@
 package project.moseup.repository.admin;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
@@ -11,42 +11,49 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//DB 관련 테스트
-//DB와 관련된 컴포넌트만 메모리에 로딩
-@DataJpaTest
+// 클라이언트 -> 요청 -> Controller(3) 클라이언트와 테스트 -> Service(2) 기능들이 트랜잭션을 잘 타는지 테스트 -> Repository(1) DB 관련 테스트
+// 여긴 DB 관련 테스트
+// Controller Member 데이터  -> Dto -> Service -> Member 엔티티 변환 -> MemberRepository.save(Member)
+
+// DB와 관련된 컴포넌트만 메모리에 로딩
+@SpringBootTest
 public class AdminMemberRepositoryTest {
 
     @Autowired
-    private AdminMemberRepository adminMemberRepository;
+    AdminMemberRepository adminMemberRepository;
 
     // 1. 회원 등록
     @Test
     public void memberSave_test(){
         System.out.println("회원등록_test 실행");
+
         // given (데이터 준비)
-        Member member = new Member();
-        member.setEmail("123@k1.com");
-        member.setPassword("1234");
-        member.setNickname("찬우");
-        member.setName("정찬우");
-        member.setGender(MemberGender.MALE);
-        member.setAddress("안양");
-        member.setPhoto("jpg");
-        member.setPhone("010-3333");
-        member.setMemberDate(LocalDateTime.now());
-        member.setMemberDelete(DeleteStatus.FALSE);
+        Member member = Member.builder()
+                .email("123@k1.com")
+                .password("1234")
+                .nickname("찬우")
+                .name("정찬우")
+                .gender(MemberGender.MALE)
+                .address("안양")
+                .photo("jpg")
+                .phone("010-3333")
+                .memberDate(LocalDateTime.now())
+                .memberDelete(DeleteStatus.FALSE)
+                .build();
 
         // when (테스트 실행)
-        Member saveMember = adminMemberRepository.save(member);
+        Member MemberPS = adminMemberRepository.save(member); //save(member) 클라이언트에게 받은 데이터
+        // MemberPS =  save 메소드가 db에 저장된 Member 를 return(DB 데이터와 동기화된 데이터)
+        // PS = persistence(영속성) -> 영구적으로 저장된 데이터 == DB에 저장된 데이터
 
         // then (검증)
-        assertEquals("123@k1.com", saveMember.getEmail());
-        assertEquals("1234", saveMember.getPassword());
-        assertEquals("찬우", saveMember.getNickname());
-        assertEquals("정찬우", saveMember.getName());
-        assertEquals("안양", saveMember.getAddress());
-        assertEquals("jpa", saveMember.getPhoto());
-        assertEquals("010-3333", saveMember.getPhone());
+        assertEquals("123@k1.com", MemberPS.getEmail());
+        assertEquals("1234", MemberPS.getPassword());
+        assertEquals("찬우", MemberPS.getNickname());
+        assertEquals("정찬우", MemberPS.getName());
+        assertEquals("안양", MemberPS.getAddress());
+        assertEquals("jpg", MemberPS.getPhoto());
+        assertEquals("010-3333", MemberPS.getPhone());
 
     }
 
