@@ -27,7 +27,7 @@
 			</div>
 			<div class="form-group">
 				<label th:for="teamAskContent">내용</label> 
-				<input type="text" th:field="*{teamAskContent}" class="form-control" placeholder="내용을 입력하세요">
+				<textarea rows="5" cols="40" th:field="*{teamAskContent}" class="form-control" placeholder="내용을 입력하세요"></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">등록</button>
 		</form>

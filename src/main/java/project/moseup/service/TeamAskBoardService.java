@@ -1,5 +1,7 @@
 package project.moseup.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,5 +19,13 @@ public class TeamAskBoardService {
 	@Transactional
 	public void saveTeamAskBoard(TeamAskBoard teamAskBoard) {
 		askBoardRepository.save(teamAskBoard);
+	}
+	
+	public List<TeamAskBoard> findTeamAsks() {
+		return askBoardRepository.findAll();
+	}
+	
+	public TeamAskBoard findOne(Long tano) {
+		return askBoardRepository.findOne(tano);
 	}
 }
