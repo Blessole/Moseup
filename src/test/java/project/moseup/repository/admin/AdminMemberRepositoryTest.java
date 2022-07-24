@@ -3,13 +3,16 @@ package project.moseup.repository.admin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 // 클라이언트 -> 요청 -> Controller(3) 클라이언트와 테스트 -> Service(2) 기능들이 트랜잭션을 잘 타는지 테스트 -> Repository(1) DB 관련 테스트
 // 여긴 DB 관련 테스트
@@ -17,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // DB와 관련된 컴포넌트만 메모리에 로딩
 @SpringBootTest
+@Transactional
 public class AdminMemberRepositoryTest {
 
     @Autowired
@@ -25,8 +29,6 @@ public class AdminMemberRepositoryTest {
     // 1. 회원 등록
     @Test
     public void memberSave_test(){
-        System.out.println("회원등록_test 실행");
-
         // given (데이터 준비)
         Member member = Member.builder()
                 .email("123@k1.com")
@@ -57,13 +59,47 @@ public class AdminMemberRepositoryTest {
 
     }
 
-    // 2. 회원 리스트 출력
+    // 2. 회원 목록 출력
+    @Test
+    public void memberList_test(){
+        // given
+
+        // when
+        List<Member> membersPS = adminMemberRepository.findAll();
+
+        // then
+        System.out.println(membersPS.size());
+        assertEquals("123@k1.com", membersPS.get(0).getEmail());
+        assertEquals("1234", membersPS.get(0).getPassword());
+    }
 
     // 3. 회원 한 명 출력
+    @Test
+    public void memberOne_test(){
+        // given
 
-    // 4. 회원 정보 수정
+        // when
+        Member memberOnePS = adminMemberRepository.findById(1L).get();
 
-    // 5. 회원 삭제
+        // then
+        assertEquals("123@k1.com", memberOnePS.getEmail());
+        assertEquals("1234", memberOnePS.getPassword());
+
+    }
+
+    // 4. 회원 삭제
+    @Test
+    public void memberDelete_test(){
+        // given
+
+        // when
+        adminMemberRepository.deleteById(1L);
+
+        // then
+        assertFalse(adminMemberRepository.findById(1L).isPresent()); // false 일 때 성공
+    }
+
+    // 5. 회원 수정
 
 
 }
