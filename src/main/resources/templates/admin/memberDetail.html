@@ -27,22 +27,20 @@
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <form action="#" th:action="@{/admin/memberAddForm}" th:object="${member}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{memberDelete}" th:value="${false}">
             <div class="mb-3">
                 <label for="photo" class="form-label"></label>
                     <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
-                <input class="form-control" name="file" id="photo" type="file" accept="image/*" onchange="loadFile(this)">
             </div>
+
             <div class="mb-3">
                 <label for="email" class="form-label">이메일</label>
                 <input type="email" class="form-control" th:field="*{email}" id="email" aria-describedby="emailHelp" required>
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label" aria-describedby="passwordHelp" required>비밀번호</label>
                 <input type="password" class="form-control" th:field="*{password}" id="password">
-                <div id="passwordHelp" class="form-text">We'll never share your email with anyone else.</div>
+              
             </div>
             <div class="mb-3">
                 <label for="password2" class="form-label" required>비밀번호 확인</label>
@@ -55,7 +53,7 @@
             <div class="mb-3">
                 <label for="nickname" class="form-label" required>닉네임</label>
                 <input type="text" class="form-control" th:field="*{nickname}" id="nickname" aria-describedby="nicknameHelp">
-                <div id="nicknameHelp" class="form-text">We'll never share your email with anyone else.</div>
+              
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label" required>전화번호</label>
@@ -70,15 +68,10 @@
                 <input type="text" class="form-control" id="addressDetail">
             </div>
             <label for="gender" class="form-label">성별</label>
-            <select class="form-select mb-3" aria-label="Default select example" th:field="*{gender}" id="gender">
-                <option th:value="${male}" selected>남자</option>
-                <option th:value="${female}">여자</option>
-            </select>
+           
             <div class="text-end mb-3">
-                <a type="button" class="btn btn-danger" th:href="@{/admin/memberList}">취소</a>
-                <button type="submit" class="btn btn-primary">등록</button>
+                <a type="button" class="btn btn-danger" th:href="@{/admin/memberList}">확인</a>
             </div>
-        </form>
     </main>
 
     <script th:inline="javascript">
