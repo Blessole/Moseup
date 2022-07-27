@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,7 +22,7 @@ public class Member {
 	private Long mno;
 	
 	@NotEmpty
-	@Column(name = "member_email")
+	@Column(name = "member_email", unique = true)
 	private String email;
 	
 	@NotEmpty
@@ -38,7 +39,7 @@ public class Member {
 	
 	@Enumerated(EnumType.STRING)
 	private MemberGender gender;
-	
+
 	@NotEmpty
 	@Column(name = "member_address")
 	private String address;
@@ -56,8 +57,11 @@ public class Member {
 	@Column(name = "member_date")
 	private LocalDateTime memberDate;
 
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 	@Builder
-	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate) {
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate, Role role) {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -68,7 +72,12 @@ public class Member {
 		this.photo = photo;
 		this.memberDelete = memberDelete;
 		this.memberDate = memberDate;
+		this.role = role;
 	}
+
+//	public String getPassword(){
+//		return password;
+//	}
 
 	// 연관관계 맵핑
 	@OneToMany(mappedBy = "member")

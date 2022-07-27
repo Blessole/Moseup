@@ -1,5 +1,6 @@
 package project.moseup.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,11 @@ public class Team {
 	@Column(name = "team_deposit")
 	private int teamDeposit;
 
-	private LocalDateTime teamDate;
+	private LocalDate teamDate;
 
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 
-	private LocalDateTime endDate;
+	private LocalDate endDate;
 
 	@NotEmpty
 	@Column(name = "team_Introduce")

@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/main.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<!-- 헤더 -->
-<header th:replace="fragments/header :: header"></header>
-<!-- 네비바 -->
-<nav th:insert="fragments/navbar :: nav"></nav>
-
-<div class="mainContainer">
-	<section class="slidesSection">
-		슬라이드이미지 ?
-	</section>
-	<section class="searchSection">
-		검색
-	</section>
-	<section class="mainSection">
-		팀 리스트
-	</section>
-</div>
+<!-- 본문 코드 -->
+<th:block layout:fragment="content">
+	<a href="/members/loginForm">로그인</a>
+	<!-- main -->
+	<div class="mainContainer">
+		<section class="slidesSection">
+			슬라이드이미지 ?
+		</section>
+		<section class="searchSection">
+			검색
+		</section>
+		<section class="mainSection">
+			팀 리스트
+		</section>
+	</div>
+</th:block>
 </body>
 </html>
