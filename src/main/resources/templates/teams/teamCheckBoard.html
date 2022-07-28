@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" type="text/css" href="/css/team.css" />
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="/css/team.css" />
+	<title>Insert title here</title>
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
 </head>
 <body class="homepage is-preload">
-<header th:replace="fragments/header :: header"></header>
-	<!-- 네비바 -->
-	<nav th:insert="fragments/navbar :: nav"></nav>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
 	<div id="page-wrapper">
 		<!-- Header -->
 		<section id="header">
@@ -53,7 +52,7 @@
 						<!-- Feature -->
 						<section>
 							<a href="#" class="image featured"><img
-								src="images/spring_boot.jpg" alt="" /></a>
+									src="images/spring_boot.jpg" alt="" /></a>
 							<header>
 								<h3>소개사진 1</h3>
 							</header>
@@ -73,7 +72,7 @@
 						<!-- Feature -->
 						<section>
 							<a href="#" class="image featured"><img
-								src="images/spring_boot.jpg" alt="" /></a>
+									src="images/spring_boot.jpg" alt="" /></a>
 							<header>
 								<h3>소개사진 1</h3>
 							</header>
@@ -93,7 +92,7 @@
 						<!-- Feature -->
 						<section>
 							<a href="#" class="image featured"><img
-								src="images/spring_boot.jpg" alt="" /></a>
+									src="images/spring_boot.jpg" alt="" /></a>
 							<header>
 								<h3>소개사진 1</h3>
 							</header>
@@ -112,7 +111,7 @@
 					<div class="col-12">
 						<ul class="actions">
 							<li><a href="#" class="button icon solid fa-file">Tell
-									Me More</a></li>
+								Me More</a></li>
 						</ul>
 					</div>
 				</div>
@@ -120,5 +119,7 @@
 		</section>
 
 	</div>
+
+</th:block>
 </body>
 </html>
