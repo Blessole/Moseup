@@ -41,6 +41,7 @@ public class MemberService implements UserDetailsService {
 
 	@Transactional
 	public void join(JoinForm joinForm) {
+		System.out.println("password : " + joinForm.getPassword());
 		// password 암호화
 		joinForm.setPassword(passwordEncoder.encode(joinForm.getPassword()));
 

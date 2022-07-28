@@ -75,10 +75,6 @@ public class Member {
 		this.role = role;
 	}
 
-//	public String getPassword(){
-//		return password;
-//	}
-
 	// 연관관계 맵핑
 	@OneToMany(mappedBy = "member")
     private List<Team> teams = new ArrayList<>();
