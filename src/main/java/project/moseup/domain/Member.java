@@ -17,10 +17,54 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "members")
+@AllArgsConstructor
 public class Member {
 
+	@Id @GeneratedValue
+	@Column(name = "member_no")
+	private Long mno;
+	
+	@NotEmpty
+	@Column(name = "member_email", unique = true)
+	private String email;
+	
+	@NotEmpty
+	@Column(name = "member_password")
+	private String password;
+	
+	@NotEmpty
+	@Column(name = "member_nickname")
+	private String nickname;
+	
+	@NotEmpty
+	@Column(name = "member_name")
+	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	private MemberGender gender;
+
+	@NotEmpty
+	@Column(name = "member_address")
+	private String address;
+	
+	@NotEmpty
+	@Column(name = "member_phone")
+	private String phone;
+	
+	@Column(name = "member_photo")
+	private String photo;
+	
+	@Enumerated(EnumType.STRING)
+	private DeleteStatus memberDelete;
+
+	@Column(name = "member_date")
+	private LocalDateTime memberDate;
+
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 	@Builder //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
-	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate) {
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate, Role role) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
 		Assert.hasText(email, "이메일은 [NULL]이 될 수 없습니다");
 		Assert.hasText(password, "비밀번호는 [NULL]이 될 수 없습니다");
@@ -41,6 +85,7 @@ public class Member {
 		this.photo = photo;
 		this.memberDelete = memberDelete;
 		this.memberDate = memberDate;
+		this.role = role;
 	}
 
 	// 엔티티 데이터를 수정해야 한다면 update 사용
@@ -48,46 +93,6 @@ public class Member {
 		this.memberDelete = memberDelete;
 		return this;
 	}
-
-	@Id @GeneratedValue
-	@Column(name = "member_no")
-	private Long mno;
-	
-	@NotEmpty
-	@Column(name = "member_email")
-	private String email;
-	
-	@NotEmpty
-	@Column(name = "member_password")
-	private String password;
-	
-	@NotEmpty
-	@Column(name = "member_nickname")
-	private String nickname;
-	
-	@NotEmpty
-	@Column(name = "member_name")
-	private String name;
-	
-	@Enumerated(EnumType.STRING)
-	private MemberGender gender;
-	
-	@NotEmpty
-	@Column(name = "member_address")
-	private String address;
-	
-	@NotEmpty
-	@Column(name = "member_phone")
-	private String phone;
-	
-	@Column(name = "member_photo")
-	private String photo;
-	
-	@Enumerated(EnumType.STRING)
-	private DeleteStatus memberDelete;
-
-	@Column(name = "member_date")
-	private LocalDateTime memberDate;
 
 	// 연관관계 맵핑
 	@OneToMany(mappedBy = "member")
