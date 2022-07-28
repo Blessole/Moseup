@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- header -->
-<th:block th:replace="/layouts/fragments/header :: header"></th:block>
+<th:block th:replace="layouts/fragments/header :: header"></th:block>
+
+<!-- layout CSS -->
+<link href="/css/layout.css" rel="stylesheet" type="text/css" />
 
 <body>
-<!-- navbar -->
-<th:block th:replace="/layouts/fragments/navbar :: navbar"></th:block>
-<!-- 본문 -->
-<th:block layout:fragment="content"></th:block>
+	<!-- navbar -->
+	<th:block th:replace="layouts/fragments/navbar :: navbar"></th:block>
+	<!-- 본문 -->
+	<th:block layout:fragment="content"></th:block>
+	<!-- floatingActionButton -->
+	<th:block th:replace="layouts/fragments/floatingActionButton :: floatingActionButton">
 </body>
 <!-- footer -->
-<th:block th:replace="/layouts/fragments/footer :: footer"></th:block>
+<th:block th:replace="layouts/fragments/footer :: footer">
 </html>

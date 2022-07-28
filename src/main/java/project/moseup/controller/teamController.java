@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.TeamForm;
 import project.moseup.service.MemberService;
 import project.moseup.service.TeamService;
 
@@ -41,7 +42,6 @@ public class teamController {
 		}
 		
 		Team team = new Team();
-		Member member = new Member();
 		// 세션을 통해서 멤버 가져와야됨(나중에 작성)
 		
 		//임시 멤버(나중에 삭제)

@@ -13,10 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import project.moseup.controller.JoinForm;
+
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.domain.Role;
+import project.moseup.dto.JoinForm;
 import project.moseup.repository.MemberInterfaceRepository;
 import project.moseup.repository.MemberRepository;
 

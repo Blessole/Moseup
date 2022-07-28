@@ -1,4 +1,4 @@
-package project.moseup.controller;
+package project.moseup.dto;
 
 import lombok.Builder;
 import lombok.Getter;

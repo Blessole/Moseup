@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.TeamAskForm;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.TeamService;
 
