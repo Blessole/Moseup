@@ -52,7 +52,7 @@ public class TeamServiceTest {
 
 		team.setTeamName("모습");
 		team.setTeamVolume(4);
-		team.setTeamDeposit(0);
+		team.setTeamDeposit(1);
 		team.setTeamDate(date);
 		team.setStartDate(date);
 		team.setEndDate(date);
@@ -62,6 +62,7 @@ public class TeamServiceTest {
 		// when
 		Long saveId = teamService.create(team);
 		Long memberId = memberService.join(member);
+		team.setMember(member);
 		em.flush();
 
 		// then
