@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
@@ -63,4 +64,14 @@ public class teamController {
 		
 		return "redirect:/";	// 초기화면으로 돌아감
 	}
+	
+	@PostMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
+	@ResponseBody	// 전에는 return "idChk";통해 보여주지만, @ResponseBody는 jsp를 통하지 않고 직접 문자를 전달함
+	public String teamNameChk(String teamName) {
+	      String msg = "";
+	      Team team = teamService.findTeamName(teamName);
+	      if(team == null) msg = "사용 가능한 팀명 입니다.";
+	      else msg = "중복된 팀명 입니다.";
+	      return msg;
+	   }
 }

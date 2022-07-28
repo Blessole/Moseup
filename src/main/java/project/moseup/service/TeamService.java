@@ -28,10 +28,16 @@ public class TeamService {
 		if(!findTeams.isEmpty()) {
 			throw new IllegalStateException("이미 존재하는 팀명입니다.");
 		}
-	}
+	}	
 
 	// 회원 단건 조회
 	public Team findOne(Long tno) {
 		return teamRepository.findOne(tno);
 	}
+	
+	public Team findTeamName(String teamName) {
+		return teamRepository.findTeamName(teamName);
+	}
+	
+	
 }

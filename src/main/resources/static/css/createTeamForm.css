@@ -30,11 +30,35 @@
 		border-color: red;
 }
 
-/* 에러 텍스트 빨간색 */
+/* radio legend */
+.legend {
+	font-size: 1em;
+	color: gray;
+	text-align: center;
+}
+
+/* radio text 간격 */
+/*  .radioMargin {
+	margin-right: 50px;
+} */
+
+/* width */
+/* .width80 {
+	width: 80%
+}
+.width20 {
+	width: 20%
+}
+.width100 {
+	width: 100%
+} */
+
+/* 텍스트 빨간색 */
 .text-err {
 	color: red;
 }
 
+/* 텍스트 회색 */
 .text-gray {
 	color: gray;
 }

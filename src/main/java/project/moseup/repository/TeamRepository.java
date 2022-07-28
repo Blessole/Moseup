@@ -14,18 +14,26 @@ import project.moseup.domain.Team;
 public class TeamRepository {
 
     private final EntityManager em;
-
-    public void save(Team team) {		// 팀 저장
+    
+    // 팀 저장
+    public void save(Team team) {		
         em.persist(team);
     }
 
-    public Team findOne(Long tno) {			// 멤버 아이디로 팀 검색
+    // 멤버 아이디로 팀 검색
+    public Team findOne(Long tno) {
         return em.find(Team.class, tno);
     }
     
-    public List<Team> findByName(String teamName) {		// teamName으로 팀 검색
+    // teamName으로 팀 검색
+    public List<Team> findByName(String teamName) {
 		return em.createQuery("select t from Team t where t.teamName = :teamName", Team.class)
 				.setParameter("teamName", teamName)
 				.getResultList();
 	}
+    
+    // teamName으로 팀 검색
+    public Team findTeamName(String teamName) {
+    	return em.find(Team.class, teamName);
+    }
 }
