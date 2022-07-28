@@ -54,16 +54,19 @@ public class TeamServiceTest {
 
 		team.setTeamName("모습");
 		team.setTeamVolume(4);
-		team.setTeamDeposit(0);
-		team.setTeamDate(date2);
-		team.setStartDate(date2);
-		team.setEndDate(date2);
+
+		team.setTeamDeposit(1);
+		team.setTeamDate(date);
+		team.setStartDate(date);
+		team.setEndDate(date);
+
 		team.setTeamIntroduce("반갑습니다.");
 		team.setTeamDelete(DeleteStatus.FALSE);
 
 		// when
 		Long saveId = teamService.create(team);
 		Long memberId = memberService.join(member);
+		team.setMember(member);
 		em.flush();
 
 		// then
