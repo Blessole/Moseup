@@ -1,6 +1,5 @@
 package project.moseup.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import project.moseup.controller.JoinForm;
+import project.moseup.dto.JoinForm;
 import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
 import project.moseup.domain.Role;
 import project.moseup.repository.MemberInterfaceRepository;
 import project.moseup.repository.MemberRepository;

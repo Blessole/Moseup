@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.TeamAskForm;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.TeamService;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/teams/")
 public class TeamPageController {
 
 	private final TeamService teamService;

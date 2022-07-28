@@ -1,201 +1,202 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<!-- 본문 코드 시작 -->
-	<th:block layout:fragment="content">
-
-		<div class="mainContainer">
-			<div class="col-md-7 col-lg-8 formContainer">
-				<h4 class="mb-3 text-center">팀 생성</h4>
-				<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}" 
-					method="post" name="frm" onsubmit="return submitChk()">
-					<div class="row g-3">
-						<div>
-							<div class="col-12">
-								<label for="teamName" class="form-label tont-bold">팀명</label>
-								<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
-								<span class="text-err" id="teamNameErr"></span>
-								<span class="text-err" id="teamNameChk"></span>
-								<div class="input-group has-validation">
-									<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
-										th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
-									<input type="button" class="btn btn-secondary btn-sm width20" value="중복확인" onclick="teamNameChk()">
-								</div>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+	<div class="mainContainer">
+		<div class="col-md-7 col-lg-8 formContainer">
+			<h4 class="mb-3 text-center">팀 생성</h4>
+			<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}"
+				  method="post" name="frm" onsubmit="return submitChk()">
+				<div class="row g-3">
+					<div>
+						<div class="col-12">
+							<label for="teamName" class="form-label tont-bold">팀명</label>
+							<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
+							<span class="text-err" id="teamNameErr"></span>
+							<span class="text-err" id="teamNameChk"></span>
+							<div class="input-group has-validation">
+								<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
+									   th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
+								<input type="button" class="btn btn-secondary btn-sm width20" value="중복확인" onclick="teamNameChk()">
 							</div>
-						</div>
-
-						<div class="col-12">
-							<label for="teamVolume" class="form-label tont-bold">모집 인원</label>
-							<input type="range" class="form-control" th:field="*{teamVolume}" min="2" max="100">
-							<div id="teamVolumeValue" align="center"></div>
-						</div>
-
-						<div class="col-12">
-							<label for="teamDeposit" class="form-label tont-bold">예치금</label>
-							<span id="teamDepositErr" class="text-err"></span>
-							<select class="form-select" th:field="*{teamDeposit}">
-								<option value="0" class="text-gray">====개인 예치금 선택====</option>
-								<option value="1">10,000￦</option>
-								<option value="2">20,000￦</option>
-								<option value="3">30,000￦</option>
-								<option value="4">40,000￦</option>
-								<option value="5">50,000￦</option>
-								<option value="6">60,000￦</option>
-								<option value="7">70,000￦</option>
-								<option value="8">80,000￦</option>
-								<option value="9">90,000￦</option>
-								<option value="10">100,000￦</option>
-							</select>
-						</div>
-
-						<div class="col-12">
-							<label for="startDate" class="form-label tont-bold">습관 시작일</label>
-							<span clath:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-err"></span>
-							<span id="startDateErr" class="text-err"></span>
-							<input type="date" class="form-control" th:field="*{startDate}"
-								th:class="${#fields.hasErrors('startDate')}? 'form-control fieldError' : 'form-control'">
-						</div>
-
-						<div class="col-12">
-							<label for="endDate" class="form-label tont-bold">습관 종료일</label>
-							<span clath:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-err"></span>
-							<span id="endDateErr" class="text-err"></span>
-							<input type="date" class="form-control" th:field="*{endDate}"
-								th:class="${#fields.hasErrors('endDate')}? 'form-control fieldError' : 'form-control'">
-						</div>
-						
-						<div class="col-12">
-							<label for="teamPhoto" class="form-label tont-bold">팀 소개 사진</label>
-							<input type="file"	class="form-control" th:field="*{teamPhoto}">
-							
-						</div>
-
-						<div class="col-12">
-							<label for="teamIntroduce" class="form-label tont-bold">팀 소개 글</label>  (<span id="nowByte">0</span>/1000bytes)
-							<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
-							<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}"
-											placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"
-											th:class="${#fields.hasErrors('teamIntroduce')}? 'form-control fieldError' : 'form-control'"></textarea>
 						</div>
 					</div>
 
-					<hr class="my-4">
+					<div class="col-12">
+						<label for="teamVolume" class="form-label tont-bold">모집 인원</label>
+						<input type="range" class="form-control" th:field="*{teamVolume}" min="2" max="100">
+						<div id="teamVolumeValue" align="center"></div>
+					</div>
 
-					<button class="w-100 btn btn-primary btn-lg" type="submit">팀 생성하기</button>
-				</form>
-			</div>
+					<div class="col-12">
+						<label for="teamDeposit" class="form-label tont-bold">예치금</label>
+						<span id="teamDepositErr" class="text-err"></span>
+						<select class="form-select" th:field="*{teamDeposit}">
+							<option value="0" class="text-gray">====개인 예치금 선택====</option>
+							<option value="1">10,000￦</option>
+							<option value="2">20,000￦</option>
+							<option value="3">30,000￦</option>
+							<option value="4">40,000￦</option>
+							<option value="5">50,000￦</option>
+							<option value="6">60,000￦</option>
+							<option value="7">70,000￦</option>
+							<option value="8">80,000￦</option>
+							<option value="9">90,000￦</option>
+							<option value="10">100,000￦</option>
+						</select>
+					</div>
+
+					<div class="col-12">
+						<label for="startDate" class="form-label tont-bold">습관 시작일</label>
+						<span clath:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-err"></span>
+						<span id="startDateErr" class="text-err"></span>
+						<input type="date" class="form-control" th:field="*{startDate}"
+							   th:class="${#fields.hasErrors('startDate')}? 'form-control fieldError' : 'form-control'">
+					</div>
+
+					<div class="col-12">
+						<label for="endDate" class="form-label tont-bold">습관 종료일</label>
+						<span clath:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-err"></span>
+						<span id="endDateErr" class="text-err"></span>
+						<input type="date" class="form-control" th:field="*{endDate}"
+							   th:class="${#fields.hasErrors('endDate')}? 'form-control fieldError' : 'form-control'">
+					</div>
+
+					<div class="col-12">
+						<label for="teamPhoto" class="form-label tont-bold">팀 소개 사진</label>
+						<input type="file"	class="form-control" th:field="*{teamPhoto}">
+
+					</div>
+
+					<div class="col-12">
+						<label for="teamIntroduce" class="form-label tont-bold">팀 소개 글</label>  (<span id="nowByte">0</span>/1000bytes)
+						<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
+						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}"
+								   placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"
+								   th:class="${#fields.hasErrors('teamIntroduce')}? 'form-control fieldError' : 'form-control'"></textarea>
+					</div>
+				</div>
+
+				<hr class="my-4">
+
+				<button class="w-100 btn btn-primary btn-lg" type="submit">팀 생성하기</button>
+			</form>
 		</div>
-		
-		<script type="text/javascript">
-			
-			/* 습관 시작일 기본값 오늘날짜로 하는 함수 */
-			/* document.getElementById('startDate').valueAsDate = new Date(); */
-		
-			/* 모집 인원 값 보여주는 함수 */
-			var slider = document.getElementById("teamVolume");
-			var output = document.getElementById("teamVolumeValue");
-			output.innerHTML = slider.value + "명";
-			
-			slider.oninput = function() {
-			    output.innerHTML = this.value + "명";
-			}
-			
-			/*textarea 바이트 수 체크하는 함수*/
-		    function fn_checkByte(obj){
-		        const maxByte = 1000; //최대 1000바이트
-		        const text_val = obj.value; //입력한 문자
-		        const text_len = text_val.length; //입력한 문자수
+	</div>
 
-		        let totalByte=0;
-		        for(let i=0; i<text_len; i++){
-		            const each_char = text_val.charAt(i);
-		            const uni_char = escape(each_char) //유니코드 형식으로 변환
-		            if(uni_char.length>4){
-		                // 한글 : 2Byte
-		                totalByte += 2;
-		            }else{
-		                // 영문,숫자,특수문자 : 1Byte
-		                totalByte += 1;
-		            }
-		        }
-		        
-		        if(totalByte>maxByte){
-		            alert('최대 1000Byte까지만 입력가능합니다.');
-		            document.getElementById("nowByte").innerText = totalByte;
-		            document.getElementById("nowByte").style.color = "red";
-		        }else{
-		            document.getElementById("nowByte").innerText = totalByte;
-		            document.getElementById("nowByte").style.color = "black";
-		        }
-		    }
-			
-			/* onsubmit 함수 */
-			function submitChk() {
-				/* 예치금 확인 함수 */
-				var teamDeposit = document.getElementById("teamDeposit");
-				var teamDepositErr = document.getElementById("teamDepositErr");
+	<script type="text/javascript">
 
-				if (teamDeposit.value == "0") {
-					var teamDepositErrText = "예치금은 필수 선택사항 입니다. :)";
-					teamDepositErr.innerText=teamDepositErrText;
-					teamDeposit.focus();
-					return false;
-				}
-				
-				/* 습관 시작/종료일 확인 함수 */
-				var startDate = document.getElementById("startDate");
-				var endDate = document.getElementById("endDate");
-				var dateErr = document.getElementById("dateErr");
-				
-				if (startDate.value == "" || startDate.value == "") {
-					var startDateErrText="습관 시작일과 습관 종료일은 필수 선택사항 입니다. :)";
-					startDateErr.innerText=startDateErrText;
-					endDate.focus();
-					return false;
-				}
-				
-				if (startDate.value == endDate.value || startDate.value > endDate.value) {
-					var endDateErrText="습관 종료일이 습관 시작일보다 같거나 클 수 없습니다. :)";
-					endDateErr.innerText=endDateErrText;
-					endDate.focus();
-					return false;
+		/* 습관 시작일 기본값 오늘날짜로 하는 함수 */
+		/* document.getElementById('startDate').valueAsDate = new Date(); */
+
+		/* 모집 인원 값 보여주는 함수 */
+		var slider = document.getElementById("teamVolume");
+		var output = document.getElementById("teamVolumeValue");
+		output.innerHTML = slider.value + "명";
+
+		slider.oninput = function() {
+			output.innerHTML = this.value + "명";
+		}
+
+		/*textarea 바이트 수 체크하는 함수*/
+		function fn_checkByte(obj){
+			const maxByte = 1000; //최대 1000바이트
+			const text_val = obj.value; //입력한 문자
+			const text_len = text_val.length; //입력한 문자수
+
+			let totalByte=0;
+			for(let i=0; i<text_len; i++){
+				const each_char = text_val.charAt(i);
+				const uni_char = escape(each_char) //유니코드 형식으로 변환
+				if(uni_char.length>4){
+					// 한글 : 2Byte
+					totalByte += 2;
+				}else{
+					// 영문,숫자,특수문자 : 1Byte
+					totalByte += 1;
 				}
 			}
-			
-			/* 팀이름 중복확인 */
-			/* function teamNameChk() {
-				var teamName = document.getElementById("teamName");
-				var teamNameErr = document.getElementById("teamNameErr");
-				
-				if(!teamName.value) {
-					teamNameErr.innerText = "*팀명을 입력하세요.*";
-				}
-			} */
-			
-			// ajax로 아이디 실시간 중복 확인
-			   function gd() {
-			      $("#teamName").blur(function() {
-			         var teamName = $('#teamName').val();
-			         $.ajax({
-			            url : '/teams/nameChk',
-			            data : "teamName=" + teamName,
-			            type : 'post',
-			            success : function(data) {
-			               if (teamName == "") {
-			                  $('#teamNameChk').text("필수 입력 사항입니다.");
-			               } else {
-			                  $('#teamNameChk').html(data);
-			               }
-			            }
-			         });
-			      });
-			   };
-		</script>
+
+			if(totalByte>maxByte){
+				alert('최대 1000Byte까지만 입력가능합니다.');
+				document.getElementById("nowByte").innerText = totalByte;
+				document.getElementById("nowByte").style.color = "red";
+			}else{
+				document.getElementById("nowByte").innerText = totalByte;
+				document.getElementById("nowByte").style.color = "black";
+			}
+		}
+
+		/* onsubmit 함수 */
+		function submitChk() {
+			/* 예치금 확인 함수 */
+			var teamDeposit = document.getElementById("teamDeposit");
+			var teamDepositErr = document.getElementById("teamDepositErr");
+
+			if (teamDeposit.value == "0") {
+				var teamDepositErrText = "예치금은 필수 선택사항 입니다. :)";
+				teamDepositErr.innerText=teamDepositErrText;
+				teamDeposit.focus();
+				return false;
+			}
+
+			/* 습관 시작/종료일 확인 함수 */
+			var startDate = document.getElementById("startDate");
+			var endDate = document.getElementById("endDate");
+			var dateErr = document.getElementById("dateErr");
+
+			if (startDate.value == "" || startDate.value == "") {
+				var startDateErrText="습관 시작일과 습관 종료일은 필수 선택사항 입니다. :)";
+				startDateErr.innerText=startDateErrText;
+				endDate.focus();
+				return false;
+			}
+
+			if (startDate.value == endDate.value || startDate.value > endDate.value) {
+				var endDateErrText="습관 종료일이 습관 시작일보다 같거나 클 수 없습니다. :)";
+				endDateErr.innerText=endDateErrText;
+				endDate.focus();
+				return false;
+			}
+		}
+
+		/* 팀이름 중복확인 */
+		/* function teamNameChk() {
+            var teamName = document.getElementById("teamName");
+            var teamNameErr = document.getElementById("teamNameErr");
+
+            if(!teamName.value) {
+                teamNameErr.innerText = "*팀명을 입력하세요.*";
+            }
+        } */
+
+		// ajax로 아이디 실시간 중복 확인
+		function gd() {
+			$("#teamName").blur(function() {
+				var teamName = $('#teamName').val();
+				$.ajax({
+					url : '/teams/nameChk',
+					data : "teamName=" + teamName,
+					type : 'post',
+					success : function(data) {
+						if (teamName == "") {
+							$('#teamNameChk').text("필수 입력 사항입니다.");
+						} else {
+							$('#teamNameChk').html(data);
+						}
+					}
+				});
+			});
+		};
+	</script>
+
+</th:block>
 </body>
 </html>
