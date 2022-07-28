@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="/css/team.css" />
+<title>Insert title here</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+	<!-- 네비바 -->
+	<nav th:insert="fragments/navbar :: nav"></nav>
+	<div class="container" align="center">
+		<h2 class="text-primary">문의글 상세조회</h2>
+		<table class="table table-striped">
+			<tr>
+				<th>글번호</th>
+				<td th:text="${teamAskOne.tano}"></td>
+				<th>작성자</th>
+				<td>일단 몰라</td>
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td th:text="${teamAskOne.teamAskDate}"></td>
+				<th>조회수</th>
+				<td th:text="${teamAskOne.teamAskReadCount}"></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td colspan="3" th:text="${teamAskOne.teamAskSubject}"></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td colspan="3"><pre><span th:text="${teamAskOne.teamAskContent}"></span></pre></td>
+			</tr>
+		</table>
+		<a href="/teamAskBoard" class="btn btn-success">게시글 목록</a>
+	</div>
+</body>
+</html>

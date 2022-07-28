@@ -1,23 +1,23 @@
 /* 메인 컨테이너 */
-.mainContainer{
+.mainContainer {
 	width: 80%;
 	margin: 0 auto;
 }
 
 /* 슬라이드바 섹션 */
-.slidesSection{
+.slidesSection {
 	border: 1px solid green;
-	height: 200px;
+	height: 300px;
 }
 
 /* 메인 검색창 섹션 */
-.searchSection{
+.searchSection {
 	border: 1px solid red;
-	height: 150px;
+	height: 200px;
 }
 
 /* 팀 리스트 섹션 */
-.mainSection{
+.mainSection {
 	border: 1px solid blue;
 	height: 400px;
 }

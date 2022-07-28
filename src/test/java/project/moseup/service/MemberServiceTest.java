@@ -36,17 +36,16 @@ public class MemberServiceTest {
     @Rollback(false)
     public void 멤버생성() throws Exception {
         // given
-        Member member = Member.builder()
-                .email("k1@k.com")
-                .name("김솔")
-                .password("1234")
-                .nickname("밍구")
-                .gender(MemberGender.FEMALE)
-                .address("강남구")
-                .phone("010-1234-1234")
-                .memberDate(LocalDateTime.now())
-                .memberDelete(DeleteStatus.FALSE)
-                .build();
+//        Member member = new Member();
+//        member.setEmail("k1@k.com");
+//        member.setName("김솔");
+//        member.setPassword("1234");
+//        member.setNickname("밍구");
+//        member.setGender(MemberGender.FEMALE);
+//        member.setAddress("강남구");
+//        member.setPhone("010-1234-1234");
+//        member.setMemberDate(LocalDateTime.now());
+//        member.setMemberDelete(DeleteStatus.FALSE);
 
         // when
         //Long saveId = memberService.join(member);
