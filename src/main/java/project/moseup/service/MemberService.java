@@ -1,9 +1,8 @@
 package project.moseup.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.repository.MemberRepository;
 

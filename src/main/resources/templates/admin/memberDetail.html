@@ -27,7 +27,7 @@
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="photo" class="form-label"></label>
                     <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
             </div>
@@ -71,24 +71,11 @@
            
             <div class="text-end mb-3">
                 <a type="button" class="btn btn-danger" th:href="@{/admin/memberList}">확인</a>
-            </div>
+            </div> -->
+            <a th:href="@{/admin/memberDelete(mno=${mno})}" class="btn btn-sm btn-outline-dark">삭제</a>
     </main>
 
-    <script th:inline="javascript">
-        function loadFile(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('preview').src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                document.getElementById('preview').src = "";
-            }
-        };
-
-    </script>
-
+    
 
 
     <!-- Optional JavaScript; choose one of the two! -->
