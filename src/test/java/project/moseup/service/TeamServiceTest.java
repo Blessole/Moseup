@@ -17,6 +17,7 @@ import project.moseup.repository.TeamRepository;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
@@ -49,13 +50,16 @@ public class TeamServiceTest {
 		member.setMemberDate(date);
 
 		Team team = new Team();
+		LocalDate date2 = LocalDate.now();
 
 		team.setTeamName("모습");
 		team.setTeamVolume(4);
+
 		team.setTeamDeposit(1);
 		team.setTeamDate(date);
 		team.setStartDate(date);
 		team.setEndDate(date);
+
 		team.setTeamIntroduce("반갑습니다.");
 		team.setTeamDelete(DeleteStatus.FALSE);
 
