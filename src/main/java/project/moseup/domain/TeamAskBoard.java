@@ -1,6 +1,6 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class TeamAskBoard {
 	private String teamAskContent;
 
 	@Column(name = "team_askdate")
-	private LocalDateTime teamAskDate;
+	private LocalDate teamAskDate;
 
 	@Column(name = "team_askreadcount")
 	private int teamAskReadCount;

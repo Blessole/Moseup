@@ -1,3 +1,4 @@
+/*
 package project.moseup.service;
 
 import org.junit.Test;
@@ -7,19 +8,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
 import project.moseup.domain.Team;
 import project.moseup.repository.MemberRepository;
 import project.moseup.repository.TeamRepository;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -71,3 +71,4 @@ public class TeamServiceTest {
 	}
 
 }
+*/
