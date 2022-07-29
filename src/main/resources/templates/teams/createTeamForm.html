@@ -24,7 +24,6 @@
 							<div class="input-group has-validation">
 								<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
 									   th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
-								<input type="button" class="btn btn-secondary btn-sm width20" value="중복확인" onclick="teamNameChk()">
 							</div>
 						</div>
 					</div>
@@ -166,35 +165,25 @@
 				return false;
 			}
 		}
-
-		/* 팀이름 중복확인 */
-		/* function teamNameChk() {
-            var teamName = document.getElementById("teamName");
-            var teamNameErr = document.getElementById("teamNameErr");
-
-            if(!teamName.value) {
-                teamNameErr.innerText = "*팀명을 입력하세요.*";
-            }
-        } */
-
-		// ajax로 아이디 실시간 중복 확인
-		function gd() {
-			$("#teamName").blur(function() {
+		
+		//아이디 중복체크 함수
+		$(function() { 
+			$('#teamName').blur(function() {
 				var teamName = $('#teamName').val();
 				$.ajax({
+					type : "POST",
 					url : '/teams/nameChk',
-					data : "teamName=" + teamName,
-					type : 'post',
-					success : function(data) {
+					data : {	"teamName" : teamName},
+					success : function(data) { //data : /teams/nameChk에서 넘겨준 결과값
 						if (teamName == "") {
-							$('#teamNameChk').text("필수 입력 사항입니다.");
+							$('#teamNameChk').text("팀명은 필수 입력사항입니다!");
 						} else {
 							$('#teamNameChk').html(data);
 						}
 					}
-				});
-			});
-		};
+				})
+			})
+		});
 	</script>
 
 </th:block>

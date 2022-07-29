@@ -2,6 +2,8 @@ package project.moseup.controller;
 
 import java.time.LocalDate;
 
+import java.util.*;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,8 @@ public class teamController {
 		model.addAttribute("teamForm", new TeamForm());
 		return "teams/createTeamForm";
 	}
-
+	
+	//	team 생성
 	@PostMapping("/teams/createTeam")
 	public String  createTeam(@Valid TeamForm teamForm, BindingResult result) {
 		//@Valid : 클라이언트 측에서 넘어온 데이터를 객체에 바인딩(속성과 개체 사이 또는 연산과 기호사이와 같은 연관)할 때 유효성 검사함
@@ -42,10 +45,6 @@ public class teamController {
 		}
 
 		Team team = new Team();
-<<<<<<< HEAD
-=======
-		//Member member = new Member();
->>>>>>> d163a74a43d557a95090e9ecdb8bdbcb05ce1b09
 		// 세션을 통해서 멤버 가져와야됨(나중에 작성)
 
 		//임시 멤버(나중에 삭제)
@@ -68,14 +67,16 @@ public class teamController {
 
 		return "redirect:/";	// 초기화면으로 돌아감
 	}
-
+	
+	// 팀명 중복체크
 	@PostMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
 	@ResponseBody	// 전에는 return "idChk";통해 보여주지만, @ResponseBody는 jsp를 통하지 않고 직접 문자를 전달함
 	public String teamNameChk(String teamName) {
 	      String msg = "";
-	      Team team = teamService.findTeamName(teamName);
-	      if(team == null) msg = "사용 가능한 팀명 입니다.";
-	      else msg = "중복된 팀명 입니다.";
+	      List<Team> team = teamService.validateDuplicateTeam(teamName);
+	      if(team == null) msg = "사용 가능한 팀명입니다. :)";
+	      else msg = "중복된 팀명입니다. :(";
 	      return msg;
 	   }
+
 }
