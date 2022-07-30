@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "members")
-@AllArgsConstructor
 public class Member {
 
 	@Id @GeneratedValue

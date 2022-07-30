@@ -1,22 +1,20 @@
 package project.moseup.controller;
 
-import java.time.LocalDate;
-
-import javax.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.service.MemberService;
 import project.moseup.service.TeamService;
+
+import javax.validation.Valid;
+import java.time.LocalDate;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,7 +39,8 @@ public class teamController {
 		}
 		
 		Team team = new Team();
-		Member member = new Member();
+
+		//Member member = new Member();
 		// 세션을 통해서 멤버 가져와야됨(나중에 작성)
 		
 		//임시 멤버(나중에 삭제)
