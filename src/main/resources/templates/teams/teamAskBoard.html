@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" type="text/css" href="/css/team.css" />
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="/css/team.css" />
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
 </head>
 <body class="homepage is-preload">
-<header th:replace="fragments/header :: header"></header>
-	<!-- 네비바 -->
-	<nav th:insert="fragments/navbar :: nav"></nav>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
 	<div id="page-wrapper">
 		<!-- Header -->
 		<section id="header">
@@ -44,20 +43,20 @@
 			<div class="container">
 				<h2 class="text-primary" align="center">문의글 목록</h2>
 				<table class="table table-striped">
-				<thead>
+					<thead>
 					<tr>
 						<th>글번호</th>
 						<th>제목</th>
 						<th>작성일</th>
 					</tr>
-				</thead>
-				<tbody>
+					</thead>
+					<tbody>
 					<tr th:each="teamaskboard : ${teamAsks}">
 						<th th:text="${teamaskboard.tano}"></th>
 						<th><a th:href="@{/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}" th:text="${teamaskboard.teamAskSubject}"></a></th>
 						<th th:text="${teamaskboard.teamAskDate}"></th>
 					</tr>
-				</tbody>
+					</tbody>
 				</table>
 				<div align="center">
 					<a href="/teamAskBoard/teamAskBoardWriteForm" class="btn btn-info">글쓰기</a>
@@ -65,5 +64,6 @@
 			</div>
 		</section>
 	</div>
+</th:block>
 </body>
 </html>
