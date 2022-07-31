@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -73,6 +74,7 @@ public class Member {
 		Assert.hasText(phone, "전화번호는 [NULL]이 될 수 없습니다");
 		Assert.hasText(String.valueOf(memberDelete), "탈퇴여부는 [NULL]이 될 수 없습니다");
 		Assert.hasText(String.valueOf(memberDate), "회원생성일은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(role), "권한은 [NULL]이 될 수 없습니다");
 
 		this.email = email;
 		this.password = password;
@@ -91,6 +93,31 @@ public class Member {
 	public Member update(DeleteStatus memberDelete){
 		this.memberDelete = memberDelete;
 		return this;
+	}
+
+	// 정보 수정 용
+	public void updateName(String name){
+		this.name = name;
+	}
+	public void updateNickname(String nickname){
+		this.nickname = nickname;
+	}
+	public void updateGender(MemberGender gender){
+		this.gender = gender;
+	}
+	public void updateAddress(String address){
+		this.address = address;
+	}
+	public void updatePhone(String phone){
+		this.phone = phone;
+	}
+	public void updatePhoto(String photo){
+		this.photo = photo;
+	}
+
+	// 비밀번호 암호화
+	public void encodePassword(PasswordEncoder passwordEncoder){
+		this.password = passwordEncoder.encode(password);
 	}
 
 	// 연관관계 맵핑

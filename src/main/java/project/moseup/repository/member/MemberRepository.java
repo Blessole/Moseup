@@ -1,4 +1,4 @@
-package project.moseup.repository;
+package project.moseup.repository.member;
 
 import javax.persistence.EntityManager;
 

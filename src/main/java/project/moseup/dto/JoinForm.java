@@ -1,6 +1,5 @@
 package project.moseup.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
@@ -39,8 +38,6 @@ public class JoinForm {
     private String phone;
 
     private String photo;
-    private DeleteStatus memberDelete;
-    private LocalDateTime memberDate;
 
     public Member toEntity(){
         return Member.builder()
@@ -53,22 +50,9 @@ public class JoinForm {
                 .phone(phone)
                 .photo(photo)
                 .memberDelete(DeleteStatus.FALSE)
-                .memberDate(memberDate)
-                .role(Role.MEMBER)
+                .memberDate(LocalDateTime.now())
+                .role(Role.USER)
                 .build();
     }
 
-//    @Builder
-//    public JoinForm(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate) {
-//        this.email = email;
-//        this.password = password;
-//        this.nickname = nickname;
-//        this.name = name;
-//        this.gender = gender;
-//        this.address = address;
-//        this.phone = phone;
-//        this.photo = photo;
-//        this.memberDelete = memberDelete;
-//        this.memberDate = memberDate;
-//    }
 }

@@ -16,7 +16,7 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamForm;
-import project.moseup.service.MemberService;
+import project.moseup.service.member.MemberService;
 import project.moseup.service.TeamService;
 
 @Controller
