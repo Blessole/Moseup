@@ -12,7 +12,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.dto.JoinForm;
 import project.moseup.dto.LoginForm;
-import project.moseup.service.MemberService;
+import project.moseup.service.member.MemberService;
 
 import javax.validation.Valid;
 import java.util.List;

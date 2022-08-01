@@ -1,5 +1,6 @@
 package project.moseup.controller;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,28 +18,28 @@ import project.moseup.service.TeamService;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/teams/")
+@RequestMapping("teams")
 public class TeamPageController {
 
 	private final TeamService teamService;
 	private final TeamAskBoardService teamaskBoardService;
 	
 	// 팀 페이지 메인
-	@GetMapping("teamPage")
+	@GetMapping("/teamPage")
 	public String teamMainPage() {
 		return "teams/teamMain";
 	}
 	
 	// 팀 페이지 문의게시판
-	@GetMapping("teamAskBoard")
-	public String teamAskBoardPage(Model model) {
+	@GetMapping("/teamAskBoard")
+	public String teamAskBoardPage(Model model, Pageable pageable) {
 		List<TeamAskBoard> teamAsks = teamaskBoardService.findTeamAsks();
 		model.addAttribute("teamAsks", teamAsks);
 		return "teams/teamAskBoard";
 	}
 	
 	// 팀 페이지 문의 작성 폼
-	@GetMapping("teamAskBoard/teamAskBoardWriteForm")
+	@GetMapping("/teamAskBoard/teamAskBoardWriteForm")
 	public String teamAskBoardWriteForm(Model model) {
 		model.addAttribute("teamAsk", new TeamAskForm());
 		
@@ -46,7 +47,7 @@ public class TeamPageController {
 	}
 	
 	// 팀 페이지 문의 작성 
-	@PostMapping("teamAskBoard/teamAskBoardWriteForm/createTeamAsk")
+	@PostMapping("/teamAskBoard/teamAskBoardWriteForm/createTeamAsk")
 	public String createTeamAsk(TeamAskForm teamAsk) {
 		
 		TeamAskBoard teamAskBoard = new TeamAskBoard();
@@ -62,7 +63,7 @@ public class TeamPageController {
 	}
 	
 	// 팀 페이지 문의 글 상세보기
-	@GetMapping("teamAskBoard/TeamAskBoardDetail")
+	@GetMapping("/teamAskBoard/TeamAskBoardDetail")
 	public String teamAskBoardDetail(Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamaskBoardService.findOne(tano);
@@ -73,7 +74,7 @@ public class TeamPageController {
 	}
 	
 	// 팀 페이지 인증 게시판
-	@GetMapping("teamCheckBoard")
+	@GetMapping("/teamCheckBoard")
 	public String teamCheckBoardPage() {
 		return "teams/teamCheckBoard";
 	}

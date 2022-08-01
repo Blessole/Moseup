@@ -1,4 +1,4 @@
-package project.moseup.repository;
+package project.moseup.repository.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.moseup.domain.Member;

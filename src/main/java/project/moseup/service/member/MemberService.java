@@ -1,4 +1,4 @@
-package project.moseup.service;
+package project.moseup.service.member;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 import project.moseup.dto.JoinForm;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
-import project.moseup.repository.MemberInterfaceRepository;
-import project.moseup.repository.MemberRepository;
+import project.moseup.repository.member.MemberInterfaceRepository;
+import project.moseup.repository.member.MemberRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,7 @@ public class MemberService implements UserDetailsService {
 		if ("admin@admin.com".equals(email)){
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 		} else {
-			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
+			authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
 		}
 
 		return  new User(member.getEmail(), member.getPassword(), authorities);

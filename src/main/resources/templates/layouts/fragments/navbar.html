@@ -1,14 +1,10 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:fragment="navbar" id="navbar">
 	<nav class="p-3 mb-3 border-bottom">
 		<div class="nav-container">
 			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start nav-width">
 				<!-- 로고 이미지 -->
-<<<<<<< HEAD
 				<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none nav-left">
-=======
-				<a href="/static" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none nav-left">
->>>>>>> branch 'feature/memberPage' of https://github.com/Blessole/Moseup.git
 					<img class="bi me-2" width="45" height="35" alt="moseup" src="/images/logo.png">
 				</a>
 				
@@ -28,7 +24,15 @@
 				
 				<div class="dropdown text-end">
 					<!-- 비로그인(로그인/회원가입) -->
-					
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/login}">로그인</a>
+							<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/members/logout}">로그아웃</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/members/joinForm}">회원가입</a>
+						</li>
+					</ul>
 					<!-- 로그인(마이페이지) -->
 					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle nav-right"
 						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
