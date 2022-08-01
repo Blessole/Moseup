@@ -34,6 +34,18 @@ public class Team {
 	@NotNull
 	@Column(name = "team_deposit")
 	private int teamDeposit;
+	
+	@NotEmpty
+	@Column(name = "team_category1")
+	private String  teamCategory1;
+	
+	@NotEmpty
+	@Column(name = "team_category2")
+	private String  teamCategory2;
+	
+	@NotEmpty
+	@Column(name = "team_category3")
+	private String  teamCategory3;
 
 	private LocalDate teamDate;
 

@@ -1,7 +1,6 @@
 package project.moseup.controller;
 
 import java.time.LocalDate;
-
 import java.util.*;
 
 import javax.validation.Valid;
@@ -53,6 +52,9 @@ public class teamController {
 		team.setMember(member1);
 		team.setTeamName(teamForm.getTeamName());
 		team.setTeamVolume(teamForm.getTeamVolume());
+		team.setTeamCategory1(teamForm.getTeamCategory1());
+		team.setTeamCategory2(teamForm.getTeamCategory2());
+		team.setTeamCategory3(teamForm.getTeamCategory3());
 		team.setTeamDeposit(teamForm.getTeamDeposit());
 		team.setTeamDate(LocalDate.now());
 		team.setStartDate(teamForm.getStartDate());
