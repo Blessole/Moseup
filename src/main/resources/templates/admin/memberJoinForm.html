@@ -40,8 +40,6 @@
                 <div id="validationServer03Feedback" class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                     이메일 에러 메시지
                 </div>
-                  <div th:text="${result}"></div>
-                <!-- <a class="btn btn-sm btn-info" th:href="@{/admin/memberEmailCheck(email=${member.email})}">중복체크</a> -->
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label" required>비밀번호</label>

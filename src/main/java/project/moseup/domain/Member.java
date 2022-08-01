@@ -73,6 +73,7 @@ public class Member {
 		Assert.hasText(phone, "전화번호는 [NULL]이 될 수 없습니다");
 		Assert.hasText(String.valueOf(memberDelete), "탈퇴여부는 [NULL]이 될 수 없습니다");
 		Assert.hasText(String.valueOf(memberDate), "회원생성일은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(role), "권한은 [NULL]이 될 수 없습니다");
 
 		this.email = email;
 		this.password = password;
@@ -88,9 +89,8 @@ public class Member {
 	}
 
 	// 엔티티 데이터를 수정해야 한다면 update 사용
-	public Member update(DeleteStatus memberDelete){
-		this.memberDelete = memberDelete;
-		return this;
+	public void deleteUpdate(){
+		this.memberDelete = DeleteStatus.TRUE;
 	}
 
 	// 연관관계 맵핑

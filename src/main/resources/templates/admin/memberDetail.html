@@ -30,48 +30,34 @@
             <!-- <div class="mb-3">
                 <label for="photo" class="form-label"></label>
                     <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
-            </div>
-
+            </div> -->
             <div class="mb-3">
                 <label for="email" class="form-label">이메일</label>
-                <input type="email" class="form-control" th:field="*{email}" id="email" aria-describedby="emailHelp" required>
-            
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label" aria-describedby="passwordHelp" required>비밀번호</label>
-                <input type="password" class="form-control" th:field="*{password}" id="password">
-              
-            </div>
-            <div class="mb-3">
-                <label for="password2" class="form-label" required>비밀번호 확인</label>
-                <input type="password" class="form-control" id="password2">
+                <p th:text="${member.email}" id="email"></p>
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">이름</label>
-                <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                <p th:text="${member.name}" id="name"></p>
             </div>
             <div class="mb-3">
-                <label for="nickname" class="form-label" required>닉네임</label>
-                <input type="text" class="form-control" th:field="*{nickname}" id="nickname" aria-describedby="nicknameHelp">
-              
+                <label for="nickname" class="form-label" >닉네임</label>
+                <p th:text="${member.nickname}" id="nickname"></p>
             </div>
             <div class="mb-3">
-                <label for="phone" class="form-label" required>전화번호</label>
-                <input type="text" class="form-control" th:field="*{phone}" id="phone">
+                <label for="phone" class="form-label" >전화번호</label>
+                <p th:text="${member.phone}" id="phone"></p>
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label" required>주소</label>
-                <input type="text" class="form-control" th:field="*{address}" id="address">
+                <label for="address" class="form-label">주소</label>
+                <p th:text="${member.address}" id="address"></p>
             </div>
             <div class="mb-3">
-                <label for="addressDetail" class="form-label">상세주소</label>
-                <input type="text" class="form-control" id="addressDetail">
+                <label for="gender" class="form-label">성별</label>
+                <p th:text="${member.gender}" id="gender"></p>
             </div>
-            <label for="gender" class="form-label">성별</label>
-           
             <div class="text-end mb-3">
                 <a type="button" class="btn btn-danger" th:href="@{/admin/memberList}">확인</a>
-            </div> -->
+            </div>
             <a th:href="@{/admin/memberDelete(mno=${mno})}" class="btn btn-sm btn-outline-dark">삭제</a>
     </main>
 

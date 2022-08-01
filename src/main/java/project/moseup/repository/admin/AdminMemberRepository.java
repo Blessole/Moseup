@@ -7,7 +7,11 @@ import project.moseup.domain.Member;
 import java.util.List;
 
 public interface AdminMemberRepository extends JpaRepository<Member, Long> {
-    List<Member> findByMemberDelete(DeleteStatus aFalse);
+    List<Member> findByMemberDelete(DeleteStatus FALSE);
 
-    //boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
+    boolean existsByNickname(String nickname);
+
+
+
 }
