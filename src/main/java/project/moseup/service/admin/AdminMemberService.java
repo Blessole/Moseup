@@ -3,6 +3,7 @@ package project.moseup.service.admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
@@ -16,7 +17,7 @@ public class AdminMemberService {
     private final AdminMemberRepository adminMemberRepository;
 
     // 회원 등록
-    @Transactional(rollbackFor = RuntimeException.class) //런타임 예외가 발생하면 롤백하겠다.
+    @Transactional(rollbackFor = RuntimeException.class) //런타임 예외가 발생하면 롤백
     public MemberRespDto joinMember(MemberSaveReqDto memberSaveReqDto) {
         Member memberPS = adminMemberRepository.save(memberSaveReqDto.toEntity());
         return new MemberRespDto().toDto(memberPS);
@@ -27,9 +28,14 @@ public class AdminMemberService {
         // [DTO 응답]  <-  [DTO 받음]  [Entity -> DTO] <---- 다시 응답 <-----------↑
     }
 
-    // 회원 삭제
+    // 회원 삭제(업데이트)
+    @Transactional(rollbackFor = RuntimeException.class)
     public void deleteMember(Long mno) {
-        adminMemberRepository.findById(mno).ifPresent(Member::deleteUpdate);
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+
+        member.deleteUpdate(DeleteStatus.TRUE);
+
+        adminMemberRepository.save(member);
     }
 
 

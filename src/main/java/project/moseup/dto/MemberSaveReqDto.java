@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
+import project.moseup.domain.Role;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
@@ -22,6 +23,10 @@ public class MemberSaveReqDto {
     @NotBlank(message = "비밀번호를 입력해주세요.")
     @Size(min = 8, max = 20, message = "비밀번호는 8자 이상 20자 이하로 입력해주세요.")
     private String password;
+
+//  패스워드 검증용
+    @NotBlank(message = "비밀번호를 입력해주세요.")
+    private String password2;
 
     @NotBlank(message = "이름을 입력해주세요.")
     private String name;
@@ -43,6 +48,8 @@ public class MemberSaveReqDto {
 
     private MemberGender gender;
 
+    private Role role;
+
     public MemberSaveReqDto() {}
 
     @Builder
@@ -54,6 +61,8 @@ public class MemberSaveReqDto {
         Assert.hasText(name, "이름은 [NULL]이 될 수 없습니다");
         Assert.hasText(address, "주소는 [NULL]이 될 수 없습니다");
         Assert.hasText(phone, "전화번호는 [NULL]이 될 수 없습니다");
+
+
 
         this.email = email;
         this.password = password;
@@ -77,6 +86,7 @@ public class MemberSaveReqDto {
                 .memberDelete(DeleteStatus.FALSE)
                 .gender(gender)
                 .memberDate(LocalDateTime.now())
+                .role(Role.MEMBER)
                 .build();
     }
 }

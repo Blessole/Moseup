@@ -26,7 +26,7 @@ public class MemberRespDto {
     private LocalDateTime memberDate;
     private Role role;
 
-    public  MemberRespDto toDto(Member memberPS){
+    public MemberRespDto toDto(Member memberPS){
         this.mno = memberPS.getMno();
         this.email = memberPS.getEmail();
         this.password = memberPS.getPassword();
