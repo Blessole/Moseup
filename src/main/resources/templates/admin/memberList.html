@@ -137,8 +137,8 @@
                 <th scope="col">이메일</th>
                 <th scope="col">이름</th>
                 <th scope="col">닉네임</th>
-                <th scope="col">성별</th>
-                <th scope="col"></th>
+                <th scope="col">탈퇴여부</th>
+                <th scope="col">보기</th>
               </tr>
             </thead>
             <tbody>
@@ -147,7 +147,7 @@
                 <th th:text="${member.email}">번호</th>
                 <td th:text="${member.name}">이름</td>
                 <td th:text="${member.nickname}">닉네임</td>
-                <td th:text="${member.gender}">성별</td>
+                <td th:text="${member.memberDelete}">탈퇴여부</td>
                 <td>
                     <a th:href="@{/admin/memberDetail(mno=${member.mno})}" class="btn btn-sm btn-outline-primary">확인</a>
                 </td>

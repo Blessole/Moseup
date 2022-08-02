@@ -9,6 +9,9 @@ import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminMemberRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,5 +41,10 @@ public class AdminMemberService {
         adminMemberRepository.save(member);
     }
 
-
+    // 회원 목록 보기
+    public List<MemberRespDto> memberList() {
+        return adminMemberRepository.findAll().stream()
+                .map((memberPS) -> new MemberRespDto().toDto(memberPS))
+                .collect(Collectors.toList());
+    }
 }

@@ -29,7 +29,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'	// 로그인용
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'	// 로그인용
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'      // 타임리프 레이아웃
-	implementation group: 'org.webjars', name: 'webjars-locator-core', version: '0.52' //제이쿼리, 부트스트랩 등 라이브러리 모음 패키지
+	implementation group: 'org.webjars', name: 'webjars-locator-core', version: '0.52'
+    implementation 'org.projectlombok:lombok:1.18.20'//제이쿼리, 부트스트랩 등 라이브러리 모음 패키지
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

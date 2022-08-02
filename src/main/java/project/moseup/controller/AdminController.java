@@ -65,7 +65,8 @@ public class AdminController {
     // 회원 리스트 출력
     @GetMapping("/memberList")
     public String list(Model model){
-        List<Member> members = adminMemberRepository.findByMemberDelete(DeleteStatus.FALSE); // 삭제 인원은 제외 따로 출력할 예정
+        List<MemberRespDto> members = adminMemberService.memberList(); //엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
+        //List<Member> members = adminMemberRepository.findByMemberDelete(DeleteStatus.FALSE);
         model.addAttribute("members", members);
         model.addAttribute("false", DeleteStatus.FALSE);
         return "admin/memberList";
@@ -122,7 +123,7 @@ public class AdminController {
             //printStackTrace()를 호출하면 로그에 Stack trace 출력됩니다.
         }
 
-        memberSaveReqDto.setPhoto(String.valueOf(savePath.getFileName()));
+        memberSaveReqDto.setPhoto(String.valueOf(savePath));
 
         MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);
 
