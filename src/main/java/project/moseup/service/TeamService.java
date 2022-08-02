@@ -1,14 +1,15 @@
 package project.moseup.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.repository.TeamRepository;
+import project.moseup.repository.TeamSearchRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,6 +17,7 @@ import project.moseup.repository.TeamRepository;
 public class TeamService {
 
 	private final TeamRepository teamRepository;
+	private final TeamSearchRepository teamSearchRepository;
 
 	@Transactional
 	public Long create(Team team) {		//팀 생성
@@ -37,12 +39,16 @@ public class TeamService {
 		}
 		return null;
 	}
-}
+	
+	//keyword가 포함된 팀명 찾기
+	public List<Team> teamSearch(String keyword) {
+		List<Team> teams = teamSearchRepository.findByteamNameContaining(keyword);
+		List<Team> emptyList = new ArrayList<>();
 
-// 김영한쌤 중복체크
-//public void validateDuplicateTeam(Team team) {
-//List<Team> findTeams = teamRepository.findByName(team.getTeamName());
-//if(!findTeams.isEmpty()) {
-//	throw new IllegalStateException("이미 존재하는 팀명입니다.");
-//}
-//}	
+		if (!teams.isEmpty()) {
+			List<Team> findTeamList = teams;
+			return findTeamList;
+		}
+		return emptyList;
+	}
+}

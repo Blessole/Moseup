@@ -87,6 +87,37 @@
 	width: 80%
 }
 
+/* 네비바 검색창 인풋 및 이미지 감싸는 태그 */
+.search {
+  position: relative;
+}
+
+/* 네비바 검색창 인풋 */
+#search {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+/* 네비바 돋보기 이미지 */
+.searchImg{
+	position : absolute;
+	width: 17px;
+	top: 10px;
+	right: 12px;
+	margin: 0;
+}
+
+/* 네비바 인풋 텍스트 x표 없애기 */
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration{
+    display:none;
+}
+
 /* footer */
 .footer-width{
 	margin: 0 auto;

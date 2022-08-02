@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+	<div th:if="${teamSearchList == 'nothing'}">
+		검색 결과가 존재하지 않습니다.
+	</div>
+	
+	<div th:if="${teamSearchList != 'nothing'}">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>팀명</th>
+					<th>인원</th>
+					<th>예치금</th>
+					<th>습관 대분류</th>
+					<th>습관 중분류</th>
+					<th>습관 소분류</th>
+					<th>팀 소개글</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ts : ${teamSearchList}">
+					<td th:text="${ts.tno}"></td>
+					<td th:text="${ts.teamName}"></td>
+					<td th:text="${ts.teamVolume}"></td>
+					<td th:text="${ts.teamDeposit}"></td>
+					<td th:text="${ts.teamCategory1}"></td>
+					<td th:text="${ts.teamCategory2}"></td>
+					<td th:text="${ts.teamCategory3}"></td>
+					<td th:text="${ts.teamIntroduce}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</th:block>
+</body>
+</html>
