@@ -45,7 +45,11 @@
 	text-align: center;
 }
 
+/* 디스플레이 감추기 */
 .displayNone {
 	display: none;
 }
 
+.essential {
+	color: red;
+}

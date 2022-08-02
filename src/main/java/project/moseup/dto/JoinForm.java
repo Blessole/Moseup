@@ -54,7 +54,7 @@ public class JoinForm {
                 .photo(photo)
                 .memberDelete(DeleteStatus.FALSE)
                 .memberDate(memberDate)
-                .role(Role.MEMBER)
+                .role(Role.USER)
                 .build();
     }
 

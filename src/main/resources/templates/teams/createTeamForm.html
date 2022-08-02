@@ -11,27 +11,27 @@
 <th:block layout:fragment="content">
 	<div class="mainContainer">
 		<div class="col-md-7 col-lg-8 formContainer">
-			<h4 class="mb-3 text-center">팀 생성</h4>
+			<h4 class="mb-3 text-center">팀 생성하기</h4>
 			<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}"
 				  method="post" name="frm" onsubmit="return submitChk()">
 				<div class="row g-3">
-						<div class="col-12">
-							<label for="teamName" class="form-label font-bold">팀명</label>
-							<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
-							<span class="text-err" id="teamNameErr"></span>
-							<span class="text-err" id="teamNameChk"></span>
-							<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
-									 th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
-						</div>
-
 					<div class="col-12">
-						<label for="teamVolume" class="form-label font-bold">모집 인원</label>
+						<label for="teamName" class="form-label font-bold">팀명<span class="essential">*</span></label>
+						<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
+						<span class="text-err" id="teamNameErr"></span>
+						<span class="text-err" id="teamNameChk"></span>
+						<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
+								 th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
+					</div>
+					
+					<div class="col-12">
+						<label for="teamVolume" class="form-label font-bold">모집 인원<span class="essential">*</span></label>
 						<input type="range" class="form-control" th:field="*{teamVolume}" min="2" max="100">
 						<div id="teamVolumeValue" align="center"></div>
 					</div>
 					
 					<div class="col-12">
-						<label for="teamCategory1" class="form-label font-bold">대분류</label>
+						<label for="teamCategory1" class="form-label font-bold">습관 대분류<span class="essential">*</span></label>
 						<span id="teamCategoryErr" class="text-err"></span>
 						<select class="form-select text-center" th:field="*{teamCategory1}">
 							<option value="0" class="text-gray" selected>====카테고리 선택====</option>
@@ -43,36 +43,43 @@
 					</div>
 					
 					<div class="teamCategory2Groups">
-						<div class="col-6">
-							<label for="teamCategory2" class="form-label font-bold">중분류</label><br>
+						<div class="col-12">
+							<label for="teamCategory2" class="form-label font-bold displayNone" id="teamCategory2Label">습관 중분류</label><br>
 							<span id="teamCategoryErr" class="text-err"></span>
 							<div id="teamCategory2Study" class="study displayNone">
-								<label><input class="form-check-input" type="checkbox" value="individual" th:field="*{teamCategory2}">개인</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="company" th:field="*{teamCategory2}">회사</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="official" th:field="*{teamCategory2}">공무원</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="certificate" th:field="*{teamCategory2}">자격증</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="etc" th:field="*{teamCategory2}">기타 등등</label>
+								<label><input class="form-check-input" type="checkbox" value="individual" id="studyCategory2" name="teamCategory2">개인</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="company" id="studyCategory2" name="teamCategory2">회사</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="official" id="studyCategory2" name="teamCategory2">공무원</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="certificate" id="studyCategory2" name="teamCategory2">자격증</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="etc" id="studyCategory2" name="teamCategory2">기타 등등</label>
 							</div>
 							
 							<div id="teamCategory2Exercise" class="exercise displayNone">
-								<label><input class="form-check-input" type="checkbox" value="health" th:field="*{teamCategory2}">헬스</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="yoga" th:field="*{teamCategory2}">요가</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="lifeSports" th:field="*{teamCategory2}">생활체육</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="pilates" th:field="*{teamCategory2}">필라테스</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="etc" th:field="*{teamCategory2}">기타 등등</label>
+								<label><input class="form-check-input" type="checkbox" value="health" id="exerciseCategory2" name="teamCategory2">헬스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="yoga" id="exerciseCategory2" name="teamCategory2">요가</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="lifeSports" id="exerciseCategory2" name="teamCategory2">생활체육</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="pilates" id="exerciseCategory2" name="teamCategory2">필라테스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="etc" id="exerciseCategory2" name="teamCategory2">기타 등등</label>
 							</div>
-						</div>
-					</div>
-					
-					<div class="col-6">
-						<label for="teamSubcategory" class="form-label font-bold">소분류</label>
-						<div id="teamCategory3" class="displayNone">
-							<input type="text" class="form-control" th:field="*{teamCategory3}" placeholder="세부사항">
+							
+							<div id="teamCategory2Habit" class="habit displayNone">
+								<label><input class="form-check-input" type="checkbox" value="eatingHabit" id="habitCategory2" name="teamCategory2">식습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="lifestyle" id="habitCategory2" name="teamCategory2">생활습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="sleepingHabit" id="habitCategory2" name="teamCategory2">수면습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="etc" id="habitCategory2" name="teamCategory2">기타 등등</label>
+							</div>
 						</div>
 					</div>
 					
 					<div class="col-12">
-						<label for="teamDeposit" class="form-label font-bold">예치금</label>
+						<label for="teamSubcategory" class="form-label font-bold displayNone" id="teamCategory3Label">습관 소분류</label>
+						<div id="teamCategory3" class="displayNone">
+							<input type="text" class="form-control" id="teamCategory3Val" name="teamCategory3" placeholder="세부사항">
+						</div>
+					</div>
+					
+					<div class="col-12">
+						<label for="teamDeposit" class="form-label font-bold">예치금<span class="essential">*</span></label>
 						<span id="teamDepositErr" class="text-err"></span>
 						<select class="form-select text-center" th:field="*{teamDeposit}" >
 							<option value="0" class="text-gray" disabled selected>====인당 예치금 선택====</option>
@@ -90,7 +97,7 @@
 					</div>
 
 					<div class="col-12">
-						<label for="startDate" class="form-label font-bold">습관 시작일</label>
+						<label for="startDate" class="form-label font-bold">습관 시작일<span class="essential">*</span></label>
 						<span clath:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-err"></span>
 						<span id="startDateErr" class="text-err"></span>
 						<input type="date" class="form-control" th:field="*{startDate}"
@@ -98,7 +105,7 @@
 					</div>
 
 					<div class="col-12">
-						<label for="endDate" class="form-label font-bold">습관 종료일</label>
+						<label for="endDate" class="form-label font-bold">습관 종료일<span class="essential">*</span></label>
 						<span clath:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-err"></span>
 						<span id="endDateErr" class="text-err"></span>
 						<input type="date" class="form-control" th:field="*{endDate}"
@@ -112,7 +119,7 @@
 					</div>
 
 					<div class="col-12">
-						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label>  (<span id="nowByte">0</span>/1000bytes)
+						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowByte">0</span>/1000bytes)
 						<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
 						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}"
 								   placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"
@@ -177,7 +184,7 @@
 			var teamCategoryErr = document.getElementById("teamCategoryErr");
 
 			if (teamCategory.value == "0") {
-				var teamCategoryErrText = "카테고리는 필수 선택사항 입니다. :)";
+				var teamCategoryErrText = "습관 대분류는 필수 선택사항 입니다. :)";
 				teamCategoryErr.innerText=teamCategoryErrText;
 				teamCategory.focus();
 				return false;
@@ -233,25 +240,59 @@
 			})
 		});
 		
-		//대분류 중분류 소분류 display	
+		//카테고리 display	
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
+				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
 				if($('#teamCategory1').val() == "study") {	//대분류 중 공부 선택
-					$('.study').removeClass('displayNone');
+					$('.study').removeClass('displayNone');	//공부 디스플레이 보이게
+					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
+					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
+					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
 					$(function() {
-						$('#teamCategory2Exercise').find($("input:checkbox[id='teamCategory2']")).prop("checked", false); //<< 여기부분 해결하기
-						$('.exercise').addClass('displayNone');
+						$("input:checkbox[id='exerciseCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+						$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
 					});
 				} else if ($('#teamCategory1').val() == "exercise") {	//대분류 중 운동 선택
-					$('.exercise').removeClass('displayNone');
+					$('.exercise').removeClass('displayNone');	//운동 디스플레이 보이게
+					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
+					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
+					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
 					$(function() {
-						$('#teamCategory2Study').find($("input:checkbox[id='teamCategory2']")).prop("checked", false);
-						$('.study').addClass('displayNone');
+						$("input:checkbox[id='studyCategory2']").prop("checked", false);	//다른 카테고리 체크 되어있는것 해제
+						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+						$('.study, .habit').addClass('displayNone');
+					});
+				} else if($('#teamCategory1').val() == "habit") {	//대분류 중 습관 선택
+					$('.habit').removeClass('displayNone');	//운동 디스플레이 보이게
+					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
+					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
+					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
+					$(function() {
+						$("input:checkbox[id='studyCategory2']").prop("checked", false);
+						$("input:checkbox[id='exerciseCategory2']").prop("checked", false);
+						$('.study, .exercise').addClass('displayNone');
+					});
+				} else if($('#teamCategory1').val() == "etc") {	// 대분류 중 기타 등등 선택
+					$('#teamCategory3Label').removeClass('displayNone');
+					$('#teamCategory3').removeClass('displayNone');
+					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
+					$(function() {
+						$("input:checkbox[id='studyCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+						$("input:checkbox[id='exerciseCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+						$("input:checkbox[id='habitCategory2']").prop("checked", false);	//다른 카테고리 체크 되어있는것 해제
+						$('.study, .exercise, .habit').addClass('displayNone');
 					});
 				}
 				$(function() {	//중분류 체크하면 소분류 보이게 하기
-					$('#teamCategory2Exercise, #teamCategory2Study').change(function() {
+					$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {
+						$('#teamCategory3Label').removeClass('displayNone');
 						$('#teamCategory3').removeClass('displayNone');
+						if ($(tag_name[name='teamCategory2']).checked == null) {
+							$('#teamCategory3Label').addClass('displayNone');
+							$('#teamCategory3').addClass('displayNone');
+						}
 					});
 				});
 			});

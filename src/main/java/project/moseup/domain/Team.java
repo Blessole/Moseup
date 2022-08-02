@@ -39,11 +39,9 @@ public class Team {
 	@Column(name = "team_category1")
 	private String  teamCategory1;
 	
-	@NotEmpty
 	@Column(name = "team_category2")
 	private String  teamCategory2;
 	
-	@NotEmpty
 	@Column(name = "team_category3")
 	private String  teamCategory3;
 
