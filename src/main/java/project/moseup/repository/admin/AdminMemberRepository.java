@@ -13,5 +13,4 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     boolean existsByNickname(String nickname);
 
 
-
 }

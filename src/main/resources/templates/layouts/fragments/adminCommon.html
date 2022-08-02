@@ -26,7 +26,9 @@
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        <form action="#" th:action="@{/admin/memberList}" method="get" class="w-100">
+            <input class="form-control form-control-dark" type="text" id="keyword" name="keyword" placeholder="회원 조회" aria-label="Search">
+        </form>
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
                 <a class="nav-link px-3" href="#">Sign out</a>

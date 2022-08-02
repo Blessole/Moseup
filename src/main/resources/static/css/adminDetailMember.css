@@ -1,0 +1,28 @@
+#memberinfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#memberinfo > div.memberinfo_start{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 200px;
+    justify-content: space-between;
+}
+#memberinfo > div.memberinfo_start > div.memberinfoRow{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData{
+    padding-right: 25px;
+}
+#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData > label{
+    font-size: 12px;
+}
+#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData > p{
+    font-size: 16px;
+}
+

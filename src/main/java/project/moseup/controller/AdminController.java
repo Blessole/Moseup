@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
@@ -64,10 +65,19 @@ public class AdminController {
 
     // 회원 리스트 출력
     @GetMapping("/memberList")
-    public String list(Model model){
-        List<MemberRespDto> members = adminMemberService.memberList(); //엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
+    public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model){
+        if(StringUtils.isEmpty(keyword)){
+            // 검색 단어가 없을 땐 전체 데이터 조회
+            // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
+            List<MemberRespDto> members = adminMemberService.memberListAll();
+            model.addAttribute("members", members);
+        }else{
+            List<MemberRespDto> memberList = adminMemberService.memberSearch(keyword);
+            model.addAttribute("members", memberList);
+        }
+
         //List<Member> members = adminMemberRepository.findByMemberDelete(DeleteStatus.FALSE);
-        model.addAttribute("members", members);
+
         model.addAttribute("false", DeleteStatus.FALSE);
         return "admin/memberList";
     }

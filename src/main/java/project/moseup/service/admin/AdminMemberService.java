@@ -9,6 +9,7 @@ import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminMemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,16 +36,21 @@ public class AdminMemberService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void deleteMember(Long mno) {
         Member member = adminMemberRepository.findById(mno).orElse(null);
-
-        member.deleteUpdate(DeleteStatus.TRUE);
-
-        adminMemberRepository.save(member);
+        if(member != null){
+            member.deleteUpdate(DeleteStatus.TRUE);
+            adminMemberRepository.save(member);
+        }
     }
 
     // 회원 목록 보기
-    public List<MemberRespDto> memberList() {
+    public List<MemberRespDto> memberListAll() {
         return adminMemberRepository.findAll().stream()
                 .map((memberPS) -> new MemberRespDto().toDto(memberPS))
                 .collect(Collectors.toList());
+    }
+
+    // 검색한 회원 목록 보기
+    public List<MemberRespDto> memberSearch(String keyword) {
+        return new ArrayList<>();
     }
 }
