@@ -9,11 +9,11 @@
 <body>
 	<!-- 본문 코드 시작 -->
 	<th:block layout:fragment="content">
-	<div th:if="${teamSearchList == 'nothing'}">
+	<div th:if="${findAllList == 'findAllList'}">
 		검색 결과가 존재하지 않습니다.
 	</div>
 	
-	<div th:if="${teamSearchList != 'nothing'}">
+	<div th:if="${findAllList != 'nothing'}">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -29,7 +29,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="ts : ${teamSearchList}">
+				<tr th:each="ts : ${findAllList}">
 					<td th:text="${ts.tno}"></td>
 					<td th:text="${ts.teamName}"></td>
 					<td th:text="${ts.teamVolume}"></td>

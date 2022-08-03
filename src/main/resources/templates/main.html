@@ -16,8 +16,15 @@
 			슬라이드이미지 ?
 		</section>
 		<section class="searchSection">
-			검색창
-			<!-- 여기 해야됨 -->
+			<div class="mainSearch">
+			<div class="mainSearchTitle" align="center">모두의 습관</div>
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return submitChk()">
+					<div class="mainSearchInput">
+						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
+						<input type="submit" class="mainSearchImg" name="submit" value="">
+					</div>
+				</form>
+			</div>
 		</section>
 		<section class="mainSection">
 			팀 리스트
@@ -28,5 +35,15 @@
 		<a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
 	</div>
 </th:block>
+
+<script type="text/javascript">
+	/*검색창 submit체크*/
+	function submitChk() {
+			var text = $('#search').val();
+			if(text == "" || text == null) {
+				return false;
+			}
+		}
+</script>
 </body>
 </html>

@@ -35,9 +35,9 @@
 						<span id="teamCategoryErr" class="text-err"></span>
 						<select class="form-select text-center" th:field="*{teamCategory1}">
 							<option value="0" class="text-gray" selected>====카테고리 선택====</option>
-							<option value="study">공부</option>
-							<option value="exercise">운동</option>
-							<option value="habit">습관</option>
+							<option value="공부">공부</option>
+							<option value="운동">운동</option>
+							<option value="습관">습관</option>
 							<option value="etc">기타 등등</option>
 						</select>
 					</div>
@@ -47,25 +47,25 @@
 							<label for="teamCategory2" class="form-label font-bold displayNone" id="teamCategory2Label">습관 중분류</label><br>
 							<span id="teamCategoryErr" class="text-err"></span>
 							<div id="teamCategory2Study" class="study displayNone">
-								<label><input class="form-check-input" type="checkbox" value="individual" id="studyCategory2" name="teamCategory2">개인</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="company" id="studyCategory2" name="teamCategory2">회사</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="official" id="studyCategory2" name="teamCategory2">공무원</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="certificate" id="studyCategory2" name="teamCategory2">자격증</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="개인" id="studyCategory2" name="teamCategory2">개인</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="회사" id="studyCategory2" name="teamCategory2">회사</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="공무원" id="studyCategory2" name="teamCategory2">공무원</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="자격증" id="studyCategory2" name="teamCategory2">자격증</label>&nbsp;&nbsp;
 								<label><input class="form-check-input" type="checkbox" value="etc" id="studyCategory2" name="teamCategory2">기타 등등</label>
 							</div>
 							
 							<div id="teamCategory2Exercise" class="exercise displayNone">
-								<label><input class="form-check-input" type="checkbox" value="health" id="exerciseCategory2" name="teamCategory2">헬스</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="yoga" id="exerciseCategory2" name="teamCategory2">요가</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="lifeSports" id="exerciseCategory2" name="teamCategory2">생활체육</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="pilates" id="exerciseCategory2" name="teamCategory2">필라테스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="헬스" id="exerciseCategory2" name="teamCategory2">헬스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="요가" id="exerciseCategory2" name="teamCategory2">요가</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="생활체육" id="exerciseCategory2" name="teamCategory2">생활체육</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="필라테스" id="exerciseCategory2" name="teamCategory2">필라테스</label>&nbsp;&nbsp;
 								<label><input class="form-check-input" type="checkbox" value="etc" id="exerciseCategory2" name="teamCategory2">기타 등등</label>
 							</div>
 							
 							<div id="teamCategory2Habit" class="habit displayNone">
-								<label><input class="form-check-input" type="checkbox" value="eatingHabit" id="habitCategory2" name="teamCategory2">식습관</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="lifestyle" id="habitCategory2" name="teamCategory2">생활습관</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="sleepingHabit" id="habitCategory2" name="teamCategory2">수면습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="식습관" id="habitCategory2" name="teamCategory2">식습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="생활습관" id="habitCategory2" name="teamCategory2">생활습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="수면습관" id="habitCategory2" name="teamCategory2">수면습관</label>&nbsp;&nbsp;
 								<label><input class="form-check-input" type="checkbox" value="etc" id="habitCategory2" name="teamCategory2">기타 등등</label>
 							</div>
 						</div>
@@ -244,7 +244,7 @@
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
 				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
-				if($('#teamCategory1').val() == "study") {	//대분류 중 공부 선택
+				if($('#teamCategory1').val() == "공부") {	//대분류 중 공부 선택
 					$('.study').removeClass('displayNone');	//공부 디스플레이 보이게
 					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
 					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
@@ -254,7 +254,7 @@
 						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
 						$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
 					});
-				} else if ($('#teamCategory1').val() == "exercise") {	//대분류 중 운동 선택
+				} else if ($('#teamCategory1').val() == "운동") {	//대분류 중 운동 선택
 					$('.exercise').removeClass('displayNone');	//운동 디스플레이 보이게
 					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
 					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
@@ -264,7 +264,7 @@
 						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
 						$('.study, .habit').addClass('displayNone');
 					});
-				} else if($('#teamCategory1').val() == "habit") {	//대분류 중 습관 선택
+				} else if($('#teamCategory1').val() == "습관") {	//대분류 중 습관 선택
 					$('.habit').removeClass('displayNone');	//운동 디스플레이 보이게
 					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
 					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기

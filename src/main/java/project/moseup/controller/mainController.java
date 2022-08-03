@@ -23,15 +23,32 @@ public class mainController {
 		return "main";
 	}
 	
-	@GetMapping("/search")	//팀검색
+	@GetMapping("/search")	//검색
 	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
-		List<Team> teamSearchList = teamService.teamSearch(keyword);
-		
-		if (teamSearchList.isEmpty()) {
-		    model.addAttribute("teamSearchList", "nothing");
+		List<Team> findAllList = teamService.findAll(keyword);
+		if (findAllList.isEmpty()) {
+		    model.addAttribute("findAllList", "nothing");
 		} else {
-		    model.addAttribute("teamSearchList", teamSearchList);
+		    model.addAttribute("findAllList", findAllList);
 		}
-		return "main/search";
+		return "main/searchPage";
 	}
+	
+//	@GetMapping("/search")	//팀검색
+//	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
+//		List<Team> teamNmaeList = teamService.teamNameSearch(keyword);
+//		List<Team> category1List = teamService.category1Search(keyword);
+//		
+//		if (teamNmaeList.isEmpty() || category1List.isEmpty()) {
+//		    model.addAttribute("teamNmaeList", "nothing");
+//		    model.addAttribute("category1List", "nothing");
+//		    System.out.println(keyword);
+//		} else {
+//		    model.addAttribute("teamNmaeList", teamNmaeList);
+//		    model.addAttribute("category1List", category1List);
+//		    System.out.println(keyword);
+//		    System.out.println("있음");
+//		}
+//		return "main/search";
+//	}
 }

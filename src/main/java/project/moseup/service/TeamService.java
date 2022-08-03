@@ -40,15 +40,39 @@ public class TeamService {
 		return null;
 	}
 	
-	//keyword가 포함된 팀명 찾기
-	public List<Team> teamSearch(String keyword) {
-		List<Team> teams = teamSearchRepository.findByteamNameContaining(keyword);
+	//keyword가 포함된 모든팀 찾기
+	public List<Team> findAll(String keyword) {
+		List<Team> findAllList = teamSearchRepository.findAllSearch(keyword);
 		List<Team> emptyList = new ArrayList<>();
 
-		if (!teams.isEmpty()) {
-			List<Team> findTeamList = teams;
-			return findTeamList;
+		if (!findAllList.isEmpty()) {
+			List<Team> findCategory1List = findAllList;
+			return findCategory1List;
 		}
 		return emptyList;
 	}
+	
+//	//keyword가 포함된 팀명 찾기
+//	public List<Team> teamNameSearch(String keyword) {
+//		List<Team> teams = teamSearchRepository.findByteamNameContaining(keyword);
+//		List<Team> emptyList = new ArrayList<>();
+//
+//		if (!teams.isEmpty()) {
+//			List<Team> findTeamList = teams;
+//			return findTeamList;
+//		}
+//		return emptyList;
+//	}
+//	
+//	//keyword가 포함된 카테고리1 찾기
+//	public List<Team> category1Search(String keyword) {
+//		List<Team> category1s = teamSearchRepository.findByteamCategory1Containing(keyword);
+//		List<Team> emptyList = new ArrayList<>();
+//
+//		if (!category1s.isEmpty()) {
+//			List<Team> findCategory1List = category1s;
+//			return findCategory1List;
+//		}
+//		return emptyList;
+//	}
 }
