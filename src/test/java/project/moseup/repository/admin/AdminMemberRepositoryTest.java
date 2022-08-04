@@ -97,15 +97,39 @@ public class AdminMemberRepositoryTest {
     @Test
     public void memberDelete_test(){
         // given
+        Member member1 = adminMemberRepository.findById(13L).orElse(null);
 
         // when
-        adminMemberRepository.deleteById(1L);
+        adminMemberRepository.deleteById(member1.getMno());
 
         // then
-        assertFalse(adminMemberRepository.findById(1L).isPresent()); // false 일 때 성공
+        assertFalse(adminMemberRepository.findById(13L).isPresent()); // false 일 때 성공
+
+
     }
 
     // 5. 회원 수정
+    @Test
+    public void memberUpdate_test(){
+        // given 데이터베이스에 있는 테스트 아이디 사용
+        Member member = adminMemberRepository.findById(13L).orElse(null);
+
+        member.deleteUpdate(DeleteStatus.TRUE);
+        // when
+        adminMemberRepository.save(member);
+//        List<Member> members = adminMemberRepository.findAll().stream()
+//                .filter(m -> m.getMemberDelete().equals(DeleteStatus.TRUE))
+//                .collect(Collectors.toList());
+
+//        for (Member member1 : members){
+//            System.out.println(member1.getMno());
+//        }
+
+        // then
+        assertEquals(DeleteStatus.TRUE, member.getMemberDelete());
+        member.toString();
+
+    }
 
 
 }
