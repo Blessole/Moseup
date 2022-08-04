@@ -1,5 +1,6 @@
 package project.moseup.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,9 +91,27 @@ public class Member {
 		this.role = role;
 	}
 
+	@Override
+	public String toString() {
+		return "Member {" +
+				"\n mno = " + mno +
+				"\n email = '" + email + '\'' +
+				"\n password = '" + password + '\'' +
+				"\n nickname = '" + nickname + '\'' +
+				"\n name = '" + name + '\'' +
+				"\n gender = " + gender +
+				"\n address = '" + address + '\'' +
+				"\n phone = '" + phone + '\'' +
+				"\n photo = '" + photo + '\'' +
+				"\n memberDelete = " + memberDelete +
+				"\n memberDate = " + memberDate +
+				"\n role = " + role +
+				"\n }";
+	}
+
 	// 엔티티 데이터를 수정해야 한다면 update 사용
-	public Member update(DeleteStatus memberDelete){
-		this.memberDelete = memberDelete;
+	public Member deleteUpdate(DeleteStatus deleteStatus){
+		this.memberDelete = deleteStatus;
 		return this;
 	}
 	
@@ -127,36 +146,47 @@ public class Member {
 	}
 
 	// 연관관계 맵핑
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
     private List<Team> teams = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
     private List<Likes> likes = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
     private List<TeamMember> teamMembers = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToOne(mappedBy = "member")
 	private Bankbook bankbook;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<FreeBoard> freeBoards = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<AskBoard> askBoards = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 

@@ -16,23 +16,23 @@ import java.util.List;
 public class Team {
 
 	@Id @GeneratedValue
-	@Column(name = "team_no")
+	@Column(name = "team_no") // 팀 번호
 	private Long tno;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
-	private Member member;
+	private Member member; // 팀장
 
 	@NotEmpty
 	@Column(name = "team_name")
-	private String teamName;
+	private String teamName; // 팀명
 
 	@NotNull
-	@Column(name = "team_volume")
+	@Column(name = "team_volume") //팀 모집 인원
 	private int teamVolume;
 
 	@NotNull
-	@Column(name = "team_deposit")
+	@Column(name = "team_deposit") //예치금
 	private int teamDeposit;
 	
 	@NotEmpty
@@ -45,27 +45,27 @@ public class Team {
 	@Column(name = "team_category3")
 	private String  teamCategory3;
 
-	private LocalDate teamDate;
+	private LocalDate teamDate; //팀 생성일
 
-	private LocalDate startDate;
+	private LocalDate startDate; //습관 시작일
 
-	private LocalDate endDate;
+	private LocalDate endDate; //습관 종료일
 
 	@NotEmpty
 	@Column(name = "team_Introduce")
-	private String teamIntroduce;
+	private String teamIntroduce;  // 팀 소개글
 
 	@Column(name = "team_photo")
-	private String teamPhoto;
+	private String teamPhoto; // 팀 소개 사진
 
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus teamDelete;
+	private DeleteStatus teamDelete; //팀 삭제여부
 	
 	@OneToMany(mappedBy = "team")
-    private List<Likes> likes = new ArrayList<>();
+    private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요
 
 	@OneToMany(mappedBy = "team")
-    private List<TeamMember> teamMembers = new ArrayList<>();
+    private List<TeamMember> teamMembers = new ArrayList<>(); //팀에 가입된 멤버
 
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();

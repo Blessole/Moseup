@@ -14,19 +14,27 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="dashboard.css" th:href="@{/css/adminDashboard.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="admindetailMember.css" th:href="@{/css/adminDetailMember.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="addForm.css" th:href="@{/css/adminAddForm.css}" rel="stylesheet">  
+    <!-- Custom styles for this template -->
+    <link href="adminMemberList.css" th:href="@{/css/adminMemberList.css}" rel="stylesheet">  
 
     <title th:text="${title}">Common Page</title>
 </head>
 
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow" th:fragment="header">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Moseup</a>
+        <a th:href="@{/}"class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Moseup</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
             data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        <form action="#" th:action="@{/admin/memberList}" method="get" class="w-100">
+            <input class="form-control form-control-dark" type="text" id="keyword" name="keyword" placeholder="회원검색" aria-label="회원검색" th:value="${param.keyword}">
+        </form>
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
                 <a class="nav-link px-3" href="#">Sign out</a>
@@ -41,7 +49,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" th:classappend="${sidebar} == 'dashBoard'? 'active'" href="#"
-                                th:href="@{/templates/admin}">
+                                th:href="@{/admin}">
                                 <span class="sr-only" aria-current="page" th:if="${sidebar} == 'dashBoard'"></span>
                                 대시보드
                             </a>
@@ -54,9 +62,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="shopping-cart"></span>
-                                길드관리
+                            <a class="nav-link" th:classappend="${sidebar} == 'teamList'? 'active'" href="#"
+                                th:href="@{/admin/teamList}">
+                                <span class="sr-only" aria-current="page" th:if="${sidebar} == 'teamList'"></span>
+                                스터디관리
                             </a>
                         </li>
                         <li class="nav-item">
@@ -117,10 +126,10 @@
         </div>
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:fragment="title">
-        <div
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:fragment="subTitle(sub)">
+        <div 
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">제목</h1>
+            <h1 class="h2" th:text="${sub}" >제목</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2">
                     <button type="button" class="btn btn-sm btn-outline-secondary">버튼</button>

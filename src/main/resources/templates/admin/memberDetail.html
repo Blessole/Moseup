@@ -1,17 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layouts/fragments/adminCommon :: head('회원리스트')">
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Custom styles for this template -->
-    <link href="addForm.css" th:href="@{/css/adminAddForm.css}" rel="stylesheet">
-
+<head th:replace="layouts/fragments/adminCommon :: head('회원정보')">
 </head>
 
 <body>
@@ -22,60 +12,147 @@
     <div class="container-fluid" th:replace="layouts/fragments/adminCommon :: sidebar('memberList')">
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="layouts/fragments/adminCommon :: title">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="layouts/fragments/adminCommon :: subTitle('회원 정보')">
     </main>
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <!-- <div class="mb-3">
-                <label for="photo" class="form-label"></label>
-                    <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="#">회원정보</a>
+                        <a class="nav-link" href="#">통장정보</a>
+                        <a class="nav-link" href="#">댓글정보</a>
+                        <a class="nav-link" href="#">인증글</a>
+                        <a class="nav-link" href="#">문의글</a>
+                    </div>
+                </div>
             </div>
+        </nav>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">이메일</label>
-                <input type="email" class="form-control" th:field="*{email}" id="email" aria-describedby="emailHelp" required>
-            
+        <!-- 기본 회원 정보 start -->
+        <div id="memberinfo">
+            <img class="mb-3 img-thumbnail" style="width: 200px; height: 200px; object-fit: contain;">
+            <div class="memberinfo_start">
+                <div class="memberinfo_Row">
+                    <div class="infoData">
+                        <label for="mno" class="form-label">회원번호</label>
+                        <p th:text="${member.mno}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="email" class="form-label">이메일</label>
+                        <p th:text="${member.email}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="name" class="form-label">이름</label>
+                        <p th:text="${member.name}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="gender" class="form-label">권한</label>
+                        <p th:text="${member.role}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="address" class="form-label">주소</label>
+                        <p th:text="${member.address}"></p>
+                    </div>
+                </div>
+                <div class="memberinfo_Row">
+                    <div class="infoData">
+                        <label for="gender" class="form-label">성별</label>
+                        <p th:text="${member.gender}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="phone" class="form-label">전화번호</label>
+                        <p th:text="${member.phone}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="nickname" class="form-label">닉네임</label>
+                        <p th:text="${member.nickname}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="memberDelete" class="form-label">탈퇴여부</label>
+                        <p th:text="${member.memberDelete}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="memberDate" class="form-label">가입날짜</label>
+                        <p th:text="${memberDate}"></p>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label" aria-describedby="passwordHelp" required>비밀번호</label>
-                <input type="password" class="form-control" th:field="*{password}" id="password">
-              
+        </div>  <!-- 기본 회원 정보 end-->
+        <div class="line"></div>
+
+        <!-- 내가 개설한 스터디 목록 start -->
+        <span>개설한 스터디 목록</span>
+        <div id="memberinfo">
+            <div class="memberinfo_start">
+                <div class="memberinfo_Row">
+                    <div class="infoData">
+                        <label for="mno" class="form-label">스터디번호</label>
+                        <p th:text="${member.mno}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="email" class="form-label">스터디이름</label>
+                        <a href="#">   
+                            <p th:text="${member.email}"></p>
+                        </a>
+                    </div>
+                    <div class="infoData">
+                        <label for="name" class="form-label">뭐보여주지</label>
+                        <p th:text="${member.name}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="gender" class="form-label">뭐보여주지</label>
+                        <p th:text="${member.role}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="address" class="form-label">뭐보여줄까</label>
+                        <p th:text="${member.address}"></p>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="password2" class="form-label" required>비밀번호 확인</label>
-                <input type="password" class="form-control" id="password2">
+        </div>  <!-- 내가 개설한 스터디 목록 end-->
+
+        <!--  가입된 스터디 목록 start-->
+        <span>가입된 스터디 목록</span>
+        <div id="memberinfo">
+            <div class="memberinfo_start">
+                <div class="memberinfo_Row">
+                    <div class="infoData">
+                        <label for="mno" class="form-label">스터디번호</label>
+                        <p th:text="${member.mno}"></p>
+                    </div>
+                    <div class="infoData">                       
+                        <label for="email" class="form-label">스터디이름</label>
+                        <a href="#">
+                            <p th:text="${member.email}"></p>
+                        </a>
+                    </div>
+                    <div class="infoData">
+                        <label for="name" class="form-label">뭐보여주지</label>
+                        <p th:text="${member.name}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="gender" class="form-label">뭐보여주지</label>
+                        <p th:text="${member.role}"></p>
+                    </div>
+                    <div class="infoData">
+                        <label for="address" class="form-label">뭐보여줄까</label>
+                        <p th:text="${member.address}"></p>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">이름</label>
-                <input type="text" class="form-control" th:field="*{name}" id="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="nickname" class="form-label" required>닉네임</label>
-                <input type="text" class="form-control" th:field="*{nickname}" id="nickname" aria-describedby="nicknameHelp">
-              
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label" required>전화번호</label>
-                <input type="text" class="form-control" th:field="*{phone}" id="phone">
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label" required>주소</label>
-                <input type="text" class="form-control" th:field="*{address}" id="address">
-            </div>
-            <div class="mb-3">
-                <label for="addressDetail" class="form-label">상세주소</label>
-                <input type="text" class="form-control" id="addressDetail">
-            </div>
-            <label for="gender" class="form-label">성별</label>
-           
-            <div class="text-end mb-3">
-                <a type="button" class="btn btn-danger" th:href="@{/admin/memberList}">확인</a>
-            </div> -->
-            <a th:href="@{/admin/memberDelete(mno=${mno})}" class="btn btn-sm btn-outline-dark">삭제</a>
+        </div>  <!-- 가입된 스터디 목록 end-->
+        
+
+        <div class="text-end mb-3">
+            <a type="button" class="btn btn-sm btn-danger" th:href="@{/admin/memberList}">확인</a>
+            <a th:href="@{/admin/memberDelete(mno=${member.mno})}" class="btn btn-sm btn-outline-dark">삭제</a>
+        </div>
     </main>
 
-    
+
 
 
     <!-- Optional JavaScript; choose one of the two! -->
