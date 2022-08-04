@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
-import project.moseup.repository.MemberRepository;
+import project.moseup.repository.member.MemberRepository;
+import project.moseup.service.member.MemberService;
 
 import javax.persistence.EntityManager;
 

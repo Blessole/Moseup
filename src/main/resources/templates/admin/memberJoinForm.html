@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/adminCommon :: head('회원리스트')">
+<head th:replace="layouts/fragments/adminCommon :: head('회원리스트')">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +16,13 @@
 
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
-        th:replace="fragments/adminCommon :: header">
+        th:replace="layouts/fragments/adminCommon :: header">
     </header>
 
-    <div class="container-fluid" th:replace="fragments/adminCommon :: sidebar('memberList')">
+    <div class="container-fluid" th:replace="layouts/fragments/adminCommon :: sidebar('memberList')">
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="fragments/adminCommon :: title">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="layouts/fragments/adminCommon :: title">
     </main>
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->

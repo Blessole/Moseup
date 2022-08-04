@@ -4,11 +4,16 @@
 <!-- header -->
 <th:block th:replace="/layouts/fragments/header :: header"></th:block>
 
+<!-- layout CSS -->
+<link href="/css/layout.css" rel="stylesheet" type="text/css" />
+
 <body>
 <!-- navbar -->
 <th:block th:replace="/layouts/fragments/navbar :: navbar"></th:block>
 <!-- 본문 -->
 <th:block layout:fragment="content"></th:block>
+<!-- floatingActionButton -->
+<th:block th:replace="/layouts/fragments/floatingActionButton :: floatingActionButton">
 </body>
 <!-- footer -->
 <th:block th:replace="/layouts/fragments/footer :: footer"></th:block>

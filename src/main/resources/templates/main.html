@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -23,7 +23,8 @@
 		</section>
 	</div>
 	<div>
-		<a href="teamPage">팀페이지</a>
+		<a href="" th:href="@{/admin}">관리자페이지</a>
+		<a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
 	</div>
 </th:block>
 </body>

@@ -1,4 +1,4 @@
-package project.moseup.controller;
+package project.moseup.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -54,7 +54,7 @@ public class JoinForm {
                 .photo(photo)
                 .memberDelete(DeleteStatus.FALSE)
                 .memberDate(memberDate)
-                .role(Role.MEMBER)
+                .role(Role.USER)
                 .build();
     }
 

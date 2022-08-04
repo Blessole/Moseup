@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thyemleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
 	<span th:if="${result} > 0">
 		<script type="text/javascript">
 			alert("입력 되었습니다");
 			location.href="/board/boardList.do";
 		</script>
 	</span>
-	
+
 	<span th:if="${result} == 0 ">
 		<script type="text/javascript">
 			alert("입력 실패하였습니다.");
 			history.back();
 		</script>
 	</span>
+</th:block>
 </body>
 </html>
