@@ -1,4 +1,4 @@
-package project.moseup.controller;
+package project.moseup.controller.teampage;
 
 import java.time.LocalDate;
 
@@ -31,7 +31,7 @@ public class TeamPageController {
 	}
 
 	/*
-	 * // 팀 페이지 문의게시판
+	 * // 팀 페이지 문의게시판(전체 보여주기)
 	 * 
 	 * @GetMapping("/teamAskBoard") public String teamAskBoardPage(Model model) {
 	 * List<TeamAskBoard> teamAsks = teamAskBoardService.findTeamAsks();
