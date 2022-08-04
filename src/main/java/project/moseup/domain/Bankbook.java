@@ -13,26 +13,26 @@ import java.time.LocalDateTime;
 public class Bankbook {
 
 	@Id @GeneratedValue
-	@Column(name = "bankbook_dealno")
+	@Column(name = "bankbook_dealno") // 통장 번호
 	private Long dno;
 
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_no")
+	@JoinColumn(name = "member_no") // 회원 번호
 	private Member member;
 
-	@Column(name = "bankbook_deallist")
+	@Column(name = "bankbook_deallist") // 거래 리스트
 	private String dealList;
 
-	@Column(name = "bankbook_deposit")
+	@Column(name = "bankbook_deposit") // 입금액
 	private int bankbookDeposit;
 
-	@Column(name = "bankbook_withdraw")
+	@Column(name = "bankbook_withdraw") // 출금액
 	private int bankbookWithdraw;
 
-	@Column(name = "bankbook_total")
+	@Column(name = "bankbook_total") // 총액
 	private int bankbookTotal;
 
-	@Column(name = "bankbook_date")
+	@Column(name = "bankbook_date") // 거래(입출금) 일자
 	private LocalDateTime bankbookDate;
 }

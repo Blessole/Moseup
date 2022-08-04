@@ -1,6 +1,9 @@
 package project.moseup.service.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
@@ -43,14 +46,37 @@ public class AdminMemberService {
     }
 
     // 회원 목록 보기
-    public List<MemberRespDto> memberListAll() {
-        return adminMemberRepository.findAll().stream()
-                .map((memberPS) -> new MemberRespDto().toDto(memberPS))
-                .collect(Collectors.toList());
+    // Entity List -> dto List -> page List
+    public Page<MemberRespDto> memberListAll(Pageable pageable) {
+        List<MemberRespDto> list = adminMemberRepository.findAll(pageable).stream() // Entity List
+                .map((memberPS) -> new MemberRespDto().toDto(memberPS)) // dto data
+                .collect(Collectors.toList()); // dto List
+
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+
+        return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
     }
 
     // 검색한 회원 목록 보기
     public List<MemberRespDto> memberSearch(String keyword) {
         return new ArrayList<>();
+    }
+
+
+    public Page<MemberRespDto> memberKeywordList(String keyword, String keyword1, String keyword2, Pageable pageable) {
+        List<MemberRespDto> list = adminMemberRepository
+                        .findByEmailContainingOrNameContainingOrNicknameContainingOrderByMnoDesc
+                                (keyword, keyword1, keyword2, pageable)
+                        .stream() // Entity List
+                        .map((memberPS) -> new MemberRespDto().toDto(memberPS)) // dto data
+                        .collect(Collectors.toList()); // dto List
+
+
+
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+
+        return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
     }
 }

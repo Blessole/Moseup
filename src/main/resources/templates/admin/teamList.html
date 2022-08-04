@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommon :: head('스터디목록')">
+</head>
+
+<body>
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
+        th:replace="layouts/fragments/adminCommon :: header">
+    </header>
+
+    <div class="container-fluid" th:replace="layouts/fragments/adminCommon :: sidebar('teamList')">
+    </div>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="layouts/fragments/adminCommon :: subTitle('스터디 목록')">
+    </main>
+
+    <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+
+
+    </main>

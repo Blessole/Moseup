@@ -1,28 +1,34 @@
-#memberinfo{
+main > #memberinfo{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
 }
-#memberinfo > div.memberinfo_start{
+main > #memberinfo > div.memberinfo_start{
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 200px;
     justify-content: space-between;
+    margin-left: 20px;
 }
-#memberinfo > div.memberinfo_start > div.memberinfoRow{
+main > #memberinfo > div.memberinfo_start > div.memberinfo_Row{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
 }
-#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData{
-    padding-right: 25px;
+main > #memberinfo > div.memberinfo_start > div.memberinfo_Row > div.infoData{
+    width: 14%;
 }
-#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData > label{
+main > #memberinfo > div.memberinfo_start > div.memberinfo_Row > div.infoData > label{
     font-size: 12px;
+    color: darkgray;
+    margin-bottom: 10px;
 }
-#memberinfo > div.memberinfo_start > div.memberinfoRow > div.infoData > p{
-    font-size: 16px;
+main > #memberinfo > div.memberinfo_start > div.memberinfo_Row > div.infoData > p{
+    font-size: 14px;
+    font-weight: 500;
+    color:darkslategray;
 }
+
 

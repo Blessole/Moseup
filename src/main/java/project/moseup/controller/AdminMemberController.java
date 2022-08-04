@@ -3,13 +3,15 @@ package project.moseup.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
@@ -28,14 +30,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
 @Log4j2
 @RequestMapping("admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminMemberController {
 
     private final AdminMemberRepository adminMemberRepository;
     private final AdminMemberService adminMemberService;
@@ -44,6 +45,7 @@ public class AdminController {
     private final CheckNicknameValidator checkNicknameValidator;
     private final CheckPasswordValidator checkPasswordValidator;
 
+    // 파일 업로드 경로
     @Value("${moseup.upload.path}")
     private String uploadPath;
 
@@ -65,20 +67,22 @@ public class AdminController {
 
     // 회원 리스트 출력
     @GetMapping("/memberList")
-    public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model){
-        if(StringUtils.isEmpty(keyword)){
-            // 검색 단어가 없을 땐 전체 데이터 조회
+    public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
+                       @PageableDefault(size = 10) Pageable pageable){
             // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
-            List<MemberRespDto> members = adminMemberService.memberListAll();
+            //Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
+            Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContainingOrderByMnoDesc(keyword, keyword, keyword, pageable);
+
+            //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
+            //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
+
+            int startPage = Math.max(1, members.getPageable().getPageNumber() - 5);
+            int endPage = Math.min(members.getTotalPages(), members.getPageable().getPageNumber() + 5);
+
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
             model.addAttribute("members", members);
-        }else{
-            List<MemberRespDto> memberList = adminMemberService.memberSearch(keyword);
-            model.addAttribute("members", memberList);
-        }
 
-        //List<Member> members = adminMemberRepository.findByMemberDelete(DeleteStatus.FALSE);
-
-        model.addAttribute("false", DeleteStatus.FALSE);
         return "admin/memberList";
     }
 
@@ -135,6 +139,7 @@ public class AdminController {
 
         memberSaveReqDto.setPhoto(String.valueOf(savePath));
 
+
         MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);
 
         return "redirect:/admin/memberList";
@@ -173,7 +178,10 @@ public class AdminController {
         if(member == null){
             return "redirect:/admin/memberList";
         }else{
+            String date = member.getMemberDate().format(DateTimeFormatter.ISO_DATE);
             Path path = Paths.get(member.getPhoto());
+
+            model.addAttribute("memberDate", date);
             model.addAttribute("fileName", path.getFileName());
             model.addAttribute("member", member);
 

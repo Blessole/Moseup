@@ -9,7 +9,10 @@ import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.domain.Role;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -62,11 +65,9 @@ public class MemberSaveReqDto {
         Assert.hasText(address, "주소는 [NULL]이 될 수 없습니다");
         Assert.hasText(phone, "전화번호는 [NULL]이 될 수 없습니다");
 
-
-
         this.email = email;
         this.password = password;
-        this.name = name;
+        this.name = name.replaceAll(" ", "");
         this.nickname = nickname;
         this.gender = gender;
         this.address = address + " " + address2;
@@ -78,7 +79,7 @@ public class MemberSaveReqDto {
         return Member.builder()
                 .email(email)
                 .password(password)
-                .name(name)
+                .name(name.replaceAll(" ", ""))
                 .nickname(nickname)
                 .address(address + " " + address2)
                 .phone(phone)
