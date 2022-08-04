@@ -1,16 +1,19 @@
 package project.moseup.domain;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.repository.admin.AdminMemberRepository;
 
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 public class MemberTest {
+
+    @Autowired
+    AdminMemberRepository adminMemberRepository;
 
     @Test
     public void Member_email_비어있으면_예외발생(){
@@ -28,5 +31,7 @@ public class MemberTest {
                 .build();
         // 출력 기대값 : 이메일은 [NULL]이 될 수 없습니다
     }
+
+
 
 }

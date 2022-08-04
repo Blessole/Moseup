@@ -1,89 +1,75 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/adminCommon :: head('회원리스트')">
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Custom styles for this template -->
-    <link href="addForm.css" th:href="@{/css/adminAddForm.css}" rel="stylesheet">
-
+<head th:replace="layouts/fragments/adminCommon :: head('회원리스트')">
 </head>
 
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow"
-        th:replace="fragments/adminCommon :: header">
+        th:replace="layouts/fragments/adminCommon :: header">
     </header>
 
-    <div class="container-fluid" th:replace="fragments/adminCommon :: sidebar('memberList')">
+    <div class="container-fluid" th:replace="layouts/fragments/adminCommon :: sidebar('memberList')">
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="fragments/adminCommon :: title">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" th:replace="layouts/fragments/adminCommon :: title">
     </main>
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <form action="#" th:action="@{/admin/memberJoinForm}" th:object="${memberSaveReqDto}" method="post" enctype="multipart/form-data">
+        <form action="#" th:action="@{/admin/memberJoinForm}" th:object="${memberSaveReqDto}" method="post"
+            enctype="multipart/form-data" style="width: 50%;">
             <div class="mb-3">
                 <label for="photo" class="form-label"></label>
-                    <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
-                <input class="form-control" name="file" id="photo" type="file" accept="image/*" onchange="loadFile(this)">
+                <img class="mb-3 img-thumbnail" id="preview" style="width: 200px; height: 200px; object-fit: contain;">
+                <input class="form-control" name="file" id="photo" type="file" accept="image/*"
+                    onchange="loadFile(this)">
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">이메일</label>
-                <input type="email" class="form-control" th:field="*{email}" id="email" 
-                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" required>
-                <div id="validationServer03Feedback" class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="이메일" required
+                    th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                     이메일 에러 메시지
                 </div>
-                  <div th:text="${result}"></div>
-                <!-- <a class="btn btn-sm btn-info" th:href="@{/admin/memberEmailCheck(email=${member.email})}">중복체크</a> -->
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label" required>비밀번호</label>
-                <input type="password" class="form-control" th:field="*{password}" id="password"
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="비밀번호" required
                     th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
-                <div id="validationServer03Feedback" class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                <input class="btn btn-outline-secondary" type="button" id="showPassword" value="Show">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
                     비밀번호 에러 메시지
                 </div>
             </div>
             <div class="mb-3">
-                <label for="password2" class="form-label" required>비밀번호 확인</label>
-                <input type="password" class="form-control" id="password2">
+                <input type="password" class="form-control" th:field="*{password2}" id="password2" required
+                    placeholder="비밀번호 재확인" th:classappend="${#fields.hasErrors('password2')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">
+                    비밀번호 불일치 에러 메시지
+                </div>
             </div>
             <div class="mb-3">
-                <label for="name" class="form-label">이름</label>
-                <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                <input type="text" class="form-control" th:field="*{name}" id="name" required placeholder="이름">
             </div>
             <div class="mb-3">
-                <label for="nickname" class="form-label" required>닉네임</label>
-                <input type="text" class="form-control" th:field="*{nickname}" id="nickname"
+                <input type="text" class="form-control" th:field="*{nickname}" id="nickname" placeholder="닉네임" required
                     th:classappend="${#fields.hasErrors('nickname')} ? 'is-invalid'">
-                <div id="validationServer03Feedback" class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">
                     닉네임 에러 메시지
                 </div>
             </div>
             <div class="mb-3">
-                <label for="phone" class="form-label" required>전화번호</label>
-                <input type="text" class="form-control" th:field="*{phone}" id="phone"
-                    th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid'">
-                <div id="validationServer03Feedback" class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+                <input type="text" class="form-control" th:field="*{phone}" id="phone" required
+                    placeholder="휴대전화번호 ex)01012345678" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
                     전화번호 에러 메시지
                 </div>
             </div>
             <div class="mb-3">
-                <label for="address" class="form-label" required>주소</label>
-                <input type="text" class="form-control" th:field="*{address}" id="address">
+                <input type="text" class="form-control" th:field="*{address}" id="address" required placeholder="주소">
             </div>
             <div class="mb-3">
-                <label for="addressDetail" class="form-label">상세주소</label>
-                <input type="text" class="form-control" th:field="*{address2}" id="address2">
+                <input type="text" class="form-control" th:field="*{address2}" id="address2" placeholder="상세주소">
             </div>
-            <label for="gender" class="form-label">성별</label>
             <select class="form-select mb-3" aria-label="Default select example" th:field="*{gender}" id="gender">
                 <option th:value="${male}" selected>남자</option>
                 <option th:value="${female}">여자</option>
@@ -95,7 +81,9 @@
         </form>
     </main>
 
+    <script src="http://code.jquery.com/jquery-latest.js"></script> 
     <script th:inline="javascript">
+        // 사진 미리보기
         function loadFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -108,6 +96,33 @@
             }
         };
 
+        // 패스워드 보이기
+        $(document).ready(function () {
+            $('#showPassword').on('click', function () {
+                var passwordField = $('#password');
+                var passwordField2 = $('#password2');
+                
+                // 속성(타입) 가져오기
+                var passwordFieldType = passwordField.attr('type');
+                var passwordFieldType2 = passwordField2.attr('type');
+                
+                // 타입이 password면 text타입으로 변경
+                if (passwordFieldType == 'password' && passwordFieldType2 == 'password') {
+                    passwordField.attr('type', 'text');
+                    passwordField2.attr('type', 'text');
+                    // 텍스트 변경
+                    $(this).val('Hide');
+
+                } else { 
+                    //타입이 text면 password로 변경
+                    passwordField.attr('type', 'password');
+                    passwordField2.attr('type', 'password');
+
+                    // 텍스트 변경
+                    $(this).val('Show');
+                }
+            });
+        });
     </script>
 
 

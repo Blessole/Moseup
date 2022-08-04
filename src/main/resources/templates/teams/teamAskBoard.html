@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" type="text/css" href="/css/team.css" />
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
@@ -14,56 +15,78 @@
 <script src="assets/js/main.js"></script>
 </head>
 <body class="homepage is-preload">
-<header th:replace="fragments/header :: header"></header>
-	<!-- 네비바 -->
-	<nav th:insert="fragments/navbar :: nav"></nav>
-	<div id="page-wrapper">
-		<!-- Header -->
-		<section id="header">
-			<div class="container">
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<div id="page-wrapper">
+			<!-- Header -->
+			<section id="header">
+				<div class="container">
 
-				<!-- Logo -->
-				<h1 id="logo">
-					<a href="/">Moseup</a>
-				</h1>
-				<p>for the sake of everyone's habits.</p>
+					<!-- Logo -->
+					<h1 id="logo">
+						<a href="/">Moseup</a>
+					</h1>
+					<p>for the sake of everyone's habits.</p>
 
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a class="icon solid fa-home" href="teamPage"><span>소개</span></a></li>
-						<li><a class="icon fa-chart-bar" href="teamAskBoard"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" href="teamCheckBoard"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" href="right-sidebar.html"><span>스터디관리 페이지</span></a></li>
-					</ul>
-				</nav>
-			</div>
-		</section>
-		<!-- checkBoard -->
-		<section id="features">
-			<div class="container">
-				<h2 class="text-primary" align="center">문의글 목록</h2>
-				<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>글번호</th>
-						<th>제목</th>
-						<th>작성일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="teamaskboard : ${teamAsks}">
-						<th th:text="${teamaskboard.tano}"></th>
-						<th><a th:href="@{/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}" th:text="${teamaskboard.teamAskSubject}"></a></th>
-						<th th:text="${teamaskboard.teamAskDate}"></th>
-					</tr>
-				</tbody>
-				</table>
-				<div align="center">
-					<a href="/teamAskBoard/teamAskBoardWriteForm" class="btn btn-info">글쓰기</a>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a class="icon solid fa-home" href="teamPage"><span>소개</span></a></li>
+							<li><a class="icon fa-chart-bar" href="teamAskBoard"><span>문의하기</span></a></li>
+							<li><a class="icon solid fa-cog" href="teamCheckBoard"><span>인증게시판</span></a></li>
+							<li><a class="icon solid fa-retweet"
+								href="right-sidebar.html"><span>스터디관리 페이지</span></a></li>
+						</ul>
+					</nav>
 				</div>
-			</div>
-		</section>
-	</div>
+			</section>
+			<!-- checkBoard -->
+			<section id="features">
+				<div class="container">
+					<h2 class="text-primary" align="center">문의글 목록</h2>
+					<div>
+						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
+					</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>글번호</th>
+								<th>제목</th>
+								<th>작성일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="teamaskboard : ${teamAsks}">
+								<th th:text="${teamaskboard.tano}"></th>
+								<th><a
+									th:href="@{/teams/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}"
+									th:text="${teamaskboard.teamAskSubject}"></a></th>
+								<th th:text="${teamaskboard.teamAskDate}"></th>
+							</tr>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							<li class="page-item" th:classappend="${1 == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
+								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber - 1})}"
+								tabindex="-1" aria-disabled="true">Previous</a>
+							</li>
+							<li class="page-item"
+								th:classappend="${i == teamAsks.pageable.pageNumber + 1} ? 'disabled'"
+								th:each="i : ${#numbers.sequence(startPage, endPage)}">
+								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${i - 1})}" th:text="${i}">1</a>
+							</li>
+							<li class="page-item" th:classappend="${teamAsks.totalPages == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
+								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber + 1})}">Next</a>
+							</li>
+						</ul>
+					</nav>
+					<div align="center">
+						<a href="/teams/teamAskBoard/teamAskBoardWriteForm" class="btn btn-info">글쓰기</a>
+					</div>
+				</div>
+			</section>
+		</div>
+	</th:block>
 </body>
 </html>

@@ -32,3 +32,25 @@
     width: 300px;
     margin: auto;
 }
+
+.email_already{
+    color: red;
+    display:none;
+}
+
+.email_ok{
+    color: black;
+    display: none;
+}
+
+.fieldError{
+    border-color : red;
+}
+
+.text-err {
+    color: red;
+}
+
+.essential {
+    font-weight: bold;
+}

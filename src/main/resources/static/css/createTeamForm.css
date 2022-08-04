@@ -20,38 +20,10 @@
 	width: 100%;
 }
 
-/* 예지금 텍스트 가운데 정렬 */
-#teamDeposit>option{
-	text-align: center;
-}
-
 /* 에러 인풋 박스 보더 빨간색 */
 .fieldError {
-		border-color: red;
+	border-color: red;
 }
-
-/* radio legend */
-.legend {
-	font-size: 1em;
-	color: gray;
-	text-align: center;
-}
-
-/* radio text 간격 */
-/*  .radioMargin {
-	margin-right: 50px;
-} */
-
-/* width */
-/* .width80 {
-	width: 80%
-}
-.width20 {
-	width: 20%
-}
-.width100 {
-	width: 100%
-} */
 
 /* 텍스트 빨간색 */
 .text-err {
@@ -64,11 +36,20 @@
 }
 
 /* 텍스트 볼드 */
-.tont-bold {
+.font-bold {
 	font-weight: bold;
 }
 
 /* 텍스트 가운데 정렬 */
 .text-center{
 	text-align: center;
+}
+
+/* 디스플레이 감추기 */
+.displayNone {
+	display: none;
+}
+
+.essential {
+	color: red;
 }

@@ -1,28 +1,31 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
-import project.moseup.service.MemberService;
+import project.moseup.dto.JoinForm;
+import project.moseup.service.member.MemberService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
 
     // 회원가입
-    @GetMapping("/members/joinForm")
+    @GetMapping("/joinForm")
     public String joinForm(Model model){
         System.out.println("joinForm 지나간당");
         //해당 enum의 모든 정보를 배열로 반환 [MALE, FEMALE]
@@ -32,8 +35,8 @@ public class MemberController {
         return "members/joinForm";
     }
 
-    @PostMapping("/members/join")
-    public String join(@Valid @ModelAttribute(value = "joinForm") JoinForm joinForm, BindingResult bindingResult, Model model, Member member){
+    @PostMapping("/join")
+    public String join(@Valid @ModelAttribute(value = "joinForm") JoinForm joinForm, BindingResult bindingResult){
         System.out.println("error:"+ bindingResult.hasErrors());
 
         if(bindingResult.hasErrors()){
@@ -44,35 +47,48 @@ public class MemberController {
             return "members/joinForm";
         }
 
-        joinForm.toEntity();
+        if (!joinForm.getPassword1().equals(joinForm.getPassword2())) {
+            bindingResult.rejectValue("password2", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "members/joinForm";
+        }
+
+        try {
+            joinForm.toEntity();
+            memberService.join(joinForm);
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("joinFailed", "이미 등록된 사용자입니다.");
+            return "members/joinForm";
+        } catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("joinFailed", e.getMessage());
+            return "members/joinForm";
+        }
 
         //String addr1 = model.getAttribute(address);
         //model.getAttribute("postAddr1", postAddr1);
         //String addr1 =
-        memberService.join(joinForm);
 
-        return "redirect:/members/loginForm";		//첫 화면으로 돌아감
+        return "redirect:/";
     }
 
-    @GetMapping("/members/loginForm")
-    public String loginForm(Model model){
+//     중복체크
+    @PostMapping(value = "/emailCheck", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String emailChk(String email){
+        String msg="";
+        List<Member> member = memberService.validateDuplicateMember(email);
+        if(member == null) msg = "사용 가능한 이메일입니다.";
+        else msg="이미 사용중인 이메일입니다.";
+        return msg;
+    }
+
+    @GetMapping("/login")
+    public String loginForm(){
         System.out.println("loginForm지나가는중~");
-        model.addAttribute("loginForm", new LoginForm());
         return "members/loginForm";
     }
 
-    @PostMapping("/members/login")
-    public String login(@ModelAttribute("loginForm") LoginForm loginForm, Model model){
-        System.out.println("loginAction지나가는중");
 
-        Member member = loginForm.toLogin();
-        System.out.println("member email : " + member.getEmail());
-        if(memberService.login(member)){
-            System.out.println("로그인성공");
-            return "members/loginSuccess";
-        }
-        System.out.println("로그인 실패");
-
-        return "members/loginForm";
-    }
 }
