@@ -1,6 +1,7 @@
 package project.moseup.domain;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -93,6 +94,11 @@ public class Member {
 	public Member update(DeleteStatus memberDelete){
 		this.memberDelete = memberDelete;
 		return this;
+	}
+	
+	public Member newMember() {
+		Member member = new Member();
+		return member;
 	}
 
 	// 정보 수정 용

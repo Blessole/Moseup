@@ -17,9 +17,11 @@
 				</ul>
 	
 				<!-- 검색 폼 -->
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-					<input type="search" class="form-control" placeholder="Search..."
-						aria-label="Search">
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return chk()">
+				<div class="search">
+					<input type="search" class="form-control" id="search" placeholder="Search..." aria-label="Search" name="keyword">
+					<input type="submit" class="searchImg" name="submit" value="">
+				</div>
 				</form>
 				
 				<div class="dropdown text-end">
@@ -49,4 +51,3 @@
 	</nav>
 </div>
 </html>
-

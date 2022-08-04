@@ -32,8 +32,4 @@ public class TeamRepository {
 				.getResultList();
 	}
     
-    // teamName으로 팀 검색
-    public Team findTeamName(String teamName) {
-    	return em.find(Team.class, teamName);
-    }
 }

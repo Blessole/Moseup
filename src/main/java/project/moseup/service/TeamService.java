@@ -1,5 +1,6 @@
 package project.moseup.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.repository.TeamRepository;
+import project.moseup.repository.TeamSearchRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -15,29 +17,62 @@ import project.moseup.repository.TeamRepository;
 public class TeamService {
 
 	private final TeamRepository teamRepository;
+	private final TeamSearchRepository teamSearchRepository;
 
 	@Transactional
 	public Long create(Team team) {		//팀 생성
-		validateDuplicateTeam(team);  //팀명 중복 검증
 		teamRepository.save(team);
 		return team.getTno();
 	}
-	
-	private void validateDuplicateTeam(Team team) {
-		List<Team> findTeams = teamRepository.findByName(team.getTeamName());
-		if(!findTeams.isEmpty()) {
-			throw new IllegalStateException("이미 존재하는 팀명입니다.");
-		}
-	}	
 
-	// 회원 단건 조회
+	//회원 단건 조회
 	public Team findOne(Long tno) {
 		return teamRepository.findOne(tno);
 	}
 	
-	public Team findTeamName(String teamName) {
-		return teamRepository.findTeamName(teamName);
+	//팀명 중복 체크
+	public List<Team> validateDuplicateTeam(String teamName) {
+		List<Team> findTeams = teamRepository.findByName(teamName);
+		if(!findTeams.isEmpty()) {
+			List<Team> team = findTeams;
+			return team;
+		}
+		return null;
 	}
 	
+	//keyword가 포함된 모든팀 찾기
+	public List<Team> findAll(String keyword) {
+		List<Team> findAllList = teamSearchRepository.findAllSearch(keyword);
+		List<Team> emptyList = new ArrayList<>();
+
+		if (!findAllList.isEmpty()) {
+			List<Team> findCategory1List = findAllList;
+			return findCategory1List;
+		}
+		return emptyList;
+	}
 	
+//	//keyword가 포함된 팀명 찾기
+//	public List<Team> teamNameSearch(String keyword) {
+//		List<Team> teams = teamSearchRepository.findByteamNameContaining(keyword);
+//		List<Team> emptyList = new ArrayList<>();
+//
+//		if (!teams.isEmpty()) {
+//			List<Team> findTeamList = teams;
+//			return findTeamList;
+//		}
+//		return emptyList;
+//	}
+//	
+//	//keyword가 포함된 카테고리1 찾기
+//	public List<Team> category1Search(String keyword) {
+//		List<Team> category1s = teamSearchRepository.findByteamCategory1Containing(keyword);
+//		List<Team> emptyList = new ArrayList<>();
+//
+//		if (!category1s.isEmpty()) {
+//			List<Team> findCategory1List = category1s;
+//			return findCategory1List;
+//		}
+//		return emptyList;
+//	}
 }
