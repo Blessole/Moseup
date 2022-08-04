@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/", "/css/**", "/images/**", "/admin/**", "/teams/**",
-                            "/myPage/**", "/members/**").permitAll()
+                            "/myPage/**", "/members/**", "/js/**").permitAll()
                     .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()
