@@ -28,7 +28,7 @@ public class MemberRepository {
         return em.find(Member.class, mno);
     }
 
-    /** 단건 조회(아이디) - 로그인 **/
+    /** 단건 조회(아이디) **/
     public Member findOneEmail(String email){
         return em.createQuery("select m from Member m where m.email=:email", Member.class).setParameter("email", email).getSingleResult();
     }

@@ -30,7 +30,7 @@ public class MemberService {
 	/** 회원가입 **/
 	@Transactional // 값을 넣어야하는 곳에는 읽기만 하면 안되니 따로 @Transactional를 사용
 	public void join(JoinForm joinForm) {
-		System.out.println("password : " + joinForm.getPassword());
+		System.out.println("password : " + joinForm.getPassword1());
 
 		Member member = joinForm.toEntity();
 
@@ -38,23 +38,25 @@ public class MemberService {
 		member.encodePassword(passwordEncoder);
 
 		//중복 확인
-		if (memberInterfaceRepository.findByEmail(joinForm.getEmail()).isPresent()){
-			throw new IllegalStateException("이미 존재하는 회원입니다.");
-		}
-//		validateDuplicateMember(joinForm);
+//		if (memberInterfaceRepository.findByEmail(joinForm.getEmail()).isPresent()){
+//			throw new IllegalStateException("이미 존재하는 회원입니다.");
+//		}
+//		validateDuplicateMember(joinForm.getEmail());
 
 		// DB 저장
 		memberRepository.save(member);
 	}
 
-//
-//	/** 중복 회원 검증 **/
-//	private void validateDuplicateMember(JoinForm joinForm) {
-//		List<Member> findMembers = memberRepository.findByEmail(joinForm.getEmail());
-//		if (!findMembers.isEmpty()){
-//			throw new IllegalStateException("이미 존재하는 회원입니다.");
-//		}
-//	}
+	/** 중복 회원 검증 **/
+	public List<Member> validateDuplicateMember(String email) {
+		List<Member> findMembers = memberRepository.findByEmail(email);
+		if (!findMembers.isEmpty()){
+			System.out.println("Service validateDuplicate 지나감");
+			List<Member> member = findMembers;
+			return member;
+		}
+		return null;
+	}
 
 	/** 회원 전체 조회 **/
 	public List<Member> findMembers(){
@@ -64,6 +66,17 @@ public class MemberService {
 	/** 회원 단건 조회 **/
 	public Member findOne(Long memberId) {
 		return memberRepository.findOneMno(memberId);
+	}
+
+	/** 회원 정보 조회 **/
+	public Member getMember(String email) {
+		Optional<Member> member = this.memberInterfaceRepository.findByEmail(email);
+		System.out.println("MemberService member : " + member);
+		if (member.isPresent()){
+			return member.get();
+		} else {
+			throw new UsernameNotFoundException("member not found");
+		}
 	}
 
 }
