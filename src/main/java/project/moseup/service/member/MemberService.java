@@ -1,8 +1,4 @@
-package project.moseup.service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+package project.moseup.service.member;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.dto.JoinForm;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
-import project.moseup.dto.JoinForm;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
