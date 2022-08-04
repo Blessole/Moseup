@@ -13,11 +13,78 @@
 /* 메인 검색창 섹션 */
 .searchSection {
 	border: 1px solid red;
-	height: 200px;
+	height: 250px;
 }
 
 /* 팀 리스트 섹션 */
 .mainSection {
 	border: 1px solid blue;
 	height: 400px;
+}
+
+/* 메인 검색창 전부 감싸는 태그 */
+.mainSearch {
+	width: 42%;
+	margin: 0 auto;
+}
+/* 메인 검색창 인풋 및 이미지 감싸는 태그 */
+.mainSearchInput {
+	position: relative;
+}
+
+/* 메인 검색창 인풋 */
+#mainSearch {
+	width: 100%;
+ 	border: 1px solid #bbb;
+	border-radius: 30px;
+ 	padding: 10px 12px;
+  	font-size: 14px;
+  	line-height: 35px;
+  	color : white;
+  	background-color: #017ed1;
+}
+
+/* 메인 검색창 placeholder */
+.mainSearchInput input::placeholder {
+  color: #d4d4d4;
+}
+/* 메인 돋보기 이미지 */
+.mainSearchImg{
+	position : absolute;
+	width: 40px;
+	top: 20px;
+	right: 12px;
+	margin: 0;
+	background-image: url('/images/search.png');
+    background-repeat : no-repeat;
+    background-size: 25px;
+    background-color: transparent;/* 돋보기 뒤에 배경 투명 */
+    border : 0;	
+}
+
+/* 메인 텍스트 포커스 됐을시 이벤트 */
+.mainSearchInput #mainSearch:focus {
+	color: black;
+	background-color: white;
+	/* transition-duration: 1s; */
+	background-color: aac8ff; /* 요소 기본 색상 */
+	animation: test 1s ease 0s none;
+}
+@keyframes test{
+    from{
+        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+    }
+    to{
+        background-color: white; /* 애니메이션 종료 색상 */
+        color: #c0c0c0;
+        transform: scaleY( 1.0 );
+    }
+}
+/* 여기까지 포커스 이벤트 */
+
+/* 메인 검색창 타이틀 */
+.mainSearchTitle {
+	margin: 5px;
+	font-size: 1.3em;
+	font-weight: bold;
 }

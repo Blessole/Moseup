@@ -34,6 +34,16 @@ public class Team {
 	@NotNull
 	@Column(name = "team_deposit") //예치금
 	private int teamDeposit;
+	
+	@NotEmpty
+	@Column(name = "team_category1")
+	private String  teamCategory1;
+	
+	@Column(name = "team_category2")
+	private String  teamCategory2;
+	
+	@Column(name = "team_category3")
+	private String  teamCategory3;
 
 	private LocalDate teamDate; //팀 생성일
 

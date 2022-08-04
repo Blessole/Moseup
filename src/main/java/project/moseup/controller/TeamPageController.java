@@ -1,18 +1,19 @@
 package project.moseup.controller;
 
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.TeamAskForm;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.TeamService;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,7 +58,7 @@ public class TeamPageController {
 		
 		teamaskBoardService.saveTeamAskBoard(teamAskBoard);
 		
-		return "redirect:/teams/teamAskBoard";
+		return "redirect:/teamAskBoard";
 	}
 	
 	// 팀 페이지 문의 글 상세보기
