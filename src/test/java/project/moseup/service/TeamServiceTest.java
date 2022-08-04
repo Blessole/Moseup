@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Team;
-import project.moseup.repository.MemberRepository;
+import project.moseup.repository.member.MemberRepository;
 import project.moseup.repository.TeamRepository;
 
 import javax.persistence.EntityManager;

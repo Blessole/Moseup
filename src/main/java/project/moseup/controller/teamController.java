@@ -32,7 +32,7 @@ public class teamController {
 		model.addAttribute("teamForm", new TeamForm());
 		return "teams/createTeamForm";
 	}
-	
+
 	//	team 생성
 	@PostMapping("/teams/createTeam")
 	public String  createTeam(@Valid TeamForm teamForm, BindingResult result) {
@@ -69,7 +69,7 @@ public class teamController {
 
 		return "redirect:/";	// 초기화면으로 돌아감
 	}
-	
+
 	// 팀명 중복체크
 	@PostMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
 	@ResponseBody	// 전에는 return "idChk";통해 보여주지만, @ResponseBody는 jsp를 통하지 않고 직접 문자를 전달함

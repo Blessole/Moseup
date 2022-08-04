@@ -1,5 +1,7 @@
 package project.moseup.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,17 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.service.member.MemberSecurityService;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private DataSource dataSource;
 
     private final MemberSecurityService memberSecurityService;
 
@@ -33,7 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**", "/admin/**", "/teams/**", "/members/**").permitAll()
+                    .antMatchers("/", "/css/**", "/images/**", "/admin/**", "/teams/**",
+                            "/myPage/**", "/members/**").permitAll()
                     .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()

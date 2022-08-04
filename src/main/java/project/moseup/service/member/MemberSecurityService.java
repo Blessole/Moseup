@@ -27,17 +27,19 @@ public class MemberSecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // 로그인 하기 위해 가입된 user정보 조회하는 메소드
         Optional<Member> memberWrapper = this.memberInterfaceRepository.findByEmail(email);
-        if(memberWrapper.isEmpty()){
+        if (memberWrapper.isEmpty()) {
             throw new UsernameNotFoundException("아이디가 없습니다 : " + email);
         }
 
         Member member = memberWrapper.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin@admin.com".equals(email)){
+        if ("admin@admin.com".equals(email)) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
-        }else{
+        } else {
             authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
-        } return new User(member.getEmail(), member.getPassword(), authorities);
+        }
+        return new User(member.getEmail(), member.getPassword(), authorities);
+
 
     }
 }
