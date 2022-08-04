@@ -87,7 +87,7 @@ public class MemberSaveReqDto {
                 .memberDelete(DeleteStatus.FALSE)
                 .gender(gender)
                 .memberDate(LocalDateTime.now())
-                .role(Role.MEMBER)
+                .role(Role.USER)
                 .build();
     }
 }
