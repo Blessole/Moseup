@@ -41,7 +41,7 @@ public class AdminTeamRepositoryTest {
                 .teamDelete(DeleteStatus.FALSE)
                 .teamIntroduce("안뇽하세요 테스트 입니동")
                 .build();
-        Team team = adminTeamRepository.save(teamForm.toEntity());
+        Team team = adminTeamRepository.save(teamForm.teamBuilder());
 
         assertEquals("테스트", team.getTeamName());
 

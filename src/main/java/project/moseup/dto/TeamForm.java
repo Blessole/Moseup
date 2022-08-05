@@ -1,19 +1,17 @@
 package project.moseup.dto;
 
-import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import project.moseup.domain.DeleteStatus;
+import project.moseup.domain.Member;
+import project.moseup.domain.Team;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.Team;
+import java.time.LocalDate;
 
 @Getter @Setter
 public class TeamForm {
@@ -43,9 +41,7 @@ public class TeamForm {
 	private String teamPhoto;					//팀 소개 사진
 	private DeleteStatus teamDelete;		//팀삭제여부
 
-	public TeamForm() {
-
-	}
+	public TeamForm() {}
 
 	@Builder
     public TeamForm(String teamName, Member member, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete) {

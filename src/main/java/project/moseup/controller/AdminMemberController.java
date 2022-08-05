@@ -22,9 +22,7 @@ import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.repository.admin.AdminTeamRepository;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AdminTeamService;
-import project.moseup.validator.CheckEmailValidator;
-import project.moseup.validator.CheckNicknameValidator;
-import project.moseup.validator.CheckPasswordValidator;
+import project.moseup.validator.*;
 
 import javax.validation.Valid;
 import java.io.File;
