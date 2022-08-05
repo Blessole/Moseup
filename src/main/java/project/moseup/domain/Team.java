@@ -1,8 +1,6 @@
 package project.moseup.domain;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Setter @Getter
 @Table(name = "teams")
 @NoArgsConstructor
 public class Team {
@@ -55,8 +52,41 @@ public class Team {
 
 	private LocalDate endDate; //습관 종료일
 
-	@Builder
+	@NotEmpty
+	@Column(name = "team_Introduce")
+	private String teamIntroduce;  // 팀 소개글
+
+	@Column(name = "team_photo")
+	private String teamPhoto; // 팀 소개 사진
+
+	@Enumerated(EnumType.STRING)
+	private DeleteStatus teamDelete; //팀 삭제여부
+
+
+	// 연관관계 맵핑
+	@OneToMany(mappedBy = "team")
+    private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요
+
+	@OneToMany(mappedBy = "team")
+    private List<TeamMember> teamMembers = new ArrayList<>(); //팀에 가입된 멤버
+
+	@OneToMany(mappedBy = "team")
+    private List<CheckBoard> checkBoards = new ArrayList<>();
+
+
+	@Builder //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
 	public Team(Member member, String teamName, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete) {
+		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
+//		Assert.hasText(String.valueOf(member), "member는 [NULL]이 될 수 없습니다");
+//		Assert.hasText(teamName, "teamName은 [NULL]이 될 수 없습니다");
+//		Assert.hasText(String.valueOf(teamVolume), "teamVolume은 [NULL]이 될 수 없습니다");
+//		Assert.hasText(String.valueOf(teamDeposit), "teamDeposit은 [NULL]이 될 수 없습니다");
+//		Assert.hasText(teamCategory1, "teamCategory1은 [NULL]이 될 수 없습니다");
+//		Assert.hasText(String.valueOf(teamDate), "teamDate는 [NULL]이 될 수 없습니다");
+//		Assert.hasText(String.valueOf(startDate), "startDate는 [NULL]이 될 수 없습니다");
+//		Assert.hasText(String.valueOf(endDate), "endDate는 [NULL]이 될 수 없습니다");
+//		Assert.hasText(teamIntroduce, "teamIntroduce는 [NULL]이 될 수 없습니다");
+
 		this.member = member;
 		this.teamName = teamName;
 		this.teamVolume = teamVolume;
@@ -72,22 +102,41 @@ public class Team {
 		this.teamDelete = teamDelete;
 	}
 
-	@NotEmpty
-	@Column(name = "team_Introduce")
-	private String teamIntroduce;  // 팀 소개글
-
-	@Column(name = "team_photo")
-	private String teamPhoto; // 팀 소개 사진
-
-	@Enumerated(EnumType.STRING)
-	private DeleteStatus teamDelete; //팀 삭제여부
-	
-	@OneToMany(mappedBy = "team")
-    private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요
-
-	@OneToMany(mappedBy = "team")
-    private List<TeamMember> teamMembers = new ArrayList<>(); //팀에 가입된 멤버
-
-	@OneToMany(mappedBy = "team")
-    private List<CheckBoard> checkBoards = new ArrayList<>();
+	//정보 수정
+	public void updateMember(Member member) {
+		this.member = member;
+	}
+	public void updateTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+	public void updateTeamVolume(int teamVolume) {
+		this.teamVolume = teamVolume;
+	}
+	public void updateTeamDeposit(int teamDeposit) {
+		this.teamDeposit = teamDeposit;
+	}
+	public void updateTeamCategory1(String teamCategory1) {
+		this.teamCategory1 = teamCategory1;
+	}
+	public void updateTeamCategory2(String teamCategory2) {
+		this.teamCategory2 = teamCategory2;
+	}
+	public void updateTeamCategory3(String teamCategory3) {
+		this.teamCategory3 = teamCategory3;
+	}
+	public void updateTeamDate(LocalDate teamDate) {
+		this.teamDate = teamDate;
+	}
+	public void updateStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+	public void updateTeamIntroduce(String teamIntroduce) {
+		this.teamIntroduce = teamIntroduce;
+	}
+	public void updateTeamPhoto(String teamPhoto) {
+		this.teamPhoto = teamPhoto;
+	}
+	public void updateeamDelete(DeleteStatus teamDelete) {
+		this.teamDelete = teamDelete;
+	}
 }

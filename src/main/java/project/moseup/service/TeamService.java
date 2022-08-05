@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
+import project.moseup.dto.TeamForm;
 import project.moseup.repository.TeamRepository;
 import project.moseup.repository.TeamSearchRepository;
 
@@ -20,7 +21,8 @@ public class TeamService {
 	private final TeamSearchRepository teamSearchRepository;
 
 	@Transactional
-	public Long create(Team team) {		//팀 생성
+	public Long create(TeamForm teamForm) {		//팀 생성
+		Team team = teamForm.teamBuilder();
 		teamRepository.save(team);
 		return team.getTno();
 	}
