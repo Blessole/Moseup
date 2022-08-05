@@ -3,7 +3,6 @@ package project.moseup.repository.teampage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
@@ -16,13 +15,13 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
 public class TeamAskBoardPageRepositoryTest {
 
     @Autowired
     TeamAskBoardPageRepository teamAskBoardPageRepository;
     @Autowired
     AdminMemberRepository adminMemberRepository;
+
 
     @Test
     public void 삭제데이터준비_test(){
@@ -45,7 +44,13 @@ public class TeamAskBoardPageRepositoryTest {
 
     @Test
     public void 빌더삭제_test(){
-       // TeamAskBoard teamAskBoard = teamAskBoardPageRepository.findBy();
+
+        TeamAskBoard teamAskBoard = teamAskBoardPageRepository.findById(40L).orElse(null);
+
+
+
+       assertEquals(DeleteStatus.FALSE, teamAskBoard.getTeamAskDelete());
+
 
     }
 }

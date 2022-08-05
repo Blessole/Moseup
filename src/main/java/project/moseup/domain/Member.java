@@ -2,7 +2,6 @@ package project.moseup.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -178,7 +177,7 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
 

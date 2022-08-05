@@ -11,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
+
+
 @Getter @Setter
 public class TeamAskBoardDto {
 	
@@ -39,7 +41,7 @@ public class TeamAskBoardDto {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
-	
+
 	// 게시글 생성 method
 	public TeamAskBoard toEntity() {
 		return TeamAskBoard.teamAskBoard()
@@ -53,7 +55,7 @@ public class TeamAskBoardDto {
 	}
 
 	// 게시글 삭제 method
-	public TeamAskBoard toDelete() {
+	public static TeamAskBoard toDelete() {
 		return TeamAskBoard.teamAskBoardDelete()
 				.deleteStatus(DeleteStatus.TRUE)
 				.build();

@@ -20,7 +20,7 @@ public class TeamAskBoard {
 	@GeneratedValue @Id
 	private Long tano;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_no")
 	private Member member;
 
@@ -45,8 +45,23 @@ public class TeamAskBoard {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
-	
-	@Builder(builderClassName = "teamAskBoard", builderMethodName = "teamAskBoard")
+
+	@Override
+	public String toString() {
+		return "TeamAskBoard{" +
+				"tano=" + tano +
+				", member=" + member +
+				", teamAskSubject='" + teamAskSubject + '\'' +
+				", teamAskContent='" + teamAskContent + '\'' +
+				", teamAskDate=" + teamAskDate +
+				", teamAskReadCount=" + teamAskReadCount +
+				", secret=" + secret +
+				", teamAskDelete=" + teamAskDelete +
+				", teamAskBoardReplies=" + teamAskBoardReplies +
+				'}';
+	}
+
+	@Builder(builderMethodName = "teamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
@@ -57,12 +72,12 @@ public class TeamAskBoard {
 		this.secret = secret;
 	}
 
-	@Builder(builderClassName = "teamAskBoardDelete", builderMethodName = "teamAskBoardDelete")
+	@Builder(builderMethodName = "teamAskBoardDelete")
 	public TeamAskBoard(DeleteStatus deleteStatus) {
 		this.teamAskDelete = deleteStatus;
 	}
 
-	@OneToMany(mappedBy = "teamAskBoard")
+	@OneToMany(mappedBy = "teamAskBoard", fetch = FetchType.EAGER)
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 
 }

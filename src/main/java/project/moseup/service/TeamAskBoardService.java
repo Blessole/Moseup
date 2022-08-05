@@ -1,17 +1,16 @@
 package project.moseup.service;
 
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,7 +19,11 @@ public class TeamAskBoardService {
 
 	private final TeamAskBoardRepository askBoardRepository;
 	private final TeamAskBoardPageRepository askBoardPageRepository;
-	
+
+
+
+
+
 	// 글 등록
 	@Transactional
 	public void saveTeamAskBoard(TeamAskBoardDto teamAskBoardDto) {
@@ -43,5 +46,8 @@ public class TeamAskBoardService {
 	public TeamAskBoard findOne(Long tano) {
 		return askBoardRepository.findOne(tano);
 	}
-	
+
+
+
+
 }
