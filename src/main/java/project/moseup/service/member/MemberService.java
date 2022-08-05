@@ -47,17 +47,6 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 
-	/** 중복 회원 검증 **/
-	public List<Member> validateDuplicateMember(String email) {
-		List<Member> findMembers = memberRepository.findByEmail(email);
-		if (!findMembers.isEmpty()){
-			System.out.println("Service validateDuplicate 지나감");
-			List<Member> member = findMembers;
-			return member;
-		}
-		return null;
-	}
-
 	/** 회원 전체 조회 **/
 	public List<Member> findMembers(){
 		return memberRepository.findAll();

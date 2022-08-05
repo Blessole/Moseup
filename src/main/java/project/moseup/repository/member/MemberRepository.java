@@ -38,9 +38,14 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    /** 중복 가입 방지 **/
-    public List<Member> findByEmail(String email) {
-        return em.createQuery("select m from Member m where m.email=:email", Member.class).setParameter("email", email).getResultList();
+    /** 중복 이메일 검증 **/
+    public List<Member> findByEmail(String value) {
+        return em.createQuery("select m from Member m where m.email=:value", Member.class).setParameter("value", value).getResultList();
+    }
+
+    /** 중복 닉네임 검증 **/
+    public List<Member> findByNickname(String value) {
+        return em.createQuery("select m from Member m where m.nickname=:value", Member.class).setParameter("value", value).getResultList();
     }
 
 }

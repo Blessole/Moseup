@@ -1,5 +1,6 @@
 package project.moseup.controller.teampage;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.Member;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.TeamAskForm;
 import project.moseup.service.TeamAskBoardService;
+import project.moseup.service.member.MemberService;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ import project.moseup.service.TeamAskBoardService;
 public class TeamPageController {
 
 	private final TeamAskBoardService teamAskBoardService;
+	private final MemberService memberService;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -57,7 +61,10 @@ public class TeamPageController {
 
 	// 팀 페이지 문의 작성 폼
 	@GetMapping("/teamAskBoard/teamAskBoardWriteForm")
-	public String teamAskBoardWriteForm(Model model) {
+	public String teamAskBoardWriteForm(Model model, Principal principal) {
+		Member member = this.memberService.getMember(principal.getName());
+		System.out.println("member : " + member);
+		model.addAttribute("member", member);
 		model.addAttribute("teamAsk", new TeamAskForm());
 
 		return "teams/askBoardWriteForm";

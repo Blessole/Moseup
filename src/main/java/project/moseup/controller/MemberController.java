@@ -12,6 +12,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.dto.JoinForm;
 import project.moseup.service.member.MemberService;
+import project.moseup.validator.CheckRealize;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -23,6 +24,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final CheckRealize checkRealize;
 
     // 회원가입
     @GetMapping("/joinForm")
@@ -73,14 +75,24 @@ public class MemberController {
         return "redirect:/";
     }
 
-//     중복체크
-    @PostMapping(value = "/emailCheck", produces = "text/html;charset=utf-8")
+    /** 중복체크 **/
+    @GetMapping(value = "/checkRealize", produces = "text/html;charset=utf-8")
     @ResponseBody
-    public String emailChk(String email){
-        String msg="";
-        List<Member> member = memberService.validateDuplicateMember(email);
-        if(member == null) msg = "사용 가능한 이메일입니다.";
-        else msg="이미 사용중인 이메일입니다.";
+    public String checkRealize(String value){
+        String msg = "";
+        if (value.contains("@")) {
+            msg = checkRealize.emailCheck(value);
+        } else {
+            msg = checkRealize.nicknameCheck(value);
+        }
+        return msg;
+    }
+
+    /** 비밀번호 체크 **/
+    @GetMapping(value = "/passwordRealize", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String passwordRealize(String password1, String password2){
+        String msg = checkRealize.passwordCheck(password1, password2);
         return msg;
     }
 
