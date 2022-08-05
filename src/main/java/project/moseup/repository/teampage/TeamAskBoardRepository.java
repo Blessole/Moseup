@@ -32,4 +32,7 @@ public class TeamAskBoardRepository {
 	public TeamAskBoard findOne(Long tano) {
 		return em.find(TeamAskBoard.class, tano);
 	}
+	
+	// 문의글 삭제
+	
 }

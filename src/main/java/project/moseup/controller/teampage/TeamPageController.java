@@ -11,11 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.TeamAskBoard.Delete;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
+import project.moseup.repository.teampage.TeamAskBoardRepository;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
 
@@ -26,6 +29,7 @@ public class TeamPageController {
 
 	private final TeamAskBoardService teamAskBoardService;
 	private final MemberService memberService;
+	private final TeamAskBoardRepository teamAskBoardRepository;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -84,20 +88,33 @@ public class TeamPageController {
 
 	// 팀 페이지 문의 글 상세보기
 	@GetMapping("/teamAskBoard/TeamAskBoardDetail")
-	public String teamAskBoardDetail(Long tano, Model model) {
-
+	public String teamAskBoardDetail(@RequestParam Long tano, Model model) {
+		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		
 		Member member = teamAskOne.getMember();
-		Long mno = member.getMno();
+//		Long mno = member.getMno();
 		
-		Member findMember = this.memberService.findOne(mno);
-
+//		Member findMember = this.memberService.findOne(mno);
+		System.out.println(teamAskOne);
+		System.out.println(member);
 		model.addAttribute("teamAskOne", teamAskOne);
-		model.addAttribute("findMember", findMember);
+		model.addAttribute("findMember", member);
 		
-
 		return "teams/teamAskBoardDetail";
+	}
+	
+	// 문의글 삭제
+	@GetMapping("/teamAskBoard/delete")
+	public String teamAskBoardDelete(Long tano, Model model) {
+		
+		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
+		
+		Delete t = teamAskOne.teamAskBoardD();
+		
+		teamAskBoardRepository.save(teamAskOne);
+		
+		return "redirect:/teams/teamAskBoard";
 	}
 
 	// 팀 페이지 인증 게시판

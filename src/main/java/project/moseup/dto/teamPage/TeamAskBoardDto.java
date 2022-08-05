@@ -48,7 +48,7 @@ public class TeamAskBoardDto {
 	
 	// 게시글 생성 method
 	public TeamAskBoard toEntity() {
-		return TeamAskBoard.builder()
+		return TeamAskBoard.teamAskBoard()
 				.member(member)
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)
@@ -56,5 +56,11 @@ public class TeamAskBoardDto {
 				.teamAskReadCount(0)
 				.secret(SecretStatus.PUBLIC)
 				.teamAskDelete(DeleteStatus.FALSE).build();
+	}
+	
+	// 게시글 삭제 method
+	public TeamAskBoard Delete() {
+		return TeamAskBoard.teamAskBoardD()
+				.deleteStatus(DeleteStatus.TRUE).build();
 	}
 }

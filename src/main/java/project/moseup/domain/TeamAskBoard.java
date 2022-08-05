@@ -56,7 +56,7 @@ public class TeamAskBoard {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
 	
-	@Builder
+	@Builder(builderClassName = "toEntity", builderMethodName = "teamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
@@ -65,6 +65,11 @@ public class TeamAskBoard {
 		this.teamAskDelete = teamAskDelete;
 		this.teamAskReadCount = teamAskReadCount;
 		this.secret = secret;
+	}
+	
+	@Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
+	public TeamAskBoard(DeleteStatus deleteStatus) {
+		this.teamAskDelete = deleteStatus;
 	}
 
 	@OneToMany(mappedBy = "teamAskBoard")
