@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDto;
 
 @Repository
 @RequiredArgsConstructor

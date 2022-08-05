@@ -1,7 +1,6 @@
 package project.moseup.controller.teampage;
 
 import java.security.Principal;
-import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.TeamAskBoard;
-import project.moseup.dto.TeamAskForm;
+import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
 
@@ -65,25 +64,20 @@ public class TeamPageController {
 		Member member = this.memberService.getMember(principal.getName());
         
 		model.addAttribute("member", member);
-		model.addAttribute("teamAsk", new TeamAskForm());
+		model.addAttribute("teamAsk", new TeamAskBoardDto());
 
 		return "teams/askBoardWriteForm";
 	}
 
 	// 팀 페이지 문의 작성
 	@PostMapping("/teamAskBoard/teamAskBoardWriteForm/createTeamAsk")
-	public String createTeamAsk(TeamAskForm teamAsk, Principal principal) {
-
-		TeamAskBoard teamAskBoard = new TeamAskBoard();
-		LocalDate date = LocalDate.now();
+	public String createTeamAsk(TeamAskBoardDto teamAsk, Principal principal) {
 
 		Member member = this.memberService.getMember(principal.getName());
-		teamAskBoard.setMember(member);
-		teamAskBoard.setTeamAskSubject(teamAsk.getTeamAskSubject());
-		teamAskBoard.setTeamAskContent(teamAsk.getTeamAskContent());
-		teamAskBoard.setTeamAskDate(date);
-
-		teamAskBoardService.saveTeamAskBoard(teamAskBoard);
+		
+		teamAsk.setMember(member);
+		
+		teamAskBoardService.saveTeamAskBoard(teamAsk);
 
 		return "redirect:/teams/teamAskBoard";
 	}

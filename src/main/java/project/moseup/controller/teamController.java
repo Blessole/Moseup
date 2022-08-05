@@ -44,6 +44,7 @@ public class teamController {
 		}
 
 		Team team = new Team();
+				
 		// 세션을 통해서 멤버 가져와야됨(나중에 작성)
 
 		//임시 멤버(나중에 삭제)
