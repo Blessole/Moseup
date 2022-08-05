@@ -1,5 +1,6 @@
 package project.moseup.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -17,38 +18,23 @@ import project.moseup.service.TeamService;
 public class mainController {
 	
 	private final TeamService teamService;
-
+	
 	@RequestMapping("/")
 	public String main() {
 		return "main";
 	}
 	
 	@GetMapping("/search")	//검색
-	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
+	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model, Principal principal) {
 		List<Team> findAllList = teamService.findAll(keyword);
+		
 		if (findAllList.isEmpty()) {
 		    model.addAttribute("findAllList", "nothing");
+		    model.addAttribute("keyword", keyword);	//검색 후 검색창에 보여주기 위함
 		} else {
 		    model.addAttribute("findAllList", findAllList);
+		    model.addAttribute("keyword", keyword);
 		}
 		return "main/searchPage";
 	}
-	
-//	@GetMapping("/search")	//팀검색
-//	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
-//		List<Team> teamNmaeList = teamService.teamNameSearch(keyword);
-//		List<Team> category1List = teamService.category1Search(keyword);
-//		
-//		if (teamNmaeList.isEmpty() || category1List.isEmpty()) {
-//		    model.addAttribute("teamNmaeList", "nothing");
-//		    model.addAttribute("category1List", "nothing");
-//		    System.out.println(keyword);
-//		} else {
-//		    model.addAttribute("teamNmaeList", teamNmaeList);
-//		    model.addAttribute("category1List", category1List);
-//		    System.out.println(keyword);
-//		    System.out.println("있음");
-//		}
-//		return "main/search";
-//	}
 }
