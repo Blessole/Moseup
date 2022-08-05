@@ -1,25 +1,15 @@
 package project.moseup.domain;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -56,7 +46,7 @@ public class TeamAskBoard {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
 	
-	@Builder(builderClassName = "toEntity", builderMethodName = "teamAskBoard")
+	@Builder(builderClassName = "teamAskBoard", builderMethodName = "teamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
@@ -66,8 +56,8 @@ public class TeamAskBoard {
 		this.teamAskReadCount = teamAskReadCount;
 		this.secret = secret;
 	}
-	
-	@Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
+
+	@Builder(builderClassName = "teamAskBoardDelete", builderMethodName = "teamAskBoardDelete")
 	public TeamAskBoard(DeleteStatus deleteStatus) {
 		this.teamAskDelete = deleteStatus;
 	}

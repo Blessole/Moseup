@@ -1,7 +1,6 @@
 package project.moseup.controller.teampage;
 
-import java.security.Principal;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,15 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.TeamAskBoard;
-import project.moseup.domain.TeamAskBoard.Delete;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -110,7 +108,7 @@ public class TeamPageController {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		
-		Delete t = teamAskOne.teamAskBoardD();
+
 		
 		teamAskBoardRepository.save(teamAskOne);
 		

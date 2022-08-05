@@ -19,10 +19,10 @@ import project.moseup.domain.MemberGender;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminMemberRepository;
-import project.moseup.repository.admin.AdminTeamRepository;
 import project.moseup.service.admin.AdminMemberService;
-import project.moseup.service.admin.AdminTeamService;
-import project.moseup.validator.*;
+import project.moseup.validator.CheckEmailValidator;
+import project.moseup.validator.CheckNicknameValidator;
+import project.moseup.validator.CheckPasswordValidator;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -41,8 +41,8 @@ public class AdminMemberController {
 
     private final AdminMemberRepository adminMemberRepository;
     private final AdminMemberService adminMemberService;
-    private final AdminTeamRepository adminTeamRepository;
-    private final AdminTeamService adminTeamService;
+    //private final AdminTeamRepository adminTeamRepository;
+    //private final AdminTeamService adminTeamService;
 
     // 유효성 검사
     private final CheckEmailValidator checkEmailValidator;
