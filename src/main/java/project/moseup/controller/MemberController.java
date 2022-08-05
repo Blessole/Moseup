@@ -27,7 +27,6 @@ public class MemberController {
     // 회원가입
     @GetMapping("/joinForm")
     public String joinForm(Model model){
-        System.out.println("joinForm 지나간당");
         //해당 enum의 모든 정보를 배열로 반환 [MALE, FEMALE]
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);
@@ -86,7 +85,6 @@ public class MemberController {
 
     @GetMapping("/login")
     public String loginForm(){
-        System.out.println("loginForm지나가는중~");
         return "members/loginForm";
     }
 

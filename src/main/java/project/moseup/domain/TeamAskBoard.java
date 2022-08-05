@@ -16,11 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 쉽게 접근할 수 없게!
 public class TeamAskBoard {
 
 	@Column(name = "team_askno")
@@ -47,11 +50,27 @@ public class TeamAskBoard {
 
 	@Column(name = "team_asksecret")
 	@Enumerated(EnumType.STRING)
-	private DeleteStatus secret;
+	private SecretStatus secret;
 
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
+	
+	@Builder(builderClassName = "toEntity", builderMethodName = "teamAskBoard")
+	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
+		this.member = member;
+		this.teamAskSubject = teamAskSubject;
+		this.teamAskContent = teamAskContent;
+		this.teamAskDate = teamAskDate;
+		this.teamAskDelete = teamAskDelete;
+		this.teamAskReadCount = teamAskReadCount;
+		this.secret = secret;
+	}
+	
+	@Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
+	public TeamAskBoard(DeleteStatus deleteStatus) {
+		this.teamAskDelete = deleteStatus;
+	}
 
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();

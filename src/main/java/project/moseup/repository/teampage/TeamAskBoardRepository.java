@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDto;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,4 +32,7 @@ public class TeamAskBoardRepository {
 	public TeamAskBoard findOne(Long tano) {
 		return em.find(TeamAskBoard.class, tano);
 	}
+	
+	// 문의글 삭제
+	
 }

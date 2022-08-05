@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
 
@@ -22,7 +23,9 @@ public class TeamAskBoardService {
 	
 	// 글 등록
 	@Transactional
-	public void saveTeamAskBoard(TeamAskBoard teamAskBoard) {
+	public void saveTeamAskBoard(TeamAskBoardDto teamAskBoardDto) {
+		// Builder를 사용하여 다시 넣기
+		TeamAskBoard teamAskBoard = teamAskBoardDto.toEntity();
 		askBoardRepository.save(teamAskBoard);
 	}
 	

@@ -18,7 +18,7 @@
 					<th>글번호</th>
 					<td th:text="${teamAskOne.tano}"></td>
 					<th>작성자</th>
-					<td>일단 몰라</td>
+					<td th:text="${findMember.nickname}"></td>
 				</tr>
 				<tr>
 					<th>작성일</th>
@@ -50,6 +50,8 @@
 			</div>
 			<div>
 				<a href="/teams/teamAskBoard" class="btn btn-success">게시글 목록</a>
+				<a href="/teams/teamAskBoard/delete" class="btn btn-warning">삭제</a>
+				
 			</div>	
 			</div>
 	</th:block>
