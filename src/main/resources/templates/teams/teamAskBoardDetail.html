@@ -36,9 +36,16 @@
 							<span th:text="${teamAskOne.teamAskContent}"></span>
 						</pre></td>
 				</tr>
+				<tr>
+					<th>삭제여부</th>
+					<td colspan="3" th:text="${teamAskOne.teamAskDelete}"></td>
+				</tr>
+				<tr>
+					<th>비밀글여부</th>
+					<td colspan="3" th:text="${teamAskOne.secret}"></td>
+				</tr>
 			</table>
 			<div class="input-group mb-3">
-
 				<form id="reply" action="/reply_write" method="post">
 					<input type="text" id="content" name="content" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.."
 						aria-describedby="basic-addon2"> 
@@ -49,7 +56,8 @@
 				</form>
 			</div>
 			<div>
-				<a href="/teams/teamAskBoard" class="btn btn-success">게시글 목록</a>
+				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
+				<a th:href="@{/}" class="btn btn-primary">수정</a>
 				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
 				
 			</div>	

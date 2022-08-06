@@ -22,7 +22,6 @@ public class TeamAskBoardRepository {
 		} else {
 			em.merge(teamAskBoard);
 		}
-		System.out.println(teamAskBoard);
 	}
 	
 	// 문의글 목록

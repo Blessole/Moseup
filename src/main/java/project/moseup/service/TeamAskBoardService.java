@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
@@ -47,8 +46,8 @@ public class TeamAskBoardService {
 	}
 	
 	// 특정글 삭제 상태
+	@Transactional
 	public void changeDelete(TeamAskBoard teamAskBoard) {
-
 		askBoardRepository.save(teamAskBoard);
 	}
 	

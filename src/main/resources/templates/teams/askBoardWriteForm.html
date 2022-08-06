@@ -29,10 +29,14 @@
 					<label th:for="teamAskContent">내용</label>
 					<textarea rows="5" cols="40" th:field="*{teamAskContent}" class="form-control" placeholder="내용을 입력하세요"></textarea>
 				</div>
+				<div>
+					<label th:for="secret">비밀글 여부
+					<input class="form-check-input" type="checkbox" th:field="*{secret}" th:value="secret"></label>
+				</div>
 				<button type="submit" class="btn btn-primary">등록</button>
 			</form>
 			<div>
-				<a href="/teams/teamAskBoard" class="btn">목록</a>
+				<a href="/teams/teamAskBoard" class="btn btn primary">목록</a>
 			</div>
 		</div>
 	</section>

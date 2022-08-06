@@ -2,12 +2,15 @@ package project.moseup.controller.teampage;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
-import project.moseup.repository.teampage.TeamAskBoardRepository;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
 
@@ -29,7 +32,6 @@ public class TeamPageController {
 
 	private final TeamAskBoardService teamAskBoardService;
 	private final MemberService memberService;
-	private final TeamAskBoardRepository teamAskBoardRepository;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -75,11 +77,15 @@ public class TeamPageController {
 
 	// 팀 페이지 문의 작성
 	@PostMapping("/teamAskBoard/teamAskBoardWriteForm/createTeamAsk")
-	public String createTeamAsk(TeamAskBoardDto teamAsk, Principal principal) {
+	public String createTeamAsk(@Valid TeamAskBoardDto teamAsk, Principal principal, BindingResult result) {
 
 		Member member = this.memberService.getMember(principal.getName());
 		
 		teamAsk.setMember(member);
+		
+		if(teamAsk.getSecret() != null) {
+			teamAsk.setSecret(SecretStatus.SECRET);
+		}
 		
 		teamAskBoardService.saveTeamAskBoard(teamAsk);
 
@@ -87,7 +93,7 @@ public class TeamPageController {
 	}
 
 	// 팀 페이지 문의 글 상세보기
-	@GetMapping("/teamAskBoard/TeamAskBoardDetail")
+	@GetMapping("/teamAskBoard/teamAskBoardDetail")
 	public String teamAskBoardDetail(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
@@ -105,13 +111,10 @@ public class TeamPageController {
 	public String teamAskBoardDelete(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-//		System.out.println("delete 1");
-//		System.out.println(teamAskOne);
+
 		teamAskOne.setTeamAskDelete(DeleteStatus.TRUE);
-//		System.out.println("delete 2");
-		System.out.println(teamAskOne.getTeamAskDelete());
+
 		teamAskBoardService.changeDelete(teamAskOne);
-		System.out.println("여긴 지나가니~");
 		
 		return "redirect:/teams/teamAskBoard";
 	}
