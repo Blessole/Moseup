@@ -48,7 +48,7 @@ public class TeamAskBoardDto {
 	
 	// 게시글 생성 method
 	public TeamAskBoard toEntity() {
-		return TeamAskBoard.teamAskBoard()
+		return TeamAskBoard.creatTeamAskBoard()
 				.member(member)
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)
@@ -59,8 +59,8 @@ public class TeamAskBoardDto {
 	}
 	
 	// 게시글 삭제 method
-	public TeamAskBoard Delete() {
-		return TeamAskBoard.teamAskBoardD()
-				.deleteStatus(DeleteStatus.TRUE).build();
-	}
+	/*
+	 * public TeamAskBoard Delete() { return TeamAskBoard.teamAskBoardD()
+	 * .deleteStatus(DeleteStatus.TRUE).build(); }
+	 */
 }

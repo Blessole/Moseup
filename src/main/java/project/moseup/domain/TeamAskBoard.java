@@ -20,9 +20,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 쉽게 접근할 수 없게!
 public class TeamAskBoard {
 
@@ -56,7 +57,7 @@ public class TeamAskBoard {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
 	
-	@Builder(builderClassName = "toEntity", builderMethodName = "teamAskBoard")
+	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
@@ -67,10 +68,17 @@ public class TeamAskBoard {
 		this.secret = secret;
 	}
 	
-	@Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
-	public TeamAskBoard(DeleteStatus deleteStatus) {
-		this.teamAskDelete = deleteStatus;
-	}
+	/*
+	 * @Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
+	 * public TeamAskBoard(DeleteStatus deleteStatus) { this.teamAskDelete =
+	 * deleteStatus; }
+	 */
+	
+	// 게시글 삭제 method
+	/*
+	 * public void deleteTeamAskBoard() { this.setTeamAskDelete(DeleteStatus.TRUE);
+	 * }
+	 */
 
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();

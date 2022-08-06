@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
@@ -22,6 +23,7 @@ public class TeamAskBoardService {
 	private final TeamAskBoardPageRepository askBoardPageRepository;
 	
 	// 글 등록
+	// 데이터가 없으면 글 등록 데이터가 있으면 update하는 식으로 하나에 적을 수 있지 않을까?
 	@Transactional
 	public void saveTeamAskBoard(TeamAskBoardDto teamAskBoardDto) {
 		// Builder를 사용하여 다시 넣기
@@ -43,5 +45,18 @@ public class TeamAskBoardService {
 	public TeamAskBoard findOne(Long tano) {
 		return askBoardRepository.findOne(tano);
 	}
+	
+	// 특정글 삭제 상태
+	public void changeDelete(TeamAskBoard teamAskBoard) {
+
+		askBoardRepository.save(teamAskBoard);
+	}
+	
+	// 글 삭제
+	/*
+	 * @Transactional public void deleteTeamAskBoard(TeamAskBoardDto
+	 * teamAskBoardDto) { // builder 사용 TeamAskBoard teamAskBoard =
+	 * teamAskBoardDto.Delete(); askBoardRepository.save(teamAskBoard); }
+	 */
 	
 }

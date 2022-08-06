@@ -62,11 +62,9 @@
 						<tbody>
 							<tr th:each="teamaskboard : ${teamAsks}">
 								<th th:text="${teamaskboard.tano}"></th>
-								<th><a
-									th:href="@{/teams/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}"
+								<th><a th:href="@{/teams/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}"
 									th:text="${teamaskboard.teamAskSubject}"></a></th>
-								<th></th>
-								<!-- <th th:text="${teamaskboard.member.nickname}"></th> -->
+								<th th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
 							</tr>
 						</tbody>

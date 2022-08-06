@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.TeamAskBoard;
-import project.moseup.domain.TeamAskBoard.Delete;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
 import project.moseup.service.TeamAskBoardService;
@@ -93,11 +93,7 @@ public class TeamPageController {
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		
 		Member member = teamAskOne.getMember();
-//		Long mno = member.getMno();
-		
-//		Member findMember = this.memberService.findOne(mno);
-		System.out.println(teamAskOne);
-		System.out.println(member);
+
 		model.addAttribute("teamAskOne", teamAskOne);
 		model.addAttribute("findMember", member);
 		
@@ -106,13 +102,16 @@ public class TeamPageController {
 	
 	// 문의글 삭제
 	@GetMapping("/teamAskBoard/delete")
-	public String teamAskBoardDelete(Long tano, Model model) {
+	public String teamAskBoardDelete(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-		
-		Delete t = teamAskOne.teamAskBoardD();
-		
-		teamAskBoardRepository.save(teamAskOne);
+//		System.out.println("delete 1");
+//		System.out.println(teamAskOne);
+		teamAskOne.setTeamAskDelete(DeleteStatus.TRUE);
+//		System.out.println("delete 2");
+		System.out.println(teamAskOne.getTeamAskDelete());
+		teamAskBoardService.changeDelete(teamAskOne);
+		System.out.println("여긴 지나가니~");
 		
 		return "redirect:/teams/teamAskBoard";
 	}
