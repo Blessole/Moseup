@@ -73,9 +73,9 @@
 					
 					<div class="col-12">
 						<label for="teamSubcategory" class="form-label font-bold displayNone" id="teamCategory3Label">습관 소분류</label>
-						<span id="teamCategory3Err"></span>
+						<span id="teamCategory3Err" class="text-err"></span>
 						<div id="teamCategory3Div" class="displayNone">
-							<input type="text" class="form-control" th:field="*{teamCategory3}" placeholder="세부사항">
+							<input type="text" class="form-control" th:field="*{teamCategory3}" placeholder="팀 검색에 도움이 됩니다! (최대 10글자)" maxlength="10">
 						</div>
 					</div>
 					
@@ -120,10 +120,10 @@
 					</div>
 
 					<div class="col-12">
-						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowByte">0</span>/1000bytes)
+						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowText">0</span>/500글자)
 						<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
-						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}"
-								   placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"
+						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}" maxlength="500"
+								   placeholder="팀 소개 내용을 입력하세요 :)" onkeyup="fn_checkText(this)"
 								   th:class="${#fields.hasErrors('teamIntroduce')}? 'form-control fieldError' : 'form-control'"></textarea>
 					</div>
 				</div>
@@ -149,32 +149,30 @@
 			output.innerHTML = this.value + "명";
 		}
 
-		/*textarea 바이트 수 체크하는 함수*/
-		function fn_checkByte(obj){
-			const maxByte = 1000; //최대 1000바이트
+
+		
+		/*textarea 글자 수 체크하는 함수*/
+		function fn_checkText(obj){
+			const maxText = 500; //최대 1000바이트
 			const text_val = obj.value; //입력한 문자
 			const text_len = text_val.length; //입력한 문자수
 
-			let totalByte=0;
+			let totalText=0;
 			for(let i=0; i<text_len; i++){
 				const each_char = text_val.charAt(i);
 				const uni_char = escape(each_char) //유니코드 형식으로 변환
-				if(uni_char.length>4){
-					// 한글 : 2Byte
-					totalByte += 2;
-				}else{
-					// 영문,숫자,특수문자 : 1Byte
-					totalByte += 1;
+				if(uni_char.length>0){
+					totalText += 1;
 				}
 			}
 
-			if(totalByte>maxByte){
-				alert('최대 1000Byte까지만 입력가능합니다.');
-				document.getElementById("nowByte").innerText = totalByte;
-				document.getElementById("nowByte").style.color = "red";
+			if(totalText>maxText){
+				alert('최대 500글자까지만 입력가능합니다.');
+				document.getElementById("nowText").innerText = totalText;
+				document.getElementById("nowText").style.color = "red";
 			}else{
-				document.getElementById("nowByte").innerText = totalByte;
-				document.getElementById("nowByte").style.color = "black";
+				document.getElementById("nowText").innerText = totalText;
+				document.getElementById("nowText").style.color = "black";
 			}
 		}
 
@@ -246,45 +244,35 @@
 			})
 		});
 		
+		/* 카테고리3 디스플레이 감추기, 카테고리2 체크해제 */
+		function category3displayNoneCategory2uncheck() {
+			$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
+			$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
+			$('#teamCategory3').val('');	// 소분류 input값 없애기
+			$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+		}
+		
 		/* 카테고리 display 함수 */	
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
 				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
 				if($('#teamCategory1').val() == "공부") {	//대분류 중 공부 선택
 					$('.study').removeClass('displayNone');	//공부 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
-					});
+					category3displayNoneCategory2uncheck();
+					$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
 				} else if ($('#teamCategory1').val() == "운동") {	//대분류 중 운동 선택
 					$('.exercise').removeClass('displayNone');	//운동 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[name='teamCategory2']").prop("checked", false);	//다른 카테고리 체크 되어있는것 해제
-						$('.study, .habit').addClass('displayNone');
-					});
+					category3displayNoneCategory2uncheck();
+					$('.study, .habit').addClass('displayNone');
 				} else if($('#teamCategory1').val() == "습관") {	//대분류 중 습관 선택
 					$('.habit').removeClass('displayNone');	//운동 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[name='teamCategory2']").prop("checked", false);
-						$('.study, .exercise').addClass('displayNone');
-					});
+					category3displayNoneCategory2uncheck();
+					$('.study, .exercise').addClass('displayNone');
 				} else if($('#teamCategory1').val() == "ETC") {	// 대분류 중 기타 등등 선택
 					$('#teamCategory3Label').removeClass('displayNone');
 					$('#teamCategory3Div').removeClass('displayNone');
 					$('#teamCategory3').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$('.study, .exercise, .habit').addClass('displayNone');
-					});
+					$('.study, .exercise, .habit').addClass('displayNone');
 				}
 				$(function() {	//중분류 체크하면 소분류 보이게 하기
 					$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {

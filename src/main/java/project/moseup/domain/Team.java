@@ -36,7 +36,6 @@ public class Team {
 	@Column(name = "team_no") // 팀 번호
 	private Long tno;
 	
-	@NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member; // 팀장
@@ -68,7 +67,9 @@ public class Team {
 	private LocalDate startDate; //습관 시작일
 
 	private LocalDate endDate; //습관 종료일
-
+	
+	private String teamLeader;	//*검색용* 팀장 닉네임
+	
 	@NotEmpty
 	@Column(name = "team_Introduce")
 	private String teamIntroduce;  // 팀 소개글
@@ -90,19 +91,17 @@ public class Team {
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
 	
-	
-	@Builder //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
-	public Team(Member member, String teamName, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete) {
+	@Builder(builderClassName = "createTeamBuilder", builderMethodName = "createTeamBuilder") //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
+	public Team(Member member, String teamName, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete, String teamLeader) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
-//		Assert.hasText(String.valueOf(member), "member는 [NULL]이 될 수 없습니다");
-//		Assert.hasText(teamName, "teamName은 [NULL]이 될 수 없습니다");
-//		Assert.hasText(String.valueOf(teamVolume), "teamVolume은 [NULL]이 될 수 없습니다");
-//		Assert.hasText(String.valueOf(teamDeposit), "teamDeposit은 [NULL]이 될 수 없습니다");
-//		Assert.hasText(teamCategory1, "teamCategory1은 [NULL]이 될 수 없습니다");
-//		Assert.hasText(String.valueOf(teamDate), "teamDate는 [NULL]이 될 수 없습니다");
-//		Assert.hasText(String.valueOf(startDate), "startDate는 [NULL]이 될 수 없습니다");
-//		Assert.hasText(String.valueOf(endDate), "endDate는 [NULL]이 될 수 없습니다");
-//		Assert.hasText(teamIntroduce, "teamIntroduce는 [NULL]이 될 수 없습니다");
+		Assert.hasText(teamName, "teamName은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(teamVolume), "teamVolume은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(teamDeposit), "teamDeposit은 [NULL]이 될 수 없습니다");
+		Assert.hasText(teamCategory1, "teamCategory1은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(teamDate), "teamDate는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(startDate), "startDate는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(endDate), "endDate는 [NULL]이 될 수 없습니다");
+		Assert.hasText(teamIntroduce, "teamIntroduce는 [NULL]이 될 수 없습니다");
 		
 		this.member = member;
 		this.teamName = teamName;
@@ -116,6 +115,13 @@ public class Team {
 		this.endDate = endDate;
 		this.teamIntroduce = teamIntroduce;
 		this.teamPhoto = teamPhoto;
+		this.teamDelete = teamDelete;
+		this.teamLeader = teamLeader;
+	}
+	
+	@Builder(builderClassName = "deleteTeamBuilder", builderMethodName = "deleteTeamBuilder")
+	public Team(DeleteStatus teamDelete) {
+		
 		this.teamDelete = teamDelete;
 	}
 	
@@ -156,4 +162,5 @@ public class Team {
 	public void updateeamDelete(DeleteStatus teamDelete) {
 		this.teamDelete = teamDelete;
 	}
+
 }

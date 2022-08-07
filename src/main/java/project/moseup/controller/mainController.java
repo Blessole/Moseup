@@ -1,6 +1,5 @@
 package project.moseup.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -25,14 +24,14 @@ public class mainController {
 	}
 	
 	@GetMapping("/search")	//검색
-	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model, Principal principal) {
-		List<Team> findAllList = teamService.findAll(keyword);
+	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
+		List<Team> searchedTeamList = teamService.findAll(keyword);
 		
-		if (findAllList.isEmpty()) {
-		    model.addAttribute("findAllList", "nothing");
+		if (searchedTeamList.isEmpty()) {
+		    model.addAttribute("searchedTeamList", "nothing");
 		    model.addAttribute("keyword", keyword);	//검색 후 검색창에 보여주기 위함
 		} else {
-		    model.addAttribute("findAllList", findAllList);
+		    model.addAttribute("searchedTeamList", searchedTeamList);
 		    model.addAttribute("keyword", keyword);
 		}
 		return "main/searchPage";

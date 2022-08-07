@@ -13,7 +13,7 @@
 		<section class="searchSection">
 			<div class="mainSearch">
 			<div class="mainSearchTitle" align="center">모두의 습관</div>
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return submitChk()">
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 					<div class="mainSearchInput">
 						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword" th:value="${keyword}">
 						<input type="submit" class="mainSearchImg" name="submit" value="">
@@ -21,42 +21,41 @@
 				</form>
 			</div>
 		</section>
-		<div th:if="${findAllList == 'nothing'}">
+		<div th:if="${searchedTeamList == 'nothing'}">
 			검색 결과가 존재하지 않습니다.
 		</div>
 		
-		<div th:if="${findAllList != 'nothing'}">
+		<div th:if="${searchedTeamList != 'nothing'}">
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
-					<div th:each="findAllList : ${findAllList}" class="center">
+					<div th:each="searchedTeamList : ${searchedTeamList}" class="center">
 						<div class="card">
-							<img th:if="${findAllList.teamPhoto != null}" src="..." class="card-img-top" alt="...">
-							<img th:if="${findAllList.teamPhoto == null}" src="images/teamNullImg.png" class="card-img-top" alt="...">
+							<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" src="..." class="card-img-top" alt="..."></a>
+							<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" src="images/teamNullImg.png" class="card-img-top" alt="..."></a>
 							<div class="card-body">
-								<h5 class="card-title cardTeamName" th:text="${findAllList.teamName}">teamName</h5>
-								<p class="card-text cardTeamLeader" th:text="${findAllList.member.nickname}">teamLeader</p>
+								<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName</a></p>
+								<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
 								<!-- <p class="card-text cardTeamIntroduce" th:text="${findAllList.teamIntroduce}">teamIntroduce</p> -->
-								<p class="card-text cardTeamVolume" th:text="${findAllList.teamDeposit+'/'+findAllList.teamVolume+'명'}">teamVolume</p>
-								<p class="card-text cardTeamDeposit" th:text="${'₩'+findAllList.teamDeposit}+'0,000'">teamDeposit</p>
-								<p class="card-text cardTeamDate" th:text="${'⭐'+findAllList.startDate+' ~ '+findAllList.endDate+'⭐'}">teamDate</p>
-								<span class="btn btn-sm Category1Btn" th:text="${findAllList.teamCategory1}">teamCategory1</span>
-								<span th:if="${findAllList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${findAllList.teamCategory2}">teamCategory2</span>
-								<span th:if="${findAllList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${findAllList.teamCategory3}">teamCategory3</span>
+								<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
+								<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+								<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
+								<span class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</span>
+								<span th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</span>
+								<span th:if="${searchedTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${searchedTeamList.teamCategory3}">teamCategory3</span>
 							</div>
 						</div>
 					</div>
 				</div>
 		</div>
 	</div>
-	</th:block>
-	
 	<script type="text/javascript">
 		/*검색창 submit체크*/
-		function submitChk() {
-				var text = $('#search').val();
+		function searchChk() {
+				var text = $('#mainSearch').val();
 				if(text == "" || text == null) {
 					return false;
 				}
 			}
 	</script>
+	</th:block>
 </body>
 </html>

@@ -89,7 +89,17 @@
 /* card 팀명 */
 .cardTeamName {
 	font-weight: bold;
+	
+}
+/* card 팀명아래 a태그 */
+.cardTeamNameA {
 	height: 45px;
+	text-decoration: none;
+	color: black;
+	font-size: 20px;
+}
+.cardTeamNameA:hover {
+	color: black;
 }
 
 /* card 팀장 */
