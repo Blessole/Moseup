@@ -68,6 +68,14 @@ public class TeamAskBoard {
 		this.secret = secret;
 	}
 	
+	@Builder(builderClassName = "update", builderMethodName = "updateTeamAskBoard")
+	public TeamAskBoard(Long tano, String teamAskSubject, String teamAskContent, SecretStatus secret) {
+		this.tano = tano;
+		this.teamAskSubject = teamAskSubject;
+		this.teamAskContent = teamAskContent;
+		this.secret = secret;
+	}
+	
 	/*
 	 * @Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
 	 * public TeamAskBoard(DeleteStatus deleteStatus) { this.teamAskDelete =

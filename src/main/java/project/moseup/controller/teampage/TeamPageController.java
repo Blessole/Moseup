@@ -22,6 +22,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
+import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
 
@@ -116,25 +117,28 @@ public class TeamPageController {
 		
 		Member member = teamAskOne.getMember();
 		
+		TeamAskBoardUpdateDto updateDto = new TeamAskBoardUpdateDto();
+		
 		model.addAttribute("teamAskOne", teamAskOne);
 		model.addAttribute("findMember", member);
+		model.addAttribute("updateDto", updateDto);
 		
 		return "teams/teamAskBoardUpdateForm";
 	}
 	
 	// 문의글 수정 결과
-	@GetMapping("/teamAksBoard/updateForm/update")
-	public String teamAskBoardUpdate(@RequestParam(required = false) String secret, @RequestParam("tano") Long tano) {
+	@PostMapping("/teamAskBoard/updateForm/update")
+	public String teamAskBoardUpdate(TeamAskBoardUpdateDto updateDto, @RequestParam(required = false) String secret,@RequestParam Long tano) {
 		
-		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
+//		TeamAskBoard teamAskOneReal = teamAskBoardService.findOne(tano);
 		
 		if(secret != null) {
-			teamAskOne.setSecret(SecretStatus.SECRET);
+			updateDto.setSecret(SecretStatus.SECRET);
 		} else {
-			teamAskOne.setSecret(SecretStatus.PUBLIC);
+			updateDto.setSecret(SecretStatus.PUBLIC);
 		}
 		
-		teamAskBoardService.changeUpdate(teamAskOne);
+		teamAskBoardService.changeUpdate(updateDto, tano);
 		
 		return "redirect:/teams/teamAskBoard/teamAskBoardDetail";
 	}

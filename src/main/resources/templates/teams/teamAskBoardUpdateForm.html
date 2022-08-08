@@ -11,8 +11,8 @@
 <th:block layout:fragment="content">
 	<section id="feature">
 		<div class="container">
-			<h2 class="text-primary" align="center">문의 하기</h2>
-			<form th:action="@{/teams/teamAksBoard/updateForm/update(tano=${teamAskOne.tano})}" th:object="${teamAskOne}" method="get">
+			<h2 class="text-primary" align="center">수정 하기</h2>
+			<form th:action="@{/teams/teamAskBoard/updateForm/update}" th:object="${teamAskOne}" method="post">
 				<div class="form-group">
 					<label th:for="nickname">작성자</label>
 					<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
