@@ -44,9 +44,7 @@ public class TeamAskBoardPageRepositoryTest {
 
     @Test
     public void 빌더삭제_test(){
-
         TeamAskBoard teamAskBoard = teamAskBoardPageRepository.findById(40L).orElse(null);
-
 
 
        assertEquals(DeleteStatus.FALSE, teamAskBoard.getTeamAskDelete());

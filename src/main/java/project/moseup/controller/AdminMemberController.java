@@ -204,5 +204,4 @@ public class AdminMemberController {
         return "redirect:/admin/memberList";
     }
 
-
 }

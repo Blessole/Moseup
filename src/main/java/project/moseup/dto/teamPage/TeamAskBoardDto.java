@@ -57,6 +57,7 @@ public class TeamAskBoardDto {
 	// 게시글 삭제 method
 	public static TeamAskBoard toDelete() {
 		return TeamAskBoard.teamAskBoardDelete()
+
 				.deleteStatus(DeleteStatus.TRUE)
 				.build();
 	}
