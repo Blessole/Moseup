@@ -2,20 +2,17 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
-import project.moseup.dto.JoinForm;
+import project.moseup.dto.JoinFormDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -32,12 +29,12 @@ public class MemberController {
         //해당 enum의 모든 정보를 배열로 반환 [MALE, FEMALE]
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);
-        model.addAttribute("joinForm", new JoinForm());
+        model.addAttribute("joinForm", new JoinFormDto());
         return "members/joinForm";
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute(value = "joinForm") JoinForm joinForm, BindingResult bindingResult){
+    public String join(@Valid @ModelAttribute(value = "joinForm") JoinFormDto joinForm, BindingResult bindingResult){
         System.out.println("error:"+ bindingResult.hasErrors());
 
         if(bindingResult.hasErrors()){

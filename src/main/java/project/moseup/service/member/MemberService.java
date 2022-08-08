@@ -1,16 +1,12 @@
 package project.moseup.service.member;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import project.moseup.dto.JoinForm;
+import project.moseup.dto.JoinFormDto;
 import project.moseup.domain.Member;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
@@ -29,7 +25,7 @@ public class MemberService {
 
 	/** 회원가입 **/
 	@Transactional // 값을 넣어야하는 곳에는 읽기만 하면 안되니 따로 @Transactional를 사용
-	public void join(JoinForm joinForm) {
+	public void join(JoinFormDto joinForm) {
 		System.out.println("password : " + joinForm.getPassword1());
 
 		Member member = joinForm.toEntity();

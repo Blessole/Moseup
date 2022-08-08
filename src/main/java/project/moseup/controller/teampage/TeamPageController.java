@@ -24,6 +24,7 @@ import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.service.TeamAskBoardService;
+import project.moseup.service.member.MemberService;
 
 @Controller
 @RequiredArgsConstructor
@@ -127,9 +128,12 @@ public class TeamPageController {
 
 	// 문의글 수정 결과
 	@PostMapping("/teamAskBoard/updateForm/update")
-	public String teamAskBoardUpdate(TeamAskBoardUpdateDto updateDto, @RequestParam(required = false) String secret,@RequestParam Long tano) {
+	public String teamAskBoardUpdate(TeamAskBoardUpdateDto updateDto, @RequestParam(required = false) String secret, @RequestParam Long tano) {
 
 //		TeamAskBoard teamAskOneReal = teamAskBoardService.findOne(tano);
+		System.out.println("updateDto 내용 : "+updateDto.getTeamAskContent());
+		System.out.println("updateDto 제목 : "+updateDto.getTeamAskSubject());
+		System.out.println("updateDto 비밀글여부 : "+updateDto.getSecret());
 
 		if(secret != null) {
 			updateDto.setSecret(SecretStatus.SECRET);
@@ -139,7 +143,7 @@ public class TeamPageController {
 
 		teamAskBoardService.changeUpdate(updateDto, tano);
 
-		return "redirect:/teams/teamAskBoard/teamAskBoardDetail";
+		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano="+tano;
 	}
 
 	// 문의글 삭제

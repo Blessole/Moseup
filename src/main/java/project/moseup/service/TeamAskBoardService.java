@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
@@ -54,8 +55,8 @@ public class TeamAskBoardService {
 
 	// 특정 글 수정
 	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
+		TeamAskBoard afterUpdate = teamAskBoardUpdateDto.update();
 		TeamAskBoard tab = askBoardRepository.findOne(tano);
-		tab = teamAskBoardUpdateDto.update();	
 		askBoardRepository.save(tab);
 		
 	}

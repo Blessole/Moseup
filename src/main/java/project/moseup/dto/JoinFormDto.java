@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class JoinForm {
+public class JoinFormDto {
 
     @NotEmpty(message = "이메일 주소를 입력해주세요")
     @Email(message = "올바른 이메일 주소를 입력해주세요")

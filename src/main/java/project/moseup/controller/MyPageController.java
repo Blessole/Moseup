@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
-import project.moseup.dto.JoinForm;
 import project.moseup.service.TeamService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;

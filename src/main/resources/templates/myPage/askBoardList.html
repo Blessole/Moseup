@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+  <div class="middle-container">
+      <h2 class="title">1:1 문의게시판</h2>
+        <table class="askBoardTable">
+          <tr><th>번호</th><th>제목</th><th>문의날짜</th><th>답변여부</th></tr>
+          <tr  th:each="list, stat : ${askboardList}">
+            <td th:text="|${stat.count}|"></td>
+            <td th:text="${list.askSubject}"></td>
+            <td th:text="${list.askDate}"></td>
+<!--            <td th:text="${}"></td>-->
+          </tr>
+        </table>
+    <button onclick="location.href='/askBoard/askBoardForm'">문의하기</button>
+  </div>
+</th:block>
+</body>
+</html>
