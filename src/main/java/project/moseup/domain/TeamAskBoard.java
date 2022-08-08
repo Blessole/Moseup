@@ -1,18 +1,29 @@
 package project.moseup.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 쉽게 접근할 수 없게!
 public class TeamAskBoard {
 
@@ -20,7 +31,7 @@ public class TeamAskBoard {
 	@GeneratedValue @Id
 	private Long tano;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
 
@@ -45,23 +56,8 @@ public class TeamAskBoard {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
-
-	@Override
-	public String toString() {
-		return "TeamAskBoard{" +
-				"tano=" + tano +
-				", member=" + member +
-				", teamAskSubject='" + teamAskSubject + '\'' +
-				", teamAskContent='" + teamAskContent + '\'' +
-				", teamAskDate=" + teamAskDate +
-				", teamAskReadCount=" + teamAskReadCount +
-				", secret=" + secret +
-				", teamAskDelete=" + teamAskDelete +
-				", teamAskBoardReplies=" + teamAskBoardReplies +
-				'}';
-	}
-
-	@Builder(builderMethodName = "teamAskBoard")
+	
+	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
@@ -71,13 +67,28 @@ public class TeamAskBoard {
 		this.teamAskReadCount = teamAskReadCount;
 		this.secret = secret;
 	}
-
-	@Builder(builderMethodName = "teamAskBoardDelete")
-	public TeamAskBoard(DeleteStatus deleteStatus) {
-		this.teamAskDelete = deleteStatus;
+	
+	@Builder(builderClassName = "update", builderMethodName = "updateTeamAskBoard")
+	public TeamAskBoard(Long tano, String teamAskSubject, String teamAskContent, SecretStatus secret) {
+		this.tano = tano;
+		this.teamAskSubject = teamAskSubject;
+		this.teamAskContent = teamAskContent;
+		this.secret = secret;
 	}
+	
+	/*
+	 * @Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
+	 * public TeamAskBoard(DeleteStatus deleteStatus) { this.teamAskDelete =
+	 * deleteStatus; }
+	 */
+	
+	// 게시글 삭제 method
+	/*
+	 * public void deleteTeamAskBoard() { this.setTeamAskDelete(DeleteStatus.TRUE);
+	 * }
+	 */
 
-	@OneToMany(mappedBy = "teamAskBoard", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 
 }

@@ -1,17 +1,21 @@
 package project.moseup.dto.teamPage;
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Getter;
 import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-
-
 
 @Getter @Setter
 public class TeamAskBoardDto {
@@ -41,24 +45,22 @@ public class TeamAskBoardDto {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
-
+	
 	// 게시글 생성 method
 	public TeamAskBoard toEntity() {
-		return TeamAskBoard.teamAskBoard()
+		return TeamAskBoard.creatTeamAskBoard()
 				.member(member)
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)
 				.teamAskDate(LocalDate.now())
 				.teamAskReadCount(0)
-				.secret(SecretStatus.PUBLIC)
+				.secret(secret)
 				.teamAskDelete(DeleteStatus.FALSE).build();
 	}
-
+	
 	// 게시글 삭제 method
-	public static TeamAskBoard toDelete() {
-		return TeamAskBoard.teamAskBoardDelete()
-
-				.deleteStatus(DeleteStatus.TRUE)
-				.build();
-	}
+	/*
+	 * public TeamAskBoard Delete() { return TeamAskBoard.teamAskBoardD()
+	 * .deleteStatus(DeleteStatus.TRUE).build(); }
+	 */
 }
