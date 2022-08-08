@@ -50,6 +50,12 @@ public class TeamAskBoardService {
 	public void changeDelete(TeamAskBoard teamAskBoard) {
 		askBoardRepository.save(teamAskBoard);
 	}
+
+	// 특정 글 수정
+	public void changeUpdate(TeamAskBoard teamAskBoard) {
+		askBoardRepository.save(teamAskBoard);
+		
+	}
 	
 	// 글 삭제
 	/*

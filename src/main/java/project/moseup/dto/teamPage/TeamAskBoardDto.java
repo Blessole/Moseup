@@ -54,7 +54,7 @@ public class TeamAskBoardDto {
 				.teamAskContent(teamAskContent)
 				.teamAskDate(LocalDate.now())
 				.teamAskReadCount(0)
-				.secret(SecretStatus.PUBLIC)
+				.secret(secret)
 				.teamAskDelete(DeleteStatus.FALSE).build();
 	}
 	

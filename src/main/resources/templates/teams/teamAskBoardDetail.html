@@ -57,7 +57,7 @@
 			</div>
 			<div>
 				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
-				<a th:href="@{/}" class="btn btn-primary">수정</a>
+				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano})}" class="btn btn-primary">수정</a>
 				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
 				
 			</div>	

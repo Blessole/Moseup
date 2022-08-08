@@ -75,16 +75,18 @@ public class TeamPageController {
 		return "teams/askBoardWriteForm";
 	}
 
-	// 팀 페이지 문의 작성
+	// 팀 페이지 문의 작성 결과
 	@PostMapping("/teamAskBoard/teamAskBoardWriteForm/createTeamAsk")
-	public String createTeamAsk(@Valid TeamAskBoardDto teamAsk, Principal principal, BindingResult result) {
+	public String createTeamAsk(@Valid TeamAskBoardDto teamAsk, BindingResult result, Principal principal, @RequestParam(required = false) String secret) {
 
 		Member member = this.memberService.getMember(principal.getName());
 		
 		teamAsk.setMember(member);
 		
-		if(teamAsk.getSecret() != null) {
+		if(secret != null) {
 			teamAsk.setSecret(SecretStatus.SECRET);
+		} else {
+			teamAsk.setSecret(SecretStatus.PUBLIC);
 		}
 		
 		teamAskBoardService.saveTeamAskBoard(teamAsk);
@@ -104,6 +106,37 @@ public class TeamPageController {
 		model.addAttribute("findMember", member);
 		
 		return "teams/teamAskBoardDetail";
+	}
+	
+	// 문의글 수정 폼
+	@GetMapping("/teamAskBoard/updateForm")
+	public String teamAskBoardUpdateForm(@RequestParam Long tano, Model model) {
+		
+		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
+		
+		Member member = teamAskOne.getMember();
+		
+		model.addAttribute("teamAskOne", teamAskOne);
+		model.addAttribute("findMember", member);
+		
+		return "teams/teamAskBoardUpdateForm";
+	}
+	
+	// 문의글 수정 결과
+	@GetMapping("/teamAksBoard/updateForm/update")
+	public String teamAskBoardUpdate(@RequestParam(required = false) String secret, @RequestParam("tano") Long tano) {
+		
+		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
+		
+		if(secret != null) {
+			teamAskOne.setSecret(SecretStatus.SECRET);
+		} else {
+			teamAskOne.setSecret(SecretStatus.PUBLIC);
+		}
+		
+		teamAskBoardService.changeUpdate(teamAskOne);
+		
+		return "redirect:/teams/teamAskBoard/teamAskBoardDetail";
 	}
 	
 	// 문의글 삭제
