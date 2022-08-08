@@ -1,6 +1,5 @@
 package project.moseup.controller;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -36,7 +35,7 @@ public class teamController {
 
 	//	team 생성
 	@PostMapping("/teams/createTeam")
-	public String  createTeam(@Valid TeamForm teamForm, BindingResult result, Principal principal) {
+	public String  createTeam(@Valid TeamForm teamForm, BindingResult result) {
 		//@Valid : 클라이언트 측에서 넘어온 데이터를 객체에 바인딩(속성과 개체 사이 또는 연산과 기호사이와 같은 연관)할 때 유효성 검사함
 		//@Valid다음에 BindingResult가 있으면 result에 오류가 담긴후 코드가 실행됨.
 
@@ -45,10 +44,13 @@ public class teamController {
 		}
 
 		Team team = new Team();
-		//principal을 통해서 로그인한 멤버 생성
-		Member member = memberService.getMember(principal.getName());
 
-		team.setMember(member);
+		// 세션을 통해서 멤버 가져와야됨(나중에 작성)
+
+		//임시 멤버(나중에 삭제)
+		Member member1 = memberService.findOne((long) 1);
+
+		team.setMember(member1);
 		team.setTeamName(teamForm.getTeamName());
 		team.setTeamVolume(teamForm.getTeamVolume());
 		team.setTeamCategory1(teamForm.getTeamCategory1());
@@ -70,7 +72,7 @@ public class teamController {
 	}
 
 	// 팀명 중복체크
-	@GetMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
+	@PostMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
 	@ResponseBody	// 전에는 return "idChk";통해 보여주지만, @ResponseBody는 jsp를 통하지 않고 직접 문자를 전달함
 	public String teamNameChk(String teamName) {
 	      String msg = "";

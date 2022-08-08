@@ -70,11 +70,11 @@ public class AdminMemberController {
     public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
                        @PageableDefault(size = 10) Pageable pageable){
             // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
-            //Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
+            // Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
             Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContainingOrderByMnoDesc(keyword, keyword, keyword, pageable);
 
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
-            //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
+            // Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
 
             int startPage = Math.max(1, members.getPageable().getPageNumber() - 5);
             int endPage = Math.min(members.getTotalPages(), members.getPageable().getPageNumber() + 5);

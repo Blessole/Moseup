@@ -13,6 +13,9 @@
 <script src="assets/js/breakpoints.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
+<style type="text/css">
+	ul {align-items: flex-end;}
+</style>
 </head>
 <body class="homepage is-preload">
 	<!-- 본문 코드 시작 -->
@@ -52,17 +55,20 @@
 							<tr>
 								<th>글번호</th>
 								<th>제목</th>
+								<th>작성자</th>
 								<th>작성일</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="teamaskboard : ${teamAsks}">
+							<tr th:each="teamaskboard : ${teamAsks}">							
 								<th th:text="${teamaskboard.tano}"></th>
-								<th><a
-									th:href="@{/teams/teamAskBoard/TeamAskBoardDetail(tano=${teamaskboard.tano})}"
+								<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano})}"
 									th:text="${teamaskboard.teamAskSubject}"></a></th>
+								<th th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
 							</tr>
+						
+							
 						</tbody>
 					</table>
 					<nav aria-label="Page navigation example">
