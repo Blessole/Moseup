@@ -26,7 +26,7 @@ public class AdminTeamController {
 
     @GetMapping("/teamList")
     public String teamList(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
-                           @PageableDefault(size = 10, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
+                           @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
 
         Page<Team> teams = adminTeamRepository.findByTeamNameContaining(keyword, pageable);
 
@@ -39,5 +39,16 @@ public class AdminTeamController {
 
         return "admin/teamList";
     }
+
+    // 회원 정보 상세보기
+    @GetMapping("/teamDetail")
+    public String memberDetail(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+            Team team = adminTeamService.teamDetail(tno);
+
+            model.addAttribute("team", team);
+            model.addAttribute("pageNum", pageNum);
+
+            return "admin/teamDetail";
+        }
 
 }

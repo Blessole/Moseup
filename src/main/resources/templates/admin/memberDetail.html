@@ -1,32 +1,18 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layouts/fragments/adminCommonTest :: head('회원정보')"></head>
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
 
 <body>
       <!-- 사이드 바 -->
-      <div th:replace="layouts/fragments/adminCommonTest :: sidebar('memberList')"></div>
+      <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
 
       <!-- 헤더  -->
-      <section th:replace="layouts/fragments/adminCommonTest :: header('회원정보')"> </section>
+      <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="#">회원정보</a>
-                        <a class="nav-link" href="#">통장정보</a>
-                        <a class="nav-link" href="#">댓글정보</a>
-                        <a class="nav-link" href="#">인증글</a>
-                        <a class="nav-link" href="#">문의글</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- 기본 회원 정보 start -->
-        <div id="memberinfo">
+    <div class="main-content">
+         <!-- 기본 회원 정보 start -->
+         <div id="memberinfo">
             <img class="mb-3 img-thumbnail" style="width: 200px; height: 200px; object-fit: contain;">
             <div class="memberinfo_start">
                 <div class="memberinfo_Row">
@@ -141,13 +127,16 @@
         
 
         <div class="text-end mb-3">
-            <a type="button" class="btn btn-sm btn-danger" th:href="@{/admin/memberList}">확인</a>
+            <a type="button" class="btn btn-sm btn-danger" th:href="@{/admin/memberList?page=} + ${pageNum}">확인</a>
             <a th:href="@{/admin/memberDelete(mno=${member.mno})}" class="btn btn-sm btn-outline-dark">삭제</a>
         </div>
-    </main>
+    </div>
+
+       
+    
 
 
-
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
 </body>
 
 </html>

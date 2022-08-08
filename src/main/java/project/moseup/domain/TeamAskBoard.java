@@ -1,26 +1,12 @@
 package project.moseup.domain;
 
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
-
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter @Setter
@@ -31,7 +17,7 @@ public class TeamAskBoard {
 	@GeneratedValue @Id
 	private Long tano;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_no")
 	private Member member;
 
@@ -56,6 +42,14 @@ public class TeamAskBoard {
 	@Column(name = "team_askdelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamAskDelete;
+
+
+	// 문의글 수정 메소드
+	public void subjectAndContentAndSecretUpdate(String teamAskSubject, String teamAskContent, SecretStatus secret){
+		this.teamAskContent = teamAskContent;
+		this.teamAskSubject = teamAskSubject;
+		this.secret = secret;
+	}
 	
 	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
 	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {

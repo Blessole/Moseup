@@ -1,17 +1,23 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layouts/fragments/adminCommonTest :: head('팀목록')"></head>
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('팀목록')"></head>
 
 <body>
     <!-- 사이드 바 -->
-    <div th:replace="layouts/fragments/adminCommonTest :: sidebar('teamList')"></div>
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
 
     <!-- 헤더  -->
-    <section th:replace="layouts/fragments/adminCommonTest :: header('팀목록')"> </section>
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('팀목록')"> </section>
 
     <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <table class="table table-borderless caption-top table-hover">
+    <div class="main-content">
+      <div class="search-box">
+        <form action="#" th:action="@{/admin/teamList}" method="GET">
+          <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
+        </form>
+        <i class='bx bx-search' ></i>
+      </div>
+        <table class="table caption table-hover">
             <caption>총 스터디 수 : <span th:text="${teams.totalElements}">회원 수</span></caption>
             <thead>
               <tr>
@@ -28,14 +34,14 @@
                 <th th:text="${team.tno}">번호</th>
                 <td th:text="${team.member.nickname}">팀장</td>
                 <td th:text="${team.teamDeposit}">예치금</td>
-                <td><a th:text="${team.teamName}" th:href="@{/admin/teamDetail(tno=${team.tno},page=${teams.pageable.pageNumber})}">스터디명</a></td>    
+                <td><a th:text="${team.teamName}" th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${teams.pageable.pageNumber})}">스터디명</a></td>    
                 <td th:text="${team.teamVolume}">모집인원</td>
                 <td th:text="${team.teamDate}">생성날짜</td>
               </tr>
             </tbody>
           </table>
           <!-- 페이징 -->
-          <nav aria-label="Page navigation example">
+          <div class="page-in" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               <li class="page-item" th:classappend="${1 == teams.pageable.pageNumber + 1} ? 'disabled'">
                 <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber - 1})}">이전</a>
@@ -47,16 +53,14 @@
                 <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber + 1})}">다음</a>
               </li>
             </ul>
-          </nav>
-          
-
-        
-    </main>
+          </div>
+    </div>
+    
 
 
 
 
-
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
 </body>
 
 </html>

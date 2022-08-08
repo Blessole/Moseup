@@ -7,8 +7,6 @@ import project.moseup.domain.TeamAskBoard;
 
 @Getter @Setter
 public class TeamAskBoardUpdateDto {
-	
-	private Long tano;
 
 	private String teamAskSubject;
 
@@ -17,11 +15,11 @@ public class TeamAskBoardUpdateDto {
 	private SecretStatus secret;
 	
 	public TeamAskBoard update() {
-		return TeamAskBoard.updateTeamAskBoard()
-				.tano(tano)
+		return TeamAskBoard.creatTeamAskBoard()
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)
-				.secret(secret).build();
+				.secret(secret)
+				.build();
 	}
 
 }

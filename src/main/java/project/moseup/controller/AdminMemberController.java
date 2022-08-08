@@ -72,9 +72,10 @@ public class AdminMemberController {
     // 회원 리스트 출력
     @GetMapping("/memberList")
     public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
-                       @PageableDefault(size = 10, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable){
+                       @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable){
             // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
             //Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
+            log.info(keyword);
             Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
 
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
@@ -109,7 +110,6 @@ public class AdminMemberController {
             model.addAttribute("female", MemberGender.FEMALE);
             return "admin/memberJoinForm";
         }
-
         // 파일 처리
         if(!file.getContentType().startsWith("image")){
             log.warn("이미지 파일이 아닙니다");
@@ -122,7 +122,6 @@ public class AdminMemberController {
             fileName = originalFilename.substring(originalFilename.lastIndexOf("//")+1);
         }
         log.info("fileName = " + fileName);
-
         // 날짜 폴더 생성
         String folderPath = makeFolder();
         //UUID
@@ -132,7 +131,6 @@ public class AdminMemberController {
 
         Path savePath = Paths.get(saveName);
         //Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-
         try{
             file.transferTo(savePath);
             //uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
@@ -140,10 +138,7 @@ public class AdminMemberController {
             e.printStackTrace();
             //printStackTrace()를 호출하면 로그에 Stack trace 출력됩니다.
         }
-
         memberSaveReqDto.setPhoto(String.valueOf(savePath));
-
-
         MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);
 
         return "redirect:/admin/memberList";
@@ -177,7 +172,7 @@ public class AdminMemberController {
 
     // 회원 정보 상세보기
     @GetMapping("/memberDetail")
-    public String memberDetail(@RequestParam Long mno, Model model){
+    public String memberDetail(@RequestParam Long mno, @RequestParam int pageNum, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member == null){
             return "redirect:/admin/memberList";
@@ -189,6 +184,7 @@ public class AdminMemberController {
             model.addAttribute("memberDate", date);
             model.addAttribute("fileName", path.getFileName());
             model.addAttribute("member", member);
+            model.addAttribute("pageNum", pageNum);
 
             return "admin/memberDetail";
         }

@@ -1,9 +1,6 @@
 package project.moseup.controller.teampage;
 
-import java.security.Principal;
-
-import javax.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,16 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
+import project.moseup.dto.teamPage.TeamAskRespDto;
 import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
+
+import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -100,10 +99,11 @@ public class TeamPageController {
 	public String teamAskBoardDetail(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-		
+		TeamAskRespDto teamAskRespDto = new TeamAskRespDto().toDto(teamAskOne);
+
 		Member member = teamAskOne.getMember();
 
-		model.addAttribute("teamAskOne", teamAskOne);
+		model.addAttribute("teamAskOne", teamAskRespDto);
 		model.addAttribute("findMember", member);
 		
 		return "teams/teamAskBoardDetail";
@@ -112,35 +112,32 @@ public class TeamPageController {
 	// 문의글 수정 폼
 	@GetMapping("/teamAskBoard/updateForm")
 	public String teamAskBoardUpdateForm(@RequestParam Long tano, Model model) {
-		
+
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-		
-		Member member = teamAskOne.getMember();
-		
-		TeamAskBoardUpdateDto updateDto = new TeamAskBoardUpdateDto();
-		
-		model.addAttribute("teamAskOne", teamAskOne);
-		model.addAttribute("findMember", member);
-		model.addAttribute("updateDto", updateDto);
+		TeamAskRespDto teamAskRespDto = new TeamAskRespDto().toDto(teamAskOne);
+//		Member member = teamAskOne.getMember();
+
+
+		model.addAttribute("teamAskOne", teamAskRespDto);
+//		model.addAttribute("findMember", member);
+		model.addAttribute("secret",SecretStatus.SECRET);
+		model.addAttribute("teamAskUpdateDto", new TeamAskBoardUpdateDto());
 		
 		return "teams/teamAskBoardUpdateForm";
 	}
 	
 	// 문의글 수정 결과
 	@PostMapping("/teamAskBoard/updateForm/update")
-	public String teamAskBoardUpdate(TeamAskBoardUpdateDto updateDto, @RequestParam(required = false) String secret,@RequestParam Long tano) {
-		
-//		TeamAskBoard teamAskOneReal = teamAskBoardService.findOne(tano);
-		
+	public String teamAskBoardUpdate(@Valid TeamAskBoardUpdateDto teamAskOne, @RequestParam(required = false) String secret, @RequestParam Long tano) {
+
 		if(secret != null) {
-			updateDto.setSecret(SecretStatus.SECRET);
+			teamAskOne.setSecret(SecretStatus.SECRET);
 		} else {
-			updateDto.setSecret(SecretStatus.PUBLIC);
+			teamAskOne.setSecret(SecretStatus.PUBLIC);
 		}
+		teamAskBoardService.changeUpdate(teamAskOne, tano);
 		
-		teamAskBoardService.changeUpdate(updateDto, tano);
-		
-		return "redirect:/teams/teamAskBoard/teamAskBoardDetail";
+		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano;
 	}
 	
 	// 문의글 삭제

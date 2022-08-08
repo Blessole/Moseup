@@ -23,6 +23,18 @@ public class TeamAskBoardPageRepositoryTest {
     AdminMemberRepository adminMemberRepository;
 
 
+
+    @Test
+    public void 조회_test(){
+        TeamAskBoard teamAskBoard = teamAskBoardPageRepository.findById(40L).orElse(null);
+
+        assertEquals("test" ,teamAskBoard.getTeamAskSubject());
+        assertEquals("32z" ,teamAskBoard.getMember().getNickname());
+
+    }
+
+
+
     @Test
     public void 삭제데이터준비_test(){
         Member member = adminMemberRepository.findById(35L).orElse(null);

@@ -1,18 +1,17 @@
 package project.moseup.service;
 
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -53,11 +52,19 @@ public class TeamAskBoardService {
 	}
 
 	// 특정 글 수정
-	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
-		TeamAskBoard tab = askBoardRepository.findOne(tano);
-		tab = teamAskBoardUpdateDto.update();	
-		askBoardRepository.save(tab);
-		
+	@Transactional
+	public void changeUpdate(TeamAskBoardUpdateDto dto, Long tano) {
+		TeamAskBoard teamAskBoardPS = askBoardPageRepository.findById(tano).orElse(null);
+		if(teamAskBoardPS != null){
+			teamAskBoardPS.subjectAndContentAndSecretUpdate(
+					dto.getTeamAskSubject(),
+					dto.getTeamAskContent(),
+					dto.getSecret()
+			);
+		}
+
+
+
 	}
 	
 	// 글 삭제
