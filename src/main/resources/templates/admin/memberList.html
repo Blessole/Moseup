@@ -9,8 +9,9 @@
     <!-- 헤더  -->
     <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원목록')"> </section>
 
-    <div class="main-content">
-      <div class="search-box">
+    <div class="main-list-section">
+      <div class="main-list-content">
+        <div class="search-box">
         <form action="#" th:action="@{/admin/memberList}" method="GET">
           <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
         </form>
@@ -43,13 +44,13 @@
         <div class="page-in" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${1 == members.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber - 1})}">이전</a>
+              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber - 1})}"><</a>
             </li>
             <li class="page-item" th:classappend="${i == members.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
               <a class="page-link" href="#" th:href="@{/admin/memberList(page=${i - 1})}" th:text="${i}">1</a>
             </li>
             <li class="page-item" th:classappend="${members.totalPages == members.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber + 1})}">다음</a>
+              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber + 1})}">></a>
             </li>
           </ul>
         </div>
@@ -59,7 +60,7 @@
         
       
     </div>
-        
+        </div>
 
         
     

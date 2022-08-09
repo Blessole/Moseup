@@ -113,10 +113,9 @@ public class Member {
 		this.memberDelete = deleteStatus;
 		return this;
 	}
-	
+
 	public Member newMember() {
-		Member member = new Member();
-		return member;
+		return new Member();
 	}
 
 	// 정보 수정 용

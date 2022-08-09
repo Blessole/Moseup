@@ -21,7 +21,7 @@
 <body>
 
     <!-- 사이드바 -->
-  <div class="sidebar" th:fragment="sidebar(sidebar)">
+  <div class="sidebar close" th:fragment="sidebar(sidebar)">
         <div class="logo-details">
         <i class='bx bxl-c-plus-plus'></i>
         <span class="logo_name">Moseup</span>
@@ -148,7 +148,7 @@
     <!-- 헤더 -->
   <section class="home-section" th:fragment="header(header)">
     <div class="home-content">
-      <i class='bx bx-menu' ></i>
+      <i class='bx bx-menu'></i>
       <span class="text" th:text="${header}">Drop Down Sidebar</span>
     </div>
   </section>

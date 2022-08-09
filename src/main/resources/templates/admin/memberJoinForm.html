@@ -9,6 +9,7 @@
     <!-- 헤더  -->
     <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
 
+    <div class="main-section">
     <div class="main-content">
         <form action="#" th:action="@{/admin/memberJoinForm}" th:object="${memberSaveReqDto}" method="post"
             enctype="multipart/form-data" style="width: 50%;">
@@ -73,7 +74,7 @@
             </div>
         </form>
     </div>
-  
+</div>
 
 
     <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>

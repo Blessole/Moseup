@@ -9,8 +9,9 @@
     <!-- 헤더  -->
     <section th:replace="layouts/fragments/adminCommonTest2 :: header('팀목록')"> </section>
 
-    <!-- 내용 작성 시 아래 클래스 작성이 필요함(위치 적용) -->
-    <div class="main-content">
+   
+    <div class="main-list-section">
+    <div class="main-list-content">
       <div class="search-box">
         <form action="#" th:action="@{/admin/teamList}" method="GET">
           <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
@@ -55,7 +56,7 @@
             </ul>
           </div>
     </div>
-    
+  </div>
 
 
 

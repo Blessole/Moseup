@@ -7,9 +7,21 @@ for (var i = 0; i < arrow.length; i++) {
 }
 let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".bx-menu");
-console.log(sidebarBtn);
+
+
 sidebarBtn.addEventListener("click", () => {
     sidebar.classList.toggle("close");
+});
+
+$(function () {
+    let sidebarClassList = sidebar.classList;
+    if (!sidebarClassList.contains('close')) {
+        sessionStorage.setItem('sideBar', 'open');
+    }
+    if (sessionStorage.getItem('sideBar') == 'open') {
+        let sidebar = document.querySelector(".sidebar");
+        $('.sidebar').trigger("sidebar.classList.remove('close')");
+    }
 });
 
 // 사진 미리보기

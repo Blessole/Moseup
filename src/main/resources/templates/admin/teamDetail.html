@@ -9,6 +9,7 @@
       <!-- 헤더  -->
       <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
 
+    <div class="main-section">
     <div class="main-content">
          <!-- 기본 회원 정보 start -->
          <div id="memberinfo">
@@ -75,6 +76,7 @@
             <a type="button" class="btn btn-sm btn-danger" th:href="@{/admin/teamList?page=} + ${pageNum}">확인</a>
             <a th:href="@{/admin/teamDelete(tno=${team.tno})}" class="btn btn-sm btn-outline-dark">삭제</a>
         </div>
+    </div>
     </div>
 
        

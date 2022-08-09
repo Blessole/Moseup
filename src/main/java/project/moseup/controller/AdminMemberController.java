@@ -181,7 +181,9 @@ public class AdminMemberController {
             String date = member.getMemberDate().format(DateTimeFormatter.ISO_DATE);
             Path path = Paths.get(member.getPhoto());
 
+
             model.addAttribute("memberDate", date);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("fileName", path.getFileName());
             model.addAttribute("member", member);
             model.addAttribute("pageNum", pageNum);
@@ -200,4 +202,12 @@ public class AdminMemberController {
         return "redirect:/admin/memberList";
     }
 
+    // 회원 복구 memberDelete (TRUE -> FALSE 변경)
+    @GetMapping("/memberRecover")
+    public String memberRecover(@RequestParam Long mno){
+
+        adminMemberService.RecoverMember(mno);
+
+        return "redirect:/admin/memberList";
+    }
 }

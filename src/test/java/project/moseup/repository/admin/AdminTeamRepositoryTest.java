@@ -43,6 +43,8 @@ public class AdminTeamRepositoryTest {
                 .build();
         Team team = adminTeamRepository.save(teamForm.teamBuilder());
 
+
+
         assertEquals("테스트", team.getTeamName());
 
 

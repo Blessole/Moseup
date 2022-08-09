@@ -47,6 +47,16 @@ public class AdminMemberService {
         }
     }
 
+    // 회원 복구(업데이트)
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void RecoverMember(Long mno) {
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if (member != null) {
+            member.deleteUpdate(DeleteStatus.FALSE);
+            adminMemberRepository.save(member);
+        }
+    }
+
     // 회원 목록 보기
     // Entity List -> dto List -> page List
     public Page<MemberRespDto> memberListAll(Pageable pageable) {
@@ -74,4 +84,6 @@ public class AdminMemberService {
 
         return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
     }
+
+
 }
