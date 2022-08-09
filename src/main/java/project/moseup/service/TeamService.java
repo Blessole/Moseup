@@ -1,8 +1,8 @@
 package project.moseup.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamForm;
 import project.moseup.repository.TeamRepository;
-import project.moseup.repository.TeamSearchRepository;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,7 +17,6 @@ import project.moseup.repository.TeamSearchRepository;
 public class TeamService {
 
 	private final TeamRepository teamRepository;
-	private final TeamSearchRepository teamSearchRepository;
 
 	@Transactional
 	public Long create(TeamForm teamForm) {		//팀 생성
@@ -41,16 +39,5 @@ public class TeamService {
 		}
 		return null;
 	}
-	
-	//keyword가 포함된 모든팀 찾기
-	public List<Team> findAll(String keyword) {
-		List<Team> findAllList = teamSearchRepository.findAllSearch(keyword);
-		
-		List<Team> emptyList = new ArrayList<>();
-		if (!findAllList.isEmpty()) {
-			List<Team> searchedTeamList = findAllList;
-			return searchedTeamList;
-		}
-		return emptyList;
-	}
+
 }
