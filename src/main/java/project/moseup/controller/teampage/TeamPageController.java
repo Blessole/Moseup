@@ -22,6 +22,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
+import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.service.TeamAskBoardService;
@@ -101,13 +102,11 @@ public class TeamPageController {
 	public String teamAskBoardDetail(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-		
-		Member member = teamAskOne.getMember();
+		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
 		
 		teamAskBoardService.increaseReadCount(tano);
 
-		model.addAttribute("teamAskOne", teamAskOne);
-		model.addAttribute("findMember", member);
+		model.addAttribute("teamAskOne", teamAskOneDetail);
 		
 		return "teams/teamAskBoardDetail";
 	}
@@ -117,14 +116,9 @@ public class TeamPageController {
 	public String teamAskBoardUpdateForm(@RequestParam Long tano, Model model) {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
+		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
 		
-		Member member = teamAskOne.getMember();
-		
-		TeamAskBoardUpdateDto updateDto = new TeamAskBoardUpdateDto();
-		
-		model.addAttribute("teamAskOne", teamAskOne);
-		model.addAttribute("member", member);
-		model.addAttribute("updateDto", updateDto);
+		model.addAttribute("teamAskOne", teamAskOneDetail);
 		
 		return "teams/teamAskBoardUpdateForm";
 	}
