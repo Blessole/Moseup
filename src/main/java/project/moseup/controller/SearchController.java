@@ -1,36 +1,62 @@
 package project.moseup.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
+import project.moseup.repository.SearchRepository;
 import project.moseup.service.SearchService;
-import project.moseup.service.TeamService;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("search")
 public class SearchController {
 	
 	private final SearchService searchService;
-	private final TeamService teamService;
+	private final SearchRepository searchRepository ;
 	
-	@GetMapping("/search")	//검색
-	public String teamSearch(@RequestParam(value = "keyword") String keyword, Model model) {
-		List<Team> searchedTeamList = searchService.findKeywordAll(keyword);
-		
-		if (searchedTeamList.isEmpty()) {
-		    model.addAttribute("searchedTeamList", "nothing");
-		    model.addAttribute("keyword", keyword);	//검색 후 검색창에 보여주기 위함
-		} else {
+	//검색 페이징
+	@GetMapping("")
+    public String teamSearch(@RequestParam(required = false, defaultValue = "") String keyword, Model model, 
+    		@PageableDefault(size = 12, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
+
+            Page<Team> searchedTeamList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3Containing(keyword, keyword, keyword, keyword, keyword, pageable);
+
+            int startPage = Math.max(1, searchedTeamList.getPageable().getPageNumber() - 5);
+            int endPage = Math.min(searchedTeamList.getTotalPages(), searchedTeamList.getPageable().getPageNumber() + 5);
+            
+			model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
 		    model.addAttribute("searchedTeamList", searchedTeamList);
 		    model.addAttribute("keyword", keyword);
-		}
-		return "main/searchPage";
-	}
+        return "search/searchPage";
+    }
+	
+	//필터2 검색 페이징
+	@GetMapping("/filter2")
+    public String filter2(@RequestParam(required = false, defaultValue = "") String keyword, String filter2, Model model, 
+    		@PageableDefault(size = 12) Pageable pageable){
+
+            Page<Team> searchedTeamList = searchService.searchedfilter2List(keyword, filter2, pageable);
+            
+            int startPage = Math.max(1, searchedTeamList.getPageable().getPageNumber() - 5);
+            int endPage = Math.min(searchedTeamList.getTotalPages(), searchedTeamList.getPageable().getPageNumber() + 5);
+            
+			model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+		    model.addAttribute("searchedTeamList", searchedTeamList);
+		    model.addAttribute("keyword", keyword);
+		    model.addAttribute("filter2", filter2);
+		    
+        return "search/searchPage";
+    }
 
 }

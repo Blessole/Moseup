@@ -149,3 +149,38 @@
 	cursor: Default;
 	margin-bottom: 5px;
 }
+
+/* 페이징 li태그 */
+.page-item {
+	margin: 0 4px;
+}
+/* 페이징 버튼 */
+.page-link {
+	color: black;
+}
+.page-link:hover {
+	color: white;
+	background-color: #016fb9;
+}
+
+/* 필터2 a태그 */
+.filter2a:active{
+	background-color: #016fb9;
+	color: white;
+}
+.filter2a:hover {
+	background-color: #016fb9;
+	color: white;
+}
+/* 필터2 btn */
+.filter2btn {
+	border: 1px solid black;
+}
+.filter2btn:active{
+	background-color: #016fb9;
+	color: white;
+}
+.filter2btn:hover {
+	background-color: #016fb9;
+	color: white;
+}

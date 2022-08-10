@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/searchPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+	<div class="mainContainer">
+		<section class="searchSection">
+			<div class="mainSearch">
+			<div class="mainSearchTitle" align="center">모두의 습관</div>
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
+					<div class="mainSearchInput">
+						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword" th:value="${keyword}">
+						<input type="submit" class="mainSearchImg" name="submit" value="">
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="filterSection">
+			<div class="dropdown" align="right">
+			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+			  	th:if="${filter2 == null}">
+			    순서
+			  </button>
+			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+			  	th:if="${filter2} != null" th:text="${filter2}">
+			  </button>
+			  <ul class="dropdown-menu text-center">
+			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter2(keyword=${keyword},filter2=최신순)}">최신순</a></li>
+			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter2(keyword=${keyword},filter2=날짜순)}">날짜순</a></li>
+			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter2(keyword=${keyword},filter2=팀원수순)}">팀원수순</a></li>
+			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter2(keyword=${keyword},filter2=예치금순)}">예치금순</a></li>
+			  </ul>
+			</div>
+<!-- 			<form th:action="@{/search/filter2}">
+			<input type="hidden" th:value="${keyword}" id="keyword">
+				<select class="form-select" id="filter2" name="filter2">
+					<option value="new" id="filter2Value">최신순</option>
+					<option value="date" id="filter2Value">날짜순</option>
+					<option value="member" id="filter2Value">학생수순</option>
+					<option value="deposit" id="filter2Value">예치금순</option>
+				</select>
+			</form> -->
+		</section>
+		<div th:if="${searchedTeamList.isEmpty()}">
+			검색 결과가 존재하지 않습니다.
+		</div>
+		
+		<div th:if="${!searchedTeamList.isEmpty()}">
+			<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+				<div th:each="searchedTeamList : ${searchedTeamList}" class="center">
+					<div class="card">
+						<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="@{...}" class="card-img-top" alt="이거에요?"></a>
+						<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="뭐임"></a>
+						<div class="card-body">
+							<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName</a></p>
+							<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
+							<!-- <p class="card-text cardTeamIntroduce" th:text="${findAllList.teamIntroduce}">teamIntroduce</p> -->
+							<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
+							<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+							<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
+							<span class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</span>
+							<span th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</span>
+							<span th:if="${searchedTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${searchedTeamList.teamCategory3}">teamCategory3</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 페이징 -->
+	<div th:if="${!searchedTeamList.isEmpty()}">
+	    <nav aria-label="Page navigation example">
+	      <ul class="pagination justify-content-center">
+	        <li class="page-item" th:classappend="${1 == searchedTeamList.pageable.pageNumber + 1} ? 'disabled'">
+	          <a class="page-link btn-sm" href="#" th:href="@{/search(keyword=${keyword},page=${searchedTeamList.pageable.pageNumber - 1})}">이전</a>
+	        </li>
+	        <li class="page-item" th:classappend="${i == searchedTeamList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+	          <a class="page-link btn-sm" href="#" th:href="@{/search(keyword=${keyword},page=${i - 1})}" th:text="${i}">1</a>
+	        </li>
+	        <li class="page-item" th:classappend="${searchedTeamList.totalPages == searchedTeamList.pageable.pageNumber + 1} ? 'disabled'">
+	          <a class="page-link btn-sm" href="#" th:href="@{/search(keyword=${keyword},page=${searchedTeamList.pageable.pageNumber + 1})}">다음</a>
+	        </li>
+	      </ul>
+	    </nav>
+    </div>
+    
+	<script type="text/javascript">
+		/*검색창 submit체크*/
+		function searchChk() {
+				var text = $('#mainSearch').val();
+				if(text == "" || text == null) {
+					return false;
+				}
+			}
+		
+		/* 필터2 데이터 controller에 보내는 함수 */
+		$(function() {
+			$('#filter2').change(function() {
+				var filter2 = $('#filter2').click().val();
+				var keyword = $('#keyword').val();
+				$.ajax({
+					type : "get",
+					url : "/search/filter2",
+					data : {"filter2" : filter2, "keyword" : keyword}
+				})	
+			})
+		});
+	</script>
+	</th:block>
+</body>
+</html>
