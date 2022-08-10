@@ -59,4 +59,9 @@ public class AskBoard {
 	@OneToMany(mappedBy = "askBoard")
 	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 
+	public void update(String askSubject, String askContent, String askPhoto) {
+		this.askSubject = askSubject;
+		this.askContent = askContent;
+		this.askPhoto = askPhoto;
+	}
 }

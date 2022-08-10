@@ -3,12 +3,12 @@ package project.moseup.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.Member;
+import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardService;
@@ -30,10 +30,10 @@ public class AskBoardController {
     public String askBoardList(Model model, Principal principal){
         Member member = this.memberService.getMember(principal.getName());
 
-        List<AskBoard> askboardList = askBoardService.findAskBoards(member);
+        List<AskBoard> askBoardList = askBoardService.findAskBoards(member);
 
         model.addAttribute("member", member);
-        model.addAttribute("askboardList", askboardList);
+        model.addAttribute("askBoardList", askBoardList);
         return "myPage/askBoardList";
     }
 
@@ -54,5 +54,46 @@ public class AskBoardController {
         askBoardService.save(askBoardForm);
 
         return "redirect:/askBoard/askBoardList";
+    }
+
+    @GetMapping("/askBoardDetail")
+    public String askBoardDetail(@RequestParam  Long ano, Model model, Principal principal){
+        Member member = this.memberService.getMember(principal.getName());
+        AskBoard askBoard = this.askBoardService.findOne(ano);
+        model.addAttribute("askBoard", askBoard);
+        model.addAttribute("member", member);
+
+        // clean code 생각해보기 - detail & update 코드 동일!
+        return "/myPage/askBoardDetail";
+    }
+
+    @GetMapping("/askBoardUpdateForm")
+    public String askBoardUpdateForm(@RequestParam("ano") Long ano, Model model, Principal principal){
+        Member member = this.memberService.getMember(principal.getName());
+        AskBoardSaveReqDto askBoardDto = this.askBoardService.getPost(ano);
+        model.addAttribute("ano", ano);
+        model.addAttribute("askBoardDto", askBoardDto);
+        model.addAttribute("member", member);
+        return "/myPage/askBoardUpdateForm";
+    }
+
+    @PostMapping("/askUpdate")
+    public String askBoardUpdate(@ModelAttribute("askBoardDto") AskBoardSaveReqDto askBoardDto, BindingResult bindingResult,
+                                 @RequestParam("ano") Long ano, Model model, Principal principal){
+        System.out.println("error:"+ bindingResult.hasErrors());
+
+        if(bindingResult.hasErrors()){
+            List<ObjectError> list = bindingResult.getAllErrors();
+            for(ObjectError e : list){
+                System.out.println(e.getDefaultMessage());
+            }
+            return "redirect:/askBoard/askUpdate?ano="+ano;
+        }
+
+        Member member = this.memberService.getMember(principal.getName());
+        model.addAttribute("member", member);
+        askBoardService.update(askBoardDto, ano);
+
+        return "redirect:/askBoard/askBoardDetail?ano="+ano;
     }
 }

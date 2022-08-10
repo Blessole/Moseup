@@ -13,9 +13,9 @@
       <h2 class="title">1:1 문의게시판</h2>
         <table class="askBoardTable">
           <tr><th>번호</th><th>제목</th><th>문의날짜</th><th>답변여부</th></tr>
-          <tr  th:each="list, stat : ${askboardList}">
+          <tr  th:each="list, stat : ${askBoardList}">
             <td th:text="|${stat.count}|"></td>
-            <td th:text="${list.askSubject}"></td>
+            <td><a th:href="@{/askBoard/askBoardDetail(ano=${list.ano})}" th:text="${list.askSubject}"></a> </td>
             <td th:text="${list.askDate}"></td>
 <!--            <td th:text="${}"></td>-->
           </tr>
