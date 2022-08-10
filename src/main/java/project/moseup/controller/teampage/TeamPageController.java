@@ -120,7 +120,7 @@ public class TeamPageController {
 		TeamAskBoardUpdateDto updateDto = new TeamAskBoardUpdateDto();
 		
 		model.addAttribute("teamAskOne", teamAskOne);
-		model.addAttribute("findMember", member);
+		model.addAttribute("member", member);
 		model.addAttribute("updateDto", updateDto);
 		
 		return "teams/teamAskBoardUpdateForm";
@@ -128,19 +128,24 @@ public class TeamPageController {
 	
 	// 문의글 수정 결과
 	@PostMapping("/teamAskBoard/updateForm/update")
-	public String teamAskBoardUpdate(TeamAskBoardUpdateDto updateDto, @RequestParam(required = false) String secret,@RequestParam Long tano) {
+	public String teamAskBoardUpdate(TeamAskBoardDto teamAskOne, BindingResult result, @RequestParam(required = false) String secret, @RequestParam Long tano) {
 		
-//		TeamAskBoard teamAskOneReal = teamAskBoardService.findOne(tano);
+		TeamAskBoard teamAskOneTemp = teamAskBoardService.findOne(tano);
+		
+		teamAskOneTemp.setTeamAskSubject(teamAskOne.getTeamAskSubject());
+		teamAskOneTemp.setTeamAskContent(teamAskOne.getTeamAskContent());
 		
 		if(secret != null) {
-			updateDto.setSecret(SecretStatus.SECRET);
+			teamAskOne.setSecret(SecretStatus.SECRET);
 		} else {
-			updateDto.setSecret(SecretStatus.PUBLIC);
+			teamAskOne.setSecret(SecretStatus.PUBLIC);
 		}
 		
-		teamAskBoardService.changeUpdate(updateDto, tano);
+		teamAskOneTemp.setSecret(teamAskOne.getSecret());
 		
-		return "redirect:/teams/teamAskBoard/teamAskBoardDetail";
+		teamAskBoardService.changeDelete(teamAskOneTemp);
+		
+		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano;
 	}
 	
 	// 문의글 삭제

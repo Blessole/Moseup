@@ -53,12 +53,13 @@ public class TeamAskBoardService {
 	}
 
 	// 특정 글 수정
-	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
+//	@Transactional
+/*	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
 		TeamAskBoard tab = askBoardRepository.findOne(tano);
 		tab = teamAskBoardUpdateDto.update();	
 		askBoardRepository.save(tab);
 		
-	}
+	}*/
 	
 	// 글 삭제
 	/*
