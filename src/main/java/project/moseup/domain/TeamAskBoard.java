@@ -86,6 +86,11 @@ public class TeamAskBoard {
 	 * public void deleteTeamAskBoard() { this.setTeamAskDelete(DeleteStatus.TRUE);
 	 * }
 	 */
+	
+	// 조회수 증가 로직
+	public void increaseReadCount(int teamAskReadCount) {
+		this.teamAskReadCount = teamAskReadCount;
+	}
 
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();

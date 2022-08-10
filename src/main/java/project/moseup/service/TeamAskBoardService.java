@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
-import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
 
@@ -50,6 +49,20 @@ public class TeamAskBoardService {
 	@Transactional
 	public void changeDelete(TeamAskBoard teamAskBoard) {
 		askBoardRepository.save(teamAskBoard);
+	}
+	
+	// 조회수 증가
+	/*
+	 * @Transactional public void increaseReadCount(Long tano, TeamAskBoardDto
+	 * teamAskBoardDto) { TeamAskBoard teamAskBoard =
+	 * askBoardRepository.findOne(tano);
+	 * teamAskBoard.increaseReadCount(teamAskBoardDto.getTeamAskReadCount());
+	 * askBoardRepository.save(teamAskBoard); }
+	 */
+	
+	@Transactional
+	public int increaseReadCount(Long tano) {
+		return askBoardPageRepository.updateReadCount(tano);
 	}
 
 	// 특정 글 수정

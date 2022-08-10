@@ -102,6 +102,8 @@ public class TeamPageController {
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		
 		Member member = teamAskOne.getMember();
+		
+		teamAskBoardService.increaseReadCount(tano);
 
 		model.addAttribute("teamAskOne", teamAskOne);
 		model.addAttribute("findMember", member);

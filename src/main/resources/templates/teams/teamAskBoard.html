@@ -47,9 +47,9 @@
 			<section id="features">
 				<div class="container">
 					<h2 class="text-primary" align="center">문의글 목록</h2>
-					<div>
+					<!-- <div>
 						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
-					</div>
+					</div> -->
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -57,6 +57,7 @@
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
+								<th>조회수</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,9 +67,8 @@
 									th:text="${teamaskboard.teamAskSubject}"></a></th>
 								<th th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
+								<th th:text="${teamaskboard.teamAskReadCount}"></th>
 							</tr>
-						
-							
 						</tbody>
 					</table>
 					<nav aria-label="Page navigation example">
