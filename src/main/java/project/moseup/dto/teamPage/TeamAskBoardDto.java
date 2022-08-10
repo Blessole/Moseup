@@ -57,10 +57,5 @@ public class TeamAskBoardDto {
 				.secret(secret)
 				.teamAskDelete(DeleteStatus.FALSE).build();
 	}
-	
-	// 게시글 삭제 method
-	/*
-	 * public TeamAskBoard Delete() { return TeamAskBoard.teamAskBoardD()
-	 * .deleteStatus(DeleteStatus.TRUE).build(); }
-	 */
+
 }

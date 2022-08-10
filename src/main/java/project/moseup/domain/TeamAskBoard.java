@@ -20,10 +20,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 쉽게 접근할 수 없게!
 public class TeamAskBoard {
 
@@ -68,24 +67,17 @@ public class TeamAskBoard {
 		this.secret = secret;
 	}
 	
-//	@Builder(builderClassName = "update", builderMethodName = "updateTeamAskBoard")
-	/*
-	 * public TeamAskBoard(Long tano, String teamAskSubject, String teamAskContent,
-	 * SecretStatus secret) { this.tano = tano; this.teamAskSubject =
-	 * teamAskSubject; this.teamAskContent = teamAskContent; this.secret = secret; }
-	 */
+	// 문의 글 수정 로직
+	public void changeBoardContent(String teamAskSubject, String teamAskContent, SecretStatus secret) {
+		this.teamAskSubject = teamAskSubject;
+		this.teamAskContent = teamAskContent;
+		this.secret = secret;
+	}
 	
-	/*
-	 * @Builder(builderClassName = "Delete", builderMethodName = "teamAskBoardD")
-	 * public TeamAskBoard(DeleteStatus deleteStatus) { this.teamAskDelete =
-	 * deleteStatus; }
-	 */
-	
-	// 게시글 삭제 method
-	/*
-	 * public void deleteTeamAskBoard() { this.setTeamAskDelete(DeleteStatus.TRUE);
-	 * }
-	 */
+	// 문의 글 삭제 로직
+	public void changeBoardDelete(DeleteStatus teamAskDelete) {
+		this.teamAskDelete = teamAskDelete;
+	}
 	
 	// 조회수 증가 로직
 	public void increaseReadCount(int teamAskReadCount) {

@@ -6,19 +6,11 @@ import project.moseup.domain.SecretStatus;
 
 @Getter @Setter
 public class TeamAskBoardUpdateDto {
-	
-	private Long tano;
 
 	private String teamAskSubject;
 
 	private String teamAskContent;
 
 	private SecretStatus secret;
-	
-	/*
-	 * public TeamAskBoard update() { return TeamAskBoard.updateTeamAskBoard()
-	 * .tano(tano) .teamAskSubject(teamAskSubject) .teamAskContent(teamAskContent)
-	 * .secret(secret).build(); }
-	 */
 
 }

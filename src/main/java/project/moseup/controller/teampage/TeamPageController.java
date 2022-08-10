@@ -21,6 +21,7 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.service.TeamAskBoardService;
@@ -130,12 +131,7 @@ public class TeamPageController {
 	
 	// 문의글 수정 결과
 	@PostMapping("/teamAskBoard/updateForm/update")
-	public String teamAskBoardUpdate(TeamAskBoardDto teamAskOne, BindingResult result, @RequestParam(required = false) String secret, @RequestParam Long tano) {
-		
-		TeamAskBoard teamAskOneTemp = teamAskBoardService.findOne(tano);
-		
-		teamAskOneTemp.setTeamAskSubject(teamAskOne.getTeamAskSubject());
-		teamAskOneTemp.setTeamAskContent(teamAskOne.getTeamAskContent());
+	public String teamAskBoardUpdate(@Valid TeamAskBoardUpdateDto teamAskOne, BindingResult result, @RequestParam(required = false) String secret, @RequestParam Long tano) {
 		
 		if(secret != null) {
 			teamAskOne.setSecret(SecretStatus.SECRET);
@@ -143,22 +139,18 @@ public class TeamPageController {
 			teamAskOne.setSecret(SecretStatus.PUBLIC);
 		}
 		
-		teamAskOneTemp.setSecret(teamAskOne.getSecret());
-		
-		teamAskBoardService.changeDelete(teamAskOneTemp);
+		teamAskBoardService.changeUpdate(teamAskOne, tano);
 		
 		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano;
 	}
 	
-	// 문의글 삭제
+	// 문의글 삭제 결과
 	@GetMapping("/teamAskBoard/delete")
-	public String teamAskBoardDelete(@RequestParam Long tano, Model model) {
+	public String teamAskBoardDelete(@Valid TeamAskBoardDeleteDto teamAskOne ,@RequestParam Long tano, Model model) {
 		
-		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
-
 		teamAskOne.setTeamAskDelete(DeleteStatus.TRUE);
-
-		teamAskBoardService.changeDelete(teamAskOne);
+		
+		teamAskBoardService.changeDelete(teamAskOne, tano);
 		
 		return "redirect:/teams/teamAskBoard";
 	}

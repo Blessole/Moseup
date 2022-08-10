@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
+import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
 
@@ -47,32 +49,27 @@ public class TeamAskBoardService {
 	
 	// 특정글 삭제 상태
 	@Transactional
-	public void changeDelete(TeamAskBoard teamAskBoard) {
-		askBoardRepository.save(teamAskBoard);
+	public void changeDelete(TeamAskBoardDeleteDto teamAskBoardDeleteDto, Long tano) {
+		TeamAskBoard teamAskBoard = askBoardPageRepository.findById(tano).orElse(null);		
+		teamAskBoard.changeBoardDelete(teamAskBoardDeleteDto.getTeamAskDelete());
 	}
 	
 	// 조회수 증가
-	/*
-	 * @Transactional public void increaseReadCount(Long tano, TeamAskBoardDto
-	 * teamAskBoardDto) { TeamAskBoard teamAskBoard =
-	 * askBoardRepository.findOne(tano);
-	 * teamAskBoard.increaseReadCount(teamAskBoardDto.getTeamAskReadCount());
-	 * askBoardRepository.save(teamAskBoard); }
-	 */
-	
 	@Transactional
 	public int increaseReadCount(Long tano) {
 		return askBoardPageRepository.updateReadCount(tano);
 	}
-
+	
 	// 특정 글 수정
-//	@Transactional
-/*	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
-		TeamAskBoard tab = askBoardRepository.findOne(tano);
-		tab = teamAskBoardUpdateDto.update();	
-		askBoardRepository.save(tab);
+	@Transactional
+	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
+		TeamAskBoard teamAskBoard = askBoardPageRepository.findById(tano).orElse(null);
 		
-	}*/
+		if(teamAskBoard != null) {
+			teamAskBoard.changeBoardContent(teamAskBoardUpdateDto.getTeamAskSubject(), teamAskBoardUpdateDto.getTeamAskContent(), teamAskBoardUpdateDto.getSecret());
+		}
+	}
+
 	
 	// 글 삭제
 	/*
