@@ -244,9 +244,26 @@
   background: #fff;
   height: 8vh;
   border-radius: 6px;
-  padding: 12px;
+  padding: 12px 20px;
   margin-bottom: 20px;
   align-items: center;
+}
+.main-info-content .info-Row{
+  position: absolute;
+  display: flex;
+  width: 85%;
+  align-items: center;
+}
+.main-info-content .info-Row .info-data{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.main-info-content .info-Row .info-data label{
+  display: inline-block;
+  font-size: 12px;
+  color: gray;
 }
 .main-info-content .btn-over{
   display: flex;
@@ -263,8 +280,29 @@
   border-radius: 6px;
   padding: 12px;
   align-items: center;
+  margin-bottom: 20px;
 }
-
+.title-section span{
+  font-size: 14px;
+  font-weight: 600;
+}
+.tableHeader{
+  background: ghostwhite; 
+}
+.no-data{
+  text-align: center;
+}
+.main-info-nav{
+  margin-bottom: 20px;
+}
+th span{
+  font-size: 12px;
+    font-weight: 100;
+}
+td .leaderMno{
+  font-size: 12px;
+  font-weight: 100;
+}
 #memberinfo{
   display: flex;
     flex-direction: row;
@@ -282,7 +320,6 @@
   width: 100%;
     height: 100%;
 }
-
 #memberinfo .memberinfo_start .memberinfo_Row{
   display: flex;
   width: 100%;

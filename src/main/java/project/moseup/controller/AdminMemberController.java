@@ -172,7 +172,7 @@ public class AdminMemberController {
 
     // 회원 정보 상세보기
     @GetMapping("/memberDetail")
-    public String memberDetail(@RequestParam Long mno, @RequestParam int pageNum, Model model){
+    public String memberDetail(@RequestParam Long mno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member == null){
             return "redirect:/admin/memberList";
@@ -209,5 +209,44 @@ public class AdminMemberController {
         adminMemberService.RecoverMember(mno);
 
         return "redirect:/admin/memberList";
+    }
+
+    @GetMapping("/memberBankbook")
+    public String memberBankbook(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberBankbook";
+    }
+
+    @GetMapping("/memberFreeBoard")
+    public String memberFreeBoard(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberFreeBoard";
+    }
+
+    @GetMapping("/memberAskBoard")
+    public String memberAskBoard(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberAskBoard";
     }
 }

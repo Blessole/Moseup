@@ -1,86 +1,205 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
 
 <body>
-      <!-- 사이드 바 -->
-      <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
 
-      <!-- 헤더  -->
-      <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
-      
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
+
 
     <div class="main-section">
-        <div class="main-info-content">
+        <div class="main-info-content" th:fragment="memberInfo">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>회원번호</label>
+                    <span th:text="${member.mno}">회원번호</span>
+                </div>
+                <div class="info-data">
+                    <label>이메일</label>
+                    <span th:text="${member.email}">이메일</span>
+                </div>
+                <div class="info-data">
+                    <label>닉네임</label>
+                    <span th:text="${member.nickname}">닉네임</span>
+                </div>
+                <div class="info-data">
+                    <label>이름</label>
+                    <span th:text="${member.name}">이름</span>
+                </div>
+                <div class="info-data">
+                    <label>권한</label>
+                    <span th:text="${member.role}">권한</span>
+                </div>
+            </div>
             <div class="btn-over">
                 <a th:href="@{/admin/memberList?page=} + ${pageNum}" class="btn btn-outline-success">확인</a>
-                <a th:href="@{/admin/memberDelete(mno=${member.mno})}" class="btn btn-outline-danger" th:if="${member.memberDelete} == ${deleteFalse}">삭제</a>
-                <a th:href="@{/admin/memberRecover(mno=${member.mno})}" class="btn btn-outline-info" th:if="${member.memberDelete} != ${deleteFalse}">복구</a>
+                <a th:href="@{/admin/memberDelete(mno=${member.mno})}" class="btn btn-outline-danger"
+                    th:if="${member.memberDelete} == ${deleteFalse}">삭제</a>
+                <a th:href="@{/admin/memberRecover(mno=${member.mno})}" class="btn btn-outline-info"
+                    th:if="${member.memberDelete} != ${deleteFalse}">복구</a>
             </div>
+        </div> <!-- 메인 인포 콘텐츠 end-->
+        <div class="main-info-nav" th:fragment="memberInfoNav(memberInfoNav)">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberDetail(mno=${member.mno})}" th:classappend="${memberInfoNav} == null? 'active'">기본정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberBankbook(mno=${member.mno})}" th:classappend="${memberInfoNav} == 'bankbook'? 'active'">통장정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberFreeBoard(mno=${member.mno})}" th:classappend="${memberInfoNav} == 'freeBoard'? 'active'">게시글정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberAskBoard(mno=${member.mno})}" th:classappend="${memberInfoNav} == 'askBoard'? 'active'">문의글정보</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="title-section">
+            <span>회원 정보</span>
         </div>
         <div class="main-content">
-         <div id="memberinfo">
-            <img class="img-thumbnail img-over" style="width: 200px; height: 200px; object-fit: contain;">
-            <div class="memberinfo_start">
-                <div class="memberinfo_Row">
-                    <div class="infoData">
-                        <label for="mno" class="form-label">회원번호</label>
-                        <span th:text="${member.mno}"></span>
+            <div id="memberinfo">
+                <img class="img-thumbnail img-over" style="width: 200px; height: 200px; object-fit: contain;">
+                <div class="memberinfo_start">
+                    <div class="memberinfo_Row">
+                        <div class="infoData">
+                            <label for="mno" class="form-label">회원번호</label>
+                            <span th:text="${member.mno}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="email" class="form-label">이메일</label>
+                            <span th:text="${member.email}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="name" class="form-label">이름</label>
+                            <span th:text="${member.name}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="gender" class="form-label">권한</label>
+                            <span th:text="${member.role}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="address" class="form-label">주소</label>
+                            <span th:text="${member.address}"></span>
+                        </div>
                     </div>
-                    <div class="infoData">
-                        <label for="email" class="form-label">이메일</label>
-                        <span th:text="${member.email}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="name" class="form-label">이름</label>
-                        <span th:text="${member.name}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="gender" class="form-label">권한</label>
-                        <span th:text="${member.role}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">주소</label>
-                        <span th:text="${member.address}"></span>
+                    <div class="memberinfo_Row">
+                        <div class="infoData">
+                            <label for="gender" class="form-label">성별</label>
+                            <span th:text="${member.gender}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="phone" class="form-label">전화번호</label>
+                            <span th:text="${member.phone}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="nickname" class="form-label">닉네임</label>
+                            <span th:text="${member.nickname}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="memberDelete" class="form-label">탈퇴여부</label>
+                            <span th:text="${member.memberDelete}"></span>
+                        </div>
+                        <div class="infoData">
+                            <label for="memberDate" class="form-label">가입날짜</label>
+                            <span th:text="${memberDate}"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="memberinfo_Row">
-                    <div class="infoData">
-                        <label for="gender" class="form-label">성별</label>
-                        <span th:text="${member.gender}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="phone" class="form-label">전화번호</label>
-                        <span th:text="${member.phone}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="nickname" class="form-label">닉네임</label>
-                        <span th:text="${member.nickname}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="memberDelete" class="form-label">탈퇴여부</label>
-                        <span th:text="${member.memberDelete}"></span>
-                    </div>
-                    <div class="infoData">
-                        <label for="memberDate" class="form-label">가입날짜</label>
-                        <span th:text="${memberDate}"></span>
-                    </div>
-                </div>
+            </div> <!-- 기본 회원 정보 end-->
+        </div> <!-- 콘텐츠 영역 end-->
+
+
+        <div class="title-section">
+            <span>개설한 스터디</span>
+        </div>
+        <div class="main-content">
+            <!-- 내가 만든 스터디 end-->
+            <div id="memberinfo">
+                <table class="table caption table-hover">
+                    <caption>개설한 스터디 수 : <span th:text="${member.teams.size}">스터디 수</span></caption>
+                    <thead>
+                        <tr class="tableHeader">
+                            <th scope="col">스터디번호</th>
+                            <th scope="col">스터디명</th>
+                            <th scope="col">스터디장<span>&nbsp;(ID)</span></th>
+                            <th scope="col">개설날짜</th>
+                            <th scope="col">시작날짜</th>
+                            <th scope="col">삭제여부</th>
+                            <th scope="col">확인</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="no-data" th:if="${member.teams.size} == 0">
+                            <th colspan="7">개설한 스터디가 없습니다</th>
+                        </tr>
+                        <tr th:each="team : ${member.teams}" th:if="${member.teams} != null">
+                            <th th:text="${team.tno}">스터디번호</th>
+                            <td th:text="${team.teamName}">스터디명</td>
+                            <td><span th:text="${team.member.nickname}">스터디장</span>&nbsp;<span class="leaderMno">(<span th:text="${team.member.mno}">장번호</span>)</span></td>
+                            <td th:text="${team.teamDate}">개설날짜</td>
+                            <td th:text="${team.startDate}">시작날짜</td>
+                            <td th:text="${team.teamDelete}">탈퇴여부</td>
+                            <td>
+                                <a class="member-link" th:href="@{/admin/teamDetail(tno=${team.tno})}">보기</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>  <!-- 기본 회원 정보 end-->
+        </div> <!-- 내가 만든 스터디 end-->
 
-        
-        
+        <div class="title-section">
+            <!-- 가입된 스터디 start 데이터 변경 해야 함-->
+            <span>가입된 스터디</span>
+        </div>
+        <div class="main-content">
+            <div id="memberinfo">
+                <table class="table caption table-hover">
+                    <caption>가입한 스터디 수 : <span th:text="${member.teamMembers.size}">스터디 수</span></caption>
+                    <thead>
+                        <tr class="tableHeader">
+                            <th scope="col">스터디번호</th>
+                            <th scope="col">스터디명</th>
+                            <th scope="col">스터디장<span>&nbsp;(ID)</span></th>
+                            <th scope="col">개설날짜</th>
+                            <th scope="col">시작날짜</th>
+                            <th scope="col">삭제여부</th>
+                            <th scope="col">확인</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="no-data" th:if="${member.teamMembers.size} == 0">
+                            <th colspan="7">가입된 스터디가 없습니다</th>
+                        </tr>
+                        <tr th:each="teamMember : ${member.teamMembers}" th:if="${member.teamMembers} != null">
+                            <th th:text="${teamMember.tno}">스터디번호</th>
+                            <td th:text="${teamMember.teamName}">스터디명</td>
+                            <td><span th:text="${teamMember.member.nickname}">스터디장</span>&nbsp;<span class="leaderMno">(<span th:text="${teamMember.member.mno}">장번호</span>)</span></td>
+                            <td th:text="${teamMember.teamDate}">개설날짜</td>
+                            <td th:text="${teamMember.startDate}">시작날짜</td>
+                            <td th:text="${teamMember.teamDelete}">탈퇴여부</td>
+                            <td>
+                                <a class="member-link" th:href="@{/admin/teamDetail(tno=${team.tno})}">보기</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- 가입된 스터디 start-->
 
-    
-        
 
-        
-    </div>
-</div>
 
-       
-    
+    </div> <!-- 메인 세션  end-->
+
+
+
 
 
     <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>

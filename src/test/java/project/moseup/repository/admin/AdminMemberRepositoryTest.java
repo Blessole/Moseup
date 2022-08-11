@@ -131,5 +131,14 @@ public class AdminMemberRepositoryTest {
 
     }
 
+    @Test
+    public void 멤버조회_Test2(){
+        Member member = adminMemberRepository.findById(35L).orElse(null);
+
+        System.out.println(member);
+
+        assertEquals("32z", member.getNickname());
+    }
+
 
 }

@@ -16,4 +16,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
     Page<Member> findAll(Pageable pageable);
 
+
+
 }

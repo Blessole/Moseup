@@ -42,7 +42,7 @@ public class AdminTeamController {
 
     // 회원 정보 상세보기
     @GetMapping("/teamDetail")
-    public String memberDetail(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+    public String memberDetail(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
             Team team = adminTeamService.teamDetail(tno);
 
             model.addAttribute("team", team);

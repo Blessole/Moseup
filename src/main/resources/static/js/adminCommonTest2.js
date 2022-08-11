@@ -8,10 +8,12 @@ for (var i = 0; i < arrow.length; i++) {
 let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".bx-menu");
 
-
 sidebarBtn.addEventListener("click", () => {
     sidebar.classList.toggle("close");
 });
+
+
+
 
 $(function () {
     let sidebarClassList = sidebar.classList;
@@ -35,6 +37,10 @@ function loadFile(input) {
     } else {
         document.getElementById('preview').src = "";
     }
+};
+
+function back() {
+    history.back();
 };
 
 // 패스워드 보이기
