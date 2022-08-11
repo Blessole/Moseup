@@ -114,8 +114,7 @@ public class TeamPageController {
 		teamAskBoardService.increaseReadCount(tano);
 		
 		// 댓글 부분
-		Member loginMember = this.memberService.getMember(principal.getName());
-		
+		Member loginMember = this.memberService.getMember(principal.getName());		
 		List<TeamAskBoardReply> teamAskReplys = teamAskBoardReplyService.findReplys();
 		
 		model.addAttribute("teamAskOne", teamAskOneDetail);
@@ -130,9 +129,11 @@ public class TeamPageController {
 	@PostMapping("/teamAskBoard/teamAskBoardDetail/createTeamAskReply")
 	public String createTeamAskBoardReply(@Valid TeamAskBoardReplyDto teamAskReply, BindingResult result, @RequestParam Long tano, Principal principal) {
 		
+		// 회원 정보 받아오기
 		Member member = this.memberService.getMember(principal.getName());	
 		teamAskReply.setMember(member);
 		
+		// 게시판 정보 받아오기
 		TeamAskBoard teamAskBoard = teamAskBoardService.findOne(tano);
 		teamAskReply.setTeamAskBoard(teamAskBoard);
 		

@@ -48,6 +48,30 @@
 					<td colspan="3" th:text="${teamAskOne.secret}"></td>
 				</tr>
 			</table>
+			<div>
+				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
+				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano})}" class="btn btn-primary">수정</a>
+				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
+				
+			</div>	
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>작성자</th>
+							<th>내용</th>
+							<th>작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="replys : ${teamAskReplys}">							
+							<th th:text="${replys.member.nickname}"></th>
+							<th th:text="${replys.teamAskReplyContent}"></th>
+							<th th:text="${#temporals.format(replys.teamAskReplyDate,'yyyy-MM-dd HH:mm')}"></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<div class="input-group mb-3">
 				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply}" th:object="${teamAskReply}" method="post">
 				<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
@@ -58,25 +82,7 @@
 				</div>
 				</form>
 			</div>
-				<table>
-					<tbody>
-						<tr th:each="replys : ${teamAskReplys}">							
-							<th th:text="${replys.member.nickname}"></th>
-							<th th:text="${replys.teamAskReplyContent}"></th>
-							<th th:text="${replys.teamAskReplyDate}"></th>
-						</tr>
-						</tbody>
-				</table>
-			<div>
-			
-			</div>
-			<div>
-				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
-				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano})}" class="btn btn-primary">수정</a>
-				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
-				
-			</div>	
-			</div>
+		</div>
 	</th:block>
 </body>
 </html>
