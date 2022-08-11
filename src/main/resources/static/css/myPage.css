@@ -42,3 +42,15 @@
     background-color: #337ab7;
     color : white;
 }
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.myInfo>label, .myInfo>input {
+    display: inline;
+}
+
+.myInfo .form-control {
+    width: 30%;
+}

@@ -1,6 +1,7 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.graph.internal.parse.GeneratedGraphParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -95,5 +96,14 @@ public class AskBoardController {
         askBoardService.update(askBoardDto, ano);
 
         return "redirect:/askBoard/askBoardDetail?ano="+ano;
+    }
+
+    @GetMapping("/askBoardDelete")
+    public String askBoardDelete(@RequestParam Long ano, Model model, Principal principal) {
+        Member member = this.memberService.getMember(principal.getName());
+        model.addAttribute("member", member);
+
+        askBoardService.deleteBoard(ano);
+        return "redirect:/askBoard/askBoardList";
     }
 }

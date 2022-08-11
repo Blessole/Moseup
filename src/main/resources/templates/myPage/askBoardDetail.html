@@ -19,8 +19,11 @@
                 <div>내용</div>
                 <div class="contentBox" th:text="${askBoard.askContent}"></div>
             </div>
-            <div class="button-box">
+            <div class="button-box left">
                 <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>
+                <a class="button" th:href="@{/askBoard/askBoardDelete(ano=${askBoard.ano})}">삭제</a>
+            </div>
+            <div class="button-box right">
                 <a class="button" th:href="@{/askBoard/askBoardList}">목록</a>
             </div>
     </div>

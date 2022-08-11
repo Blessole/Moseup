@@ -64,4 +64,8 @@ public class AskBoard {
 		this.askContent = askContent;
 		this.askPhoto = askPhoto;
 	}
+
+	public void delete(){
+		this.askDelete = DeleteStatus.TRUE;
+	}
 }

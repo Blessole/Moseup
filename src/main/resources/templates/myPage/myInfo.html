@@ -9,23 +9,63 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <form th:action="@{/myPage/myInfo}" method="post">
+  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" method="post">
     <div class="middle-container">
       <h2 class="title">회원 정보 수정</h2>
-      <table class="myInfoTable">
-        <tr><th>이메일</th><td><input th:value="${member.email}" disabled></td></tr>
-        <tr><th>비밀번호</th><td><input type="password"></td></tr>
-        <tr><th>비밀번호 확인</th><td><input type="password"></td></tr>
-        <tr><th>이름</th><td><input th:value="${member.name}" disabled></td></tr>
-        <tr><th>닉네임</th><td><input th:value="${member.nickname}"></td></tr>
-        <tr><th>성별</th><td><input th:value="${member.gender}"></td></tr>
-        <tr><th>주소</th><td><input th:value="${member.address}"></td></tr>
-        <tr><th>전화번호</th><td><input th:value="${member.phone}"></td></tr>
-        <tr><th>프로필사진</th><td><input th:value="${member.photo}"></td></tr>
-      </table>
-      <button type="submit" value="수정하기"></button>
+      <div class="form-group myInfo">
+        <label th:for="email">이메일</label>
+        <input th:field="*{email}"  class="form-control"  value="${email}" disabled>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="password">비밀번호</label>
+        <input type="password" th:field="*{password1}" class="form-control">
+        <span class="text-err" id="password1Chk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="password">비밀번호 확인</label>
+        <input type="password" th:field="*{password2}" class="form-control">
+        <span class="text-err" id="password2Chk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="name">이름</label>
+        <input class="form-control" th:field="*{name}" value="${name}" disabled>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="nickname">닉네임</label>
+        <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}">
+        <span class="text-err" id="nicknameChk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="phone">전화번호</label>
+        <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}">
+        <span class="text-err" id="phoneChk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="gender">성별</label>
+        <div th:each="type : ${genders}" class="form-check form-check-inline">
+          <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
+          <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+        </div>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="photo">프로필사진</label>
+        <input type="file" th:field="*{photo}">
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="address">주소</label>
+        <input type="text"  class="form-control"  th:field="*{address}">
+        <!--                <input type="text" name="address_detail" placeholder="상세주소">-->
+      </div>
+      <div class="button-box">
+      <input type="submit" value="수정">
+      </div>
     </div>
   </form>
+
+  <!-- 값 체크 jQuery -->
+  <script type="text/javascript">
+
+  </script>
 </th:block>
 </body>
 </html>

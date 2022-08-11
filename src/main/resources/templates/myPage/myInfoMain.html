@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+    <form th:action="@{/myPage/myInfo}" id="frm" method="post">
+        <div class="middle-container">
+            <h2 class="title">비밀번호 확인</h2>
+            <input type="password" id="scan" name="password">
+            <a href="#" onclick="return pw_Chk()">확인</a><br>
+            <span class="text-err" id="passwordChk"></span>
+        </div>
+    </form>
+    <script type="text/javascript">
+        function pw_Chk() {
+            let scan = $('#scan').val();
+            $.ajax({
+                url:'/myPage/pwChk',
+                type: 'get',
+                data: {"scan": scan},
+                success: function(data){
+                    if (scan == ""){
+                        $('#passwordChk').text("비밀번호를 입력해주세요.");
+                    } else if (data.includes("않습니다")){
+                        $('#passwordChk').html(data);
+                    } else {
+                        document.frm.submit();
+                    }
+                }
+            })
+        };
+    </script>
+</th:block>
+</body>
+</html>

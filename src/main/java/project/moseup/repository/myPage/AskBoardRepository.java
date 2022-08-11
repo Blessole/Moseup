@@ -27,6 +27,10 @@ public class AskBoardRepository {
 
     /** 문의글 저장 **/
     public void save(AskBoard askBoard) {
-        em.persist(askBoard);
+        if(askBoard.getAno() !=null) {
+            em.merge(askBoard);
+        } else {
+            em.persist(askBoard);
+        }
     }
 }

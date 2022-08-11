@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.repository.myPage.AskBoardInterfaceRepository;
 import project.moseup.repository.myPage.AskBoardRepository;
@@ -21,7 +23,7 @@ public class AskBoardService {
 
     /** 문의게시판 리스트 조회 **/
     public List<AskBoard> findAskBoards(Member member){
-        return askBoardRepository.findAll(member);
+        return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE);
     }
 
     /** 문의글 하나 조회 **/
@@ -29,12 +31,12 @@ public class AskBoardService {
         return askBoardRepository.findOne(ano);
     }
 
-    /** DTO - 문의글 하나 조회 **/
+    /** DTO - 수정용 문의글 하나 조회 **/
     public AskBoardSaveReqDto getPost(Long ano) {
         Optional<AskBoard> askBoardWrapper = askBoardInterfaceRepository.findById(ano);
         AskBoard askBoard = askBoardWrapper.get();
 
-        AskBoardSaveReqDto askBoardDto = AskBoardSaveReqDto.builder()
+        AskBoardSaveReqDto askBoardDto = AskBoardSaveReqDto.askBoardSave()
                 .member(askBoard.getMember())
                 .askSubject(askBoard.getAskSubject())
                 .askContent(askBoard.getAskContent())
@@ -44,6 +46,12 @@ public class AskBoardService {
                 .build();
         return askBoardDto;
     }
+//
+//    /** DTO - 단순 조회용 하나 조회 **/
+//    public AskBoardRespDto getDetailPost(Long ano){
+//        Optional<AskBoard> result = askBoardInterfaceRepository.findById(ano);
+//        return result.isPresent()?entityToDto(result.get()):null;
+//    }
 
     /** 문의글 작성 **/
     @Transactional
@@ -60,4 +68,11 @@ public class AskBoardService {
         return ano;
     }
 
+    /** DTO - 문의글 삭제 **/
+    @Transactional
+    public void deleteBoard(Long ano) {
+        AskBoard askBoard = askBoardInterfaceRepository.findById(ano).orElseThrow(()-> new IllegalArgumentException("해당 게시글은 존재하지 않습니다."));
+        askBoard.delete();
+        askBoardRepository.save(askBoard);
+    }
 }

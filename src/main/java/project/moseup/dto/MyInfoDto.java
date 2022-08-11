@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class myInfoDto {
+public class MyInfoDto {
 
     @NotEmpty(message = "이메일 주소를 입력해주세요")
     @Email(message = "올바른 이메일 주소를 입력해주세요")
@@ -44,6 +44,9 @@ public class myInfoDto {
     private String phone;
 
     private String photo;
+    private DeleteStatus memberDelete;
+    private LocalDateTime memberDate;
+    private Role role;
 
     public Member toEntity(){
         return Member.builder()
@@ -61,4 +64,20 @@ public class myInfoDto {
                 .build();
     }
 
+    public MyInfoDto toDto(Member memberPS){
+        this.name = memberPS.getName();
+        this.nickname = memberPS.getNickname();
+        this.email = memberPS.getEmail();
+        this.gender = memberPS.getGender();
+        this.phone = memberPS.getPhone();
+        this.photo = memberPS.getPhoto();
+        this.address = memberPS.getAddress();
+        this.password1 = memberPS.getPassword();
+        this.password2 = memberPS.getPassword();
+        this.memberDelete = memberPS.getMemberDelete();
+        this.memberDate = memberPS.getMemberDate();
+        this.role = role;
+
+        return this;
+    }
 }
