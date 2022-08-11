@@ -30,6 +30,9 @@ public interface SearchRepository extends JpaRepository<Team, Long>{
 	Page<Team> findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(
 			String keyword, String keyword2, String keyword3, String keyword4, String keyword5, Pageable pageable);
 
+	// 필터1 팀명 검색
+	Page<Team> findByTeamNameContainingOrderByTnoDesc(String keyword, Pageable pageable);
+
 
 
 }

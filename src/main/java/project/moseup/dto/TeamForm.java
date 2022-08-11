@@ -16,7 +16,7 @@ import project.moseup.domain.Team;
 
 @Getter @Setter
 public class TeamForm {
-	
+	@NotEmpty(message = "팀명은 필수 입력사항입니다. :)")
 	private String teamName;					//팀명
 	private Member member;					//팀장
 	private int teamVolume;						//모집 인원
