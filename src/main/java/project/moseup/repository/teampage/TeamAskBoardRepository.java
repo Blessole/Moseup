@@ -34,11 +34,4 @@ public class TeamAskBoardRepository {
 		return em.find(TeamAskBoard.class, tano);
 	}
 	
-	// 문의글 1개 찾기(dto)
-	/*
-	 * public TeamAskBoardDetailDto findAsk(Long tano) { return
-	 * em.createQuery("select a from TeamAskBoard a where a.tano = :tano",
-	 * TeamAskBoardDetailDto.class).setParameter("tano", tano).getSingleResult(); }
-	 */
-	
 }

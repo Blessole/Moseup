@@ -1,6 +1,7 @@
 package project.moseup.controller.teampage;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -21,12 +22,15 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.TeamAskBoardReply;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
+import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
-import project.moseup.service.TeamAskBoardService;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.teampage.TeamAskBoardReplyService;
+import project.moseup.service.teampage.TeamAskBoardService;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +39,7 @@ public class TeamPageController {
 
 	private final TeamAskBoardService teamAskBoardService;
 	private final MemberService memberService;
+	private final TeamAskBoardReplyService teamAskBoardReplyService;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -54,7 +59,7 @@ public class TeamPageController {
 
 	// 팀 페이지 문의게시판(페이징)
 	@GetMapping("/teamAskBoard")
-	public String teamAskBoardPage(Model model, @PageableDefault(size = 5, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
+	public String teamAskBoardPage(Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
 		
 		Page<TeamAskBoard> teamAsks = teamAskBoardService.findTeamAsksPage(pagable);
 		int startPage = Math.max(1, teamAsks.getPageable().getPageNumber() - 4);
@@ -99,17 +104,43 @@ public class TeamPageController {
 
 	// 팀 페이지 문의 글 상세보기
 	@GetMapping("/teamAskBoard/teamAskBoardDetail")
-	public String teamAskBoardDetail(@RequestParam Long tano, Model model) {
+	public String teamAskBoardDetail(@RequestParam Long tano, Model model, Principal principal) {
 		
+		// 상세 보기 부분
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
 		
+		// 조회수 올리는 부분
 		teamAskBoardService.increaseReadCount(tano);
-
+		
+		// 댓글 부분
+		Member loginMember = this.memberService.getMember(principal.getName());
+		
+		List<TeamAskBoardReply> teamAskReplys = teamAskBoardReplyService.findReplys();
+		
 		model.addAttribute("teamAskOne", teamAskOneDetail);
+		model.addAttribute("loginMember", loginMember);
+		model.addAttribute("teamAskReplys", teamAskReplys);
+		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());
 		
 		return "teams/teamAskBoardDetail";
 	}
+	
+	// 댓글 작성
+	@PostMapping("/teamAskBoard/teamAskBoardDetail/createTeamAskReply")
+	public String createTeamAskBoardReply(@Valid TeamAskBoardReplyDto teamAskReply, BindingResult result, @RequestParam Long tano, Principal principal) {
+		
+		Member member = this.memberService.getMember(principal.getName());	
+		teamAskReply.setMember(member);
+		
+		TeamAskBoard teamAskBoard = teamAskBoardService.findOne(tano);
+		teamAskReply.setTeamAskBoard(teamAskBoard);
+		
+		teamAskBoardReplyService.saveTeamAskBoardReply(teamAskReply);
+		
+		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano;
+	}
+	
 	
 	// 문의글 수정 폼
 	@GetMapping("/teamAskBoard/updateForm")
@@ -148,6 +179,8 @@ public class TeamPageController {
 		
 		return "redirect:/teams/teamAskBoard";
 	}
+	
+	// 문의글 댓글
 
 	// 팀 페이지 인증 게시판
 	@GetMapping("/teamCheckBoard")

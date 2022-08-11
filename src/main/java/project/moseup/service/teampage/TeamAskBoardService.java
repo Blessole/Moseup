@@ -1,4 +1,4 @@
-package project.moseup.service;
+package project.moseup.service.teampage;
 
 import java.util.List;
 
@@ -69,13 +69,5 @@ public class TeamAskBoardService {
 			teamAskBoard.changeBoardContent(teamAskBoardUpdateDto.getTeamAskSubject(), teamAskBoardUpdateDto.getTeamAskContent(), teamAskBoardUpdateDto.getSecret());
 		}
 	}
-
-	
-	// 글 삭제
-	/*
-	 * @Transactional public void deleteTeamAskBoard(TeamAskBoardDto
-	 * teamAskBoardDto) { // builder 사용 TeamAskBoard teamAskBoard =
-	 * teamAskBoardDto.Delete(); askBoardRepository.save(teamAskBoard); }
-	 */
 	
 }

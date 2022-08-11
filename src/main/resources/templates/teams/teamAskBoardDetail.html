@@ -4,9 +4,12 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
+<style type="text/css">
+	
+	.replybox {display: flex;}
+</style>
 </head>
 <body>
 	<!-- 본문 코드 시작 -->
@@ -46,14 +49,26 @@
 				</tr>
 			</table>
 			<div class="input-group mb-3">
-				<form id="reply" action="/reply_write" method="post">
-					<input type="text" id="content" name="content" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.."
-						aria-describedby="basic-addon2"> 
-						<!-- <input type="hidden" id="boardId" name="boardId" th:value="${board.boardId}"> -->
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="submit">등록</button>
-					</div>
+				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply}" th:object="${teamAskReply}" method="post">
+				<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
+				<div class="replybox">
+					<input type="text" id="nickname" name="nickname" class="form-control" th:value="${loginMember.nickname}" style="text-align: center;">
+					<input type="text" th:field="*{teamAskReplyContent}" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"> 
+					<button class="btn btn-outline-secondary" type="submit">등록</button>
+				</div>
 				</form>
+			</div>
+				<table>
+					<tbody>
+						<tr th:each="replys : ${teamAskReplys}">							
+							<th th:text="${replys.member.nickname}"></th>
+							<th th:text="${replys.teamAskReplyContent}"></th>
+							<th th:text="${replys.teamAskReplyDate}"></th>
+						</tr>
+						</tbody>
+				</table>
+			<div>
+			
 			</div>
 			<div>
 				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
