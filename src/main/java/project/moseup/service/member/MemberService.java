@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
-import project.moseup.dto.JoinFormDto;
 import project.moseup.domain.Member;
-import project.moseup.dto.MyInfoDto;
+import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 
@@ -45,8 +43,8 @@ public class MemberService {
 
 	/** 회원가입 **/
 	@Transactional // 값을 넣어야하는 곳에는 읽기만 하면 안되니 따로 @Transactional를 사용
-	public void join(JoinFormDto joinForm) {
-		System.out.println("password : " + joinForm.getPassword1());
+	public void join(MemberSaveReqDto joinForm) {
+		System.out.println("password : " + joinForm.getPassword());
 
 		Member member = joinForm.toEntity();
 
@@ -75,9 +73,9 @@ public class MemberService {
 
 	/** 회원 정보 수정 **/
 	@Transactional
-	public Long update(MyInfoDto myInfoDto, Long mno) {
+	public Long update(MemberSaveReqDto memberDto, Long mno) {
 		Member member = memberInterfaceRepository.findById(mno).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
-		member.infoUpdate(myInfoDto);
+		member.infoUpdate(memberDto);
 		return mno;
 	}
 }

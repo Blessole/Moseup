@@ -53,6 +53,10 @@ public class MemberSaveReqDto {
 
     private Role role;
 
+    private DeleteStatus memberDelete;
+
+    private LocalDateTime memberDate;
+
     public MemberSaveReqDto() {}
 
     @Builder
@@ -89,5 +93,22 @@ public class MemberSaveReqDto {
                 .memberDate(LocalDateTime.now())
                 .role(Role.USER)
                 .build();
+    }
+
+    public MemberSaveReqDto toDto(Member memberPS){
+        this.name = memberPS.getName();
+        this.nickname = memberPS.getNickname();
+        this.email = memberPS.getEmail();
+        this.gender = memberPS.getGender();
+        this.phone = memberPS.getPhone();
+        this.photo = memberPS.getPhoto();
+        this.address = memberPS.getAddress();
+        this.password = memberPS.getPassword();
+        this.password2 = memberPS.getPassword();
+        this.memberDelete = memberPS.getMemberDelete();
+        this.memberDate = memberPS.getMemberDate();
+        this.role = memberPS.getRole();
+
+        return this;
     }
 }

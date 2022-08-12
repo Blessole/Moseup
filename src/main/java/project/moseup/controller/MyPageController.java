@@ -8,17 +8,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.domain.Team;
-import project.moseup.dto.MyInfoDto;
-import project.moseup.service.TeamService;
+import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
 import project.moseup.validator.CheckEmailValidator;
 import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
-import project.moseup.validator.CheckRealize;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -57,12 +56,21 @@ public class MyPageController {
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal){
         Member member = memberService.getPrincipal(principal);
-        List<Team> teams = this.myPageService.findByMember(member);
+        List<Team> teams = this.myPageService.findTeam(member);
 
         model.addAttribute("teamList", teams);
         model.addAttribute("member",member);
 
         return "myPage/myTeamList";
+    }
+
+    @GetMapping("/myCheckList")
+    public String myCheckList(Model model, Principal principal){
+        Member member = memberService.getPrincipal(principal);
+        List<CheckBoard> checkBoards = this.myPageService.findCheckBoard(member);
+        model.addAttribute("checkList", checkBoards);
+        model.addAttribute("member", member);
+        return "myPage/myCheckList";
     }
 //
 //    @GetMapping("/myInfoMain")
@@ -83,34 +91,35 @@ public class MyPageController {
 //    }
 
     @GetMapping("/myInfo")
-    public String myInfo(MyInfoDto myInfoDto, Model model, Principal principal){
-        openForm(myInfoDto, model, principal);
+    public String myInfo(MemberSaveReqDto memberDto, Model model, Principal principal){
+        openForm(memberDto, model, principal);
         return "myPage/myInfo";
     }
 
     @PostMapping("/myInfo")
-    public String myInfoUpdate(@Valid MyInfoDto myInfoDto, BindingResult bindingResult, @RequestParam Long mno, Model model, Principal principal){
+    public String myInfoUpdate(@Valid @ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam Long mno, Model model, Principal principal){
+        System.out.println("memberDto email : " + memberDto.getEmail());
         // 유효성 검사
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
             for(ObjectError e : list){
                 System.out.println(e.getDefaultMessage());
             }
-            openForm(myInfoDto, model, principal);
+            openForm(memberDto, model, principal);
             return "myPage/myInfo";
         }
 
-        memberService.update(myInfoDto, mno);
+        memberService.update(memberDto, mno);
         return "redirect:/myPage/myInfo?mno="+mno;
     }
 
-    /** MyInfoDto 중복코드 */
-    private void openForm(MyInfoDto myInfoDto, Model model, Principal principal) {
+    /** MemberSaveReqDto 중복코드 */
+    private void openForm(MemberSaveReqDto memberDto, Model model, Principal principal) {
         Member member = memberService.getPrincipal(principal);
         model.addAttribute("member", member);
 
-        myInfoDto = myInfoDto.toDto(member);
-        model.addAttribute("myInfoDto", myInfoDto);
+        memberDto = memberDto.toDto(member);
+        model.addAttribute("myInfoDto", memberDto);
 
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);

@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.MemberGender;
-import project.moseup.dto.JoinFormDto;
+import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
 
@@ -29,12 +29,12 @@ public class MemberController {
         //해당 enum의 모든 정보를 배열로 반환 [MALE, FEMALE]
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);
-        model.addAttribute("joinForm", new JoinFormDto());
+        model.addAttribute("joinForm", new MemberSaveReqDto());
         return "members/joinForm";
     }
 
     @PostMapping("/join")
-    public String join(@Valid JoinFormDto joinForm, BindingResult bindingResult, Model model){
+    public String join(@Valid MemberSaveReqDto joinForm, BindingResult bindingResult, Model model){
         System.out.println("error:"+ bindingResult.hasErrors());
 
         if(bindingResult.hasErrors()){
@@ -44,7 +44,7 @@ public class MemberController {
             }
             MemberGender[] genders = MemberGender.values();
             model.addAttribute("genders", genders);
-            model.addAttribute("joinForm", new JoinFormDto());
+            model.addAttribute("joinForm", new MemberSaveReqDto());
             return "members/joinForm";
         }
 //

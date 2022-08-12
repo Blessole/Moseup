@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
-import project.moseup.dto.MyInfoDto;
+import project.moseup.dto.MemberSaveReqDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -122,13 +122,13 @@ public class Member {
 	}
 
 	// 정보 수정
-	public void infoUpdate(MyInfoDto myInfoDto){
-		this.name = myInfoDto.getName();
-		this.nickname = myInfoDto.getNickname();
-		this.gender = myInfoDto.getGender();
-		this.photo = myInfoDto.getPhoto();
-		this.phone = myInfoDto.getPhone();
-		this.address = myInfoDto.getAddress();
+	public void infoUpdate(MemberSaveReqDto memberDto){
+		this.name = memberDto.getName();
+		this.nickname = memberDto.getNickname();
+		this.gender = memberDto.getGender();
+		this.photo = memberDto.getPhoto();
+		this.phone = memberDto.getPhone();
+		this.address = memberDto.getAddress();
 	}
 
 	// 비밀번호 암호화

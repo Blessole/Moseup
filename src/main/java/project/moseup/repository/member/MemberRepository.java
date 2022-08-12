@@ -24,7 +24,6 @@ public class MemberRepository {
 
     /** 단건 조회(회원번호) **/
     public Member findOneMno(Long mno) {
-
         return em.find(Member.class, mno);
     }
 

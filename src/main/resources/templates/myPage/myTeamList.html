@@ -20,7 +20,7 @@
         <td th:text="${list.startDate}"></td>
         <td th:text="${list.endDate}"></td>
         <td th:text="${list.teamDeposit}+'0,000원'"></td>
-        <td><a th:href="@{/teams/teamPage}"><img src="/images/go.png" width="40"></a> </td>
+        <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="40"></a> </td>
       </tr>
     </table>
   </div>
