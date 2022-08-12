@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute(value = "joinForm") JoinFormDto joinForm, BindingResult bindingResult){
+    public String join(@Valid JoinFormDto joinForm, BindingResult bindingResult, Model model){
         System.out.println("error:"+ bindingResult.hasErrors());
 
         if(bindingResult.hasErrors()){
@@ -42,14 +42,17 @@ public class MemberController {
             for(ObjectError e : list){
                 System.out.println(e.getDefaultMessage());
             }
+            MemberGender[] genders = MemberGender.values();
+            model.addAttribute("genders", genders);
+            model.addAttribute("joinForm", new JoinFormDto());
             return "members/joinForm";
         }
-
-        if (!joinForm.getPassword1().equals(joinForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect",
-                    "2개의 패스워드가 일치하지 않습니다.");
-            return "members/joinForm";
-        }
+//
+//        if (!joinForm.getPassword1().equals(joinForm.getPassword2())) {
+//            bindingResult.rejectValue("password2", "passwordInCorrect",
+//                    "2개의 패스워드가 일치하지 않습니다.");
+//            return "members/joinForm";
+//        }
 
         try {
             joinForm.toEntity();

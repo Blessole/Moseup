@@ -68,6 +68,7 @@ public class AskBoardController {
         return "/myPage/askBoardDetail";
     }
 
+    /** 글 수정 **/
     @GetMapping("/askBoardUpdateForm")
     public String askBoardUpdateForm(@RequestParam("ano") Long ano, Model model, Principal principal){
         Member member = this.memberService.getMember(principal.getName());
@@ -98,6 +99,7 @@ public class AskBoardController {
         return "redirect:/askBoard/askBoardDetail?ano="+ano;
     }
 
+    /** 글 삭제 **/
     @GetMapping("/askBoardDelete")
     public String askBoardDelete(@RequestParam Long ano, Model model, Principal principal) {
         Member member = this.memberService.getMember(principal.getName());

@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.dto.MyInfoDto;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.repository.member.MemberInterfaceRepository;
+import project.moseup.repository.member.MemberRepository;
 
 @RequiredArgsConstructor
 @Component

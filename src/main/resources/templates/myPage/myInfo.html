@@ -9,12 +9,13 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" method="post">
+  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" onsubmit="return check()" method="post">
     <div class="middle-container">
       <h2 class="title">회원 정보 수정</h2>
       <div class="form-group myInfo">
         <label th:for="email">이메일</label>
         <input th:field="*{email}"  class="form-control"  value="${email}" disabled>
+        <br><span >이메일은 수정이 불가합니다.</span>
       </div>
       <div class="form-group myInfo">
         <label th:for="password">비밀번호</label>
@@ -28,7 +29,7 @@
       </div>
       <div class="form-group myInfo">
         <label th:for="name">이름</label>
-        <input class="form-control" th:field="*{name}" value="${name}" disabled>
+        <input class="form-control" th:field="*{name}" value="${name}">
       </div>
       <div class="form-group myInfo">
         <label th:for="nickname">닉네임</label>
@@ -57,15 +58,11 @@
         <!--                <input type="text" name="address_detail" placeholder="상세주소">-->
       </div>
       <div class="button-box">
-      <input type="submit" value="수정">
+        <input type="submit" value="수정">
+        <a href="" th:href="@{/members/delete(mno=${member.mno})}">탈퇴</a>
       </div>
     </div>
   </form>
-
-  <!-- 값 체크 jQuery -->
-  <script type="text/javascript">
-
-  </script>
 </th:block>
 </body>
 </html>

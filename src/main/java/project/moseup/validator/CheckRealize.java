@@ -51,5 +51,4 @@ public class CheckRealize extends Check<String> {
         } else  msg = "비밀번호가 일치합니다.";
         return msg;
     }
-
 }

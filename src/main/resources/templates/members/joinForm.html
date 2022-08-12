@@ -23,7 +23,8 @@
                 <label th:for="password">비밀번호<span class="essential">*</span></label>
                 <input type="password"  th:field="*{password1}" class="form-control" placeholder="비밀번호를 입력하세요.">
                 <span class="text-err" id="password1Chk"></span>
-
+            </div>
+            <div class="form-group">
                 <label th:for="password">비밀번호 확인<span class="essential">*</span></label>
                 <input type="password"  th:field="*{password2}" class="form-control" placeholder="비밀번호를 입력하세요.">
                 <span class="text-err" id="password2Chk"></span>
@@ -64,7 +65,7 @@
         </div>
     </form>
 
-    <!--중복체크 jQuery-->
+    <!--필수 입력, 중복체크 jQuery-->
     <script type="text/javascript">
         $(function(){
             $('#email').blur(function(){
@@ -100,6 +101,12 @@
                 });
             });
             $('#password1').blur(function (){
+                let password1 = $('#password1').val();
+                if (password1.length < 4 || password1.length > 8) {
+                    $('#password1Chk').text("비밀번호는 4자 이상, 8자 이하입니다.");
+                } else if (password1.length >= 4 || password1.length <= 8 ){
+                    $('#password1Chk').text(" ");
+                }
                 $('#password2').focus();
             });
             $('#password2').blur(function (){
@@ -122,11 +129,12 @@
             });
             $('#phone').blur(function (){
                let phone = $('#phone').val();
-               let regExp = /01[016789]\\d{3,4}\\d{4}/;
+               let regExp = /^(01[016789])(\d{3,4})(\d{4})$/;
                if (!regExp.test(phone)){
                    $('#phoneChk').text("전화번호 형식이 잘못되었습니다. (예: 01012345678)");
-               } else {  alert("여기지나간다");
-               $('#phoneChk').text("");   }
+               } else if (regExp.test(phone)){
+               $('#phoneChk').text(" ");
+               }
             });
         });
     </script>

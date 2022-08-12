@@ -46,12 +46,6 @@ public class AskBoardService {
                 .build();
         return askBoardDto;
     }
-//
-//    /** DTO - 단순 조회용 하나 조회 **/
-//    public AskBoardRespDto getDetailPost(Long ano){
-//        Optional<AskBoard> result = askBoardInterfaceRepository.findById(ano);
-//        return result.isPresent()?entityToDto(result.get()):null;
-//    }
 
     /** 문의글 작성 **/
     @Transactional

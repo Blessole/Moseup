@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
@@ -12,8 +15,12 @@ import project.moseup.dto.MyInfoDto;
 import project.moseup.service.TeamService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
+import project.moseup.validator.CheckEmailValidator;
+import project.moseup.validator.CheckNicknameValidator;
+import project.moseup.validator.CheckPasswordValidator;
 import project.moseup.validator.CheckRealize;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -24,25 +31,37 @@ public class MyPageController {
 
     private final MemberService memberService;
     private final MyPageService myPageService;
-    private final CheckRealize checkRealize;
 
+    // 유효성 검사
+    private final CheckNicknameValidator checkNicknameValidator;
+    private final CheckEmailValidator checkEmailValidator;
+    private final CheckPasswordValidator checkPasswordValidator;
+
+    // Spring Validator 사용 시
+    // @Valid annotation으로 검증이 필요한 객체를 가져오기 전에 수행할 method를 지정
+    @InitBinder
+    public void validatorBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(checkNicknameValidator);
+        webDataBinder.addValidators(checkEmailValidator);
+        webDataBinder.addValidators(checkPasswordValidator);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
     public String myPage(Model model, Principal principal) {
-        System.out.println("principal getname : " + principal.getName());
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPrincipal(principal);
         model.addAttribute("member", member);
         return "myPage/myPage";
     }
 
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPrincipal(principal);
         List<Team> teams = this.myPageService.findByMember(member);
 
         model.addAttribute("teamList", teams);
-        model.addAttribute("member", member);
+        model.addAttribute("member",member);
+
         return "myPage/myTeamList";
     }
 //
@@ -65,20 +84,35 @@ public class MyPageController {
 
     @GetMapping("/myInfo")
     public String myInfo(MyInfoDto myInfoDto, Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
-        model.addAttribute("member",member);
+        openForm(myInfoDto, model, principal);
+        return "myPage/myInfo";
+    }
+
+    @PostMapping("/myInfo")
+    public String myInfoUpdate(@Valid MyInfoDto myInfoDto, BindingResult bindingResult, @RequestParam Long mno, Model model, Principal principal){
+        // 유효성 검사
+        if(bindingResult.hasErrors()){
+            List<ObjectError> list = bindingResult.getAllErrors();
+            for(ObjectError e : list){
+                System.out.println(e.getDefaultMessage());
+            }
+            openForm(myInfoDto, model, principal);
+            return "myPage/myInfo";
+        }
+
+        memberService.update(myInfoDto, mno);
+        return "redirect:/myPage/myInfo?mno="+mno;
+    }
+
+    /** MyInfoDto 중복코드 */
+    private void openForm(MyInfoDto myInfoDto, Model model, Principal principal) {
+        Member member = memberService.getPrincipal(principal);
+        model.addAttribute("member", member);
 
         myInfoDto = myInfoDto.toDto(member);
         model.addAttribute("myInfoDto", myInfoDto);
 
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);
-        return "myPage/myInfo";
     }
-
-//    @PostMapping("/myInfo")
-//    public String myInfoUpdate(@RequestParam Long mno){
-//
-//        return "redirect:/myPage/myInfo?mno="+mno;
-//    }
 }
