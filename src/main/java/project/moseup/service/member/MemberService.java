@@ -51,12 +51,6 @@ public class MemberService {
 		// password 암호화
 		member.encodePassword(passwordEncoder);
 
-		//중복 확인
-//		if (memberInterfaceRepository.findByEmail(joinForm.getEmail()).isPresent()){
-//			throw new IllegalStateException("이미 존재하는 회원입니다.");
-//		}
-//		validateDuplicateMember(joinForm.getEmail());
-
 		// DB 저장
 		memberRepository.save(member);
 	}

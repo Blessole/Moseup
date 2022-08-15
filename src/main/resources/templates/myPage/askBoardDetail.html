@@ -13,7 +13,7 @@
         <h2 class="title">1:1 문의 내역</h2>
             <div class="top-box">
                 <div class="subTitle">제목 &nbsp; : &nbsp; <span th:text="${askBoard.askSubject}"></span></div>
-                <div class="time"><span th:text="${askBoard.askDate}"></span> </div>
+                <div class="time"><span th:text="${#temporals.format(askBoard.askDate,'yyyy-MM-dd hh:mm')}"></span> </div>
             </div>
             <div class="content-box">
                 <div>내용</div>

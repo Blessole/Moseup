@@ -45,14 +45,8 @@ public class MemberController {
             MemberGender[] genders = MemberGender.values();
             model.addAttribute("genders", genders);
             model.addAttribute("joinForm", new MemberSaveReqDto());
-            return "members/joinForm";
+            return "redirect:/members/joinForm";
         }
-//
-//        if (!joinForm.getPassword1().equals(joinForm.getPassword2())) {
-//            bindingResult.rejectValue("password2", "passwordInCorrect",
-//                    "2개의 패스워드가 일치하지 않습니다.");
-//            return "members/joinForm";
-//        }
 
         try {
             joinForm.toEntity();
@@ -66,11 +60,6 @@ public class MemberController {
             bindingResult.reject("joinFailed", e.getMessage());
             return "members/joinForm";
         }
-
-        //String addr1 = model.getAttribute(address);
-        //model.getAttribute("postAddr1", postAddr1);
-        //String addr1 =
-
         return "redirect:/";
     }
 

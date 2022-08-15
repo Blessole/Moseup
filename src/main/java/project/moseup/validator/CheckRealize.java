@@ -33,12 +33,15 @@ public class CheckRealize extends Check<String> {
     @Override
     public String nicknameCheck(String value){
         String msg="";
+        String regExp = "^[ㄱ-ㅎ가-힣A-Za-z0-9-_]{2,10}$";
         List<Member> findMembers = memberRepository.findByNickname(value);
         if (findMembers.isEmpty()){
             System.out.println("Service validateDuplicate 지나감");
             msg = "사용 가능한 닉네임입니다.";
-        }
-        else msg="이미 사용중인 닉네임입니다.";
+            if(!value.matches(regExp)) {
+                msg = "닉네임은 특수문자를 제외한 2~10자리여야 합니당!";
+            }
+        } else msg="이미 사용중인 닉네임입니다.";
         return msg;
     }
 

@@ -87,6 +87,18 @@
 	width: 80%
 }
 
+/** 로그인/회원가입 부분 css (by. 솔) **/
+.nav-item{
+    display: flex;
+}
+.nav-item a {
+    margin-left: 15px;
+}
+
+.nav-item a:hover{
+    color: #000000;
+}
+
 /* 네비바 검색창 인풋 및 이미지 감싸는 태그 */
 .search {
   position: relative;

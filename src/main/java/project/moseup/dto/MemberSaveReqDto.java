@@ -35,7 +35,7 @@ public class MemberSaveReqDto {
     private String name;
 
     @NotBlank(message = "닉네임을 입력해주세요.") // null, "", " "(빈공백문자열) 허용x
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣A-Za-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     private String nickname;
 
     @NotBlank(message = "주소를 입력해주세요.")
@@ -74,7 +74,7 @@ public class MemberSaveReqDto {
         this.name = name.replaceAll(" ", "");
         this.nickname = nickname;
         this.gender = gender;
-        this.address = address + " " + address2;
+        this.address = address + ", " + address2;
         this.phone = phone;
         this.photo = photo;
     }
@@ -85,7 +85,7 @@ public class MemberSaveReqDto {
                 .password(password)
                 .name(name.replaceAll(" ", ""))
                 .nickname(nickname)
-                .address(address + " " + address2)
+                .address(address + ", " + address2)
                 .phone(phone)
                 .photo(photo)
                 .memberDelete(DeleteStatus.FALSE)

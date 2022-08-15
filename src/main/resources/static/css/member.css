@@ -16,7 +16,27 @@ a {
     border-color: #bd2130;
 }
 
-/* joinForm */
+/* 로그인 폼 */
+.title {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 30px;
+}
+
+.formBx {
+    margin-bottom: 30px;
+}
+.formBx .form-group{
+    margin-bottom: 15px;
+}
+
+.button-box a {
+    float: right;
+    margin-top: 10px;
+    margin-right: 50px;
+}
+
+/* 회원가입 폼 */
 .button-box{
     width: 400px;
     text-align: center;
