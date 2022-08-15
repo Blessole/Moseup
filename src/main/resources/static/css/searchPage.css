@@ -80,7 +80,7 @@
 /* card태그 */
 .card {
 	border-radius: 10px;
-	margin: 10px;
+	margin: 10px 10px 25px 10px;
 	height: 403px;
 	text-align: center;
 	border: none;
@@ -189,6 +189,13 @@
 .filter1btn {
 	width: 220px;
 }
+.filter1btn:hover {
+	border: 2px solid black;
+}
+.filter1label:hover, #filter1submitBtn:hover {
+	background-color: #016fb9;
+	color: white;
+}
 
 /* 필터1,2 btn */
 .filter2btn, .filter1btn {
@@ -220,11 +227,21 @@
 	background-color: #016fb9;
 	color: white;
 }
-.filter2btn:active{
+/* .filter2btn:active{
 	background-color: #016fb9;
 	color: white;
-}
+} */
 .filter2btn:hover {
-	background-color: #016fb9;
-	color: white;
+	border: 2px solid black;
+}
+
+/* 검색결과 없음 */
+.searchedNull35 {
+	font-size: 35px;
+	color: #6c6c6c;
+	font-weight: bold;
+}
+.searchedNull25 {
+	font-size: 25px;
+	color: #6c6c6c;
 }

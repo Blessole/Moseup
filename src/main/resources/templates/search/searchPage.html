@@ -22,34 +22,35 @@
 			</div>
 		</section>
 		<section class="filterSection">
-			<form th:action="@{/search/filter}" role="form" method="get" onsubmit="return filter1Chk()">
+			<form th:action="@{/search/filter}" role="form" method="get" id="filter1form" onsubmit="return filter1Chk()">
+				<input type="hidden" id="keyword" name="keyword" th:value="${keyword}">
+				<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">
+				<input type="hidden" class="filter1Arr" th:value="${filter1}">
 				<div class="dropdown" align="left" id="filter1">
 				  <button class="btn btn-sm dropdown-toggle filter1btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 				    <span><i class="bi bi-sliders"></i> 필터</span>&nbsp&nbsp<span class="filter1btnSpan">팀명 · 팀장명 · 태그</span>
 				  </button>
-				  <input id="keyword" type="hidden" th:value="${keyword}">
-				  <input id="filter2" type="hidden" th:value="${filter2}">
 				  <ul class="dropdown-menu filter1dropMenu">
 				    <li><label class="dropdown-item btn-sm filter1label"><input type="checkbox" class="filter1value" name="filter1" value="팀명"> 팀명</label></li>
 				    <li><label class="dropdown-item btn-sm filter1label"><input type="checkbox" class="filter1value" name="filter1" value="팀장명"> 팀장명</label></li>
 				    <li><label class="dropdown-item btn-sm filter1label"><input type="checkbox" class="filter1value" name="filter1" value="태그"> 태그</label></li>
 				    <li><hr class="dropdown-divider"></li>
-				    <li><span class="dropdown-item btn-sm text-center" onclick="filter1Chk()">확인</span></li>
+				    <li><input type="submit" class="dropdown-item btn-sm text-center" id="filter1submitBtn" value="확인"></li>
 				  </ul>
 				</div>
 			</form>
 			
 			<div class="dropdown" align="right" id="filter2div">
 			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-			  	th:if="${filter2 == null}">
-			   &nbsp순서&nbsp
+			  	th:if="${filter2 == null} or ${filter2 == 'nothing'}">
+			   &nbsp카테고리&nbsp
 			  </button>
 			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-			  	th:if="${filter2} != null" th:text="${filter2}">
+			  	th:if="${filter2} != null and ${filter2 != 'nothing'}" th:text="${filter2}">
 			  </button>
 			  <ul class="dropdown-menu text-center filter2dropMenu">
 			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter(keyword=${keyword},filter1=${filter1},filter2=최신순)}">최신순</a></li>
-			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter(keyword=${keyword},filter1=${filter1},filter2=날짜순)}">날짜순</a></li>
+			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter(keyword=${keyword},filter1=${filter1},filter2=시작일순)}">시작일순</a></li>
 			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter(keyword=${keyword},filter1=${filter1},filter2=팀원수순)}">팀원수순</a></li>
 			    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/search/filter(keyword=${keyword},filter1=${filter1},filter2=예치금순)}">예치금순</a></li>
 			  </ul>
@@ -58,8 +59,9 @@
 		<br><br>
 		
 		<section class="cardSection">
-			<div th:if="${searchedTeamList.isEmpty()}">
-				검색 결과가 존재하지 않습니다.
+			<div th:if="${searchedTeamList.isEmpty()}" class="searchedNull text-center">
+				<div class="searchedNull35 text-center">🙊 검색 결과가 없어요! 🙊</div>
+				<div class="searchedNull25 text-center">필터를 다시 적용해보시거나 카테고리를 이동해보세요</div>
 			</div>
 			<div th:if="${!searchedTeamList.isEmpty()}">
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
@@ -102,39 +104,40 @@
     </div>
     
 	<script type="text/javascript">
+
 		/*검색창 submit체크*/
 		function searchChk() {
-				var text = $('#mainSearch').val();
-				if(text == "" || text == null) {
-					return false;
-				}
+			var text = $('#mainSearch').val();
+			if (text == "" || text == null) {
+				return false;
 			}
-		
+		}
+
 		/* filter1 submit체크 */
 		function filter1Chk() {
 			var filter1 = $("input:checkbox[name='filter1']:checked").val();
 			var filter2 = $('#filter2').val();
 			var keyword = $('#keyword').val();
-			
-			if ($('.filter1value').is(":checked") == false) {
-				alert("필터1 빔");
-				return false;
-			} 
 
- 			if (filter2 == "" || filter2 == null) {
-				$.ajax({
-					type : "get",
-					url : "/search/filter",
-					data : {"keyword" : keyword, "filter2" : "nothing", "filter1" : filter1}
-				})
-			} else {
-				$.ajax({
-					type : "get",
-					url : "/search/filter",
-					data : {"keyword" : keyword, "filter2" : filter2, "filter1" : filter1}
-				})
+			if ($('.filter1value').is(":checked") == false) {
+				return false;
+			}
+
+			if (filter2 == "" || filter2 == null) {
+				$('#filter2').val("nothing");
 			}
 		};
+
+		/* 필터1 체크박스 선택하고 submit후 체크값 유지*/
+		$(function() {
+			var filter1Arr = $(".filter1Arr").val(); //히든으로 컨트롤러에서 체크값 가져오기
+
+			$('input:checkbox[name="filter1"]').each(function() { //each로 돌기
+				if (filter1Arr.indexOf(this.value) > -1) { //체크된게 있다면
+					$(this).prop('checked', true); //체크하기
+				}
+			});
+		});
 	</script>
 	</th:block>
 </body>

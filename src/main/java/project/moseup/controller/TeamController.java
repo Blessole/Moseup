@@ -54,7 +54,7 @@ public class TeamController {
 
 	// 팀명 중복체크
 	@GetMapping(value = "/teams/nameChk", produces = "text/html;charset=utf-8")
-	@ResponseBody	// 전에는 return "idChk";통해 보여주지만, @ResponseBody는 jsp를 통하지 않고 직접 문자를 전달함
+	@ResponseBody	
 	public String teamNameChk(String teamName) {
 	      String msg = "";
 	      List<Team> team = teamService.validateDuplicateTeam(teamName);

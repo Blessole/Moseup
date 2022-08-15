@@ -140,7 +140,7 @@
 		/* 습관 시작일 기본값 오늘날짜로 하는 함수 */
 		/* document.getElementById('startDate').valueAsDate = new Date(); */
 
-		/* 모집 인원 값 보여주는 함수 */
+		/* 모집 인원 값 보여주기*/
 		var slider = document.getElementById("teamVolume");
 		var output = document.getElementById("teamVolumeValue");
 		output.innerHTML = slider.value + "명";
@@ -151,7 +151,7 @@
 
 
 		
-		/*textarea 글자 수 체크하는 함수*/
+		/*textarea 글자 수 체크*/
 		function fn_checkText(obj){
 			const maxText = 500; //최대 1000바이트
 			const text_val = obj.value; //입력한 문자
@@ -176,7 +176,7 @@
 			}
 		}
 
-		/* onsubmit 함수 */
+		/* submit체크*/
 		function submitChk() {
 			/* 카테고리 확인 함수 */
 			var teamCategory = document.getElementById("teamCategory1");
@@ -189,7 +189,7 @@
 				return false;
 			}
 			
-			/* 예치금 확인 함수 */
+			/* 예치금 확인 */
 			var teamDeposit = document.getElementById("teamDeposit");
 			var teamDepositErr = document.getElementById("teamDepositErr");
 
@@ -200,7 +200,7 @@
 				return false;
 			}
 
-			/* 습관 시작/종료일 확인 함수 */
+			/* 습관 시작/종료일 확인 */
 			var startDate = document.getElementById("startDate");
 			var endDate = document.getElementById("endDate");
 			var dateErr = document.getElementById("dateErr");
@@ -220,7 +220,7 @@
 			}
 		}
 		
-		/* 아이디 중복체크/팀명 정규표현식 함수 */
+		/* 아이디 중복체크/팀명 정규표현식 */
 		$(function() { 
 			$('#teamName').focus();
 			$('#teamName').blur(function() {
@@ -253,7 +253,7 @@
 			$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
 		}
 		
-		/* 카테고리 display 함수 */	
+		/* 카테고리 display */	
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
 				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
@@ -288,7 +288,7 @@
 			});
 		});
 		
-		/* 카테고리3 공백사용 금지 함수 */
+		/* 카테고리3 공백사용 금지 */
 		$(function() {
 			$('#teamCategory3').blur(function() {
 				var teamCategory3 = $('#teamCategory3').val();
