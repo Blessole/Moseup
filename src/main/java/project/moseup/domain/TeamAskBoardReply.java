@@ -13,11 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Setter @Getter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamAskBoardReply {
 
 	@Column(name = "team_askreplyno")
@@ -43,5 +46,15 @@ public class TeamAskBoardReply {
     @Column(name = "team_askreplydelete")
     @Enumerated(EnumType.STRING)
     private DeleteStatus teamAskReplyDelete;
+    
+    @Builder(builderClassName = "toEntity", builderMethodName = "createTeamAskBoardReply")
+    public TeamAskBoardReply(Member member, TeamAskBoard teamAskBoard, String teamAskReplyContent, LocalDateTime teamAskReplyDate, DeleteStatus teamAskReplyDelete) {
+    	this.member = member;
+    	this.teamAskBoard = teamAskBoard;
+    	this.teamAskReplyContent = teamAskReplyContent;
+    	this.teamAskReplyDate = teamAskReplyDate;
+    	this.teamAskReplyDelete= teamAskReplyDelete;
+    }
+    
 
 }

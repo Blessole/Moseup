@@ -1,17 +1,19 @@
-package project.moseup.service;
+package project.moseup.service.teampage;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamAskBoardRepository;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,31 +49,25 @@ public class TeamAskBoardService {
 	
 	// 특정글 삭제 상태
 	@Transactional
-	public void changeDelete(TeamAskBoard teamAskBoard) {
-		askBoardRepository.save(teamAskBoard);
-	}
-
-	// 특정 글 수정
-	@Transactional
-	public void changeUpdate(TeamAskBoardUpdateDto dto, Long tano) {
-		TeamAskBoard teamAskBoardPS = askBoardPageRepository.findById(tano).orElse(null);
-		if(teamAskBoardPS != null){
-			teamAskBoardPS.subjectAndContentAndSecretUpdate(
-					dto.getTeamAskSubject(),
-					dto.getTeamAskContent(),
-					dto.getSecret()
-			);
-		}
-
-
-
+	public void changeDelete(TeamAskBoardDeleteDto teamAskBoardDeleteDto, Long tano) {
+		TeamAskBoard teamAskBoard = askBoardPageRepository.findById(tano).orElse(null);		
+		teamAskBoard.changeBoardDelete(teamAskBoardDeleteDto.getTeamAskDelete());
 	}
 	
-	// 글 삭제
-	/*
-	 * @Transactional public void deleteTeamAskBoard(TeamAskBoardDto
-	 * teamAskBoardDto) { // builder 사용 TeamAskBoard teamAskBoard =
-	 * teamAskBoardDto.Delete(); askBoardRepository.save(teamAskBoard); }
-	 */
+	// 조회수 증가
+	@Transactional
+	public int increaseReadCount(Long tano) {
+		return askBoardPageRepository.updateReadCount(tano);
+	}
+	
+	// 특정 글 수정
+	@Transactional
+	public void changeUpdate(TeamAskBoardUpdateDto teamAskBoardUpdateDto, Long tano) {
+		TeamAskBoard teamAskBoard = askBoardPageRepository.findById(tano).orElse(null);
+		
+		if(teamAskBoard != null) {
+			teamAskBoard.changeBoardContent(teamAskBoardUpdateDto.getTeamAskSubject(), teamAskBoardUpdateDto.getTeamAskContent(), teamAskBoardUpdateDto.getSecret());
+		}
+	}
 	
 }

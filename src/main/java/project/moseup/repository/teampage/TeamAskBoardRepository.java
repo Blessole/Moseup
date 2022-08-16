@@ -17,7 +17,6 @@ public class TeamAskBoardRepository {
 	
 	// 문의글 저장
 	public void save(TeamAskBoard teamAskBoard) {
-		System.out.println("tano 받니? 5");
 		if (teamAskBoard.getTano() == null) {
 			em.persist(teamAskBoard);
 		} else {

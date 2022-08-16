@@ -4,6 +4,11 @@
 	margin: 0 auto;
 }
 
+/* 필터 세션 */
+.filterSection {
+	margin-bottom: 20px;
+}
+
 /* 메인 검색창 전부 감싸는 태그 */
 .mainSearch {
 	width: 42%;
@@ -35,7 +40,7 @@
 .mainSearchImg{
 	position : absolute;
 	width: 40px;
-	top: 20px;
+	top: 18px;
 	right: 12px;
 	margin: 0;
 	background-image: url('/images/search.png');
@@ -74,11 +79,14 @@
 
 /* card태그 */
 .card {
-	margin: 10px;
-	width: 18rem;
-	height: 370px;
+	border-radius: 10px;
+	margin: 10px 10px 25px 10px;
+	height: 403px;
 	text-align: center;
 	border: none;
+}
+.card:hover {
+	border: 1px solid #cecece;
 }
 
 /* card텍스트 */
@@ -89,7 +97,16 @@
 /* card 팀명 */
 .cardTeamName {
 	font-weight: bold;
-	height: 45px;
+	font-size: 1.02em;
+	height: 50px;
+}
+/* card 팀명안에 a태그 */
+.cardTeamNameA {
+	text-decoration: none;
+	color: black;
+}
+.cardTeamNameA:hover {
+	color: black;
 }
 
 /* card 팀장 */
@@ -121,21 +138,110 @@
 /* 카테고리1 버튼 */
 .Category1Btn {
 	background-color: #cee7ff;
-	font-size: 0.8em;
+	font-size: 0.75em;
 	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리2 버튼 */
 .Category2Btn {
 	background-color: #ffdfef;
-	font-size: 0.8em;
+	font-size: 0.75em;
 	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리3 버튼 */
 .Category3Btn {
 	background-color: #caffe4;
-	font-size: 0.8em;
+	font-size: 0.75em;
 	cursor: Default;
 	margin-bottom: 5px;
+}
+
+/* 페이징 li태그 */
+.page-item {
+	margin: 0 4px;
+}
+/* 페이징 버튼 */
+.page-link {
+	color: black;
+}
+.page-link:hover {
+	color: white;
+	background-color: #016fb9;
+}
+
+/* 필터1 */
+#filter1 {
+	float: left; 
+	width: 49%;
+	margin-left: 11px;
+}
+/* 필터1 버튼 스판 태그 */
+.filter1btnSpan {
+	color: gray;
+	font-size: 0.9em;
+}
+/* 필터1 드롭다운 메뉴 */
+.filter1dropMenu {
+	width: 220px;
+}
+/* 필터1 버튼 */
+.filter1btn {
+	width: 220px;
+}
+.filter1btn:hover {
+	border: 2px solid black;
+}
+.filter1label:hover, #filter1submitBtn:hover {
+	background-color: #016fb9;
+	color: white;
+}
+
+/* 필터1,2 btn */
+.filter2btn, .filter1btn {
+	border: 1px solid black;
+	font-weight: bold;
+}
+
+/* 필터2 */
+#filter2div {
+	float: left; 
+	width: 49%;
+	margin-right: 11px;
+}
+/* 필터2 드롭다운 메뉴 */
+.filter2dropMenu {
+	min-width: 100px;
+}
+/* 필터2 버튼 */
+.filter2btn {
+	min-width: 100px;
+}
+/* 필터2 a태그 */
+.filter2a:active{
+	background-color: #016fb9;
+	color: white;
+
+}
+.filter2a:hover {
+	background-color: #016fb9;
+	color: white;
+}
+/* .filter2btn:active{
+	background-color: #016fb9;
+	color: white;
+} */
+.filter2btn:hover {
+	border: 2px solid black;
+}
+
+/* 검색결과 없음 */
+.searchedNull35 {
+	font-size: 35px;
+	color: #6c6c6c;
+	font-weight: bold;
+}
+.searchedNull25 {
+	font-size: 25px;
+	color: #6c6c6c;
 }

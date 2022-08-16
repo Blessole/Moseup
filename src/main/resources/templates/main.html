@@ -17,7 +17,7 @@
 		<section class="searchSection">
 			<div class="mainSearch">
 			<div class="mainSearchTitle" align="center">모두의 습관</div>
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return submitChk()">
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 					<div class="mainSearchInput">
 						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
 						<input type="submit" class="mainSearchImg" name="submit" value="">
@@ -33,16 +33,15 @@
 		<a href="" th:href="@{/admin}">관리자페이지</a>
 		<a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
 	</div>
-</th:block>
-
-<script type="text/javascript">
-	/*검색창 submit체크*/
-	function submitChk() {
-			var text = $('#search').val();
-			if(text == "" || text == null) {
-				return false;
+	<script type="text/javascript">
+		/*검색창 submit체크*/
+		function searchChk() {
+				var text = $('#mainSearch').val();
+				if(text == "" || text == null) {
+					return false;
+				}
 			}
-		}
-</script>
+	</script>
+</th:block>
 </body>
 </html>

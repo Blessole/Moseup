@@ -1,13 +1,13 @@
 package project.moseup.dto.teamPage;
 
+import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
-
-import java.time.LocalDate;
 
 @Getter @Setter
 public class TeamAskBoardDto {
@@ -37,10 +37,5 @@ public class TeamAskBoardDto {
 				.secret(secret)
 				.teamAskDelete(DeleteStatus.FALSE).build();
 	}
-	
-	// 게시글 삭제 method
-	/*
-	 * public TeamAskBoard Delete() { return TeamAskBoard.teamAskBoardD()
-	 * .deleteStatus(DeleteStatus.TRUE).build(); }
-	 */
+
 }
