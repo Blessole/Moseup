@@ -29,7 +29,7 @@ public class TeamCreateController {
 	@GetMapping("/teams/createTeam")
 	public String createTeamFrom(Model model) {
 		model.addAttribute("teamForm", new TeamForm());
-		return "teams/createTeamForm";
+		return "teamCreateForm";
 	}
 
 	//	team 생성
@@ -38,7 +38,7 @@ public class TeamCreateController {
 		//@Valid : 클라이언트 측에서 넘어온 데이터를 객체에 바인딩(속성과 개체 사이 또는 연산과 기호사이와 같은 연관)할 때 유효성 검사함
 		//@Valid다음에 BindingResult가 있으면 result에 오류가 담긴후 코드가 실행됨.
 		if (result.hasErrors()) {	// result안에 에러가 있으면
-			return "teams/createTeamForm"; // 에러를 createMemberForm으로 가져감
+			return "teamCreateForm"; // 에러를 createMemberForm으로 가져감
 		}
 
 		//principal을 통해서 로그인한 멤버 생성
