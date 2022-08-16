@@ -57,7 +57,7 @@ public class TeamAskBoard {
 	private DeleteStatus teamAskDelete;
 	
 	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
-	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
+	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete,  List<TeamAskBoardReply> teamAskBoardReplies) {
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
 		this.teamAskContent = teamAskContent;
@@ -65,6 +65,7 @@ public class TeamAskBoard {
 		this.teamAskDelete = teamAskDelete;
 		this.teamAskReadCount = teamAskReadCount;
 		this.secret = secret;
+		this.teamAskBoardReplies = teamAskBoardReplies;
 	}
 	
 	// 문의 글 수정 로직

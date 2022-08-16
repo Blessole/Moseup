@@ -115,11 +115,9 @@ public class TeamPageController {
 		
 		// 댓글 부분
 		Member loginMember = this.memberService.getMember(principal.getName());		
-		List<TeamAskBoardReply> teamAskReplys = teamAskBoardReplyService.findReplys();
-		
+			
 		model.addAttribute("teamAskOne", teamAskOneDetail);
-		model.addAttribute("loginMember", loginMember);
-		model.addAttribute("teamAskReplys", teamAskReplys);
+		model.addAttribute("loginMember", loginMember);	
 		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());
 		
 		return "teams/teamAskBoardDetail";
