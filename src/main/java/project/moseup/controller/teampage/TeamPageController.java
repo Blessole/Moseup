@@ -1,7 +1,6 @@
 package project.moseup.controller.teampage;
 
 import java.security.Principal;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,7 +21,6 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.TeamAskBoard;
-import project.moseup.domain.TeamAskBoardReply;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;

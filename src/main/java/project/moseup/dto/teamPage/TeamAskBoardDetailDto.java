@@ -30,6 +30,7 @@ public class TeamAskBoardDetailDto {
 
 	private DeleteStatus teamAskDelete;
 	
+	// 연관관계를 이용해서 보여주기!!
 	private List<TeamAskBoardReply> teamAskBoardReplies;
 	
 	public TeamAskBoardDetailDto toDto(TeamAskBoard teamAskBoard) {

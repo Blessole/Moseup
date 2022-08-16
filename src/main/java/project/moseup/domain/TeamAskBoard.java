@@ -65,7 +65,6 @@ public class TeamAskBoard {
 		this.teamAskDelete = teamAskDelete;
 		this.teamAskReadCount = teamAskReadCount;
 		this.secret = secret;
-		this.teamAskBoardReplies = teamAskBoardReplies;
 	}
 	
 	// 문의 글 수정 로직
