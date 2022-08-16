@@ -134,7 +134,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-application.properties
+*.properties
 
 HELP.md
 
