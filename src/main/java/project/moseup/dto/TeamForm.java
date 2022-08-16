@@ -12,20 +12,18 @@ import lombok.Getter;
 import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.domain.Team;
 
 @Getter @Setter
 public class TeamForm {
-	
 	@NotEmpty(message = "팀명은 필수 입력사항입니다. :)")
 	private String teamName;					//팀명
-
 	private Member member;					//팀장
 	private int teamVolume;						//모집 인원
 	private int teamDeposit;						//예치금
 	private String teamCategory1;			//카테고리 대분류
 	private String teamCategory2;			//카테고리 중분류
 	private String teamCategory3;			//카테고리 소분류
-	private LocalDate teamDate;				//팀 생성일
 	
 	@NotNull(message = "습관 시작일은 필수 선택사항입니다. :)")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -41,5 +39,33 @@ public class TeamForm {
 	private String teamIntroduce;				//팀 소개 글
 	
 	private String teamPhoto;					//팀 소개 사진
-	private DeleteStatus teamDelete;		//팀 삭제 여부
+	
+	private String teamLeader;					//*검색용* 팀장 닉네임
+	
+	//팀생성 메서드
+	public Team teamBuilder() {
+		return Team.createTeamBuilder()
+				.member(member)
+				.teamName(teamName)
+				.teamVolume(teamVolume)
+				.teamDeposit(teamDeposit)
+				.teamCategory1(teamCategory1)
+				.teamCategory2(teamCategory2)
+				.teamCategory3(teamCategory3)
+				.teamDate(LocalDate.now())
+				.startDate(startDate)
+				.endDate(endDate)
+				.teamIntroduce(teamIntroduce)
+				.teamPhoto(teamPhoto)
+				.teamDelete(DeleteStatus.FALSE)
+				.teamLeader(teamLeader)
+				.build();
+	}
+	
+	//팀삭제 메서드
+	public Team teamDeleteBuilder() {
+		return Team.deleteTeamBuilder()
+				.teamDelete(DeleteStatus.TRUE)
+				.build();
+	}
 }
