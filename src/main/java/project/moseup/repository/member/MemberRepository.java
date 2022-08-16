@@ -18,13 +18,17 @@ public class MemberRepository {
 
     private final EntityManager em;
 
+    /** 회원가입, 수정, 회원탈퇴 **/
     public void save(Member member) {
-        em.persist(member);
+        if (member.getMno() != null){
+            em.merge(member);
+        } else {
+            em.persist(member);
+        }
     }
 
     /** 단건 조회(회원번호) **/
     public Member findOneMno(Long mno) {
-
         return em.find(Member.class, mno);
     }
 
@@ -38,9 +42,14 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    /** 중복 가입 방지 **/
-    public List<Member> findByEmail(String email) {
-        return em.createQuery("select m from Member m where m.email=:email", Member.class).setParameter("email", email).getResultList();
+    /** 중복 이메일 검증 **/
+    public List<Member> findByEmail(String value) {
+        return em.createQuery("select m from Member m where m.email=:value", Member.class).setParameter("value", value).getResultList();
+    }
+
+    /** 중복 닉네임 검증 **/
+    public List<Member> findByNickname(String value) {
+        return em.createQuery("select m from Member m where m.nickname=:value", Member.class).setParameter("value", value).getResultList();
     }
 
 }

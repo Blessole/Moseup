@@ -2,12 +2,12 @@ package project.moseup.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import project.moseup.dto.MemberSaveReqDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -65,8 +65,10 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	private String loginType;
+
 	@Builder //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
-	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate, Role role) {
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate, Role role, String loginType) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
 		Assert.hasText(email, "이메일은 [NULL]이 될 수 없습니다");
 		Assert.hasText(password, "비밀번호는 [NULL]이 될 수 없습니다");
@@ -89,6 +91,7 @@ public class Member {
 		this.memberDelete = memberDelete;
 		this.memberDate = memberDate;
 		this.role = role;
+		this.loginType = loginType;
 	}
 
 	@Override
@@ -114,30 +117,19 @@ public class Member {
 		this.memberDelete = deleteStatus;
 		return this;
 	}
-	
+
 	public Member newMember() {
-		Member member = new Member();
-		return member;
+		return new Member();
 	}
 
-	// 정보 수정 용
-	public void updateName(String name){
-		this.name = name;
-	}
-	public void updateNickname(String nickname){
-		this.nickname = nickname;
-	}
-	public void updateGender(MemberGender gender){
-		this.gender = gender;
-	}
-	public void updateAddress(String address){
-		this.address = address;
-	}
-	public void updatePhone(String phone){
-		this.phone = phone;
-	}
-	public void updatePhoto(String photo){
-		this.photo = photo;
+	// 정보 수정
+	public void infoUpdate(MemberSaveReqDto memberDto){
+		this.name = memberDto.getName();
+		this.nickname = memberDto.getNickname();
+		this.gender = memberDto.getGender();
+		this.photo = memberDto.getPhoto();
+		this.phone = memberDto.getPhone();
+		this.address = memberDto.getAddress();
 	}
 
 	// 비밀번호 암호화
@@ -178,7 +170,7 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
 

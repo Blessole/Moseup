@@ -1,14 +1,16 @@
 package project.moseup.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Setter @Getter
+@Getter
+@NoArgsConstructor
 @Table(name = "member_bankbooks")
 public class Bankbook {
 
@@ -35,4 +37,14 @@ public class Bankbook {
 
 	@Column(name = "bankbook_date") // 거래(입출금) 일자
 	private LocalDateTime bankbookDate;
+
+	@Builder
+	public Bankbook(Member member, String dealList, int bankbookDeposit, int bankbookWithdraw, int bankbookTotal, LocalDateTime bankbookDate) {
+		this.member = member;
+		this.dealList = dealList;
+		this.bankbookDeposit = bankbookDeposit;
+		this.bankbookWithdraw = bankbookWithdraw;
+		this.bankbookTotal = bankbookTotal;
+		this.bankbookDate = bankbookDate;
+	}
 }

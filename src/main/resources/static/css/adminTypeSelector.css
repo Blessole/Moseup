@@ -1,0 +1,26 @@
+a {
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+ul {
+    list-style: none;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-left: 0;
+}
+
+a{
+    color: #000;
+    text-decoration: none;
+}
+
+table{
+    caption-side: bottom;
+    border-collapse: inherit;
+}
+

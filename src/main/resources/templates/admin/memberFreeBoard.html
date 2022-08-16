@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/memberDetail :: memberInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/memberDetail :: memberInfoNav('freeBoard')"></div>
+        
+        <table class="table caption table-hover">
+            <caption>총 게시글 수 : <span th:text="${member.freeBoards.size}">게시글 수</span></caption>
+            <thead>
+              <tr class="tableHeader">
+                <th scope="col">번  호</th>
+                <th scope="col">제  목</th>
+                <th scope="col">내  용</th>
+                <th scope="col">좋아요</th>
+                <th scope="col">조회수</th>
+                <th scope="col">작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="freeBoard : ${member.freeBoards}">
+                <th th:text="${freeBoard.fno}">번호</th>
+                <td th:text="${freeBoard.freeTitle}">제목</td>
+                <td th:text="${freeBoard.freeContent}">내용</td>
+                <td><a class="member-link" th:text="${freeBoard.freeLike}" th:href="@{/admin/memberDetail(mno=${member.mno}, pageNum=${members.pageable.pageNumber})}">좋아요</a></td>    
+                <td th:text="${freeBoard.freeReadCount}">조회수</td>
+                <td th:text="${freeBoard.freeDate}">작성일</td>
+              </tr>
+            </tbody>
+          </table>
+        
+
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+</html>

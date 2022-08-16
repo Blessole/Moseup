@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<div class="my_body">
+			<div class="middle-container">
+				<h2 class="title">내 인증글 목록</h2>
+					<div class="card" th:each="list : ${checkList}">
+						<div class="top">
+							<div class="userDetails">
+								<div class="profile_img">
+									<img src="/images/logo.png" class="cover">
+								</div>
+								<div class="checkInfo">
+									<h3 th:text="${list.team.teamName}"></h3>
+									<h3 th:text="${#temporals.format(list.checkDate, 'yyyy-MM-dd hh:mm')}" class="span"></h3>
+								</div>
+							</div>
+							<div>
+								<a th:href="@{/teams/teamPage(tno=${list.team.tno})}"><img src="/images/go.png" class="dot"></a>
+							</div>
+						</div>
+						<div class="imgBx">
+							<img src="/images/pic01.jpg" class="cover">
+						</div>
+						<div class="actionBtns">
+							<div class="left">
+<!--								<img src="/images/heart.png" class="heart" onclick="likeButton()">-->
+								<img src="/images/heart_red.png" class="heart">
+								<h4 class="likes" th:text="${list.checkLike}+' likes'"></h4>
+							</div>
+							<div class="right">
+								<span th:text="'조회수 : '+${list.checkReadCount}"></span>
+							</div>
+						</div>
+						<h4 class="message" th:text="${list.checkContent}"></h4>
+					</div>
+			</div>
+		</div>
+<!--		<script type="text/javascript">-->
+<!--			function likeButton(){-->
+<!--				let heart = document.querySelector('.heart');-->
+<!--				let likes = document.querySelector('.likes');-->
+<!--				if(heart.src.match("/images/heart.png")){-->
+<!--					heart.src = "/images/heart_red.png";-->
+<!--					likes.innerHTML = ""-->
+<!--				} else {-->
+<!--					heart.src ="/images/heart.png";-->
+<!--				}-->
+<!--			}-->
+<!--		</script>-->
+	</th:block>
+</body>
+</html>

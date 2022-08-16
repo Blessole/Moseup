@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+	<section id="feature">
+		<div class="container">
+			<h2 class="text-primary" align="center">수정 하기</h2>
+			<form th:action="@{/teams/teamAskBoard/updateForm/update}" th:object="${teamAskOne}" method="post">
+				<div class="form-group">
+					<label th:for="nickname">작성자</label>
+					<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
+					<input type="text" id="nickname" name="nickname" class="form-control" th:value="${teamAskOne.member.nickname}">
+				</div>
+				<div class="form-group">
+					<label th:for="teamAskSubject">제목</label>
+					<input type="text" th:field="*{teamAskSubject}" class="form-control" placeholder="${teamAskOne.teamAskSubject}">
+				</div>
+				<div class="form-group">
+					<label th:for="teamAskContent">내용</label>
+					<textarea rows="5" cols="40" th:field="*{teamAskContent}" class="form-control" placeholder="${teamAskOne.teamAskContent}"></textarea>
+				</div>
+				<div>
+					<label th:for="secret">비밀글 여부
+					<input type="checkbox" id="secret" name="secret" class="form-check-input" value="secret"></label>
+				</div>
+				<button type="submit" class="btn btn-primary">수정</button>				
+			</form>
+			<div>
+				<a href="/teams/teamAskBoard" class="btn btn primary">목록</a>
+			</div>
+		</div>
+	</section>
+</th:block>
+</body>
+</html>
