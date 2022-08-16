@@ -1,0 +1,247 @@
+/* 메인 컨테이너 */
+.mainContainer {
+	width: 80%;
+	margin: 0 auto;
+}
+
+/* 필터 세션 */
+.filterSection {
+	margin-bottom: 20px;
+}
+
+/* 메인 검색창 전부 감싸는 태그 */
+.mainSearch {
+	width: 42%;
+	margin: 0 auto;
+}
+/* 메인 검색창 인풋 및 이미지 감싸는 태그 */
+.mainSearchInput {
+	position: relative;
+}
+
+/* 메인 검색창 인풋 */
+#mainSearch {
+	width: 100%;
+ 	border: 1px solid #bbb;
+	border-radius: 30px;
+ 	padding: 10px 12px;
+  	font-size: 14px;
+  	line-height: 35px;
+  	color : white;
+  	background-color: #017ed1;
+  	margin: 5px 0px 80px 0px;
+}
+
+/* 메인 검색창 placeholder */
+.mainSearchInput input::placeholder {
+  color: #d4d4d4;
+}
+/* 메인 돋보기 이미지 */
+.mainSearchImg{
+	position : absolute;
+	width: 40px;
+	top: 18px;
+	right: 12px;
+	margin: 0;
+	background-image: url('/images/search.png');
+    background-repeat : no-repeat;
+    background-size: 25px;
+    background-color: transparent;/* 돋보기 뒤에 배경 투명 */
+    border : 0;	
+}
+
+/* 메인 텍스트 포커스 됐을시 이벤트 */
+.mainSearchInput #mainSearch:focus {
+	color: black;
+	background-color: white;
+	/* transition-duration: 1s; */
+	background-color: aac8ff; /* 요소 기본 색상 */
+	animation: test 1s ease 0s none;
+}
+@keyframes test{
+    from{
+        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+    }
+    to{
+        background-color: white; /* 애니메이션 종료 색상 */
+        color: #c0c0c0;
+        transform: scaleY( 1.0 );
+    }
+}
+/* 여기까지 포커스 이벤트 */
+
+/* 메인 검색창 타이틀 */
+.mainSearchTitle {
+	margin-top: 80px;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+/* card태그 */
+.card {
+	border-radius: 10px;
+	margin: 10px 10px 25px 10px;
+	height: 403px;
+	text-align: center;
+	border: none;
+}
+.card:hover {
+	border: 1px solid #cecece;
+}
+
+/* card텍스트 */
+.card-text {
+	margin-bottom: 10px;
+}
+
+/* card 팀명 */
+.cardTeamName {
+	font-weight: bold;
+	font-size: 1.02em;
+	height: 50px;
+}
+/* card 팀명안에 a태그 */
+.cardTeamNameA {
+	text-decoration: none;
+	color: black;
+}
+.cardTeamNameA:hover {
+	color: black;
+}
+
+/* card 팀장 */
+.cardTeamLeader {
+	font-size: 0.8em;
+	color: gray;
+}
+/* card 팀예치금 */
+.cardTeamDeposit {
+	color: #004f9d;
+}
+
+/* card 팀모집인원 */
+.cardTeamVolume {
+	color: #007500;
+}
+
+/* card Date */
+.cardTeamDate {
+	font-size: 0.9em;
+}
+
+/* card 이미지 */
+.card-img-top {
+	width: 100%;
+	height: 100px;
+}
+
+/* 카테고리1 버튼 */
+.Category1Btn {
+	background-color: #cee7ff;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+/* 카테고리2 버튼 */
+.Category2Btn {
+	background-color: #ffdfef;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+/* 카테고리3 버튼 */
+.Category3Btn {
+	background-color: #caffe4;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+
+/* 페이징 li태그 */
+.page-item {
+	margin: 0 4px;
+}
+/* 페이징 버튼 */
+.page-link {
+	color: black;
+}
+.page-link:hover {
+	color: white;
+	background-color: #016fb9;
+}
+
+/* 필터1 */
+#filter1 {
+	float: left; 
+	width: 49%;
+	margin-left: 11px;
+}
+/* 필터1 버튼 스판 태그 */
+.filter1btnSpan {
+	color: gray;
+	font-size: 0.9em;
+}
+/* 필터1 드롭다운 메뉴 */
+.filter1dropMenu {
+	width: 220px;
+}
+/* 필터1 버튼 */
+.filter1btn {
+	width: 220px;
+}
+.filter1btn:hover {
+	border: 2px solid black;
+}
+.filter1label:hover, #filter1submitBtn:hover {
+	background-color: #016fb9;
+	color: white;
+}
+
+/* 필터1,2 btn */
+.filter2btn, .filter1btn {
+	border: 1px solid black;
+	font-weight: bold;
+}
+
+/* 필터2 */
+#filter2div {
+	float: left; 
+	width: 49%;
+	margin-right: 11px;
+}
+/* 필터2 드롭다운 메뉴 */
+.filter2dropMenu {
+	min-width: 100px;
+}
+/* 필터2 버튼 */
+.filter2btn {
+	min-width: 100px;
+}
+/* 필터2 a태그 */
+.filter2a:active{
+	background-color: #016fb9;
+	color: white;
+
+}
+.filter2a:hover {
+	background-color: #016fb9;
+	color: white;
+}
+/* .filter2btn:active{
+	background-color: #016fb9;
+	color: white;
+} */
+.filter2btn:hover {
+	border: 2px solid black;
+}
+
+/* 검색결과 없음 */
+.searchedNull35 {
+	font-size: 35px;
+	color: #6c6c6c;
+	font-weight: bold;
+}
+.searchedNull25 {
+	font-size: 25px;
+	color: #6c6c6c;
+}

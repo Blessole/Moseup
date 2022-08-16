@@ -12,7 +12,7 @@
 	<div class="mainContainer">
 		<div class="col-md-7 col-lg-8 formContainer">
 			<h4 class="mb-3 text-center">팀 생성하기</h4>
-			<form class="needs-validation" role="form" action="/teams/createTeam"  th:object="${teamForm}"
+			<form class="needs-validation" role="form" th:action="@{/teams/createTeam}" th:object="${teamForm}"
 				  method="post" name="frm" onsubmit="return submitChk()">
 				<div class="row g-3">
 					<div class="col-12">
@@ -20,8 +20,8 @@
 						<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
 						<span class="text-err" id="teamNameErr"></span>
 						<span class="text-err" id="teamNameChk"></span>
-						<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요."
-								 th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
+						<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요." maxlength="14"
+							 th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
 					</div>
 					
 					<div class="col-12">
@@ -38,7 +38,7 @@
 							<option value="공부">공부</option>
 							<option value="운동">운동</option>
 							<option value="습관">습관</option>
-							<option value="etc">기타 등등</option>
+							<option value="ETC">기타 등등</option>
 						</select>
 					</div>
 					
@@ -47,34 +47,35 @@
 							<label for="teamCategory2" class="form-label font-bold displayNone" id="teamCategory2Label">습관 중분류</label><br>
 							<span id="teamCategoryErr" class="text-err"></span>
 							<div id="teamCategory2Study" class="study displayNone">
-								<label><input class="form-check-input" type="checkbox" value="개인" id="studyCategory2" name="teamCategory2">개인</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="회사" id="studyCategory2" name="teamCategory2">회사</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="공무원" id="studyCategory2" name="teamCategory2">공무원</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="자격증" id="studyCategory2" name="teamCategory2">자격증</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="etc" id="studyCategory2" name="teamCategory2">기타 등등</label>
+								<label><input class="form-check-input" type="checkbox" value="개인" th:field="*{teamCategory2}">개인</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="회사" th:field="*{teamCategory2}">회사</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="공무원" th:field="*{teamCategory2}">공무원</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="자격증" th:field="*{teamCategory2}">자격증</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="ETC" th:field="*{teamCategory2}">기타 등등</label>
 							</div>
 							
 							<div id="teamCategory2Exercise" class="exercise displayNone">
-								<label><input class="form-check-input" type="checkbox" value="헬스" id="exerciseCategory2" name="teamCategory2">헬스</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="요가" id="exerciseCategory2" name="teamCategory2">요가</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="생활체육" id="exerciseCategory2" name="teamCategory2">생활체육</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="필라테스" id="exerciseCategory2" name="teamCategory2">필라테스</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="etc" id="exerciseCategory2" name="teamCategory2">기타 등등</label>
+								<label><input class="form-check-input" type="checkbox" value="헬스" th:field="*{teamCategory2}">헬스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="요가" th:field="*{teamCategory2}">요가</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="생활체육" th:field="*{teamCategory2}">생활체육</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="필라테스" th:field="*{teamCategory2}">필라테스</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="ETC" th:field="*{teamCategory2}">기타 등등</label>
 							</div>
 							
 							<div id="teamCategory2Habit" class="habit displayNone">
-								<label><input class="form-check-input" type="checkbox" value="식습관" id="habitCategory2" name="teamCategory2">식습관</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="생활습관" id="habitCategory2" name="teamCategory2">생활습관</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="수면습관" id="habitCategory2" name="teamCategory2">수면습관</label>&nbsp;&nbsp;
-								<label><input class="form-check-input" type="checkbox" value="etc" id="habitCategory2" name="teamCategory2">기타 등등</label>
+								<label><input class="form-check-input" type="checkbox" value="식습관" th:field="*{teamCategory2}">식습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="생활습관" th:field="*{teamCategory2}">생활습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="수면습관" th:field="*{teamCategory2}">수면습관</label>&nbsp;&nbsp;
+								<label><input class="form-check-input" type="checkbox" value="ETC" th:field="*{teamCategory2}">기타 등등</label>
 							</div>
 						</div>
 					</div>
 					
 					<div class="col-12">
 						<label for="teamSubcategory" class="form-label font-bold displayNone" id="teamCategory3Label">습관 소분류</label>
-						<div id="teamCategory3" class="displayNone">
-							<input type="text" class="form-control" id="teamCategory3Val" name="teamCategory3" placeholder="세부사항">
+						<span id="teamCategory3Err" class="text-err"></span>
+						<div id="teamCategory3Div" class="displayNone">
+							<input type="text" class="form-control" th:field="*{teamCategory3}" placeholder="팀 검색에 도움이 됩니다! (최대 10글자)" maxlength="10">
 						</div>
 					</div>
 					
@@ -119,10 +120,10 @@
 					</div>
 
 					<div class="col-12">
-						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowByte">0</span>/1000bytes)
+						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowText">0</span>/500글자)
 						<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
-						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}"
-								   placeholder="팀 소개 내용을 입력하세요. (1000bytes)" onkeyup="fn_checkByte(this)"
+						<textarea  class="form-control" rows="8" cols="82" th:field="*{teamIntroduce}" maxlength="500"
+								   placeholder="팀 소개 내용을 입력하세요 :)" onkeyup="fn_checkText(this)"
 								   th:class="${#fields.hasErrors('teamIntroduce')}? 'form-control fieldError' : 'form-control'"></textarea>
 					</div>
 				</div>
@@ -139,7 +140,7 @@
 		/* 습관 시작일 기본값 오늘날짜로 하는 함수 */
 		/* document.getElementById('startDate').valueAsDate = new Date(); */
 
-		/* 모집 인원 값 보여주는 함수 */
+		/* 모집 인원 값 보여주기*/
 		var slider = document.getElementById("teamVolume");
 		var output = document.getElementById("teamVolumeValue");
 		output.innerHTML = slider.value + "명";
@@ -148,36 +149,34 @@
 			output.innerHTML = this.value + "명";
 		}
 
-		/*textarea 바이트 수 체크하는 함수*/
-		function fn_checkByte(obj){
-			const maxByte = 1000; //최대 1000바이트
+
+		
+		/*textarea 글자 수 체크*/
+		function fn_checkText(obj){
+			const maxText = 500; //최대 1000바이트
 			const text_val = obj.value; //입력한 문자
 			const text_len = text_val.length; //입력한 문자수
 
-			let totalByte=0;
+			let totalText=0;
 			for(let i=0; i<text_len; i++){
 				const each_char = text_val.charAt(i);
 				const uni_char = escape(each_char) //유니코드 형식으로 변환
-				if(uni_char.length>4){
-					// 한글 : 2Byte
-					totalByte += 2;
-				}else{
-					// 영문,숫자,특수문자 : 1Byte
-					totalByte += 1;
+				if(uni_char.length>0){
+					totalText += 1;
 				}
 			}
 
-			if(totalByte>maxByte){
-				alert('최대 1000Byte까지만 입력가능합니다.');
-				document.getElementById("nowByte").innerText = totalByte;
-				document.getElementById("nowByte").style.color = "red";
+			if(totalText>maxText){
+				alert('최대 500글자까지만 입력가능합니다.');
+				document.getElementById("nowText").innerText = totalText;
+				document.getElementById("nowText").style.color = "red";
 			}else{
-				document.getElementById("nowByte").innerText = totalByte;
-				document.getElementById("nowByte").style.color = "black";
+				document.getElementById("nowText").innerText = totalText;
+				document.getElementById("nowText").style.color = "black";
 			}
 		}
 
-		/* onsubmit 함수 */
+		/* submit체크*/
 		function submitChk() {
 			/* 카테고리 확인 함수 */
 			var teamCategory = document.getElementById("teamCategory1");
@@ -190,7 +189,7 @@
 				return false;
 			}
 			
-			/* 예치금 확인 함수 */
+			/* 예치금 확인 */
 			var teamDeposit = document.getElementById("teamDeposit");
 			var teamDepositErr = document.getElementById("teamDepositErr");
 
@@ -201,12 +200,12 @@
 				return false;
 			}
 
-			/* 습관 시작/종료일 확인 함수 */
+			/* 습관 시작/종료일 확인 */
 			var startDate = document.getElementById("startDate");
 			var endDate = document.getElementById("endDate");
 			var dateErr = document.getElementById("dateErr");
 
-			if (startDate.value == "" || startDate.value == "") {
+			if (startDate.value == "" || endDate.value == "") {
 				var startDateErrText="습관 시작일과 습관 종료일은 필수 선택사항 입니다. :)";
 				startDateErr.innerText=startDateErrText;
 				endDate.focus();
@@ -221,17 +220,23 @@
 			}
 		}
 		
-		//아이디 중복체크 함수
+		/* 아이디 중복체크/팀명 정규표현식 */
 		$(function() { 
+			$('#teamName').focus();
 			$('#teamName').blur(function() {
 				var teamName = $('#teamName').val();
+				var regex = /^[가-힣a-zA-Z0-9]{2,14}$/;	//한글,영문(대/소문자),숫자만 가능한 2~14글자 정규표현식
 				$.ajax({
-					type : "POST",
+					type : "get",
 					url : '/teams/nameChk',
 					data : {	"teamName" : teamName},
 					success : function(data) { //data : /teams/nameChk에서 넘겨준 결과값
 						if (teamName == "") {
-							$('#teamNameChk').text("팀명은 필수 입력사항입니다!");
+							$('#teamNameChk').text("팀명을 입력해 주세요!");
+						} else if(!regex.test(teamName)) {
+							$('#teamNameChk').text("2~14자의 한글, 영문 대/소문자, 숫자만 사용 가능합니다.");
+							$('#teamName').val("");
+							$('#teamName').focus();
 						} else {
 							$('#teamNameChk').html(data);
 						}
@@ -240,67 +245,60 @@
 			})
 		});
 		
-		//카테고리 display	
+		/* 카테고리3 디스플레이 감추기, 카테고리2 체크해제 */
+		function category3displayNoneCategory2uncheck() {
+			$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
+			$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
+			$('#teamCategory3').val('');	// 소분류 input값 없애기
+			$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
+		}
+		
+		/* 카테고리 display */	
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
 				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
 				if($('#teamCategory1').val() == "공부") {	//대분류 중 공부 선택
 					$('.study').removeClass('displayNone');	//공부 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[id='exerciseCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
-					});
+					category3displayNoneCategory2uncheck();
+					$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
 				} else if ($('#teamCategory1').val() == "운동") {	//대분류 중 운동 선택
 					$('.exercise').removeClass('displayNone');	//운동 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[id='studyCategory2']").prop("checked", false);	//다른 카테고리 체크 되어있는것 해제
-						$("input:checkbox[id='habitCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$('.study, .habit').addClass('displayNone');
-					});
+					category3displayNoneCategory2uncheck();
+					$('.study, .habit').addClass('displayNone');
 				} else if($('#teamCategory1').val() == "습관") {	//대분류 중 습관 선택
 					$('.habit').removeClass('displayNone');	//운동 디스플레이 보이게
-					$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-					$('#teamCategory3').addClass('displayNone');	// 소분류 input 감추기
-					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[id='studyCategory2']").prop("checked", false);
-						$("input:checkbox[id='exerciseCategory2']").prop("checked", false);
-						$('.study, .exercise').addClass('displayNone');
-					});
-				} else if($('#teamCategory1').val() == "etc") {	// 대분류 중 기타 등등 선택
+					category3displayNoneCategory2uncheck();
+					$('.study, .exercise').addClass('displayNone');
+				} else if($('#teamCategory1').val() == "ETC") {	// 대분류 중 기타 등등 선택
 					$('#teamCategory3Label').removeClass('displayNone');
-					$('#teamCategory3').removeClass('displayNone');
-					$('#teamCategory3Val').val('');	// 소분류 input값 없애기
-					$(function() {
-						$("input:checkbox[id='studyCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$("input:checkbox[id='exerciseCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-						$("input:checkbox[id='habitCategory2']").prop("checked", false);	//다른 카테고리 체크 되어있는것 해제
-						$('.study, .exercise, .habit').addClass('displayNone');
-					});
+					$('#teamCategory3Div').removeClass('displayNone');
+					$('#teamCategory3').val('');	// 소분류 input값 없애기
+					$('.study, .exercise, .habit').addClass('displayNone');
 				}
 				$(function() {	//중분류 체크하면 소분류 보이게 하기
 					$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {
 						$('#teamCategory3Label').removeClass('displayNone');
-						$('#teamCategory3').removeClass('displayNone');
+						$('#teamCategory3Div').removeClass('displayNone');
 						if ($(tag_name[name='teamCategory2']).checked == null) {
 							$('#teamCategory3Label').addClass('displayNone');
-							$('#teamCategory3').addClass('displayNone');
+							$('#teamCategory3Div').addClass('displayNone');
 						}
 					});
 				});
 			});
 		});
 		
-			
+		/* 카테고리3 공백사용 금지 */
+		$(function() {
+			$('#teamCategory3').blur(function() {
+				var teamCategory3 = $('#teamCategory3').val();
+			    var space = /\s/;  // 공백체크
+			    if(space.exec(teamCategory3)) {//공백 체크
+			    	$('#teamCategory3Err').text("공백은 사용할 수 없습니다!");
+			    }
+			});		
+		});
 	</script>
-
 </th:block>
 </body>
 </html>
