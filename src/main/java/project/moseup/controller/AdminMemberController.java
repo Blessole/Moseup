@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +41,9 @@ public class AdminMemberController {
 
     private final AdminMemberRepository adminMemberRepository;
     private final AdminMemberService adminMemberService;
+    //private final AdminTeamRepository adminTeamRepository;
+    //private final AdminTeamService adminTeamService;
+
     // 유효성 검사
     private final CheckEmailValidator checkEmailValidator;
     private final CheckNicknameValidator checkNicknameValidator;
@@ -68,13 +72,14 @@ public class AdminMemberController {
     // 회원 리스트 출력
     @GetMapping("/memberList")
     public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
-                       @PageableDefault(size = 10) Pageable pageable){
+                       @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable){
             // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
-            // Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
-            Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContainingOrderByMnoDesc(keyword, keyword, keyword, pageable);
+            //Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
+            log.info(keyword);
+            Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
 
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
-            // Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
+            //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
 
             int startPage = Math.max(1, members.getPageable().getPageNumber() - 5);
             int endPage = Math.min(members.getTotalPages(), members.getPageable().getPageNumber() + 5);
@@ -96,16 +101,15 @@ public class AdminMemberController {
         return "admin/memberJoinForm";
     }
 
-    // 회원 정보 받아오기
+    // 회원 정보 받아오기(회원가입)
     @PostMapping("/memberJoinForm")
     public String memberSubmit(@Valid MemberSaveReqDto memberSaveReqDto, BindingResult bindingResult, @RequestParam(required = false) MultipartFile file, Model model) throws IOException {
         // 유효성 검사
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors() && memberSaveReqDto.getGender() == null){
             model.addAttribute("male", MemberGender.MALE);
             model.addAttribute("female", MemberGender.FEMALE);
             return "admin/memberJoinForm";
         }
-
         // 파일 처리
         if(!file.getContentType().startsWith("image")){
             log.warn("이미지 파일이 아닙니다");
@@ -118,7 +122,6 @@ public class AdminMemberController {
             fileName = originalFilename.substring(originalFilename.lastIndexOf("//")+1);
         }
         log.info("fileName = " + fileName);
-
         // 날짜 폴더 생성
         String folderPath = makeFolder();
         //UUID
@@ -128,7 +131,6 @@ public class AdminMemberController {
 
         Path savePath = Paths.get(saveName);
         //Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-
         try{
             file.transferTo(savePath);
             //uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
@@ -136,10 +138,10 @@ public class AdminMemberController {
             e.printStackTrace();
             //printStackTrace()를 호출하면 로그에 Stack trace 출력됩니다.
         }
-
+        if(memberSaveReqDto.getAddress2() == null){
+            memberSaveReqDto.setAddress2("");
+        }
         memberSaveReqDto.setPhoto(String.valueOf(savePath));
-
-
         MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);
 
         return "redirect:/admin/memberList";
@@ -173,17 +175,21 @@ public class AdminMemberController {
 
     // 회원 정보 상세보기
     @GetMapping("/memberDetail")
-    public String memberDetail(@RequestParam Long mno, Model model){
+    public String memberDetail(@RequestParam Long mno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member == null){
             return "redirect:/admin/memberList";
         }else{
+            //List<Team> teams = adminTeamService.teamLeader(member.getMno());
             String date = member.getMemberDate().format(DateTimeFormatter.ISO_DATE);
             Path path = Paths.get(member.getPhoto());
 
+
             model.addAttribute("memberDate", date);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("fileName", path.getFileName());
             model.addAttribute("member", member);
+            model.addAttribute("pageNum", pageNum);
 
             return "admin/memberDetail";
         }
@@ -199,5 +205,51 @@ public class AdminMemberController {
         return "redirect:/admin/memberList";
     }
 
+    // 회원 복구 memberDelete (TRUE -> FALSE 변경)
+    @GetMapping("/memberRecover")
+    public String memberRecover(@RequestParam Long mno){
 
+        adminMemberService.RecoverMember(mno);
+
+        return "redirect:/admin/memberList";
+    }
+
+    @GetMapping("/memberBankbook")
+    public String memberBankbook(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberBankbook";
+    }
+
+    @GetMapping("/memberFreeBoard")
+    public String memberFreeBoard(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberFreeBoard";
+    }
+
+    @GetMapping("/memberAskBoard")
+    public String memberAskBoard(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberAskBoard";
+    }
 }

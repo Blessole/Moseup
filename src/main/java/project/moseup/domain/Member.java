@@ -2,7 +2,6 @@ package project.moseup.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -118,10 +117,9 @@ public class Member {
 		this.memberDelete = deleteStatus;
 		return this;
 	}
-	
+
 	public Member newMember() {
-		Member member = new Member();
-		return member;
+		return new Member();
 	}
 
 	// 정보 수정
@@ -172,7 +170,7 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "member")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
 

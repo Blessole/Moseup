@@ -33,14 +33,14 @@ public class AdminMemberRepositoryTest {
     public void memberSave_test(){
         // given (데이터 준비)
         Member member = Member.builder()
-                .email("123@k1.com")
-                .password("1234")
-                .nickname("찬우")
-                .name("정찬우")
-                .gender(MemberGender.MALE)
-                .address("안양")
+                .email("bankbookTest@t1.com")
+                .password("a123123")
+                .nickname("통장테스트")
+                .name("통장테스트")
+                .gender(MemberGender.FEMALE)
+                .address("통장맨")
                 .photo("jpg")
-                .phone("010-3333")
+                .phone("01033333333")
                 .memberDate(LocalDateTime.now())
                 .memberDelete(DeleteStatus.FALSE)
                 .build();
@@ -49,6 +49,8 @@ public class AdminMemberRepositoryTest {
         Member MemberPS = adminMemberRepository.save(member); //save(member) 클라이언트에게 받은 데이터
         // MemberPS =  save 메소드가 db에 저장된 Member 를 return(DB 데이터와 동기화된 데이터)
         // PS = persistence(영속성) -> 영구적으로 저장된 데이터 == DB에 저장된 데이터
+
+
 
         // then (검증)
         assertEquals("123@k1.com", MemberPS.getEmail());
@@ -129,6 +131,15 @@ public class AdminMemberRepositoryTest {
         assertEquals(DeleteStatus.TRUE, member.getMemberDelete());
         member.toString();
 
+    }
+
+    @Test
+    public void 멤버조회_Test2(){
+        Member member = adminMemberRepository.findById(35L).orElse(null);
+
+        System.out.println(member);
+
+        assertEquals("32z", member.getNickname());
     }
 
 

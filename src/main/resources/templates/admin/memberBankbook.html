@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/memberDetail :: memberInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/memberDetail :: memberInfoNav('bankbook')"></div>
+        <!-- 탭 -->
+        
+        <div class="bankbook-title-section">
+            <span>총 금액</span>
+            <span><span class="bankbookTotal" th:text="${member.bankbook.bankbookTotal}"></span>&nbsp;&nbsp;원</span>
+        </div>
+        <div class="title-section">
+            <span>입출금 내역</span>
+        </div>
+        <div class="main-content bankbookList">
+            
+        </div> <!-- 콘텐츠 영역 end-->
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

@@ -17,7 +17,7 @@
 				<div class="row g-3">
 					<div class="col-12">
 						<label for="teamName" class="form-label font-bold">팀명<span class="essential">*</span></label>
-						<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
+						<span clath:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}" id="teamName" class="text-err"></span><!--name에 관련된 에러가 있으면 에러메세지 출력 -->
 						<span class="text-err" id="teamNameErr"></span>
 						<span class="text-err" id="teamNameChk"></span>
 						<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요." maxlength="14"
@@ -26,7 +26,7 @@
 					
 					<div class="col-12">
 						<label for="teamVolume" class="form-label font-bold">모집 인원<span class="essential">*</span></label>
-						<input type="range" class="form-control" th:field="*{teamVolume}" min="2" max="100">
+						<input type="range" class="form-control" th:field="*{teamVolume}" id="teamVolume" min="2" max="100">
 						<div id="teamVolumeValue" align="center"></div>
 					</div>
 					
