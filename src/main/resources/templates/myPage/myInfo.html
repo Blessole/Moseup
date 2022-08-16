@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" onsubmit="return check()" method="post">
+    <div class="middle-container">
+      <h2 class="title">회원 정보 수정</h2>
+      <div class="form-group myInfo">
+        <div class="image_container" id="image_container">
+          <img alt="프로필사진" id="originPhoto" th:src="${photoPath}" width="400">
+        </div>
+        <label th:for="photo">프로필사진</label>
+        <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="email">이메일</label>
+        <input th:field="*{email}"  class="form-control" name="email" value="${member.email}" th:value="${member.email}" disabled>
+        <br><span >이메일은 수정이 불가합니다.</span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="password">비밀번호</label>
+        <input type="password" th:field="*{password}" class="form-control">
+        <span class="text-err" id="password1Chk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="password">비밀번호 확인</label>
+        <input type="password" th:field="*{password2}" class="form-control">
+        <span class="text-err" id="password2Chk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="name">이름</label>
+        <input class="form-control" th:field="*{name}" value="${name}">
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="nickname">닉네임</label>
+        <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}">
+        <span class="text-err" id="nicknameChk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="phone">전화번호</label>
+        <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}">
+        <span class="text-err" id="phoneChk"></span>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="gender">성별</label>
+        <div th:each="type : ${genders}" class="form-check form-check-inline">
+          <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
+          <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+        </div>
+      </div>
+      <div class="form-group myInfo">
+        <label th:for="address">주소<span class="essential">*</span></label>
+        <input type="text" th:name="address" th:value="${add1}" id="searchAddress" onclick="findAdd()" readonly>
+        <input type="text" th:name="address2" th:value="${add2}"  id="detailAddress">
+        <span class="text-err" id="addressChk"></span>
+      </div>
+      <div class="button-box">
+        <input type="submit" value="수정">
+        <a href="" id="delete" th:href="@{/members/delete(mno=${member.mno})}">탈퇴</a>
+      </div>
+    </div>
+  </form>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function findAdd(){
+      new daum.Postcode({
+        oncomplete: function(data) {
+          let addr="";
+
+          if (data.userSelectedType === 'R') {
+            addr = data.roadAddress;
+          } else {
+            addr = data.jibunAddress;
+          }
+          document.getElementById('searchAddress').value = addr;
+          document.getElementById('detailAddress').focus();
+        }
+      }).open();
+    };
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    /* 프로필 사진 미리보기 */
+    function setImage(event) {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        $('#originPhoto').remove();
+        let img = document.createElement("img");
+        img.setAttribute("src", e.target.result);
+        img.setAttribute("width", "400");
+
+        document.querySelector("div#image_container").appendChild(img);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    };
+
+    $('#delete').click(function (){
+      const choice = confirm("탈퇴하시겠습니까?");
+      if (choice == false) return false;
+      const $form = $('<form>').attr('action','/members/delete').attr('method','post').appendTo($('body'));
+      $('<input>').attr('type', 'hidden').attr('name','_csrf').val(_csrf).appendTo($form);
+      $form.submit;
+    });
+  </script>
+</th:block>
+</body>
+</html>
