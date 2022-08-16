@@ -6,9 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.repository.member.MemberRepository;
 import project.moseup.repository.myPage.MyPageRepository;
 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Service
@@ -27,4 +29,5 @@ public class MyPageService {
     public List<CheckBoard> findCheckBoard(Member member) {
         return myPageRepository.findCheckBoard(member);
     }
+
 }

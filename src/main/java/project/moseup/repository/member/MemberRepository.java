@@ -18,8 +18,13 @@ public class MemberRepository {
 
     private final EntityManager em;
 
+    /** 회원가입, 수정, 회원탈퇴 **/
     public void save(Member member) {
-        em.persist(member);
+        if (member.getMno() != null){
+            em.merge(member);
+        } else {
+            em.persist(member);
+        }
     }
 
     /** 단건 조회(회원번호) **/

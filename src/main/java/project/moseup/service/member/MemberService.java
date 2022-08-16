@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.dto.KakaoLoginForm;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 
+import javax.validation.constraints.NotEmpty;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +73,31 @@ public class MemberService {
 	public Long update(MemberSaveReqDto memberDto, Long mno) {
 		Member member = memberInterfaceRepository.findById(mno).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
 		member.infoUpdate(memberDto);
+//		memberInterfaceRepository.update(member);
 		return mno;
+	}
+
+	/** 카카오 로그인 **/
+	@Transactional
+	public Member loginWithKakao(Member member){
+		Member savedMember = memberRepository.findOneEmail(member.getEmail());
+		if(savedMember == null){
+			memberRepository.save(member);
+		}
+		return savedMember;
+	}
+
+	/** 회원 탈퇴 **/
+	@Transactional
+	public void delete(String loginId) {
+		Member member = memberInterfaceRepository.findByEmail(loginId).orElseThrow(()-> new IllegalArgumentException("해당 회원은 존재하지 않습니다."));
+		member.deleteUpdate(DeleteStatus.TRUE);
+		memberRepository.save(member);
+	}
+
+	/** 회원정보 확인 전 비밀번호 확인**/
+	public Boolean checkPassword(@NotEmpty String password, String loginId) {
+		Member member = memberRepository.findOneEmail(loginId);
+		return passwordEncoder.matches(password, member.getPassword());
 	}
 }
