@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.domain.Bankbook;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.repository.admin.AdminBankbookRepository;
 import project.moseup.repository.admin.AdminMemberRepository;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
+    private final AdminBankbookRepository adminBankbookRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원 등록
@@ -29,6 +32,19 @@ public class AdminMemberService {
     public MemberRespDto joinMember(MemberSaveReqDto memberSaveReqDto) {
         Member memberPS = adminMemberRepository.save(memberSaveReqDto.toEntity());
         memberPS.encodePassword(passwordEncoder);
+
+        if(memberPS.getBankbook() == null){
+            // 통장이 없으면 통장 생성
+            Bankbook bankbook = Bankbook.builder()
+                    .member(memberPS)
+                    .bankbookDate(memberPS.getMemberDate())
+                    .bankbookDeposit(0)
+                    .bankbookTotal(0)
+                    .bankbookWithdraw(0)
+                    .dealList("굿모닝^^")
+                    .build();
+            Bankbook bankbookPS = adminBankbookRepository.save(bankbook);
+        }
         return new MemberRespDto().toDto(memberPS);
         // 컨트롤러는 DTO 데이터를 가지고 있게하고 클라이언트한테 DTO 데이터를 넘겨줌 = Entity 데이터를 그대로 주면 연관된(조인) 다른 데이터 즉, 클라이언트 입장에서 불필요한 데이터까지 날아감을 방지
         // 간략한 흐름도 ↓

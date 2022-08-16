@@ -101,7 +101,7 @@ public class AdminMemberController {
         return "admin/memberJoinForm";
     }
 
-    // 회원 정보 받아오기
+    // 회원 정보 받아오기(회원가입)
     @PostMapping("/memberJoinForm")
     public String memberSubmit(@Valid MemberSaveReqDto memberSaveReqDto, BindingResult bindingResult, @RequestParam(required = false) MultipartFile file, Model model) throws IOException {
         // 유효성 검사
@@ -137,6 +137,9 @@ public class AdminMemberController {
         } catch (IOException e) {
             e.printStackTrace();
             //printStackTrace()를 호출하면 로그에 Stack trace 출력됩니다.
+        }
+        if(memberSaveReqDto.getAddress2() == null){
+            memberSaveReqDto.setAddress2("");
         }
         memberSaveReqDto.setPhoto(String.valueOf(savePath));
         MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);

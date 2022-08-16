@@ -2,7 +2,6 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +13,6 @@ import project.moseup.dto.JoinForm;
 import project.moseup.service.member.MemberService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -88,5 +86,9 @@ public class MemberController {
         return "members/loginForm";
     }
 
+    @GetMapping("/kakaoLogin")
+    public String kakaoLogin() {
+        return "members/kakaoLogin";
+    }
 
 }
