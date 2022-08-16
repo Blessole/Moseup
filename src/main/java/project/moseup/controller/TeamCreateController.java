@@ -21,7 +21,7 @@ import project.moseup.service.member.MemberService;
 
 @Controller
 @RequiredArgsConstructor
-public class TeamController {
+public class TeamCreateController {
 
 	private final TeamService teamService;
 	private final MemberService memberService;
