@@ -3,6 +3,7 @@ package project.moseup.repository.teampage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
@@ -15,12 +16,14 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Transactional
 public class TeamAskBoardPageRepositoryTest {
 
     @Autowired
     TeamAskBoardPageRepository teamAskBoardPageRepository;
     @Autowired
     AdminMemberRepository adminMemberRepository;
+
 
 
 
@@ -37,7 +40,7 @@ public class TeamAskBoardPageRepositoryTest {
 
     @Test
     public void 삭제데이터준비_test(){
-        Member member = adminMemberRepository.findById(35L).orElse(null);
+        Member member = adminMemberRepository.findById(47L).orElse(null);
 
         TeamAskBoardDto teamAskBoardDto = new TeamAskBoardDto();
         teamAskBoardDto.setTeamAskDate(LocalDate.now());
@@ -63,4 +66,16 @@ public class TeamAskBoardPageRepositoryTest {
 
 
     }
+
+    @Test
+    public void 조회테스트(){
+        TeamAskBoard teamAskBoard = teamAskBoardPageRepository.findById(40L).orElse(null);
+
+        System.out.println(teamAskBoard.toString());
+
+        assertEquals("아니용", teamAskBoard.getTeamAskBoardReplies().get(0).getTeamAskReplyContent());
+
+    }
+
+
 }

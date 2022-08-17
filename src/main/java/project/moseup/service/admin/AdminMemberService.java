@@ -43,7 +43,7 @@ public class AdminMemberService {
                     .bankbookWithdraw(0)
                     .dealList("굿모닝^^")
                     .build();
-            Bankbook bankbookPS = adminBankbookRepository.save(bankbook);
+            adminBankbookRepository.save(bankbook);
         }
         return new MemberRespDto().toDto(memberPS);
         // 컨트롤러는 DTO 데이터를 가지고 있게하고 클라이언트한테 DTO 데이터를 넘겨줌 = Entity 데이터를 그대로 주면 연관된(조인) 다른 데이터 즉, 클라이언트 입장에서 불필요한 데이터까지 날아감을 방지
@@ -84,6 +84,13 @@ public class AdminMemberService {
         int end = Math.min((start + pageable.getPageSize()), list.size());
 
         return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
+    }
+
+    public List<MemberRespDto> 회원목록보기(){
+                List<MemberRespDto> dtos = adminMemberRepository.findAll().stream()
+                .map((memberPS) -> new MemberRespDto().toDto(memberPS))
+                .collect(Collectors.toList());
+        return dtos;
     }
 
 

@@ -1,24 +1,17 @@
 package project.moseup.repository.teampage;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
-import project.moseup.domain.Role;
-import project.moseup.domain.SecretStatus;
-import project.moseup.domain.TeamAskBoard;
-import project.moseup.domain.TeamAskBoardReply;
+import project.moseup.domain.*;
 import project.moseup.repository.member.MemberRepository;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -73,5 +66,7 @@ class TeamAskBoardReplyRepositoryTest {
 		// then
 		assertEquals(askboard, reply.getTeamAskBoard());
 	}
+
+
 
 }
