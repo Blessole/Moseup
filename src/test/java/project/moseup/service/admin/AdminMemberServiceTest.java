@@ -81,11 +81,37 @@ public class AdminMemberServiceTest {
     @Test
     public void 회원목록(){
         // given
+        Member dto1 = Member.builder()
+                .photo("")
+                .address("안양")
+                .memberDate(LocalDateTime.now())
+                .memberDelete(DeleteStatus.FALSE)
+                .email("5093@k.com")
+                .gender(MemberGender.FEMALE)
+                .name("서비스테스트")
+                .nickname("서비스테스트")
+                .password("a123123")
+                .phone("01011111234")
+                .role(Role.USER)
+                .build();
+        Member dto2 = Member.builder()
+                .photo("")
+                .address("경기도")
+                .memberDate(LocalDateTime.now())
+                .memberDelete(DeleteStatus.FALSE)
+                .email("50933@k.com")
+                .gender(MemberGender.FEMALE)
+                .name("서비스테스트")
+                .nickname("서비스테스트")
+                .password("a123123")
+                .phone("01011111234")
+                .role(Role.USER)
+                .build();
 
         // stub (가설)
         List<Member> memberList = new ArrayList<>();
-        memberList.add(adminMemberRepository.findById(45L).orElse(null));
-        memberList.add(adminMemberRepository.findById(44L).orElse(null));
+        memberList.add(dto1);
+        memberList.add(dto2);
 
         when(adminMemberRepository.findAll()).thenReturn(memberList);
 
@@ -100,8 +126,10 @@ public class AdminMemberServiceTest {
         });
 
         // then
-        assertThat(dtos.get(0).getMno()).isEqualTo(45L);
-        assertThat(dtos.get(1).getMno()).isEqualTo(44L);
+        assertThat(dtos.get(0).getAddress()).isEqualTo("안양");
+        assertThat(dtos.get(0).getEmail()).isEqualTo("5093@k.com");
 
+        assertThat(dtos.get(1).getAddress()).isEqualTo("경기도");
+        assertThat(dtos.get(1).getEmail()).isEqualTo("50933@k.com");
     }
 }
