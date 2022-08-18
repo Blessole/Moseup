@@ -17,8 +17,10 @@ public class SearchService {
 	private final SearchRepository searchRepository;
 
 	public Page<Team> searchedFilterList(String keyword, String filter1, String filter2, Pageable pageable) {
-		
-		if (filter2.equals("최신순") && filter1.equals("")) {	//필터2 최신순만 검색
+		if ( (filter2.equals("nothing") || filter2.equals("")) && (filter1.equals("nothing") || filter1.equals("")) ) {
+			Page<Team> filterNothingList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTnoDesc(keyword, keyword, keyword, keyword, keyword, pageable);
+			return filterNothingList;
+		} else if (filter2.equals("최신순") && filter1.equals("")) {	//필터2 최신순만 검색
 			Page<Team> filter2NewList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTnoDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2NewList;
 		} else if (filter2.equals("팀원수순") && filter1.equals("")) {	//필터2 팀원수순만 검색

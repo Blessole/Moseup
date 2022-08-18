@@ -19,6 +19,8 @@
 			<div class="mainSearchTitle" align="center">모두의 습관</div>
 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 					<div class="mainSearchInput">
+						<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}">
+						<input type="hidden" id="filter1main" name="filter1" th:value="${filter1}">
 						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
 						<input type="submit" class="mainSearchImg" name="submit" value="">
 					</div>
@@ -36,11 +38,21 @@
 	<script type="text/javascript">
 		/*검색창 submit체크*/
 		function searchChk() {
-				var text = $('#mainSearch').val();
-				if(text == "" || text == null) {
-					return false;
-				}
+			var text = $('#mainSearch').val();
+			var filter2 = $('#filter2main').val();
+			
+			if(text == "" || text == null) {
+				return false;
 			}
+			
+ 			if (filter2 == "" || filter2 == null) {
+				$('#filter2main').val("nothing");
+			}
+			
+			if ($('.filter1value').is(":checked") == false) {
+				$('#filter1main').val("nothing");
+			}
+		}
 	</script>
 </th:block>
 </body>
