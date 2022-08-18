@@ -49,9 +49,9 @@
 				</tr>
 			</table>
 			<div>
-				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
-				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano})}" class="btn btn-primary">수정</a>
-				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
+				<a th:href="@{/teams/teamAskBoard(tno=${team.tno})}" class="btn btn-success">게시글 목록</a>
+				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
+				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>
 				
 			</div>	
 			<div>
@@ -74,7 +74,7 @@
 				</table>
 			</div>
 			<div class="input-group mb-3">
-				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply}" th:object="${teamAskReply}" method="post">
+				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply(tno=${team.tno})}" th:object="${teamAskReply}" method="post">
 				<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
 				<div class="replybox">
 					<input type="text" id="nickname" name="nickname" class="form-control" th:value="${loginMember.nickname}" style="text-align: center;">

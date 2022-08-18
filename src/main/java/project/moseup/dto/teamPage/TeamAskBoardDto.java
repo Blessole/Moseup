@@ -7,12 +7,15 @@ import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
+import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 
 @Getter @Setter
 public class TeamAskBoardDto {
 
 	private Member member;
+	
+	private Team team;
 
 	private String teamAskSubject;
 
@@ -30,6 +33,7 @@ public class TeamAskBoardDto {
 	public TeamAskBoard toEntity() {
 		return TeamAskBoard.creatTeamAskBoard()
 				.member(member)
+				.team(team)
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)
 				.teamAskDate(LocalDate.now())
