@@ -176,8 +176,6 @@ public class TeamPageController {
 		
 		return "redirect:/teams/teamAskBoard";
 	}
-	
-	// 문의글 댓글
 
 	// 팀 페이지 인증 게시판
 	@GetMapping("/teamCheckBoard")
