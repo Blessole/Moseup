@@ -17,7 +17,7 @@ public class StreamEx01 {
 
         // datas.stream(); 스트림 타입으로 변경
         Stream<data> stream1 = datas.stream();
-        // data::getName 데이터 클래스 타입의 getName 호출하겠다.
+        // data::getName 데이터 클래스 타입의 getName 호출하겠다. * 중요 (최종 연산을 할 때 실행됨)
         Stream<String> stream2 = stream1.map(data::getName);
 
         stream2.forEach((str) -> {

@@ -85,7 +85,8 @@ public class AdminMemberService {
 
         return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
     }
-
+    
+    //테스트용
     public List<MemberRespDto> 회원목록보기(){
                 List<MemberRespDto> dtos = adminMemberRepository.findAll().stream()
                 .map((memberPS) -> new MemberRespDto().toDto(memberPS))

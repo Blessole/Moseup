@@ -1,25 +1,15 @@
 package project.moseup.domain;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,6 +19,10 @@ public class TeamAskBoard {
 	@Column(name = "team_askno")
 	@GeneratedValue @Id
 	private Long tano;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "team_no")
+	private Team team;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -57,7 +51,8 @@ public class TeamAskBoard {
 	private DeleteStatus teamAskDelete;
 	
 	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
-	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
+	public TeamAskBoard(Team team, Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
+		this.team = team;
 		this.member = member;
 		this.teamAskSubject = teamAskSubject;
 		this.teamAskContent = teamAskContent;

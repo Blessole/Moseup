@@ -1,16 +1,15 @@
 package project.moseup.dto.teamPage;
 
-import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.Setter;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.SecretStatus;
-import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.*;
+
+import java.time.LocalDate;
 
 @Getter @Setter
 public class TeamAskBoardDto {
+
+	private Team team;
 
 	private Member member;
 
@@ -29,6 +28,7 @@ public class TeamAskBoardDto {
 	// 게시글 생성 method
 	public TeamAskBoard toEntity() {
 		return TeamAskBoard.creatTeamAskBoard()
+				.team(team)
 				.member(member)
 				.teamAskSubject(teamAskSubject)
 				.teamAskContent(teamAskContent)

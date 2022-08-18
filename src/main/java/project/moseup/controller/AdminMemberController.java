@@ -218,7 +218,6 @@ public class AdminMemberController {
     public String memberBankbook(@RequestParam Long mno, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member != null){
-            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
             model.addAttribute("member", member);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
@@ -231,7 +230,6 @@ public class AdminMemberController {
     public String memberFreeBoard(@RequestParam Long mno, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member != null){
-            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
             model.addAttribute("member", member);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
@@ -244,12 +242,23 @@ public class AdminMemberController {
     public String memberAskBoard(@RequestParam Long mno, Model model){
         Member member = adminMemberRepository.findById(mno).orElse(null);
         if(member != null){
-            //MemberRespDto memberRespDto = new MemberRespDto().toDto(member);
             model.addAttribute("member", member);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }
         return "admin/memberAskBoard";
+    }
+
+    @GetMapping("/memberTeamAskBoard")
+    public String memberTeamAskBoard(@RequestParam Long mno, Model model){
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            model.addAttribute("member", member);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberTeamAskBoard";
     }
 }
