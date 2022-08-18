@@ -13,8 +13,10 @@
 		<section class="searchSection">
 			<div class="mainSearch">
 			<div class="mainSearchTitle" align="center">모두의 습관</div>
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" th:action="@{/search}" method="get" onsubmit="return searchChk()">
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 					<div class="mainSearchInput">
+						<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}">
+						<input type="hidden" id="filter1main" name="filter1" th:value="${filter1}">
 						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword" th:value="${keyword}">
 						<input type="submit" class="mainSearchImg" name="submit" value="">
 					</div>
@@ -39,7 +41,7 @@
 				  </ul>
 				</div>
 			</form>
-			
+
 			<div class="dropdown" align="right" id="filter2div">
 			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
 			  	th:if="${filter2 == null} or ${filter2 == 'nothing'}">
@@ -57,7 +59,7 @@
 			</div>
 		</section>
 		<br><br>
-		
+
 		<section class="cardSection">
 			<div th:if="${searchedTeamList.isEmpty()}" class="searchedNull text-center">
 				<div class="searchedNull35 text-center">🙊 검색 결과가 없어요! 🙊</div>
@@ -67,7 +69,7 @@
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
 					<div th:each="searchedTeamList : ${searchedTeamList}" class="center">
 						<div class="card">
-							<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="@{'file:///'+${searchedTeamList.teamPhoto}}" class="card-img-top" alt="팀사진"></a>
+							<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="'teamPhotos/'+${searchedTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
 							<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 							<div class="card-body">
 								<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName
@@ -102,7 +104,7 @@
 	      </ul>
 	    </nav>
     </div>
-    
+
 	<script type="text/javascript">
 
 		/*검색창 submit체크*/
@@ -115,16 +117,19 @@
 
 		/* filter1 submit체크 */
 		function filter1Chk() {
-			var filter1 = $("input:checkbox[name='filter1']:checked").val();
-			var filter2 = $('#filter2').val();
-			var keyword = $('#keyword').val();
-
-			if ($('.filter1value').is(":checked") == false) {
+			var text = $('#mainSearch').val();
+			var filter2 = $('#filter2main').val();
+			
+			if(text == "" || text == null) {
 				return false;
 			}
-
-			if (filter2 == "" || filter2 == null) {
-				$('#filter2').val("nothing");
+			
+ 			if (filter2 == "" || filter2 == null) {
+				$('#filter2main').val("nothing");
+			}
+			
+			if ($('.filter1value').is(":checked") == false) {
+				$('#filter1main').val("nothing");
 			}
 		};
 

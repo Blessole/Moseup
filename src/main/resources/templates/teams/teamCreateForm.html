@@ -12,7 +12,7 @@
 	<div class="mainContainer">
 		<div class="col-md-7 col-lg-8 formContainer">
 			<h4 class="mb-3 text-center">팀 생성하기</h4>
-			<form class="needs-validation" role="form" th:action="@{/teams/createTeam}" th:object="${teamForm}"
+			<form class="needs-validation" role="form" th:action="@{/teams/createTeam}" th:object="${TeamCreateReqDto}"
 				  method="post" name="frm" enctype="multipart/form-data" onsubmit="return submitChk()">
 				<div class="row g-3">
 					<div class="col-12">

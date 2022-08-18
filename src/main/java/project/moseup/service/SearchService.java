@@ -20,16 +20,16 @@ public class SearchService {
 		if ( (filter2.equals("nothing") || filter2.equals("")) && (filter1.equals("nothing") || filter1.equals("")) ) {
 			Page<Team> filterNothingList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTnoDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filterNothingList;
-		} else if (filter2.equals("최신순") && filter1.equals("")) {	//필터2 최신순만 검색
+		} else if (filter2.equals("최신순") && filter1.equals("nothing")) {	//필터2 최신순만 검색
 			Page<Team> filter2NewList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTnoDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2NewList;
-		} else if (filter2.equals("팀원수순") && filter1.equals("")) {	//필터2 팀원수순만 검색
+		} else if (filter2.equals("팀원수순") && filter1.equals("nothing")) {	//필터2 팀원수순만 검색
 			Page<Team> filter2MemberList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2MemberList;
-		} else if (filter2.equals("예치금순") && filter1.equals("")) {	//필터2 예치금순만 검색
+		} else if (filter2.equals("예치금순") && filter1.equals("nothing")) {	//필터2 예치금순만 검색
 			Page<Team> filter2depositList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2depositList;
-		} else if (filter2.equals("시작일순") && filter1.equals("")) {	//필터2 시작일순만 검색
+		} else if (filter2.equals("시작일순") && filter1.equals("nothing")) {	//필터2 시작일순만 검색
 			Page<Team> filter2depositList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2depositList;
 			
