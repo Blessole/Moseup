@@ -137,19 +137,27 @@
 
 	<script type="text/javascript">
 
-		/* 습관 시작일 기본값 오늘날짜로 하는 함수 */
-		/* document.getElementById('startDate').valueAsDate = new Date(); */
+		/* 습관 시작/종료날짜 최소값 오늘 날짜 */
+		$(function() {
+			var now_utc = Date.now() //지금 날짜를 밀리초로
+			var timeOff = new Date().getTimezoneOffset()*60000; //분단위를 밀리초로 변환(getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환)
+			var today = new Date(now_utc-timeOff).toISOString().split("T")[0];//new Date(now_utc-timeOff).toISOString()은 현재기준
+																												//'2022-08-19T23:18:38.134Z'를 반환
+																												//여기서 "T"를 기준으로 split 하고 그 앞부분은 '2022-08-19'이 된 후 today에 저장
+			document.getElementById("startDate").setAttribute("min", today);	//최소값을 오늘 날짜로 지정
+			document.getElementById("endDate").setAttribute("min", today);
+		});
 
 		/* 모집 인원 값 보여주기*/
-		var slider = document.getElementById("teamVolume");
-		var output = document.getElementById("teamVolumeValue");
-		output.innerHTML = slider.value + "명";
-
-		slider.oninput = function() {
-			output.innerHTML = this.value + "명";
-		}
-
-
+		$(function() {
+			var slider = document.getElementById("teamVolume");
+			var output = document.getElementById("teamVolumeValue");
+			output.innerHTML = slider.value + "명";
+	
+			slider.oninput = function() {
+				output.innerHTML = this.value + "명";
+			}
+		});
 		
 		/*textarea 글자 수 체크*/
 		function fn_checkText(obj){
@@ -210,7 +218,7 @@
 			}
 
 			if (startDate.value == endDate.value || startDate.value > endDate.value) {
-				endDateErr.innerText="습관 종료일이 습관 시작일보다 같거나 클 수 없습니다!";
+				endDateErr.innerText="습관 종료일은 습관 시작일보다 이전이거나 같을 수 없습니다!";
 				endDate.focus();
 				return false;
 			}
@@ -252,58 +260,51 @@
 			})
 		});
 		
-		/* 카테고리3 디스플레이 감추기, 카테고리2 체크해제 */
-		function category3displayNoneCategory2uncheck() {
-			$('#teamCategory3Label').addClass('displayNone');	//소분류 라벨 감추기
-			$('#teamCategory3Div').addClass('displayNone');	// 소분류 input 감추기
-			$('#teamCategory3').val('');	// 소분류 input값 없애기
-			$("input:checkbox[name='teamCategory2']").prop("checked", false); //다른 카테고리 체크 되어있는것 해제
-		}
-		
-		/* 카테고리 display */	
+		/* 대분류 선택시 display */	
 		$(function() {
 			$('#teamCategory1').change(function() {	// 대분류 선택하면
 				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
 				if($('#teamCategory1').val() == "공부") {	//대분류 중 공부 선택
-					$('.study').removeClass('displayNone');	//공부 디스플레이 보이게
-					category3displayNoneCategory2uncheck();
-					$('.exercise, .habit').addClass('displayNone');	//운동 디스플레이 감추기
+					deleteAllInputs();
+					$('.study').removeClass('displayNone');
 				} else if ($('#teamCategory1').val() == "운동") {	//대분류 중 운동 선택
-					$('.exercise').removeClass('displayNone');	//운동 디스플레이 보이게
-					category3displayNoneCategory2uncheck();
-					$('.study, .habit').addClass('displayNone');
+					deleteAllInputs();
+					$('.exercise').removeClass('displayNone');
 				} else if($('#teamCategory1').val() == "습관") {	//대분류 중 습관 선택
-					$('.habit').removeClass('displayNone');	//운동 디스플레이 보이게
-					category3displayNoneCategory2uncheck();
-					$('.study, .exercise').addClass('displayNone');
-				} else if($('#teamCategory1').val() == "ETC") {	// 대분류 중 기타 등등 선택
-					$('#teamCategory3Label').removeClass('displayNone');
-					$('#teamCategory3Div').removeClass('displayNone');
-					$('#teamCategory3').val('');	// 소분류 input값 없애기
-					$('.study, .exercise, .habit').addClass('displayNone');
+					deleteAllInputs();
+					$('.habit').removeClass('displayNone');
+				} else if($('#teamCategory1').val() == "ETC") {	//대분류 중 기타 등등 선택
+					deleteAllInputs();
+					$('#teamCategory3Label, #teamCategory3Div').removeClass('displayNone');
 				}
-				$(function() {	//중분류 체크하면 소분류 보이게 하기
-					$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {
-						$('#teamCategory3Label').removeClass('displayNone');
-						$('#teamCategory3Div').removeClass('displayNone');
-						if ($(tag_name[name='teamCategory2']).checked == null) {
-							$('#teamCategory3Label').addClass('displayNone');
-							$('#teamCategory3Div').addClass('displayNone');
-						}
-					});
-				});
 			});
 		});
+		
+		/* 중분류 선택시 display */	
+		$(function() {
+			$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {
+				$('#teamCategory3Label, #teamCategory3Div').removeClass('displayNone');
+			});
+		});
+		
+		/* 카테고리2/3의 디스플레이, 값 없애기 */
+		function deleteAllInputs() {
+			$('.study, .exercise, .habit').addClass('displayNone');	//모든 중분류 디스플레이 감추기
+			$("input:checkbox[name='teamCategory2']").prop("checked", false); //모든 중분류 카테고리 체크 되어있는것 해제
+			$('#teamCategory3Label, #teamCategory3Div').addClass('displayNone');	//소분류 라벨과 input 감추기
+			$('#teamCategory3').val('');	//소분류 input값 없애기
+		}
 		
 		/* 카테고리3 공백사용 금지 */
 		$(function() {
 			$('#teamCategory3').blur(function() {
 				var teamCategory3 = $('#teamCategory3').val();
-			    var space = /\s/;  // 공백체크
+			    var space = /\s/;  //공백체크
 			    if(space.exec(teamCategory3)) {//공백 체크
 			    	$('#teamCategory3Err').text("공백은 사용할 수 없습니다!");
+			    	$('#teamCategory3').val("");
 			    }
-			});		
+			});
 		});
 	</script>
 </th:block>
