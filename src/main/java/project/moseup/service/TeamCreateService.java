@@ -1,8 +1,6 @@
 package project.moseup.service;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamCreateReqDto;
-import project.moseup.dto.TeamCreateRespDto;
 import project.moseup.repository.TeamCreateRepository;
 
 @Service

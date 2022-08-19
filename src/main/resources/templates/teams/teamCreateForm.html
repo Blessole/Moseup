@@ -2,9 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link th:href="@{/css/createTeamForm.css}" rel="stylesheet" type="text/css" />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- teamCreateForm css -->
+<link th:href="@{/css/teamCreateForm.css}" rel="stylesheet" type="text/css" />
+<!-- teamCreateForm script -->
+<script type="text/javascript" src="/js/teamCreateForm.js"></script>
 </head>
 <body>
 <!-- 본문 코드 시작 -->
@@ -23,13 +26,13 @@
 						<input type="text" class="form-control width80" th:field="*{teamName}" placeholder="팀명을 입력하세요." maxlength="14"
 							 th:class="${#fields.hasErrors('teamName')}? 'form-control fieldError' : 'form-control'"><!-- fieldError : css임 -->
 					</div>
-					
+					<!-- 모집 인원 -->
 					<div class="col-12">
 						<label for="teamVolume" class="form-label font-bold">모집 인원<span class="essential">*</span></label>
 						<input type="range" class="form-control" th:field="*{teamVolume}" id="teamVolume" min="2" max="100">
 						<div id="teamVolumeValue" align="center"></div>
 					</div>
-					
+					<!-- 습관 대분류 -->
 					<div class="col-12">
 						<label for="teamCategory1" class="form-label font-bold">습관 대분류<span class="essential">*</span></label>
 						<span id="teamCategoryErr" class="text-err"></span>
@@ -41,7 +44,7 @@
 							<option value="ETC">기타 등등</option>
 						</select>
 					</div>
-					
+					<!-- 습관 중분류 -->
 					<div class="teamCategory2Groups">
 						<div class="col-12">
 							<label for="teamCategory2" class="form-label font-bold displayNone" id="teamCategory2Label">습관 중분류</label><br>
@@ -70,7 +73,7 @@
 							</div>
 						</div>
 					</div>
-					
+					<!-- 습관 소분류 -->
 					<div class="col-12">
 						<label for="teamSubcategory" class="form-label font-bold displayNone" id="teamCategory3Label">습관 소분류</label>
 						<span id="teamCategory3Err" class="text-err"></span>
@@ -78,7 +81,7 @@
 							<input type="text" class="form-control" th:field="*{teamCategory3}" placeholder="팀 검색에 도움이 됩니다! (최대 10글자)" maxlength="10">
 						</div>
 					</div>
-					
+					<!-- 예치금 -->
 					<div class="col-12">
 						<label for="teamDeposit" class="form-label font-bold">예치금<span class="essential">*</span></label>
 						<span id="teamDepositErr" class="text-err"></span>
@@ -96,7 +99,7 @@
 							<option value="10">100,000￦</option>
 						</select>
 					</div>
-
+					<!-- 습관 시작일 -->
 					<div class="col-12">
 						<label for="startDate" class="form-label font-bold">습관 시작일<span class="essential">*</span></label>
 						<span clath:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-err"></span>
@@ -104,7 +107,7 @@
 						<input type="date" class="form-control" th:field="*{startDate}"
 							   th:class="${#fields.hasErrors('startDate')}? 'form-control fieldError' : 'form-control'">
 					</div>
-
+					<!-- 습관 종료일 -->
 					<div class="col-12">
 						<label for="endDate" class="form-label font-bold">습관 종료일<span class="essential">*</span></label>
 						<span clath:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-err"></span>
@@ -112,13 +115,14 @@
 						<input type="date" class="form-control" th:field="*{endDate}"
 							   th:class="${#fields.hasErrors('endDate')}? 'form-control fieldError' : 'form-control'">
 					</div>
-
+					<!-- 팀 소개 사진 -->
 					<div class="col-12">
 						<label for="teamPhoto" class="form-label font-bold">팀 소개 사진</label><span class="essential">*</span>
 						<span id="teamPhotoErr" class="text-err"></span>
-						<input type="file"	class="form-control" id="teamPhoto" name="file">
+						<div class="image_container photoDisplayNone" id="image_container" align="center"></div>
+						<input type="file"	class="form-control" id="teamPhoto" name="file" onchange="setImage(event);">
 					</div>
-
+					<!-- 팀 소개 글 -->
 					<div class="col-12">
 						<label for="teamIntroduce" class="form-label font-bold">팀 소개 글</label><span class="essential">*</span>  (<span id="nowText">0</span>/500글자)
 						<span clath:if="${#fields.hasErrors('teamIntroduce')}" th:errors="*{teamIntroduce}" class="text-err"></span>
@@ -127,186 +131,11 @@
 								   th:class="${#fields.hasErrors('teamIntroduce')}? 'form-control fieldError' : 'form-control'"></textarea>
 					</div>
 				</div>
-
 				<hr class="my-4">
-
 				<button class="w-100 btn btn-primary btn-lg" type="submit">팀 생성하기</button>
 			</form>
 		</div>
 	</div>
-
-	<script type="text/javascript">
-
-		/* 습관 시작/종료날짜 최소값 오늘 날짜 */
-		$(function() {
-			var now_utc = Date.now() //지금 날짜를 밀리초로
-			var timeOff = new Date().getTimezoneOffset()*60000; //분단위를 밀리초로 변환(getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환)
-			var today = new Date(now_utc-timeOff).toISOString().split("T")[0];//new Date(now_utc-timeOff).toISOString()은 현재기준
-																												//'2022-08-19T23:18:38.134Z'를 반환
-																												//여기서 "T"를 기준으로 split 하고 그 앞부분은 '2022-08-19'이 된 후 today에 저장
-			document.getElementById("startDate").setAttribute("min", today);	//최소값을 오늘 날짜로 지정
-			document.getElementById("endDate").setAttribute("min", today);
-		});
-
-		/* 모집 인원 값 보여주기*/
-		$(function() {
-			var slider = document.getElementById("teamVolume");
-			var output = document.getElementById("teamVolumeValue");
-			output.innerHTML = slider.value + "명";
-	
-			slider.oninput = function() {
-				output.innerHTML = this.value + "명";
-			}
-		});
-		
-		/*textarea 글자 수 체크*/
-		function fn_checkText(obj){
-			const maxText = 500; //최대 1000바이트
-			const text_val = obj.value; //입력한 문자
-			const text_len = text_val.length; //입력한 문자수
-
-			let totalText=0;
-			for(let i=0; i<text_len; i++){
-				const each_char = text_val.charAt(i);
-				const uni_char = escape(each_char) //유니코드 형식으로 변환
-				if(uni_char.length>0){
-					totalText += 1;
-				}
-			}
-
-			if(totalText>maxText){
-				alert('최대 500글자까지만 입력가능합니다.');
-				document.getElementById("nowText").innerText = totalText;
-				document.getElementById("nowText").style.color = "red";
-			}else{
-				document.getElementById("nowText").innerText = totalText;
-				document.getElementById("nowText").style.color = "black";
-			}
-		}
-
-		/* submit체크*/
-		function submitChk() {
-			/* 카테고리 확인 함수 */
-			var teamCategory = document.getElementById("teamCategory1");
-			var teamCategoryErr = document.getElementById("teamCategoryErr");
-
-			if (teamCategory.value == "0") {
-				teamCategoryErr.innerText="습관 대분류는 필수 선택사항입니다!";
-				teamCategory.focus();
-				return false;
-			}
-			
-			/* 예치금 확인 */
-			var teamDeposit = document.getElementById("teamDeposit");
-			var teamDepositErr = document.getElementById("teamDepositErr");
-
-			if (teamDeposit.value == "0") {
-				teamDepositErr.innerText="예치금은 필수 선택사항입니다!";
-				teamDeposit.focus();
-				return false;
-			}
-
-			/* 습관 시작/종료일 확인 */
-			var startDate = document.getElementById("startDate");
-			var endDate = document.getElementById("endDate");
-			var dateErr = document.getElementById("dateErr");
-
-			if (startDate.value == "" || endDate.value == "") {
-				startDateErr.innerText="습관 시작일과 습관 종료일은 필수 선택사항입니다!";
-				startDate.focus();
-				return false;
-			}
-
-			if (startDate.value == endDate.value || startDate.value > endDate.value) {
-				endDateErr.innerText="습관 종료일은 습관 시작일보다 이전이거나 같을 수 없습니다!";
-				endDate.focus();
-				return false;
-			}
-			
-			/* 팀 소개 사진 확인 */
-			var teamPhoto = document.getElementById("teamPhoto");
-			var teamPhotoErr = document.getElementById("teamPhotoErr");
-			
-			if(teamPhoto.value == null || teamPhoto.value == "") {
-				teamPhotoErr.innerText="팀 소개 사진은 필수 선택사항입니다!";
-				teamPhoto.focus();
-				return false;
-			}
-		}
-		
-		/* 아이디 중복체크/팀명 정규표현식 */
-		$(function() {
-			$('#teamName').focus();
-			$('#teamName').blur(function() {
-				var teamName = $('#teamName').val();
-				var regex = /^[가-힣a-zA-Z0-9]{2,14}$/;	//한글,영문(대/소문자),숫자만 가능한 2~14글자 정규표현식
-				$.ajax({
-					type : "get",
-					url : '/teams/nameChk',
-					data : {	"teamName" : teamName},
-					success : function(data) { //data : /teams/nameChk에서 넘겨준 결과값
-						if (teamName == "") {
-							$('#teamNameChk').text("팀명을 입력해 주세요!");
-							$('#teamName').focus();
-						} else if(!regex.test(teamName)) {
-							$('#teamNameChk').text("2~14자의 한글, 영문 대/소문자, 숫자만 사용 가능합니다.");
-							$('#teamName').val("");
-							$('#teamName').focus();
-						} else {
-							$('#teamNameChk').html(data);
-						}
-					}
-				})
-			})
-		});
-		
-		/* 대분류 선택시 display */	
-		$(function() {
-			$('#teamCategory1').change(function() {	// 대분류 선택하면
-				$('#teamCategory2Label').removeClass('displayNone');	//중분류 디스플레이 보이게
-				if($('#teamCategory1').val() == "공부") {	//대분류 중 공부 선택
-					deleteAllInputs();
-					$('.study').removeClass('displayNone');
-				} else if ($('#teamCategory1').val() == "운동") {	//대분류 중 운동 선택
-					deleteAllInputs();
-					$('.exercise').removeClass('displayNone');
-				} else if($('#teamCategory1').val() == "습관") {	//대분류 중 습관 선택
-					deleteAllInputs();
-					$('.habit').removeClass('displayNone');
-				} else if($('#teamCategory1').val() == "ETC") {	//대분류 중 기타 등등 선택
-					deleteAllInputs();
-					$('#teamCategory3Label, #teamCategory3Div').removeClass('displayNone');
-				}
-			});
-		});
-		
-		/* 중분류 선택시 display */	
-		$(function() {
-			$('#teamCategory2Exercise, #teamCategory2Study, #teamCategory2Habit').change(function() {
-				$('#teamCategory3Label, #teamCategory3Div').removeClass('displayNone');
-			});
-		});
-		
-		/* 카테고리2/3의 디스플레이, 값 없애기 */
-		function deleteAllInputs() {
-			$('.study, .exercise, .habit').addClass('displayNone');	//모든 중분류 디스플레이 감추기
-			$("input:checkbox[name='teamCategory2']").prop("checked", false); //모든 중분류 카테고리 체크 되어있는것 해제
-			$('#teamCategory3Label, #teamCategory3Div').addClass('displayNone');	//소분류 라벨과 input 감추기
-			$('#teamCategory3').val('');	//소분류 input값 없애기
-		}
-		
-		/* 카테고리3 공백사용 금지 */
-		$(function() {
-			$('#teamCategory3').blur(function() {
-				var teamCategory3 = $('#teamCategory3').val();
-			    var space = /\s/;  //공백체크
-			    if(space.exec(teamCategory3)) {//공백 체크
-			    	$('#teamCategory3Err').text("공백은 사용할 수 없습니다!");
-			    	$('#teamCategory3').val("");
-			    }
-			});
-		});
-	</script>
 </th:block>
 </body>
 </html>

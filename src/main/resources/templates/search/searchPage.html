@@ -4,7 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- searchPage css -->
 <link th:href="@{/css/searchPage.css}" rel="stylesheet" type="text/css" />
+<!-- searchPage script -->
+<script type="text/javascript" src="/js/searchPage.js"></script>
 </head>
 <body>
 	<!-- 본문 코드 시작 -->
@@ -13,6 +16,7 @@
 		<section class="searchSection">
 			<div class="mainSearch">
 			<div class="mainSearchTitle" align="center">모두의 습관</div>
+				<!-- 검색창 -->
 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 					<div class="mainSearchInput">
 						<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}">
@@ -24,6 +28,7 @@
 			</div>
 		</section>
 		<section class="filterSection">
+			<!-- 필터1 -->
 			<form th:action="@{/search}" role="form" method="get" id="filter1form" onsubmit="return filter1Chk()">
 				<input type="hidden" id="keyword" name="keyword" th:value="${keyword}">
 				<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">
@@ -41,7 +46,7 @@
 				  </ul>
 				</div>
 			</form>
-
+			<!-- 필터2 -->
 			<div class="dropdown" align="right" id="filter2div">
 			  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
 			  	th:if="${filter2 == null} or ${filter2 == 'nothing'}">
@@ -59,7 +64,7 @@
 			</div>
 		</section>
 		<br><br>
-
+		<!-- 카드 팀 리스트 -->
 		<section class="cardSection">
 			<div th:if="${searchedTeamList.isEmpty()}" class="searchedNull text-center">
 				<div class="searchedNull35 text-center">🙊 검색 결과가 없어요! 🙊</div>
@@ -73,7 +78,7 @@
 							<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 							<div class="card-body">
 								<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName
-								<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
+									<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
 								<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
 								<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
 								<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
@@ -104,46 +109,6 @@
 	      </ul>
 	    </nav>
     </div>
-
-	<script type="text/javascript">
-
-		/*검색창 submit체크*/
-		function searchChk() {
-			var text = $('#mainSearch').val();
-			if (text == "" || text == null) {
-				return false;
-			}
-		}
-
-		/* filter1 submit체크 */
-		function filter1Chk() {
-			var text = $('#mainSearch').val();
-			var filter2 = $('#filter2main').val();
-			
-			if(text == "" || text == null) {
-				return false;
-			}
-			
- 			if (filter2 == "" || filter2 == null) {
-				$('#filter2main').val("nothing");
-			}
-			
-			if ($('.filter1value').is(":checked") == false) {
-				$('#filter1main').val("nothing");
-			}
-		};
-
-		/* 필터1 체크박스 선택하고 submit후 체크값 유지*/
-		$(function() {
-			var filter1Arr = $(".filter1Arr").val(); //히든으로 컨트롤러에서 체크값 가져오기
-
-			$('input:checkbox[name="filter1"]').each(function() { //each로 돌기
-				if (filter1Arr.indexOf(this.value) > -1) { //체크된게 있다면
-					$(this).prop('checked', true); //체크하기
-				}
-			});
-		});
-	</script>
 	</th:block>
 </body>
 </html>
