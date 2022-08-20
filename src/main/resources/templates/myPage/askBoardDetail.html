@@ -9,22 +9,30 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-    <div class="middle-container">
+    <div class="topless-middle-container">
         <h2 class="title">1:1 문의 내역</h2>
             <div class="top-box">
                 <div class="subTitle">제목 &nbsp; : &nbsp; <span th:text="${askBoard.askSubject}"></span></div>
-                <div class="time"><span th:text="${#temporals.format(askBoard.askDate,'yyyy-MM-dd hh:mm')}"></span> </div>
+                <div class="time"><span th:text="${#temporals.format(askBoard.askDate,'yyyy.MM.dd HH:mm')}"></span> </div>
             </div>
             <div class="content-box">
-                <div>내용</div>
                 <div class="contentBox" th:text="${askBoard.askContent}"></div>
             </div>
-            <div class="button-box left">
-                <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>
-                <a class="button" th:href="@{/askBoard/askBoardDelete(ano=${askBoard.ano})}">삭제</a>
+            <div class="reply-box">
+                <div class="reply">
+                    <table>
+                        <tr><th></th></tr>
+                    </table>
+                </div>
             </div>
-            <div class="button-box right">
-                <a class="button" th:href="@{/askBoard/askBoardList}">목록</a>
+            <div class="askDetail-button-box">
+                <div class="left">
+                    <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>
+                    <a class="button" th:href="@{/askBoard/askBoardDelete(ano=${askBoard.ano})}">삭제</a>
+                </div>
+                <div class="right">
+                    <a class="button" th:href="@{/askBoard/askBoardList}">목록</a>
+                </div>
             </div>
     </div>
 </th:block>

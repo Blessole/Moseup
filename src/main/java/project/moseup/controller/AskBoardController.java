@@ -2,6 +2,10 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.graph.internal.parse.GeneratedGraphParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,19 +32,18 @@ public class AskBoardController {
     private final AskBoardService askBoardService;
 
     @GetMapping("/askBoardList")
-    public String askBoardList(Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
+    public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+//        model.addAttribute("member", member);
 
-        List<AskBoard> askBoardList = askBoardService.findAskBoards(member);
-
-        model.addAttribute("member", member);
-        model.addAttribute("askBoardList", askBoardList);
+        model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging(member, page));
+        model.addAttribute("maxPage", 5);
         return "myPage/askBoardList";
     }
 
     @GetMapping("/askBoardForm")
     public String askBoardForm(Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPhotoAndNickname(principal, model);
 
         model.addAttribute("askBoardForm", new AskBoardSaveReqDto());
         model.addAttribute("member", member);
@@ -59,7 +62,7 @@ public class AskBoardController {
 
     @GetMapping("/askBoardDetail")
     public String askBoardDetail(@RequestParam  Long ano, Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoard askBoard = this.askBoardService.findOne(ano);
         model.addAttribute("askBoard", askBoard);
         model.addAttribute("member", member);
@@ -71,7 +74,7 @@ public class AskBoardController {
     /** 글 수정 **/
     @GetMapping("/askBoardUpdateForm")
     public String askBoardUpdateForm(@RequestParam("ano") Long ano, Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoardSaveReqDto askBoardDto = this.askBoardService.getPost(ano);
         model.addAttribute("ano", ano);
         model.addAttribute("askBoardDto", askBoardDto);
@@ -102,7 +105,7 @@ public class AskBoardController {
     /** 글 삭제 **/
     @GetMapping("/askBoardDelete")
     public String askBoardDelete(@RequestParam Long ano, Model model, Principal principal) {
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = memberService.getPhotoAndNickname(principal, model);
         model.addAttribute("member", member);
 
         askBoardService.deleteBoard(ano);

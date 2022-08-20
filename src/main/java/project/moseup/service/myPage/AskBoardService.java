@@ -1,6 +1,10 @@
 package project.moseup.service.myPage;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
@@ -13,6 +17,7 @@ import project.moseup.repository.myPage.AskBoardRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +26,17 @@ public class AskBoardService {
     private final AskBoardRepository askBoardRepository;
     private final AskBoardInterfaceRepository askBoardInterfaceRepository;
 
-    /** 문의게시판 리스트 조회 **/
-    public List<AskBoard> findAskBoards(Member member){
-        return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE);
+//    /** 문의게시판 리스트 조회 **/
+//    public List<AskBoard> findAskBoards(Member member){
+//        return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE);
+//    }
+
+    /** 문의게시판 리스트 조회 + 페이징 **/
+    // startAt : 파라미터 통해 받은 현재 페이지
+    // 10 : 10개씩 출력해라~
+    public Page<AskBoard> findAskBoardsPaging(Member member, int startAt){
+        Pageable pageable = PageRequest.of(startAt, 10);
+        return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE, pageable);
     }
 
     /** 문의글 하나 조회 **/

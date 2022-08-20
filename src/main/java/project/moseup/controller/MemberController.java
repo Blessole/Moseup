@@ -72,13 +72,16 @@ public class MemberController {
 
         // 파일 업로드 시작
         // 이미지 파일만 업로드 가능하도록 제한하기
-        if(file.getContentType().startsWith("image") == false){
-            System.out.println("MC - 이미지 파일만 올려~");
-            return "redirect:/";
-        }
+        System.out.println("컨텐트 타입2 : "+ file.getContentType());
         if (file.isEmpty()) { // 프로필사진이 등록되지 않은 경우
-            joinForm.setPhoto("none");
+            joinForm.setPhoto("C:\\DevSpace\\Project\\Moseup\\src\\main\\resources\\static\\images\\profile.png");
         } else if (!file.isEmpty()){  // 프로필사진이 등록된 경우
+            if(file.getContentType().startsWith("image") == false){
+                System.out.println("MC - 이미지 파일만 올려~");
+                System.out.println("컨텐트 타입 : "+ file.getContentType());
+                return "redirect:/members/joinForm";
+            }
+
             // 사용 브라우저에 따라 파일이름/경로 다름
             String originalName = file.getOriginalFilename();
             String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);

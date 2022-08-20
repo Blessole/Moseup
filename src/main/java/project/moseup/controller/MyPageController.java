@@ -1,6 +1,7 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,28 +52,34 @@ public class MyPageController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
     public String myPage(Model model, Principal principal) {
-        Member member = memberService.getPrincipal(principal);
-        model.addAttribute("member", member);
+        memberService.getPhotoAndNickname(principal, model);
         return "myPage/myPage";
     }
 
+    /** 가입 스터디 목록 **/
     @GetMapping("/myTeamList")
-    public String myTeamList(Model model, Principal principal){
-        Member member = memberService.getPrincipal(principal);
-        List<Team> teams = this.myPageService.findTeam(member);
+    public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+//        List<Team> teams = this.myPageService.findTeam(member);
 
-        model.addAttribute("teamList", teams);
-        model.addAttribute("member",member);
+        System.out.println("과연 sort를 뭐라고 할지" + sort);
 
+        model.addAttribute("maxPage", 5);
+        model.addAttribute("teamList", myPageService.findTeamPaging(member, sort, page));
         return "myPage/myTeamList";
     }
 
+    /** 인증글 목록 **/
     @GetMapping("/myCheckList")
-    public String myCheckList(Model model, Principal principal){
-        Member member = memberService.getPrincipal(principal);
-        List<CheckBoard> checkBoards = this.myPageService.findCheckBoard(member);
-        model.addAttribute("checkList", checkBoards);
-        model.addAttribute("member", member);
+    public String myCheckList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(required = false) Long tno){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+        if (tno == null) {
+            model.addAttribute("checkList", myPageService.findCheckBoardPaging(member, page));
+        } else {
+            model.addAttribute("checkList", myPageService.findCheckBoardByTeamPaging(member, tno, page));
+        }
+        model.addAttribute("teamList", myPageService.findTeam(member));
+        model.addAttribute("maxPage", 5);
         return "myPage/myCheckList";
     }
 
@@ -80,8 +87,7 @@ public class MyPageController {
     @PreAuthorize("isAuthenticated()")
      @GetMapping("/myInfoMain")
     public String myInfoMain(Model model, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
-        model.addAttribute("member", member);
+        memberService.getPhotoAndNickname(principal, model);
         return "myPage/myInfoMain";
     }
 
@@ -93,18 +99,15 @@ public class MyPageController {
         if (!result) {
             return "redirect:/myPage/myInfoMain?error";
         }
-            Member member = memberService.getPrincipal(principal);
+            Member member = memberService.getMember(principal.getName());
             return "redirect:/myPage/myInfo?mno="+member.getMno();
         }
-//        Member member = this.memberService.getMember(principal.getName());
-//        String origin = member.getPassword();
-//        String msg = checkRealize.passwordCheck(origin, scan);
-//        return msg;
 
     /** 내 정보 수정 폼 열기 **/
     @GetMapping("/myInfo")
     public String myInfo(MemberSaveReqDto memberDto, Model model, Principal principal){
         openForm(memberDto, model, principal);
+        memberService.getPhotoAndNickname(principal, model);
         return "myPage/myInfo";
     }
 
@@ -120,6 +123,7 @@ public class MyPageController {
                 System.out.println(e.getDefaultMessage());
             }
             openForm(memberDto, model, principal);
+            memberService.getPhotoAndNickname(principal, model);
             return "myPage/myInfo";
         }
 
@@ -129,17 +133,11 @@ public class MyPageController {
 
     /** MemberSaveReqDto 중복코드 합침*/
     private void openForm(MemberSaveReqDto memberDto, Model model, Principal principal) {
-        Member member = memberService.getPrincipal(principal);
+        Member member = memberService.getMember(principal.getName());
         model.addAttribute("member", member);
 
         memberDto = memberDto.toDto(member);
         model.addAttribute("myInfoDto", memberDto);
-
-        // 사진 경로 local에서 project용으로 변경
-        String photo = member.getPhoto();
-        int index = photo.indexOf("images");
-        String realPhoto = photo.substring(index-1);
-        model.addAttribute("photoPath", realPhoto);
 
         // 주소 다시 나누기
         String originAdd = member.getAddress();

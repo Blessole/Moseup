@@ -14,7 +14,7 @@
       <h2 class="title">회원 정보 수정</h2>
       <div class="form-group myInfo">
         <div class="image_container" id="image_container">
-          <img alt="프로필사진" id="originPhoto" th:src="${photoPath}" width="400">
+          <img alt="프로필사진" id="originPhoto" th:src="${photoPath}">
         </div>
         <label th:for="photo">프로필사진</label>
         <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">

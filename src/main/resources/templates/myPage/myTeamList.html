@@ -9,10 +9,22 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <div class="middle-container">
-    <h2 class="title">내가 가입한 스터디</h2>
+  <div class="topless2-middle-container">
+    <h2 class="title teamTitle">내가 가입한 스터디</h2>
+    <div class="sort-btn-box">
+      <div class="left">
+        <a th:href="@{/myPage/myTeamList(sort='myLead')}">내가 팀장</a>
+      </div>
+      <div class="right">
+        <a th:href="@{/myPage/myTeamList(sort='future')}">진행 예정</a>
+        <div class="line">|</div>
+        <a th:href="@{/myPage/myTeamList(sort='current')}">진행 중</a>
+        <div class="line">|</div>
+        <a th:href="@{/myPage/myTeamList(sort='past')}">진행 종료</a>
+      </div>
+    </div>
     <table class="myTeamTable">
-      <tr><th>번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>자세히</th></tr>
+      <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>자세히</th></tr>
       <tr th:each="list, stat : ${teamList}">
         <td th:text="|${stat.count}|"></td>
         <td th:text="${list.teamName}"></td>
@@ -23,6 +35,32 @@
         <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="40"></a> </td>
       </tr>
     </table>
+
+    <!-- paging -->
+    <div class="myTeam page-num"
+         th:with="start=${(teamList.number/maxPage)*maxPage + 1},
+                       end=(${(teamList.totalPages == 0) ? 1
+                       : (start +(maxPage - 1) < teamList.totalPages ? start + (maxPage - 1) : teamList.totalPages)})">
+      <ul>
+        <li th:if="${start > 1}">
+          <a th:href="@{/myPage/myTeamList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+        </li>
+        <li th:if="${start > 1}">
+          <a th:href="@{/myPage/myTeamList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+        </li>
+        <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+          <a th:href="@{/myPage/myTeamList(page=${page - 1})}" th:text="${page}"></a>
+        </li>
+        <li th:if="${end < teamList.totalPages}">
+          <a th:href="@{/myPage/myTeamList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+        </li>
+        <li th:if="${end < teamList.totalPages}">
+          <a th:href="@{/myPage/myTeamList(page=${teamList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+        </li>
+      </ul>
+    </div>
+    <!-- paging end -->
+
   </div>
 </th:block>
 </body>

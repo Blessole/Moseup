@@ -17,7 +17,7 @@
             <div class="form-group">
                 <div class="image_container" id="image_container"></div>
                 <label th:for="photo">프로필사진</label>
-                <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
+                <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo" accept="/image/*">
             </div>
             <div class="form-group">
                 <label th:for="email" class="form-label font-bold">이메일<span class="essential">*</span></label>
