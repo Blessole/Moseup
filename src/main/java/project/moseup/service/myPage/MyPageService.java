@@ -40,23 +40,18 @@ public class MyPageService {
 
         switch (sort) {
             case "none":
-                System.out.println("MPS - switch : none 지나갑니다");
                 teamList = teamInterfaceRepository.findTeamMember(member, pageable);
                 break;
             case "myLead":
-                System.out.println("MPS - switch : myLead 지나갑니다");
                 teamList = teamInterfaceRepository.findByMember(member, pageable);
                 break;
             case "future":
-                System.out.println("MPS - switch : future 지나갑니다");
                 teamList = teamInterfaceRepository.findByMemberAndStartDateAfter(member, localDate, pageable);
                 break;
             case "current":
-                System.out.println("MPS - switch : future 지나갑니다");
                 teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate, pageable);
                 break;
             case "past":
-                System.out.println("MPS - switch : past 지나갑니다");
                 teamList = teamInterfaceRepository.findByMemberAndEndDateBefore(member, localDate, pageable);
                 break;
         }

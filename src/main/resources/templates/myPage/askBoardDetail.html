@@ -18,20 +18,37 @@
             <div class="content-box">
                 <div class="contentBox" th:text="${askBoard.askContent}"></div>
             </div>
-            <div class="reply-box">
-                <div class="reply">
-                    <table>
-                        <tr><th></th></tr>
-                    </table>
-                </div>
+        <div class="askDetail-button-box">
+            <div class="left">
+                <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>
+                <a class="button" th:href="@{/askBoard/askBoardDelete(ano=${askBoard.ano})}">삭제</a>
             </div>
-            <div class="askDetail-button-box">
-                <div class="left">
-                    <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>
-                    <a class="button" th:href="@{/askBoard/askBoardDelete(ano=${askBoard.ano})}">삭제</a>
+            <div class="right">
+                <a class="button" th:href="@{/askBoard/askBoardList}">목록</a>
+            </div>
+        </div>
+            <div class="reply-box">
+                <div class="span">댓글 > </div>
+                <div class="reply">
+                    <div class="oneReply" th:each="replys : ${askBoardReplies}">
+                        <div class="replyInfo">
+                            <div class="nickname" th:text="${replys.member.nickname}"></div>
+                            <div class="date" th:text="${#temporals.format(replys.askReplyDate, 'yyyy.MM.dd HH:mm')}"></div>
+                        </div>
+                        <div class="content" th:text="${replys.askReplyContent}"></div>
+                    </div>
                 </div>
-                <div class="right">
-                    <a class="button" th:href="@{/askBoard/askBoardList}">목록</a>
+                <div class="replyWrite-box">
+                    <form th:action="@{/askBoard/askBoardReplyWrite}" th:object="${askBoardReplyDto}" method="post">
+                        <input type="hidden" id="ano" name="ano" th:value="${askBoard.ano}">
+                        <div class="replyWrite">
+                            <input type="text" name="nickname" th:value="${member.nickname}" class="replyNick" disabled>
+                            <div class="replyBottom">
+                                <input type="text" th:field="*{askReplyContent}" class="form-control" placeholder="댓글을 입력하세요">
+                                <input type="submit" value="등록">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
     </div>

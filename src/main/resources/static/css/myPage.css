@@ -120,9 +120,10 @@ th {
 
 .content-box {
     text-align: left;
-    width: 59%;
+    width: 60%;
     height: 200px;
     margin: auto;
+    border: 1px solid #e6e6e6;
 }
 
 .subTitle {
@@ -143,9 +144,10 @@ th {
 }
 
 .askDetail-button-box{
-    width: 59%;
-    height: 100px;
-    margin: auto;
+    width: 60%;
+    height: 32px;
+    margin: 10px auto;
+    border-bottom: var(--point-color) dashed 1px;
 }
 
 .askDetail-button-box .left{
@@ -164,6 +166,94 @@ th {
 .askDetail-button-box .button:hover {
     background-color:  var(--point-color) ;
     color : white;
+}
+
+/*- 댓글 목록 -*/
+.reply-box{
+    height: auto;
+}
+
+.reply {
+    width: 60%;
+    margin: auto auto 5px;
+    border: 1px solid #e6e6e6;
+    padding: 8px 0 8px 0;
+}
+
+.reply-box .span {
+    text-align: left;
+    margin: 10px 190px;
+}
+
+.oneReply {
+    width: 97%;
+    height: 60px;
+    margin: auto auto 5px;
+    border: 1px solid #e6e6e6;
+    padding: 7px 0 7px 0;
+}
+
+.replyInfo {
+    display : inline;
+}
+
+.replyInfo .nickname{
+    float: left;
+    margin-left: 10px;
+    font-size: 16px;
+    color : var(--point-color);
+    font-weight: 500;
+}
+
+.reply .date{
+    float: right;
+    margin-right: 10px;
+    color: gray;
+    font-size: 16px;
+}
+
+.oneReply .content{
+    width: 100%;
+    float: left;
+    text-align: left;
+    margin: 5px 10px;
+    color: darkslategray;
+    font-size: 17px;
+}
+
+/*- 댓글 쓰기 -*/
+.replyWrite {
+    width: 60%;
+    margin: auto auto 30px;
+    border : 1px solid #e6e6e6;
+    padding: 15px 0 20px 0;
+}
+
+.replyNick {
+    display: block;
+    width: 96px;
+    border: none;
+    background: none;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 10px;
+    margin-bottom: 11px;
+}
+
+.replyBottom {
+    display: inline-block;
+    width: 97%;
+}
+
+.replyBottom input[type=text]{
+    width: 92%;
+    float: left;
+}
+
+.replyBottom input[type=submit]{
+    border: none;
+    background: none;
+    padding-top: 8px;
 }
 /* 문의게시판 상세페이지 끝 */
 

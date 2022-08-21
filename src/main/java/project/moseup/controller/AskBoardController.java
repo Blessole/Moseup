@@ -1,26 +1,23 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.graph.internal.parse.GeneratedGraphParser;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.AskBoard;
+import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.Member;
-import project.moseup.dto.AskBoardRespDto;
+import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
 
+import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,6 +27,7 @@ public class AskBoardController {
 
     private final MemberService memberService;
     private final AskBoardService askBoardService;
+    private final AskBoardReplyService askBoardReplyService;
 
     @GetMapping("/askBoardList")
     public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
@@ -61,11 +59,17 @@ public class AskBoardController {
     }
 
     @GetMapping("/askBoardDetail")
-    public String askBoardDetail(@RequestParam  Long ano, Model model, Principal principal){
+    public String askBoardDetail(@RequestParam  Long ano, Model model, Principal principal, @RequestParam(value="page",  defaultValue = "0") int page){
         Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoard askBoard = this.askBoardService.findOne(ano);
+
+        if ( askBoardReplyService.findAll(askBoard, page) != null ) {
+            Page<AskBoardReply> askBoardReplies = this.askBoardReplyService.findAll(askBoard, page);
+            model.addAttribute("askBoardReplies", askBoardReplies);
+        }
         model.addAttribute("askBoard", askBoard);
         model.addAttribute("member", member);
+        model.addAttribute("askBoardReplyDto", new AskBoardReplySaveReqDto());
 
         // clean code 생각해보기 - detail & update 코드 동일!
         return "/myPage/askBoardDetail";
@@ -110,5 +114,19 @@ public class AskBoardController {
 
         askBoardService.deleteBoard(ano);
         return "redirect:/askBoard/askBoardList";
+    }
+
+    /** 댓글 작성 **/
+    @PostMapping("/askBoardReplyWrite")
+    public String askBoardReplyWrite(@Valid AskBoardReplySaveReqDto askBoardReplyDto, @RequestParam Long ano, Principal principal){
+        Member member = this.memberService.getMember(principal.getName());
+        askBoardReplyDto.setMember(member);
+
+        AskBoard askBoard = askBoardService.findOne(ano);
+        askBoardReplyDto.setAskBoard(askBoard);
+
+        askBoardReplyService.saveAskBoardReply(askBoardReplyDto.toEntity());
+
+        return "redirect:/askBoard/askBoardDetail?ano="+ano;
     }
 }

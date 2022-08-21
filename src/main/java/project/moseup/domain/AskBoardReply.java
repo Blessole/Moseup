@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.util.Assert;
 
 @Entity
-@Setter @Getter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AskBoardReply {
 
 	@Id @GeneratedValue
@@ -34,4 +35,19 @@ public class AskBoardReply {
 	@Column(name = "ask_replydelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus askReplyDelete;
+
+	@Builder
+	public AskBoardReply(AskBoard askBoard, Member member, String askReplyContent, LocalDateTime askReplyDate, DeleteStatus askReplyDelete) {
+		Assert.hasText(String.valueOf(member), "멤버는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askBoard), "AskBoard는 [NULL]이 될 수 없습니다");
+		Assert.hasText(askReplyContent, "내용은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askReplyDelete), "삭제여부는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askReplyDate), "댓글 작성일은 [NULL]이 될 수 없습니다");
+
+		this.askBoard = askBoard;
+		this.member = member;
+		this.askReplyContent = askReplyContent;
+		this.askReplyDate = askReplyDate;
+		this.askReplyDelete = askReplyDelete;
+	}
 }
