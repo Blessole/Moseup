@@ -6,13 +6,11 @@
 
 /* 슬라이드바 섹션 */
 .slidesSection {
-	border: 1px solid green;
-	height: 300px;
+	margin-bottom: 60px;
 }
 
 /* 메인 검색창 섹션 */
 .searchSection {
-	border: 1px solid red;
 	height: 250px;
 }
 
@@ -87,4 +85,15 @@
 	margin: 5px;
 	font-size: 1.3em;
 	font-weight: bold;
+}
+
+/* 슬라이드 이미지 */
+.slideImg {
+	width: 100%;
+	height: 300px;
+}
+
+/* 슬라이드 밑에 버튼 */
+#slideBtn1 {
+	border: 1px solid black;
 }

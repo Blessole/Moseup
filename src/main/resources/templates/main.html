@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -14,29 +16,65 @@
 	<th:block layout:fragment="content">
 		<!-- main -->
 		<div class="mainContainer">
+			<!-- 슬라이드 세션 -->
 			<section class="slidesSection">
-				슬라이드이미지 ?
+				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+				<!-- 슬라이드 밑에 버튼 -->
+				  <div class="carousel-indicators">
+				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" id="slideBtn1"></button>
+				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" id="slideBtn1"></button>
+				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" id="slideBtn1"></button>
+				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3" id="slideBtn1"></button>
+				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 3" id="slideBtn1"></button>
+				  </div>
+				  <!-- 슬라이드 이미지 부분 -->
+				  <div class="carousel-inner">
+ 					  <th:block th:each="topList, index : ${topList}">
+					    <div th:if="${index.index == 0}" class="carousel-item active" data-bs-interval="3000">
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100 slideImg" alt="top5이미지"></a>
+					    </div> 
+					    <div th:if="${index.index != 0}" class="carousel-item" data-bs-interval="3000">
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100 slideImg" alt="top5이미지"></a>
+					    </div> 
+					  </th:block>
+				  </div>
+				  <!-- 슬라이드 화살표 버튼 -->
+				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Previous</span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				  </button>
+				</div>
+				<div align="center">BEST 습관 TOP 5</div>
+				<hr>
 			</section>
+			<!-- 검색 세션 -->
 			<section class="searchSection">
 				<div class="mainSearch">
-				<div class="mainSearchTitle" align="center">모두의 습관</div>
-					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
+					<div class="mainSearchTitle" align="center">모두의 습관</div>
+					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+						action="/search" method="get" onsubmit="return searchChk()">
 						<div class="mainSearchInput">
-							<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}">
-							<input type="hidden" id="filter1main" name="filter1" th:value="${filter1}">
-							<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
-							<input type="submit" class="mainSearchImg" name="submit" value="">
+							<input type="hidden" id="filter2main" name="filter2"
+								th:value="${filter2}"> <input type="hidden"
+								id="filter1main" name="filter1" th:value="${filter1}"> <input
+								type="search" class="form-control" id="mainSearch"
+								placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search"
+								name="keyword"> <input type="submit"
+								class="mainSearchImg" name="submit" value="">
 						</div>
 					</form>
 				</div>
 			</section>
-			<section class="mainSection">
-				팀 리스트
-			</section>
+			
+			<section class="mainSection">팀 리스트</section>
 		</div>
 		<div>
-			<a href="" th:href="@{/admin}">관리자페이지</a>
-			<a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
+			<a href="" th:href="@{/admin}">관리자페이지</a> <a href="teamPage"
+				th:href="@{/teams/teamPage}">팀페이지</a>
 		</div>
 	</th:block>
 </body>
