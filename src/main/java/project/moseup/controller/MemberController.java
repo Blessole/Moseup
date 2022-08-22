@@ -110,7 +110,7 @@ public class MemberController {
         }
 
         try {
-            joinForm.toEntity();
+//            joinForm.toEntity();    8월 22일 오후 5:29 이거 한번 주석처리 해본다! 오류나나?
             memberService.join(joinForm);
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();

@@ -257,6 +257,42 @@ th {
 }
 /* 문의게시판 상세페이지 끝 */
 
+/* 문의게시판 글쓰기 시작 */
+.ask-form1 {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.ask-form1 .subTitle {
+    border-bottom: none;
+    width: 7%;
+    margin: 0px 35px 0 140px;
+}
+
+.ask-form1 input[type=text]{
+    width: 50%;
+    border: none;
+    border-bottom: 1px solid var(--point-color);
+    border-radius: 0;
+}
+
+.ask-form2{
+    width: 80%;
+    margin: auto;
+}
+
+.note-editable {
+    text-align: left;
+}
+
+
+input#askPhoto {
+    width: 58%;
+    margin: 10px 0 10px 150px;
+}
+
+/* 문의게시판 글쓰기 끝 */
+
 /* 가입 팀 리스트 시작 */
 .myTeamTable {
     margin : auto;
