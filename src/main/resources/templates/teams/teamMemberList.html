@@ -45,53 +45,25 @@
 			<!-- checkBoard -->
 			<section id="features">
 				<div class="container">
-					<h2 class="text-primary" align="center">문의글 목록</h2>
-					<!-- <div>
-						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
-					</div> -->
-					
+					<h2 class="text-primary" align="center">회원 목록</h2>		
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>글번호</th>
-								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-								<th>조회수</th>
+								<th>회원이름</th>
+								<th>성별</th>
+								<th>주소</th>
+								<th>휴대폰</th>								
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="teamaskboard : ${teamAsks}">							
-								<th th:text="${teamaskboard.tano}"></th>
-								<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
-									   th:text="${teamaskboard.teamAskSubject}"></a></th>
-								<th th:text="${teamaskboard.member.nickname}"></th>
-								<th th:text="${teamaskboard.teamAskDate}"></th>
-								<th th:text="${teamaskboard.teamAskReadCount}"></th>
+							<tr th:each="teamMember : ${team.teamMember}">							
+								<th th:text="${teamMember.member.nickname}"></th>
+								<th th:text="${teamMember.member.gender}"></th>
+								<th th:text="${teamMember.member.address}"></th>
+								<th th:text="${teamMember.member.phone}"></th>
 							</tr>
 						</tbody>
 					</table>
-			
-					
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center">
-							<li class="page-item" th:classappend="${1 == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
-								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber - 1})}"
-								tabindex="-1" aria-disabled="true">Previous</a>
-							</li>
-							<li class="page-item"
-								th:classappend="${i == teamAsks.pageable.pageNumber + 1} ? 'disabled'"
-								th:each="i : ${#numbers.sequence(startPage, endPage)}">
-								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${i - 1})}" th:text="${i}">1</a>
-							</li>
-							<li class="page-item" th:classappend="${teamAsks.totalPages == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
-								<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber + 1})}">Next</a>
-							</li>
-						</ul>
-					</nav>
-					<div align="center">
-						<a th:href="@{/teams/teamAskBoard/teamAskBoardWriteForm(tno=${team.tno})}" class="btn btn-info">글쓰기</a>
-					</div>
 				</div>
 			</section>
 		</div>

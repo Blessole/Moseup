@@ -30,11 +30,13 @@ import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
+import project.moseup.dto.teamPage.TeamMemberDto;
 import project.moseup.service.TeamService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.CheckBoardService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
 import project.moseup.service.teampage.TeamAskBoardService;
+import project.moseup.service.teampage.TeamMemberService;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class TeamPageController {
 	private final TeamAskBoardReplyService teamAskBoardReplyService;
 	private final CheckBoardService checkBoardService;
 	private final TeamService teamService;
+	private final TeamMemberService teamMemberService;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -57,6 +60,36 @@ public class TeamPageController {
 		model.addAttribute("team", team);
 		
 		return "teams/teamMain";
+	}
+	
+	// 팀 가입
+	@GetMapping("/teamPage/joinTeam")
+	public String joinTeam(@RequestParam Long tno, Model model, Principal principal) {
+		
+		Member member = this.memberService.getMember(principal.getName());
+		Team team = teamService.findOne(tno);
+		
+		TeamMemberDto teamMemberDto = new TeamMemberDto();		
+		teamMemberDto.setMember(member);
+		teamMemberDto.setTeam(team);
+
+		teamMemberService.joinTeamMember(teamMemberDto);		
+		
+		return "redirect:/teams/teamPage?tno=" + tno;
+	}
+	
+	// 팀 멤버 보여주기
+	@GetMapping("/teamMemberList")
+	public String teamMemberList(@RequestParam Long tno, Model model) {
+		
+		Team team = teamService.findOne(tno);
+		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
+		
+		teamDetail.getTeamMember();
+		
+		model.addAttribute("team", teamDetail);
+		
+		return "teams/teamMemberList";
 	}
 
 	// 팀 페이지 문의게시판(페이징)
@@ -200,12 +233,13 @@ public class TeamPageController {
 	public String teamCheckBoardPage(Model model, @PageableDefault(size = 10, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
 		Team team = teamService.findOne(tno);
+		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
 		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
 		
-		model.addAttribute("team", team);
+		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("checkBoards", checkBoards);
@@ -221,7 +255,7 @@ public class TeamPageController {
 		
 		model.addAttribute("team", team);    
 		model.addAttribute("member", member);
-		model.addAttribute("checkBoard", new CheckBoardDto());
+		model.addAttribute("teamCheck", new CheckBoardDto());
 
 		return "teams/checkBoardWriteForm";
 	}
@@ -246,4 +280,5 @@ public class TeamPageController {
 	// 인증 게시판 수정
 	
 	// 인증 게시판 삭제
+	
 }
