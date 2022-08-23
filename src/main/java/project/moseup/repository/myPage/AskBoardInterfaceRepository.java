@@ -1,5 +1,7 @@
 package project.moseup.repository.myPage;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.DeleteStatus;
@@ -10,4 +12,6 @@ import java.util.List;
 public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Long> {
 
     List<AskBoard> findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus);
+
+    Page<AskBoard> findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(String keyword, String keyword1, String keyword2, Pageable pageable);
 }

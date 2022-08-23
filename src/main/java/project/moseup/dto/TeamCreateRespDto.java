@@ -1,15 +1,12 @@
 package project.moseup.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -44,16 +41,19 @@ public class TeamCreateRespDto {
 		this.startDate = teamPS.getStartDate();
 		this.endDate = teamPS.getEndDate();
 		this.teamIntroduce = teamPS.getTeamIntroduce();
-		
+
 		 // 사진 경로 local에서 project용으로 변경
         String photo = teamPS.getTeamPhoto();
         int index = photo.indexOf("images");
         String realPhoto = photo.substring(index-1);
-        
+
 		this.teamPhoto = realPhoto;
 		this.teamDelete = teamPS.getTeamDelete();
 		this.teamLeader = teamPS.getTeamLeader();
 		return this;
 	}
+
+
+
 
 }

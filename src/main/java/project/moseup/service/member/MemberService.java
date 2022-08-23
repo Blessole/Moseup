@@ -1,14 +1,12 @@
 package project.moseup.service.member;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
-import project.moseup.dto.KakaoLoginForm;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
@@ -29,8 +27,7 @@ public class MemberService {
 
 	/** principal 조회 **/
 	public Member getPrincipal(Principal principal) {
-		Member member = this.getMember(principal.getName());
-		return member;
+		return this.getMember(principal.getName());
 	}
 
 	/** 회원 정보 조회 **/

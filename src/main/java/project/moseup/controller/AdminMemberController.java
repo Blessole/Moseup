@@ -2,7 +2,7 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,13 +13,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import project.moseup.domain.AskBoard;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
-import project.moseup.dto.MemberRespDto;
+import project.moseup.dto.AskBoardReplySaveReqDto;
+import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminMemberService;
+import project.moseup.service.admin.AskBoardReplyService;
+import project.moseup.service.member.MemberService;
+import project.moseup.service.myPage.AskBoardService;
 import project.moseup.validator.CheckEmailValidator;
 import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
@@ -27,31 +32,31 @@ import project.moseup.validator.CheckPasswordValidator;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.security.Principal;
 import java.util.UUID;
 
 @Controller
 @Log4j2
 @RequestMapping("admin")
 @RequiredArgsConstructor
+@SuppressWarnings("all")
 public class AdminMemberController {
 
     private final AdminMemberRepository adminMemberRepository;
     private final AdminMemberService adminMemberService;
-    //private final AdminTeamRepository adminTeamRepository;
-    //private final AdminTeamService adminTeamService;
+    private final MemberService memberService;
+    private final AskBoardService askBoardService;
+    private final AskBoardReplyService askBoardReplyService;
+
 
     // 유효성 검사
     private final CheckEmailValidator checkEmailValidator;
     private final CheckNicknameValidator checkNicknameValidator;
     private final CheckPasswordValidator checkPasswordValidator;
 
-    // 파일 업로드 경로
-    @Value("${moseup.upload.path}")
-    private String uploadPath;
 
     /* 커스텀 유효성 검증 */
     // 컨트롤러가 실행 될 때 마다 검증
@@ -64,32 +69,36 @@ public class AdminMemberController {
 
     // 대시보드(시작 페이지)
     @GetMapping("")
-    public String index(@RequestParam(name="name", required = false, defaultValue = "JeongChanWoo")String name, Model model){
-        model.addAttribute("name", name);
+    public String index(@RequestParam(name="name", required = false, defaultValue = "JeongChanWoo")String name,
+                        Model model){
+        //Member member = memberService.getPrincipal(principal);
+        //model.addAttribute("member", member);
+
         return "admin/adminIndex";
     }
 
     // 회원 리스트 출력
     @GetMapping("/memberList")
-    public String list(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
-                       @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable){
-            // 엔티티 데이터를 그대로 주지 않고 DTO 변환후 넘기기
-            //Page<MemberRespDto> members = adminMemberService.memberListAll(pageable);
-            log.info(keyword);
-            Page<Member> members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
-
+    public String list(@RequestParam(required = false, defaultValue = "") String keyword,
+                       @RequestParam(required = false, defaultValue = "") String orderBy,
+                       @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable,
+                       Model model){
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
             //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
+            // Member member = memberService.getPrincipal(principal);
 
-            int startPage = Math.max(1, members.getPageable().getPageNumber() - 5);
-            int endPage = Math.min(members.getTotalPages(), members.getPageable().getPageNumber() + 5);
+            Page<Member> memberList = adminMemberService.members(orderBy, keyword, pageable);
+            int startPage = Math.max(1, memberList.getPageable().getPageNumber() - 5);
+            int endPage = Math.min(memberList.getTotalPages(), memberList.getPageable().getPageNumber() + 5);
 
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
-            model.addAttribute("members", members);
+            model.addAttribute("members", memberList);
 
         return "admin/memberList";
     }
+
+
 
     // 회원 가입 폼 이동
     @GetMapping("/memberJoinForm")
@@ -110,66 +119,45 @@ public class AdminMemberController {
             model.addAttribute("female", MemberGender.FEMALE);
             return "admin/memberJoinForm";
         }
-        // 파일 처리
+        // 파일 검사
         if(!file.getContentType().startsWith("image")){
             log.warn("이미지 파일이 아닙니다");
             return "admin/memberJoinForm";
         }
-        // 브라우저 마다 저장되는 이름이 다를 수 있음
-        String originalFilename = file.getOriginalFilename();
-        String fileName = null;
-        if (originalFilename != null) {
-            fileName = originalFilename.substring(originalFilename.lastIndexOf("//")+1);
-        }
-        log.info("fileName = " + fileName);
-        // 날짜 폴더 생성
-        String folderPath = makeFolder();
-        //UUID
-        String uuid = UUID.randomUUID().toString();
-        //저장할 파일 이름 중간에 "_"를 이용하여 구분
-        String saveName = uploadPath + File.separator + folderPath +File.separator + uuid + "_" + fileName;
 
-        Path savePath = Paths.get(saveName);
-        //Paths.get() 메서드는 특정 경로의 파일 정보를 가져옵니다.(경로 정의하기)
-        try{
-            file.transferTo(savePath);
-            //uploadFile에 파일을 업로드 하는 메서드 transferTo(file)
+        // 파일 저장
+        String fileRoot = "D:\\spring\\Moseup_image\\";	//저장될 외부 파일 경로
+
+        String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+        log.info("extension = " + extension);
+
+        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+        log.info("savedFileName = " + savedFileName);
+
+        // 최종 경로
+        File targetFile = new File(fileRoot + savedFileName);
+        log.info("targetFile = " + targetFile);
+
+        try {
+            InputStream fileStream = file.getInputStream();
+            log.info("fileStream = " + fileStream);
+
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+
         } catch (IOException e) {
+            FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
             e.printStackTrace();
-            //printStackTrace()를 호출하면 로그에 Stack trace 출력됩니다.
         }
+
         if(memberSaveReqDto.getAddress2() == null){
             memberSaveReqDto.setAddress2("");
         }
-        memberSaveReqDto.setPhoto(String.valueOf(savePath));
-        MemberRespDto memberRespDto = adminMemberService.joinMember(memberSaveReqDto);
+
+        memberSaveReqDto.setPhoto(targetFile.getAbsolutePath());
+        adminMemberService.joinMember(memberSaveReqDto);
 
         return "redirect:/admin/memberList";
-    }
-
-    // 폴더 생성 메소드
-    private String makeFolder() {
-
-        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        //LocalDate를 문자열로 포멧
-
-        String folderPath = str.replace("\\", File.separator);
-        //만약 Data 밑에 exam.jpg라는 파일을 원한다고 할때,
-        //윈도우는 "Data\\"eaxm.jpg", 리눅스는 "Data/exam.jpg"라고 씁니다.
-        //그러나 자바에서는 "Data" +File.separator + "exam.jpg" 라고 쓰면 됩니다.
-
-        //make folder ==================
-        File uploadPathFolder = new File(uploadPath, folderPath);
-        //File newFile= new File(dir,"파일명");
-        //->부모 디렉토리를 파라미터로 인스턴스 생성
-
-        if(!uploadPathFolder.exists()){
-            uploadPathFolder.mkdirs();
-            //만약 uploadPathFolder가 존재하지않는다면 makeDirectory하라는 의미입니다.
-            //mkdir(): 디렉토리에 상위 디렉토리가 존재하지 않을경우에는 생성이 불가능한 함수
-            //mkdirs(): 디렉토리의 상위 디렉토리가 존재하지 않을 경우에는 상위 디렉토리까지 모두 생성하는 함수
-        }
-        return folderPath;
     }
 
 
@@ -180,12 +168,8 @@ public class AdminMemberController {
         if(member == null){
             return "redirect:/admin/memberList";
         }else{
-            //List<Team> teams = adminTeamService.teamLeader(member.getMno());
-            String date = member.getMemberDate().format(DateTimeFormatter.ISO_DATE);
             Path path = Paths.get(member.getPhoto());
 
-
-            model.addAttribute("memberDate", date);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("fileName", path.getFileName());
             model.addAttribute("member", member);
@@ -202,7 +186,7 @@ public class AdminMemberController {
 
         adminMemberService.deleteMember(mno);
 
-        return "redirect:/admin/memberList";
+        return "redirect:/admin/memberDetail?mno="+mno;
     }
 
     // 회원 복구 memberDelete (TRUE -> FALSE 변경)
@@ -211,7 +195,7 @@ public class AdminMemberController {
 
         adminMemberService.RecoverMember(mno);
 
-        return "redirect:/admin/memberList";
+        return "redirect:/admin/memberDetail?mno="+mno;
     }
 
     @GetMapping("/memberBankbook")
@@ -260,5 +244,50 @@ public class AdminMemberController {
             throw new RuntimeException("회원 정보가 없습니다");
         }
         return "admin/memberTeamAskBoard";
+    }
+
+    @GetMapping("/adminAskBoards")
+    public String adminAskBoards(@RequestParam(required = false, defaultValue = "") String keyword,
+                                 @PageableDefault(size = 15, sort = "ano", direction = Sort.Direction.DESC) Pageable pageable,
+                                 Model model){
+        Page<AskBoard> askBoards = askBoardService.askBoards(keyword, pageable);
+
+        int startPage = Math.max(1, askBoards.getPageable().getPageNumber() - 5);
+        int endPage = Math.min(askBoards.getTotalPages(), askBoards.getPageable().getPageNumber() + 5);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("askBoards", askBoards);
+
+        return "admin/adminAskBoards";
+    }
+
+    @GetMapping("/askBoardDetail")
+    public String askBoardDetail(@RequestParam(required = false) Long ano,
+                                 @RequestParam(required = false, defaultValue = "0") int pageNum,
+                                 Principal principal, Model model){
+        Member member = memberService.getPrincipal(principal);
+        if(member == null){
+            return "redirect:/admin/adminAskBoards";
+        }
+        AskBoardRespDto askBoardRespDto = askBoardService.getAskBoard(ano);
+
+
+        model.addAttribute("askBoard", askBoardRespDto);
+        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("member", member);
+        model.addAttribute("replySaveDto", new AskBoardReplySaveReqDto());
+
+        return "admin/askBoardDetail";
+    }
+
+    @PostMapping("/askBoardDetail")
+    public String askBoardReplyWrite(AskBoardReplySaveReqDto replySaveDto,  Model model){
+
+
+        askBoardReplyService.replyAdd(replySaveDto);
+
+
+        return "redirect:/admin/askBoardDetail?ano=" + replySaveDto.getAskBoard().getAno();
     }
 }

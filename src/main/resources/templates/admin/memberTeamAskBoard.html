@@ -28,7 +28,7 @@
                 <th scope="col">내  용</th>
                 <th scope="col">작성일</th>
                 <th scope="col">답변여부</th>
-                <th scope="col">확인하기</th>
+                <th scope="col">보기</th>
               </tr>
             </thead>
             <tbody>
@@ -40,9 +40,9 @@
                 <th th:text="${teamAskBoard.fno}">스터디번호</th>
                 <td th:text="${teamAskBoard.freeTitle}">제목</td>
                 <td th:text="${teamAskBoard.freeContent}">내용</td>
-                <td th:text="${teamAskBoard.freeDate}">작성일</td>
+                <td th:text="${#temporals.format(teamAskBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
                 <td th:text="${teamAskBoard.freeReadCount}">답변여부</td>
-                <td><a class="member-link" th:text="${teamAskBoard.freeReadCount}" th:href="@{/admin/memberDetail(mno=${member.mno})}">확인하기</a></td>
+                <td><a class="member-link" th:text="${teamAskBoard.freeReadCount}" th:href="@{/admin/memberDetail(mno=${member.mno})}">확인</a></td>
               </tr>
             </tbody>
           </table>

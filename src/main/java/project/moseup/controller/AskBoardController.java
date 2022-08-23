@@ -1,7 +1,6 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.graph.internal.parse.GeneratedGraphParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,14 +8,11 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.Member;
-import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardService;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

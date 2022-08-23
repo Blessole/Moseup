@@ -27,7 +27,7 @@
                 <th scope="col">내  용</th>
                 <th scope="col">작성일</th>
                 <th scope="col">답변여부</th>
-                <th scope="col">확인하기</th>
+                <th scope="col">보기</th>
               </tr>
             </thead>
             <tbody>
@@ -38,9 +38,9 @@
                 <th th:text="${askBoard.ano}">번호</th>
                 <td th:text="${askBoard.askSubject}">제목</a></td>
                 <td th:text="${askBoard.askContent}">내용</td>   
-                <td th:text="${askBoard.askDate}">작성일</td>
+                <td th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
                 <td th:text="${askBoard.askDelete}">답변여부</td>
-                <td><a class="member-link" th:href="@{/admin/memberDetail(mno=${member.mno})}">확인</a></td>
+                <td><a class="member-link" th:href="@{/admin/askBoardDetail(ano=${askBoard.ano})}">확인</a></td>
               </tr>
             </tbody>
           </table>

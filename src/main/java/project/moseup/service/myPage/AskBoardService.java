@@ -1,6 +1,8 @@
 package project.moseup.service.myPage;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
@@ -21,6 +23,8 @@ public class AskBoardService {
     private final AskBoardRepository askBoardRepository;
     private final AskBoardInterfaceRepository askBoardInterfaceRepository;
 
+
+
     /** 문의게시판 리스트 조회 **/
     public List<AskBoard> findAskBoards(Member member){
         return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE);
@@ -34,17 +38,19 @@ public class AskBoardService {
     /** DTO - 수정용 문의글 하나 조회 **/
     public AskBoardSaveReqDto getPost(Long ano) {
         Optional<AskBoard> askBoardWrapper = askBoardInterfaceRepository.findById(ano);
-        AskBoard askBoard = askBoardWrapper.get();
+        if(askBoardWrapper.isPresent()){
+            AskBoard askBoard = askBoardWrapper.get();
 
-        AskBoardSaveReqDto askBoardDto = AskBoardSaveReqDto.askBoardSave()
-                .member(askBoard.getMember())
-                .askSubject(askBoard.getAskSubject())
-                .askContent(askBoard.getAskContent())
-                .askPhoto(askBoard.getAskPhoto())
-                .askDate(askBoard.getAskDate())
-                .askDelete(askBoard.getAskDelete())
-                .build();
-        return askBoardDto;
+            return AskBoardSaveReqDto.askBoardSave()
+                    .member(askBoard.getMember())
+                    .askSubject(askBoard.getAskSubject())
+                    .askContent(askBoard.getAskContent())
+                    .askPhoto(askBoard.getAskPhoto())
+                    .askDate(askBoard.getAskDate())
+                    .askDelete(askBoard.getAskDelete())
+                    .build();
+        }
+        return null;
     }
 
     /** 문의글 작성 **/
@@ -68,5 +74,20 @@ public class AskBoardService {
         AskBoard askBoard = askBoardInterfaceRepository.findById(ano).orElseThrow(()-> new IllegalArgumentException("해당 게시글은 존재하지 않습니다."));
         askBoard.delete();
         askBoardRepository.save(askBoard);
+    }
+
+    // 관리자페이지 문의글 리스트 출력
+    public Page<AskBoard> askBoards(String keyword, Pageable pageable) {
+        return askBoardInterfaceRepository.findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(keyword, keyword, keyword, pageable);
+    }
+
+    // 관리자 페이지 문의글 디테일
+    public AskBoardRespDto getAskBoard(Long ano) {
+        AskBoard askBoard = askBoardInterfaceRepository.findById(ano).orElse(null);
+        if(askBoard != null){
+            return new AskBoardRespDto().toDto(askBoard);
+        }else{
+            throw new RuntimeException("문의글 데이터가 없습니다");
+        }
     }
 }

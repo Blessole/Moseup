@@ -10,12 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.Bankbook;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.domain.Role;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminBankbookRepository;
 import project.moseup.repository.admin.AdminMemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,10 +90,40 @@ public class AdminMemberService {
     
     //테스트용
     public List<MemberRespDto> 회원목록보기(){
-                List<MemberRespDto> dtos = adminMemberRepository.findAll().stream()
-                .map((memberPS) -> new MemberRespDto().toDto(memberPS))
+        return adminMemberRepository.findAll().stream()
+                .map(memberPS -> new MemberRespDto().toDto(memberPS))
                 .collect(Collectors.toList());
-        return dtos;
+    }
+
+    //테스트용
+    public MemberRespDto 회원한건조회(Long id){
+        Optional<Member> memberOP = adminMemberRepository.findById(id);
+        if(memberOP.isPresent()){ //찾았으면
+            Member memberPS = memberOP.get();
+            return memberPS.toDto();
+        }else{
+            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
+        }
+    }
+
+    public MemberRespDto 회원수정(Long id){
+        Optional<Member> memberOP = adminMemberRepository.findById(id);
+        if(memberOP.isPresent()){ //찾았으면
+            Member memberPS = memberOP.get();
+            return memberPS.toDto();
+        }else{
+            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
+        }
+    }
+
+    public MemberRespDto 회원삭제(Long id){
+        Optional<Member> memberOP = adminMemberRepository.findById(id);
+        if(memberOP.isPresent()){ //찾았으면
+            Member memberPS = memberOP.get();
+            return memberPS.toDto();
+        }else{
+            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
+        }
     }
 
 
@@ -100,13 +132,28 @@ public class AdminMemberService {
                         .findByEmailContainingOrNameContainingOrNicknameContaining
                                 (keyword, keyword1, keyword2, pageable)
                         .stream() // Entity List
-                        .map((memberPS) -> new MemberRespDto().toDto(memberPS)) // dto data
+                        .map(memberPS -> new MemberRespDto().toDto(memberPS)) // dto data
                         .collect(Collectors.toList()); // dto List
 
         int start = (int)pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), list.size());
 
         return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
+    }
+
+
+
+    public Page<Member> members(String orderBy, String keyword, Pageable pageable) {
+        Page<Member> members = null;
+        switch (orderBy){
+            case "deleteTrue": members = adminMemberRepository.findByMemberDelete(DeleteStatus.TRUE, pageable);
+                break;
+            case "admin": members = adminMemberRepository.findByRole(Role.ADMIN, pageable);
+                break;
+            default: members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
+                break;
+        }
+        return members;
     }
 
 

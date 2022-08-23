@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 
 import javax.persistence.*;
@@ -182,4 +183,7 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 
+	public MemberRespDto toDto() {
+		return new MemberRespDto().toDto(this);
+	}
 }

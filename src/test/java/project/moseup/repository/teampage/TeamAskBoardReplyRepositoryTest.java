@@ -37,10 +37,8 @@ class TeamAskBoardReplyRepositoryTest {
 				.address("사당")
 				.photo("jpg")
 				.phone("010-1111-1111")
-				.memberDate(LocalDateTime.now())
-				.role(Role.USER)
-				.memberDelete(DeleteStatus.FALSE).build();
-		
+				.build();
+
 		TeamAskBoard askboard = TeamAskBoard.creatTeamAskBoard()
 				.member(member)
 				.teamAskSubject("테스트용")
@@ -58,7 +56,7 @@ class TeamAskBoardReplyRepositoryTest {
 				.teamAskReplyDelete(DeleteStatus.FALSE).build();
 		
 		// when
-		memberRepository.save(member);
+		//memberRepository.save(member);
 		teamAskBoardRepository.save(askboard);
 		teamAskBoardReplyRepository.save(reply);
 		

@@ -1,5 +1,6 @@
 package project.moseup.service.admin;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,12 +16,13 @@ import project.moseup.repository.admin.AdminMemberRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
+@Slf4j
 @ExtendWith(MockitoExtension.class) //가짜 메모리 환경 만들기
 public class AdminMemberServiceTest {
 
@@ -131,5 +133,56 @@ public class AdminMemberServiceTest {
 
         assertThat(dtos.get(1).getAddress()).isEqualTo("경기도");
         assertThat(dtos.get(1).getEmail()).isEqualTo("50933@k.com");
+    }
+
+    @Test
+    public void 회원한명조회_테스트(){
+        // given
+        Long id = 43L;
+        Member member = new Member(
+                "777@777.com",
+                "a123123",
+                "조회테스트",
+                "조회테스트",
+                MemberGender.FEMALE,
+                "주소",
+                "01033333333",
+                "NULL",
+                DeleteStatus.FALSE,
+                LocalDateTime.now(),
+                Role.USER,
+                "로그인타입");
+        Optional<Member> memberOP = Optional.of(member);
+
+        // stub
+        when(adminMemberRepository.findById(id)).thenReturn(memberOP);
+
+        // when
+        MemberRespDto memberRespDto = adminMemberService.회원한건조회(id);
+
+        // then
+        log.info(member.getEmail());
+        log.info(member.getName());
+        log.info("========================");
+        log.info(memberRespDto.getEmail());
+        log.info(memberRespDto.getName());
+
+        assertThat(memberRespDto.getEmail()).isEqualTo(member.getEmail());
+        assertThat(memberRespDto.getName()).isEqualTo(member.getName());
+
+    }
+
+    @Test
+    public void 회원삭제_Test(){
+
+
+
+    }
+
+    @Test
+    public void 회원수정_Test(){
+
+
+
     }
 }

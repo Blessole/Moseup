@@ -9,22 +9,62 @@ let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".bx-menu");
 
 sidebarBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("close");
+    sidebar.classList.toggle("sideBarClose");
 });
 
+let filterVal = $("#memberFilter").val();
+
+
+// const memberFilter = (target) => {
+//     const value = target.value;
+//     const url = "memberList";
+
+//     $.ajax({
+//         url: url,
+//         type: 'get',
+//         dataType: 'text',
+//         data: { memberFilter: value }
+//     });
+// }
 
 
 
-$(function () {
-    let sidebarClassList = sidebar.classList;
-    if (!sidebarClassList.contains('close')) {
-        sessionStorage.setItem('sideBar', 'open');
-    }
-    if (sessionStorage.getItem('sideBar') == 'open') {
-        let sidebar = document.querySelector(".sidebar");
-        $('.sidebar').trigger("sidebar.classList.remove('close')");
-    }
+
+$(document).ready(function () {
+    //여기 아래 부분
+    $('#summernote').summernote({
+        height: 440,                 // 에디터 높이
+        minHeight: null,             // 최소 높이
+        maxHeight: null,             // 최대 높이
+        lang: "ko-KR",					// 한글 설정
+        placeholder: '수정 버튼을 클릭해 답변을 입력해주세요.', //placeholder 설정
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['help']]
+        ]
+    });
 });
+
+function edit() {
+    $('#summernote').summernote({ focus: true });
+}
+
+function save() {
+    var markup = $('#summernote').summernote('code');
+    $('#summernote').summernote('destroy');
+}
+
+
+
+
+
+
 
 // 사진 미리보기
 function loadFile(input) {

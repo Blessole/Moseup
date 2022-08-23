@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:fragment="head(head)">
+
+<head th:fragment="head(head)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title th:text="${head}">관리자페이지</title>
 
     <!-- Bootstrap CSS -->
@@ -13,151 +14,156 @@
     <!-- css -->
     <link rel="stylesheet" href="/static/css/adminCommonTest2.css" th:href="@{/css/adminCommonTest2.css}">
     <link rel="stylesheet" href="/static/css/adminTypeSelector.css" th:href="@{/css/adminTypeSelector.css}">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     
     <!-- icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    
-   </head>
+
+</head>
+
 <body>
 
     <!-- 사이드바 -->
-  <div class="sidebar close" th:fragment="sidebar(sidebar)">
+    <div class="sidebar sideBarClose" th:fragment="sidebar(sidebar)">
         <div class="logo-details">
-        <i class='bx bxl-c-plus-plus'></i>
-        <span class="logo_name">Moseup</span>
+            <i class='bx bxl-c-plus-plus'></i>
+            <span class="logo_name">Moseup</span>
         </div>
         <ul class="nav-links">
-        <li>
-            <div class="iocn-link" th:classappend="${sidebar} == 'dashBoard'? 'active'">
-            <a th:href="@{/admin}">
-            <i class='bx bx-grid-alt' ></i>
-            <span class="link_name">Dashboard</span>
-            </a>
-            </div>
-            <ul class="sub-menu blank">
-            <li><a class="link_name">Dashboard</a></li>
-            </ul>
-        </li>
-        <li>
-            <div class="iocn-link" th:classappend="${sidebar} == 'memberList'? 'active'">
-            <a th:href="@{admin/memberList}">
-                <i class='bx bx-collection' ></i>
-                <span class="link_name">User</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-            </div>
-            <ul class="sub-menu">
-            <li><a class="link_name">User</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            </ul>
-        </li>
-        <li>
-            <div class="iocn-link" th:classappend="${sidebar} == 'teamList'? 'active'">
-            <a th:href="@{/admin/teamList}">
-                <i class='bx bx-book-alt' ></i>
-                <span class="link_name">Team</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-            </div>
-            <ul class="sub-menu">
-            <li><a class="link_name">Team</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-            <i class='bx bx-pie-chart-alt-2' ></i>
-            <span class="link_name">Analytics</span>
-            </a>
-            <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Analytics</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-            <i class='bx bx-line-chart' ></i>
-            <span class="link_name">Chart</span>
-            </a>
-            <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Chart</a></li>
-            </ul>
-        </li>
-        <li>
-            <div class="iocn-link">
-            <a href="#">
-                <i class='bx bx-plug' ></i>
-                <span class="link_name">Plugins</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-            </div>
-            <ul class="sub-menu">
-            <li><a class="link_name" href="#">Plugins</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            <li><a href="#">뭐적지</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-            <i class='bx bx-compass' ></i>
-            <span class="link_name">Explore</span>
-            </a>
-            <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Explore</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-            <i class='bx bx-history'></i>
-            <span class="link_name">History</span>
-            </a>
-            <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">History</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-            <i class='bx bx-cog' ></i>
-            <span class="link_name">Setting</span>
-            </a>
-            <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Setting</a></li>
-            </ul>
-        </li>
-        <li>
-        <div class="profile-details">
-        <div class="profile-content">
-            <img src="/static/images/profile.png" th:src="@{/images/profile.png}" alt="profileImg">
-        </div>
-        <div class="name-job">
-            <div class="profile_name">Prem Shahi</div>
-            <div class="job">Web Desginer</div>
-        </div>
-        <a href="#" th:href="@{/}">
-            <i class='bx bx-log-out'></i>
-        </a>
-        </div>
-        </li>
+            <li>
+                <div class="iocn-link" th:classappend="${sidebar} == 'dashBoard'? 'active'">
+                    <a th:href="@{/admin}">
+                        <i class='bx bx-grid-alt'></i>
+                        <span class="link_name">Dashboard</span>
+                    </a>
+                </div>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Dashboard</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link" th:classappend="${sidebar} == 'memberList'? 'active'">
+                    <a th:href="@{/admin/memberList}">
+                        <i class='bx bx-collection'></i>
+                        <span class="link_name">User</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name">User</a></li>
+                        <li><a href="#" th:href="@{/admin/memberList(orderBy = 'deleteTrue')}">탈퇴계정</a></li>
+                        <li><a href="#" th:href="@{/admin/memberList(orderBy = 'admin')}">관리자계정</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link" th:classappend="${sidebar} == 'teamList'? 'active'">
+                    <a th:href="@{/admin/teamList}">
+                        <i class='bx bx-book-alt'></i>
+                        <span class="link_name">Team</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name">Team</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link" th:classappend="${sidebar} == 'adminAskBoard'? 'active'">
+                    <a th:href="@{/admin/adminAskBoards}">
+                        <i class='bx bx-pie-chart-alt-2'></i>
+                        <span class="link_name">AskBoard</span>
+                    </a>
+                </div>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">AskBoard</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-line-chart'></i>
+                    <span class="link_name">FreeBoard</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">FreeBoard</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-plug'></i>
+                        <span class="link_name">Plugins</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Plugins</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                    <li><a href="#">뭐적지</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-compass'></i>
+                    <span class="link_name">Explore</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Explore</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-history'></i>
+                    <span class="link_name">History</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">History</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span class="link_name">Setting</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Setting</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="/static/images/profile.png" th:src="@{/images/profile.png}" alt="profileImg">
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name">Prem Shahi</div>
+                        <div class="job">Admin</div>
+                    </div>
+                    <a href="#" th:href="@{/}">
+                        <i class='bx bx-log-out'></i>
+                    </a>
+                </div>
+            </li>
         </ul>
     </div>
 
     <!-- 헤더 -->
-  <section class="home-section" th:fragment="header(header)">
-    <div class="home-content">
-      <i class='bx bx-menu'></i>
-      <span class="text" th:text="${header}">Drop Down Sidebar</span>
-    </div>
-  </section>
+    <section class="home-section" th:fragment="header(header)">
+        <div class="home-content">
+            <i class='bx bx-menu'></i>
+            <span class="text" th:text="${header}">Drop Down Sidebar</span>
+        </div>
+    </section>
 
-  <!-- 자바스크립트 전용 div -->
-  <div th:fragment="script">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/static/js/adminCommonTest2.js" th:src="@{/js/adminCommonTest2.js}"></script>
-  </div>
-  
+    <!-- 자바스크립트 전용 div -->
+    <div th:fragment="script">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/static/js/adminCommonTest2.js" th:src="@{/js/adminCommonTest2.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>  
+    </div>
+
 </body>
+
 </html>

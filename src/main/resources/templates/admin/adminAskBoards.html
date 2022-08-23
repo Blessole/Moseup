@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원목록')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('adminAskBoard')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('관리자 문의글')"> </section>
+
+    <div class="main-list-section">
+      <div class="main-list-content">
+        <div class="search-box">
+        <form action="#" th:action="@{/admin/adminAskBoards}" method="GET">
+          <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
+        </form>
+        <i class='bx bx-search' ></i>
+      </div>
+        <table class="table caption table-hover">
+          <caption>총 문의글 수 : <span th:text="${askBoards.totalElements}">문의글 수</span></caption>
+          <thead>
+            <tr class="tableHeader">
+              <th scope="col">번  호</th>
+              <th scope="col">작성자</th>
+              <th scope="col">문의제목</th>
+              <th scope="col">작성날짜</th>
+              <th scope="col">답변여부</th>
+              <th scope="col">확인</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="askBoard : ${askBoards}">
+              <th th:text="${askBoard.ano}">번호</th>
+              <td th:text="${askBoard.member.nickname}">작성자</td>
+              <td th:text="${askBoard.askSubject}">문의제목</td>
+              <td th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성날짜</td>
+              <td th:if="${askBoard.askBoardReplies} == null" th:text="미완료">답변여부</td>
+              <td th:if="${askBoard.askBoardReplies} != null" th:text="완료">답변여부</td>
+              <td><a class="member-link" th:href="@{/admin/askBoardDetail(ano=${askBoard.ano}, pageNum=${askBoards.pageable.pageNumber})}">보기</a></td>    
+            </tr>
+          </tbody>
+        </table>
+        <!-- 페이징 -->
+        <div class="page-in" aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == askBoards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${askBoards.pageable.pageNumber - 1})}"><</a>
+            </li>
+            <li class="page-item" th:classappend="${i == askBoards.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${i - 1})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${askBoards.totalPages == askBoards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${askBoards.pageable.pageNumber + 1})}">></a>
+            </li>
+          </ul>
+        </div>
+        <div>
+            <a type="button" class="btn btn-outline-primary" th:href="@{/admin/memberJoinForm}">회원등록</a>
+        </div>
+        
+      
+    </div>
+        </div>
+
+        
+    
+
+
+
+    
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

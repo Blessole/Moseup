@@ -16,7 +16,7 @@
         <div th:replace="admin/memberDetail :: memberInfoNav('freeBoard')"></div>
         
         <div class="title-section">
-          <span>관리자 문의글</span>
+          <span>게시글</span>
         </div>
         <table class="table caption table-hover">
             <caption>총 게시글 수 : <span th:text="${member.freeBoards.size}">게시글 수</span></caption>
@@ -28,6 +28,7 @@
                 <th scope="col">좋아요</th>
                 <th scope="col">조회수</th>
                 <th scope="col">작성일</th>
+                <th scope="col">보기</th>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +41,8 @@
                 <td th:text="${freeBoard.freeContent}">내용</td>
                 <td><a class="member-link" th:text="${freeBoard.freeLike}" th:href="@{/admin/memberDetail(mno=${member.mno})}">좋아요</a></td>    
                 <td th:text="${freeBoard.freeReadCount}">조회수</td>
-                <td th:text="${freeBoard.freeDate}">작성일</td>
+                <td th:text="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
+                <td><a class="member-link" th:href="@{/admin/memberDetail(mno=${member.mno})}">확인</a></td>
               </tr>
             </tbody>
           </table>

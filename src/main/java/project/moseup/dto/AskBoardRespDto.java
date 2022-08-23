@@ -3,6 +3,7 @@ package project.moseup.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.moseup.domain.AskBoard;
+import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 
@@ -18,6 +19,7 @@ public class AskBoardRespDto {
     private String askPhoto;
     private LocalDateTime askDate;
     private DeleteStatus askDelete;
+    private AskBoardReply askBoardReplies;
 
     public AskBoardRespDto toDto(AskBoard askBoard){
         this.ano = askBoard.getAno();
@@ -27,6 +29,7 @@ public class AskBoardRespDto {
         this.askPhoto = askBoard.getAskPhoto();
         this.askDate = askBoard.getAskDate();
         this.askDelete = askBoard.getAskDelete();
+        this.askBoardReplies = askBoard.getAskBoardReplies();
         return this;
     }
 }

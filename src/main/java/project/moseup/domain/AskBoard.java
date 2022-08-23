@@ -1,13 +1,14 @@
 package project.moseup.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -56,8 +57,8 @@ public class AskBoard {
 	}
 
 	// 연관관계 맵핑
-	@OneToMany(mappedBy = "askBoard")
-	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
+	@OneToOne(mappedBy = "askBoard")
+	private AskBoardReply askBoardReplies;
 
 	// 게시글 수정
 	public void update(String askSubject, String askContent, String askPhoto) {
@@ -65,6 +66,11 @@ public class AskBoard {
 		this.askContent = askContent;
 		this.askPhoto = askPhoto;
 	}
+
+	public void addReply(AskBoardReply askBoardReply){
+		this.askBoardReplies = askBoardReply;
+	}
+
 
 	public void delete(){
 		this.askDelete = DeleteStatus.TRUE;
