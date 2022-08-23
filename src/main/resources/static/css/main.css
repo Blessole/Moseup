@@ -83,14 +83,54 @@
 /* 메인 검색창 타이틀 */
 .mainSearchTitle {
 	margin: 5px;
-	font-size: 1.3em;
+	font-size: 1.5em;
 	font-weight: bold;
 }
 
+#slideTitle {
+	border-radius: 10px;
+	width: 150px;
+	margin: 0 auto;
+	text-align: center;
+	color: white;
+	background-color: black;
+	margin-bottom: 5px;
+}
+
 /* 슬라이드 이미지 */
-.slideImg {
+#slideImg {
 	width: 100%;
 	height: 300px;
+}
+
+/* 슬라이드 캡션1 */
+#slideCaption {
+	font-size: 20px; 
+	text-shadow: 1px 1px 1px black;
+}
+
+/* 슬라이드 캡션2 */
+#slideCaption2 {
+	font-size: 17px; 
+	text-shadow: 1px 1px 1px black;
+}
+
+/* 슬라이드 캡션 위치 */
+.item #slideCaption {
+	left: 0 !important;
+	right: 70% !important;
+	bottom: 80% !important;
+	text-align: left;
+	padding-left: 20px;
+}
+
+/* 슬라이드 캡션 위치 */
+.item #slideCaption2 {
+	left: 0 !important;
+	right: 70% !important;
+	bottom: 70% !important;
+	text-align: left;
+	padding-left: 20px;
 }
 
 /* 슬라이드 밑에 버튼 */

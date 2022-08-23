@@ -18,23 +18,27 @@
 		<div class="mainContainer">
 			<!-- 슬라이드 세션 -->
 			<section class="slidesSection">
+				<h5 id="slideTitle">습관 BEST 5</h5>
 				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				<!-- 슬라이드 밑에 버튼 -->
 				  <div class="carousel-indicators">
-				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" id="slideBtn1"></button>
-				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" id="slideBtn1"></button>
-				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" id="slideBtn1"></button>
-				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3" id="slideBtn1"></button>
-				    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 3" id="slideBtn1"></button>
+					  <th:block th:each="topList, index : ${topList}">
+					    <button th:if="${index.index == 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" class="active" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+					    <button th:if="${index.index != 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+					  </th:block>
 				  </div>
 				  <!-- 슬라이드 이미지 부분 -->
 				  <div class="carousel-inner">
  					  <th:block th:each="topList, index : ${topList}">
-					    <div th:if="${index.index == 0}" class="carousel-item active" data-bs-interval="3000">
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100 slideImg" alt="top5이미지"></a>
+					    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
+					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
 					    </div> 
-					    <div th:if="${index.index != 0}" class="carousel-item" data-bs-interval="3000">
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100 slideImg" alt="top5이미지"></a>
+					    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
+					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
 					    </div> 
 					  </th:block>
 				  </div>
@@ -48,8 +52,7 @@
 				    <span class="visually-hidden">Next</span>
 				  </button>
 				</div>
-				<div align="center">BEST 습관 TOP 5</div>
-				<hr>
+			  	<hr>
 			</section>
 			<!-- 검색 세션 -->
 			<section class="searchSection">
