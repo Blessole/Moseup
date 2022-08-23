@@ -1,47 +1,84 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- main css -->
 <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css" />
+<!-- main script -->
+<script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
-<!-- 본문 코드 -->
-<th:block layout:fragment="content">
-	<!-- main -->
-	<div class="mainContainer">
-		<section class="slidesSection">
-			슬라이드이미지 ?
-		</section>
-		<section class="searchSection">
-			<div class="mainSearch">
-			<div class="mainSearchTitle" align="center">모두의 습관</div>
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
-					<div class="mainSearchInput">
-						<input type="search" class="form-control" id="mainSearch" placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
-						<input type="submit" class="mainSearchImg" name="submit" value="">
-					</div>
-				</form>
-			</div>
-		</section>
-		<section class="mainSection">
-			팀 리스트
-		</section>
-	</div>
-	<div>
-		<a href="" th:href="@{/admin}">관리자페이지</a>
-		<a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
-	</div>
-	<script type="text/javascript">
-		/*검색창 submit체크*/
-		function searchChk() {
-				var text = $('#mainSearch').val();
-				if(text == "" || text == null) {
-					return false;
-				}
-			}
-	</script>
-</th:block>
+	<!-- 본문 코드 -->
+	<th:block layout:fragment="content">
+		<!-- main -->
+		<div class="mainContainer">
+			<!-- 슬라이드 세션 -->
+			<section class="slidesSection">
+				<h5 id="slideTitle">습관 BEST 5</h5>
+				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+				<!-- 슬라이드 밑에 버튼 -->
+				  <div class="carousel-indicators">
+					  <th:block th:each="topList, index : ${topList}">
+					    <button th:if="${index.index == 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" class="active" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+					    <button th:if="${index.index != 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+					  </th:block>
+				  </div>
+				  <!-- 슬라이드 이미지 부분 -->
+				  <div class="carousel-inner">
+ 					  <th:block th:each="topList, index : ${topList}">
+					    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
+					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+					    </div> 
+					    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
+					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+					    </div> 
+					  </th:block>
+				  </div>
+				  <!-- 슬라이드 화살표 버튼 -->
+				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Previous</span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				  </button>
+				</div>
+			  	<hr>
+			</section>
+			<!-- 검색 세션 -->
+			<section class="searchSection">
+				<div class="mainSearch">
+					<div class="mainSearchTitle" align="center">모두의 습관</div>
+					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+						action="/search" method="get" onsubmit="return searchChk()">
+						<div class="mainSearchInput">
+							<input type="hidden" id="filter2main" name="filter2"
+								th:value="${filter2}"> <input type="hidden"
+								id="filter1main" name="filter1" th:value="${filter1}"> <input
+								type="search" class="form-control" id="mainSearch"
+								placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search"
+								name="keyword"> <input type="submit"
+								class="mainSearchImg" name="submit" value="">
+						</div>
+					</form>
+				</div>
+			</section>
+			
+			<section class="mainSection">팀 리스트</section>
+		</div>
+		<div>
+			<a href="" th:href="@{/admin}">관리자페이지</a> <a href="teamPage"
+				th:href="@{/teams/teamPage}">팀페이지</a>
+		</div>
+	</th:block>
 </body>
 </html>

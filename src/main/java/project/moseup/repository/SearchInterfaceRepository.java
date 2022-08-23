@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import project.moseup.domain.Team;
 
-public interface SearchRepository extends JpaRepository<Team, Long>{
+public interface SearchInterfaceRepository extends JpaRepository<Team, Long>{
 
 	//기본 검색창 최신순
 	Page<Team> findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3Containing(String teamLeader, String teamName, String teamCategory1, String teamCategory2, String teamCategory3, Pageable pageable);

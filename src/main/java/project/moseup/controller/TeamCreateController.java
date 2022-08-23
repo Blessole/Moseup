@@ -11,30 +11,31 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
-import project.moseup.dto.TeamForm;
-import project.moseup.service.TeamService;
+import project.moseup.dto.TeamCreateReqDto;
+import project.moseup.service.TeamCreateService;
 import project.moseup.service.member.MemberService;
 
 @Controller
 @RequiredArgsConstructor
 public class TeamCreateController {
 
-	private final TeamService teamService;
+	private final TeamCreateService teamCreateService;
 	private final MemberService memberService;
 
 	@GetMapping("/teams/createTeam")
 	public String createTeamFrom(Model model) {
-		model.addAttribute("teamForm", new TeamForm());
+		model.addAttribute("TeamCreateReqDto", new TeamCreateReqDto());
 		return "teams/teamCreateForm";
 	}
 
 	//	team 생성
 	@PostMapping("/teams/createTeam")
-	public String  createTeam(@Valid TeamForm teamForm, BindingResult result, Principal principal) {
+	public String  createTeam(@Valid TeamCreateReqDto teamCreateReqDto, BindingResult result, Principal principal, MultipartFile file) throws Exception{
 		//@Valid : 클라이언트 측에서 넘어온 데이터를 객체에 바인딩(속성과 개체 사이 또는 연산과 기호사이와 같은 연관)할 때 유효성 검사함
 		//@Valid다음에 BindingResult가 있으면 result에 오류가 담긴후 코드가 실행됨.
 		if (result.hasErrors()) {	// result안에 에러가 있으면
@@ -45,9 +46,10 @@ public class TeamCreateController {
 		Member member = memberService.getMember(principal.getName());
 		Member findNickname = memberService.findOne(member.getMno());
 		
-		teamForm.setMember(member);
-		teamForm.setTeamLeader(findNickname.getNickname());
-		teamService.create(teamForm);
+		teamCreateReqDto.setMember(member);
+		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
+
+		teamCreateService.create(teamCreateReqDto, file);
 
 		return "redirect:/";	// 초기화면으로 돌아감
 	}
@@ -57,7 +59,7 @@ public class TeamCreateController {
 	@ResponseBody	
 	public String teamNameChk(String teamName) {
 	      String msg = "";
-	      List<Team> team = teamService.validateDuplicateTeam(teamName);
+	      List<Team> team = teamCreateService.validateDuplicateTeam(teamName);
 	      if(team == null) msg = "사용 가능한 팀명입니다. :)";
 	      else msg = "중복된 팀명입니다. :(";
 	      return msg;

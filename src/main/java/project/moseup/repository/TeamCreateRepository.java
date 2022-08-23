@@ -12,7 +12,7 @@ import project.moseup.domain.Team;
 
 @Repository
 @RequiredArgsConstructor
-public class TeamRepository {
+public class TeamCreateRepository {
 
     private final EntityManager em;
     
