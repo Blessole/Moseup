@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.CheckBoard;
+import project.moseup.domain.Team;
 import project.moseup.dto.teamPage.CheckBoardDto;
 import project.moseup.repository.teampage.CheckBoardPageRepository;
 import project.moseup.repository.teampage.CheckBoardRepository;
@@ -27,7 +28,7 @@ public class CheckBoardService {
 	}
 	
 	// 페이징 된 모든글 보여주기
-	public Page<CheckBoard> findCheckBoardPage(Pageable pageable) {
-		return checkBoardPageRepository.findAll(pageable);
+	public Page<CheckBoard> findCheckBoardPage(Team team, Pageable pageable) {
+		return checkBoardPageRepository.findByTeam(team, pageable);
 	}
 }

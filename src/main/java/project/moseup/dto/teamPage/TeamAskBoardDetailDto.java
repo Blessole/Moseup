@@ -8,6 +8,7 @@ import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
+import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.domain.TeamAskBoardReply;
 
@@ -17,6 +18,8 @@ public class TeamAskBoardDetailDto {
 	private Long tano;
 	
 	private Member member;
+	
+	private Team team;
 
 	private String teamAskSubject;
 
@@ -36,6 +39,7 @@ public class TeamAskBoardDetailDto {
 	public TeamAskBoardDetailDto toDto(TeamAskBoard teamAskBoard) {
 		this.tano = teamAskBoard.getTano();
 		this.member = teamAskBoard.getMember();
+		this.team = teamAskBoard.getTeam();
 		this.teamAskSubject = teamAskBoard.getTeamAskSubject();
 		this.teamAskContent = teamAskBoard.getTeamAskContent();
 		this.teamAskDate = teamAskBoard.getTeamAskDate();

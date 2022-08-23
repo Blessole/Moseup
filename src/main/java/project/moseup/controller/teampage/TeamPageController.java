@@ -29,6 +29,7 @@ import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
+import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.service.TeamService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.CheckBoardService;
@@ -62,13 +63,15 @@ public class TeamPageController {
 	@GetMapping("/teamAskBoard")
 	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
 		
-		Page<TeamAskBoard> teamAsks = teamAskBoardService.findTeamAsksPage(pagable);
+		Team team = teamService.findOne(tno);
+		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
+		
+		Page<TeamAskBoard> teamAsks = teamAskBoardService.findTeamAsksPage(team, pagable);
 		int startPage = Math.max(1, teamAsks.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(teamAsks.getTotalPages(), teamAsks.getPageable().getPageNumber() + 5);
 		
-		Team team = teamService.findOne(tno);
 		
-		model.addAttribute("team", team);		
+		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("teamAsks", teamAsks);
@@ -107,7 +110,7 @@ public class TeamPageController {
 		
 		teamAskBoardService.saveTeamAskBoard(teamAsk);
 
-		return "redirect:/teams/teamAskBoard";
+		return "redirect:/teams/teamAskBoard?tno=" + tno;
 	}
 
 	// 팀 페이지 문의 글 상세보기
@@ -117,6 +120,7 @@ public class TeamPageController {
 		// 상세 보기 부분
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
+		
 		Team team = teamService.findOne(tno);
 		
 		// 조회수 올리는 부분
@@ -191,18 +195,17 @@ public class TeamPageController {
 		return "redirect:/teams/teamAskBoard?tno=" + tno;
 	}
 
-	// 팀 페이지 인증 게시판
+	// 팀 페이지 인증 게시판(페이징)
 	@GetMapping("/teamCheckBoard")
 	public String teamCheckBoardPage(Model model, @PageableDefault(size = 10, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
-		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(pagable);
+		Team team = teamService.findOne(tno);
+		
+		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
 		
-		Team team = teamService.findOne(tno);
-		
 		model.addAttribute("team", team);
-		
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("checkBoards", checkBoards);
@@ -212,12 +215,35 @@ public class TeamPageController {
 	
 	// 인증 게시판 작성
 	@GetMapping("/teamCheckBoard/checkBoardWriteForm")
-	public String teamCheckBoardWriteForm(Model model, Principal principal) {
+	public String teamCheckBoardWriteForm(@RequestParam Long tno, Model model, Principal principal) {
 		Member member = this.memberService.getMember(principal.getName());
-        
+		Team team = teamService.findOne(tno);
+		
+		model.addAttribute("team", team);    
 		model.addAttribute("member", member);
 		model.addAttribute("checkBoard", new CheckBoardDto());
 
 		return "teams/checkBoardWriteForm";
 	}
+	
+	// 인증 게시판 작성 결과
+	@PostMapping("/teamAskBoard/checkBoardWriteForm/createTeamCheck")
+	public String createTeamAsk(@Valid CheckBoardDto teamCheck, BindingResult result, Principal principal, @RequestParam Long tno) {
+
+		Member member = this.memberService.getMember(principal.getName());
+		Team team = teamService.findOne(tno);
+		
+		teamCheck.setTeam(team);
+		teamCheck.setMember(member);
+		
+		checkBoardService.saveCheckBoard(teamCheck);
+
+		return "redirect:/teams/teamCheckBoard?tno=" + tno;
+	}
+	
+	// 인증 게시판 상세보기
+	
+	// 인증 게시판 수정
+	
+	// 인증 게시판 삭제
 }
