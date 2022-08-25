@@ -266,7 +266,7 @@ th {
 .ask-form1 .subTitle {
     border-bottom: none;
     width: 7%;
-    margin: 0px 35px 0 140px;
+    margin: 0 35px 0 140px;
 }
 
 .ask-form1 input[type=text]{
@@ -291,6 +291,38 @@ input#askPhoto {
     margin: 10px 0 10px 150px;
 }
 
+.ask-form3 {
+    width: 75%;
+}
+
+.ask-form3 input[type=file] {
+    margin-left: 92px;
+    margin-top: 15px;
+}
+
+.askButton-box2 {
+    width: 40%;
+    float: right;
+    margin-top: 16px;
+    margin-right: 4px;
+}
+
+.askButton2 {
+    width: 100px;
+    border: var(--point-color) solid 1px;
+    padding: 10px;
+    color: var(--point-color);
+    background: none;
+    font-weight: 500;
+}
+
+.askButton2:hover {
+    border: var(--point-color) solid 1px;
+    padding: 10px;
+    color: #FFFFFF;
+    background-color: var(--point-color);
+    font-weight: 500;
+}
 /* 문의게시판 글쓰기 끝 */
 
 /* 가입 팀 리스트 시작 */
@@ -314,13 +346,13 @@ input#askPhoto {
 .sort-btn-box .left{
     float : left;
     margin: 0 50px 6px 50px;
-    padding: 10px 0 20px 0px;
+    padding: 10px 0 20px 0;
 }
 
 .sort-btn-box .right{
     display: flex;
     float: right;
-    padding: 10px 0 20px 0px;
+    padding: 10px 0 20px 0;
     margin: 0 75px 6px 50px;
 }
 
@@ -446,7 +478,7 @@ input#askPhoto {
     position: relative;
     width: 100%;
     height: 260px;
-    margin: 0px 0 15px;
+    margin: 0 0 15px;
 }
 
 .actionBtns{

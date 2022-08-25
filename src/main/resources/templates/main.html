@@ -33,13 +33,13 @@
 					    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
 					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
 					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+					    	<a href="#"><img th:src="'images/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
 					    </div> 
 					    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
 					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
 					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
-					    </div> 
+					    	<a href="#"><img th:src="'images/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+					    </div>
 					  </th:block>
 				  </div>
 				  <!-- 슬라이드 화살표 버튼 -->

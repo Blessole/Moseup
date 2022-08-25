@@ -10,39 +10,23 @@
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
     <form th:action="@{/askBoard/ask}" th:object="${askBoardForm}" method="post" enctype="multipart/form-data">
-        <div class="middle-container">
+        <div class="topless-middle-container">
             <h2 class="title">1:1 문의하기</h2>
             <div class="ask-form1">
                 <div class="subTitle">제목</div>
                 <input type="text" th:field="*{askSubject}" class="form-control">
                 <span class="text-err" id="askSubjectChk"></span>
             </div>
-            <div class="ask-form3">
-                <input type="file" name="file" class="form-control">
-            </div>
             <div class="ask-form2">
                 <textarea th:field="*{askContent}" id="summernote" class="form-control" rows="8" cols="40"></textarea>
                 <span class="text-err" id="askContentChk"></span>
             </div>
-<!--            <table class="askBoardFormTable">-->
-<!--                <tr>-->
-<!--                    <th>제목</th>-->
-<!--                    <td><input type="text" th:field="*{askSubject}" class="form-control">-->
-<!--                            <span class="text-err" id="askSubjectChk"></span>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>내용</th>-->
-<!--                    <td><textarea th:field="*{askContent}" id="summernote" class="form-control" rows="8" cols="40"></textarea>-->
-<!--                        <span class="text-err" id="askContentChk"></span>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>첨부파일</th>-->
-<!--                    <td><input type="file" th:field="*{askPhoto}" class="form-control"></td>-->
-<!--                </tr>-->
-            </table>
-            <input type="submit" value="등록" class="button">
+            <div class="ask-form3">
+                <input type="file" name="file" class="form-control">
+            </div>
+            <div class="askButton-box2">
+                <input type="submit" value="등록" class="askButton2">
+            </div>
         </div>
     </form>
     <!-- include libraries(jQuery, bootstrap) -->

@@ -97,8 +97,8 @@ public class MemberController {
                 }
             }
             // 파일 경로 저장하기
-            String uuid = UUID.randomUUID().toString()+".jpg";
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
+            String uuid = UUID.randomUUID().toString();
+            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName + ".jpg"; // 경로 + 폴더명
             Path savePath = Paths.get(saveName);
             try{
                 file.transferTo(savePath);

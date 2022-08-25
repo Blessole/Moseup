@@ -70,20 +70,19 @@ public class AskBoardController {
     @PostMapping("/ask")
     public String askBoardAction(@Valid @ModelAttribute("askBoardForm") AskBoardSaveReqDto askBoardForm, BindingResult bindingResult,
                                  @RequestPart(required = false) MultipartFile file, Principal principal, Model model) throws IOException{
+        Member member = memberService.getPhotoAndNickname(principal, model);
         System.out.println("error:"+ bindingResult.hasErrors());
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
             for(ObjectError e : list){
                 System.out.println(e.getDefaultMessage());
             }
-            Member member = memberService.getPhotoAndNickname(principal, model);
             model.addAttribute("askBoardForm", new AskBoardSaveReqDto());
             model.addAttribute("member", member);
             return "redirect:/askBoard/askBoardForm";
         }
 
         // 작성자 정보 SET
-        Member member = this.memberService.getMember(principal.getName());
         askBoardForm.setMember(member);
 
         System.out.println("file : " + file);
@@ -94,6 +93,7 @@ public class AskBoardController {
             if (file.getContentType().startsWith("image")== false){
                 System.out.println("ABC - 이미지 파일만 올리셈");
                 System.out.println("content type : "+ file.getContentType());
+                model.addAttribute("member", member);
                 return "redirect:/askBoard/askBoardForm";
             }
 
