@@ -1,9 +1,15 @@
 package project.moseup.controller.teampage;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.CheckBoard;
@@ -49,6 +56,10 @@ public class TeamPageController {
 	private final CheckBoardService checkBoardService;
 	private final TeamService teamService;
 	private final TeamMemberService teamMemberService;
+	
+	// 파일 업로드 경로
+    @Value("${moseup.upload.path2}") //application.properties의 변수
+    private String uploadPath;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
@@ -262,13 +273,46 @@ public class TeamPageController {
 	
 	// 인증 게시판 작성 결과
 	@PostMapping("/teamAskBoard/checkBoardWriteForm/createTeamCheck")
-	public String createTeamAsk(@Valid CheckBoardDto teamCheck, BindingResult result, Principal principal, @RequestParam Long tno) {
+	public String createTeamAsk(@Valid CheckBoardDto teamCheck, BindingResult result, @RequestParam(required = false) MultipartFile checkPhoto, Principal principal, @RequestParam Long tno) throws IOException {
 
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamService.findOne(tno);
 		
 		teamCheck.setTeam(team);
 		teamCheck.setMember(member);
+		
+		// 파일 업로드
+		if(checkPhoto.getContentType().startsWith("image") == false) {
+			return "redirect:/";
+		}
+		
+		// 사진 값이 있을 때만 처리
+		if(checkPhoto.isEmpty()) {
+			teamCheck.setCheckPhoto("empty");
+		} else if(!checkPhoto.isEmpty()) {
+			 String originalName = checkPhoto.getOriginalFilename();
+			 String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+			 
+			 // 이미지 저장할 폴더 생성
+			 String folderPath = teamCheck.getMember().getNickname();
+			 File uploadPathFolder = new File(uploadPath, folderPath);
+			 
+			 if(uploadPathFolder.exists() == false) {
+				 uploadPathFolder.mkdirs();
+			 }
+			 
+			 // 저장할 경로 지정
+			 String uuid = UUID.randomUUID().toString() + ".jpg";
+			 String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+			 Path savePath = Paths.get(saveName);
+			 try{
+				 checkPhoto.transferTo(savePath);
+	         } catch (IOException e){
+	             e.printStackTrace();
+	         }
+			 
+			 teamCheck.setCheckPhoto(saveName);
+		}
 		
 		checkBoardService.saveCheckBoard(teamCheck);
 
