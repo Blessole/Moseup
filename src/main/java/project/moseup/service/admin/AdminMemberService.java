@@ -33,18 +33,19 @@ public class AdminMemberService {
         Member memberPS = adminMemberRepository.save(memberSaveReqDto.toEntity());
         memberPS.encodePassword(passwordEncoder);
 
-        if(memberPS.getBankbook() == null){
-            // 통장이 없으면 통장 생성
-            Bankbook bankbook = Bankbook.builder()
-                    .member(memberPS)
-                    .bankbookDate(memberPS.getMemberDate())
-                    .bankbookDeposit(0)
-                    .bankbookTotal(0)
-                    .bankbookWithdraw(0)
-                    .dealList("굿모닝^^")
-                    .build();
-            Bankbook bankbookPS = adminBankbookRepository.save(bankbook);
-        }
+        // 솔 - bankbook 도메인 변경 때문에 오류나서 잠깐 주석 처리 해둘게요~!
+//        if(memberPS.getBankbook() == null){
+//            // 통장이 없으면 통장 생성
+//            Bankbook bankbook = Bankbook.builder()
+//                    .member(memberPS)
+//                    .bankbookDate(memberPS.getMemberDate())
+//                    .bankbookDeposit(0)
+//                    .bankbookTotal(0)
+//                    .bankbookWithdraw(0)
+//                    .dealList("굿모닝^^")
+//                    .build();
+//            Bankbook bankbookPS = adminBankbookRepository.save(bankbook);
+//        }
         return new MemberRespDto().toDto(memberPS);
         // 컨트롤러는 DTO 데이터를 가지고 있게하고 클라이언트한테 DTO 데이터를 넘겨줌 = Entity 데이터를 그대로 주면 연관된(조인) 다른 데이터 즉, 클라이언트 입장에서 불필요한 데이터까지 날아감을 방지
         // 간략한 흐름도 ↓

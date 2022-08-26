@@ -16,7 +16,7 @@
                 <div class="time"><span th:text="${#temporals.format(askBoard.askDate,'yyyy.MM.dd HH:mm')}"></span> </div>
             </div>
             <div class="content-box">
-                <div class="contentBox" th:text="${askBoard.askContent}"></div>
+                <div class="contentBox" th:utext="${askContent1}"></div>
             </div>
         <div class="askDetail-button-box">
             <div class="left">

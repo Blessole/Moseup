@@ -15,5 +15,5 @@ public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Lon
 //    List<AskBoard> findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus);
 
     /** 문의게시판 리스트 조회 + 페이징 **/
-    Page<AskBoard>  findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus, Pageable pageable);
+    Page<AskBoard>  findByMemberAndAskDeleteOrderByAnoDesc(Member member, DeleteStatus deleteStatus, Pageable pageable);
 }

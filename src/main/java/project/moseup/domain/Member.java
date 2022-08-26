@@ -22,7 +22,8 @@ import java.util.List;
 @Table(name = "members")
 public class Member {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_no")
 	private Long mno;
 	
@@ -151,8 +152,8 @@ public class Member {
     private List<TeamMember> teamMembers = new ArrayList<>();
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "member")
-	private Bankbook bankbook;
+	@OneToMany(mappedBy = "member")
+	private List<Bankbook> bankbooks = new ArrayList<>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "member")

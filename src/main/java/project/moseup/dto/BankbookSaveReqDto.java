@@ -34,6 +34,8 @@ public class BankbookSaveReqDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime bankbookDate;
 
+    public BankbookSaveReqDto(){}
+
     @Builder
     public BankbookSaveReqDto(Member member, String dealList, int bankbookDeposit, int bankbookWithdraw, int bankbookTotal, LocalDateTime bankbookDate) {
         Assert.notNull(member, "멤버는 [NULL]이 될 수 없습니다");

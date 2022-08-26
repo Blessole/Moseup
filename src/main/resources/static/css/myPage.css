@@ -277,7 +277,7 @@ th {
 }
 
 .ask-form2{
-    width: 80%;
+    width: 69%;
     margin: auto;
 }
 
@@ -292,11 +292,11 @@ input#askPhoto {
 }
 
 .ask-form3 {
-    width: 75%;
+    width: 64%;
+    margin: auto;
 }
 
 .ask-form3 input[type=file] {
-    margin-left: 92px;
     margin-top: 15px;
 }
 
@@ -532,3 +532,39 @@ input#askPhoto {
 }
 /* 인증글 목록 끝 */
 
+/* 내 통장 시작 */
+.bankBookTable{
+    width: 100%;
+    height: fit-content;
+    margin-top: 10px;
+}
+
+.bankBookTable th {
+    height: 20px;
+    padding-bottom: 17px;
+    border-bottom: 3px double #e6e6e6;
+}
+
+.bankBookTable td {
+    height: 33px;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.bankBookButton-box{
+    width: 100%;
+    margin: -7px 0 41px 30px;
+    float: right;
+    text-align: right;
+}
+
+.bankBookButton {
+    border:  var(--point-color) solid 1px;
+    padding: 10px;
+    color:  var(--point-color);
+}
+
+.bankBookButton:hover {
+    background-color: var(--point-color);
+    color : white;
+}

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,15 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
 import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.dto.AskBoardSaveReqDto;
-import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Controller
@@ -51,7 +46,6 @@ public class AskBoardController {
     @GetMapping("/askBoardList")
     public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
         Member member = memberService.getPhotoAndNickname(principal, model);
-//        model.addAttribute("member", member);
 
         model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging(member, page));
         model.addAttribute("maxPage", 5);
@@ -127,6 +121,9 @@ public class AskBoardController {
             askBoardForm.setAskPhoto(saveName);
         }
 
+        // 내용에 엔터 태그 적용되도록 변경하여 저장
+        askBoardForm.setAskContent(askBoardForm.getAskContent().replace("\r\n", "<br>"));
+
         try{
             askBoardService.save(askBoardForm);
         } catch (DataIntegrityViolationException e){
@@ -143,7 +140,7 @@ public class AskBoardController {
     }
 
     @GetMapping("/askBoardDetail")
-    public String askBoardDetail(@RequestParam  Long ano, Model model, Principal principal, @RequestParam(value="page",  defaultValue = "0") int page){
+    public String askBoardDetail(@RequestParam(name = "ano") Long ano, Model model, Principal principal, @RequestParam(value="page",  defaultValue = "0") int page){
         Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoard askBoard = this.askBoardService.findOne(ano);
 
@@ -151,6 +148,10 @@ public class AskBoardController {
             Page<AskBoardReply> askBoardReplies = this.askBoardReplyService.findAll(askBoard, page);
             model.addAttribute("askBoardReplies", askBoardReplies);
         }
+
+        // 내용에 엔터 태그 적용되도록 변경하여 저장
+        String askContent = askBoard.getAskContent().replace("<br>", "<br/>");
+        model.addAttribute("askContent1", askContent); // DTO 이용했으면 없었을 코드임 (Setter!!!!!!!!!!!!!)
         model.addAttribute("askBoard", askBoard);
         model.addAttribute("member", member);
         model.addAttribute("askBoardReplyDto", new AskBoardReplySaveReqDto());
@@ -164,6 +165,10 @@ public class AskBoardController {
     public String askBoardUpdateForm(@RequestParam("ano") Long ano, Model model, Principal principal){
         Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoardSaveReqDto askBoardDto = this.askBoardService.getPost(ano);
+
+        // 내용에 엔터 태그 적용되도록 변경하여 set
+        askBoardDto.setAskContent(askBoardDto.getAskContent().replace("<br>", "\r\n"));
+
         model.addAttribute("ano", ano);
         model.addAttribute("askBoardDto", askBoardDto);
         model.addAttribute("member", member);
@@ -182,6 +187,9 @@ public class AskBoardController {
             }
             return "redirect:/askBoard/askUpdate?ano="+ano;
         }
+
+        // 내용에 엔터 태그 적용되도록 변경하여 저장
+        askBoardDto.setAskContent(askBoardDto.getAskContent().replace("\r\n", "<br>"));
 
         Member member = this.memberService.getMember(principal.getName());
         model.addAttribute("member", member);

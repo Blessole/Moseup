@@ -10,10 +10,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.moseup.domain.CheckBoard;
-import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
-import project.moseup.domain.Team;
+import project.moseup.domain.*;
+import project.moseup.dto.BankbookRespDto;
+import project.moseup.dto.BankbookSaveReqDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -60,9 +60,6 @@ public class MyPageController {
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
         Member member = memberService.getPhotoAndNickname(principal, model);
-//        List<Team> teams = this.myPageService.findTeam(member);
-
-        System.out.println("과연 sort를 뭐라고 할지" + sort);
 
         model.addAttribute("maxPage", 5);
         model.addAttribute("teamList", myPageService.findTeamPaging(member, sort, page));
@@ -150,4 +147,69 @@ public class MyPageController {
         MemberGender[] genders = MemberGender.values();
         model.addAttribute("genders", genders);
     }
+
+    @GetMapping("/myBankbook")
+    public String myBankbookList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+        Page<Bankbook> bankbook = myPageService.findBankbookPaging(member, page);
+        model.addAttribute("bankbookDto", bankbook);
+        model.addAttribute("member", member);
+        model.addAttribute("maxPage", 20);
+        return "myPage/myBankbook";
+    }
+
+    @GetMapping("/moneyCharge")
+    public String moneyCharge(@ModelAttribute("chargeDto") BankbookSaveReqDto bankbookDto, Principal principal, Model model){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+        List<Bankbook> myBankbook = myPageService.findBankbook(member);
+        if (myBankbook.isEmpty()){
+            model.addAttribute("myTotal", 0);
+        } else {
+            model.addAttribute("myTotal", myBankbook.get(0).getBankbookTotal());
+        }
+        return "myPage/moneyCharge";
+    }
+
+    @PostMapping("/moneyChargeAction")
+    public String moneyChargeAction(BankbookSaveReqDto bankbookDto, BindingResult bindingResult, Principal principal, Model model){
+        Member member = memberService.getPhotoAndNickname(principal, model);
+
+        // 유효성 검사
+        if(bindingResult.hasErrors()){
+            List<ObjectError> list = bindingResult.getAllErrors();
+            for(ObjectError e : list){
+                System.out.println(e.getDefaultMessage());
+            }
+            List<Bankbook> myBankbook = myPageService.findBankbook(member);
+            model.addAttribute("member", member);
+            if (myBankbook.isEmpty()){
+                model.addAttribute("myTotal", 0);
+            } else model.addAttribute("myTotal", myBankbook);
+            return "myPage/moneyCharge";
+        }
+
+        model.addAttribute("member", member);
+
+        List<Bankbook> myBankbook = myPageService.findBankbook(member);
+        int originMoney;
+        if (myBankbook.isEmpty()){
+            originMoney = 0;
+        } else {
+            originMoney = myBankbook.get(0).getBankbookTotal();
+        }
+        int newTotal = bankbookDto.getBankbookDeposit() + originMoney;
+
+        bankbookDto.setMember(member);
+        bankbookDto.setDealList("머니 충전:-D");
+        bankbookDto.setBankbookDate(LocalDateTime.now());
+        bankbookDto.setBankbookWithdraw(0);
+        bankbookDto.setBankbookDeposit(bankbookDto.getBankbookDeposit());
+        bankbookDto.setBankbookTotal(newTotal);
+
+        myPageService.charge(bankbookDto);
+
+        return "redirect:/myPage/myBankbook";
+    }
+
+
 }

@@ -36,7 +36,7 @@ public class AskBoardService {
     // 10 : 10개씩 출력해라~
     public Page<AskBoard> findAskBoardsPaging(Member member, int startAt){
         Pageable pageable = PageRequest.of(startAt, 10);
-        return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE, pageable);
+        return askBoardInterfaceRepository.findByMemberAndAskDeleteOrderByAnoDesc(member, DeleteStatus.FALSE, pageable);
     }
 
     /** 문의글 하나 조회 **/

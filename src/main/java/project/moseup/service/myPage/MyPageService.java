@@ -6,9 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.domain.Bankbook;
 import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.BankbookRespDto;
+import project.moseup.dto.BankbookSaveReqDto;
+import project.moseup.repository.myPage.BankbookInterfaceRepository;
 import project.moseup.repository.myPage.CheckBoardInterfaceRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
 import project.moseup.repository.myPage.MyPageRepository;
@@ -26,6 +30,7 @@ public class MyPageService {
     private final MyPageRepository myPageRepository;
     private final TeamInterfaceRepository teamInterfaceRepository;
     private final CheckBoardInterfaceRepository checkBoardInterfaceRepository;
+    private final BankbookInterfaceRepository bankbookInterfaceRepository;
 
     /** 가입한 팀 조회 **/
     public List<Team> findTeam(Member member){
@@ -58,11 +63,6 @@ public class MyPageService {
         return teamList;
     }
 
-//    /** 인증글 조회 **/
-//    public List<CheckBoard> findCheckBoard(Member member) {
-//        return myPageRepository.findCheckBoard(member);
-//    }
-
     /** 인증글 조회 + 페이징 **/
     public Page<CheckBoard> findCheckBoardPaging(Member member, int startAt) {
         Pageable pageable = PageRequest.of(startAt, 6);
@@ -78,6 +78,22 @@ public class MyPageService {
         return checkBoardInterfaceRepository.findByMemberAndTeam(member, team, pageable);
     }
 
+    /** 내 통장 조회 + 페이징 **/
+    public Page<Bankbook> findBankbookPaging(Member member, int startAt){
+        Pageable pageable = PageRequest.of(startAt, 6);
+        return bankbookInterfaceRepository.findByMember(member, pageable);
+    }
 
+    /** 내 통장에서 가장 마지막 거래기록 가져오기 (충전페이지 총액 용) **/
+    public List<Bankbook> findBankbook(Member member) {
+        return bankbookInterfaceRepository.findTop1ByMemberOrderByDnoDesc(member);
+    }
+
+    /** 머니 충전하기 **/
+    @Transactional
+    public void charge(BankbookSaveReqDto bankbookDto){
+        Bankbook bankbook = bankbookDto.toEntity();
+        bankbookInterfaceRepository.save(bankbook);
+    }
 
 }

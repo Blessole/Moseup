@@ -4,16 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AccessLevel;
@@ -27,7 +18,8 @@ import lombok.NoArgsConstructor;
 public class TeamAskBoard {
 
 	@Column(name = "team_askno")
-	@GeneratedValue @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Long tano;
 
 	@ManyToOne(fetch = FetchType.LAZY)

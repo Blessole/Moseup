@@ -2,12 +2,10 @@ package project.moseup.repository.myPage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import project.moseup.domain.CheckBoard;
-import project.moseup.domain.Member;
-import project.moseup.domain.Team;
-import project.moseup.domain.TeamMember;
+import project.moseup.domain.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -22,9 +20,4 @@ public class MyPageRepository {
                 .getResultList();
     }
 
-//    public List<CheckBoard> findCheckBoard(Member member) {
-//        return em.createQuery("select c from CheckBoard c where c.member=:member", CheckBoard.class)
-//                .setParameter("member", member)
-//                .getResultList();
-//    }
 }
