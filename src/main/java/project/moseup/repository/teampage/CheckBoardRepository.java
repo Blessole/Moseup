@@ -21,4 +21,10 @@ public class CheckBoardRepository {
 			em.merge(checkBoard);
 		}
 	}
+	
+	// 인증글 1개 찾기
+	public CheckBoard findOne(Long cno) {
+		return em.find(CheckBoard.class, cno);
+	}
+	
 }

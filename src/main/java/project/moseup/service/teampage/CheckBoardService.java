@@ -31,4 +31,15 @@ public class CheckBoardService {
 	public Page<CheckBoard> findCheckBoardPage(Team team, Pageable pageable) {
 		return checkBoardPageRepository.findByTeam(team, pageable);
 	}
+	
+	// 인증글 1개 찾기
+	public CheckBoard findOne(Long cno) {
+		return checkBoardRepository.findOne(cno);
+	}
+	
+	// 조회수 증가
+	@Transactional
+	public int increaseReadCount(Long cno) {
+		return checkBoardPageRepository.updateReadCount(cno);
+	}
 }

@@ -61,7 +61,7 @@
 						<tbody>
 							<tr th:each="checkBoards : ${checkBoards}">							
 								<th th:text="${checkBoards.cno}"></th>
-								<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(cno=${checkBoards.cno})}"
+								<th><a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"
 									   th:text="${checkBoards.checkContent}"></a></th>
 								<th th:text="${checkBoards.member.nickname}"></th>
 								<th th:text="${#temporals.format(checkBoards.checkDate,'yyyy-MM-dd HH:mm')}"></th>

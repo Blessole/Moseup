@@ -12,6 +12,7 @@ import project.moseup.domain.TeamAskBoard;
 
 public interface TeamAskBoardPageRepository extends JpaRepository<TeamAskBoard, Long>{
 	
+	// 조회수 증가 로직
 	@Modifying
 	@Query("update TeamAskBoard a set a.teamAskReadCount = a.teamAskReadCount + 1 where a.tano = :tano") 
 	int updateReadCount(@Param("tano") Long tano);

@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
+<style type="text/css">
+	
+	.replybox {display: flex;}
+</style>
 </head>
 <body>
-
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<div class="container" align="center">
+			<h2 class="text-primary">문의글 상세조회</h2>
+			<table class="table table-striped">
+				<tr>
+					<th>글번호</th>
+					<td th:text="${checkOne.cno}"></td>
+					<th>작성자</th>
+					<td th:text="${checkOne.member.nickname}"></td>
+				</tr>
+				<tr>
+					<th>작성일</th>
+					<td th:text="${#temporals.format(checkOne.checkDate,'yyyy-MM-dd HH:mm')}"></td>
+					<th>조회수</th>
+					<td th:text="${checkOne.checkReadCount}"></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td colspan="3"><pre>
+							<span th:text="${checkOne.checkContent}"></span>
+						</pre></td>
+				</tr>
+				<tr>
+					<th>인증사진</th>
+					<td colspan="3"><img alt="인증사진" th:src="${checkOne.checkPhoto}"></td>
+				</tr>
+			</table>
+			<div>
+				<a th:href="@{/teams/teamCheckBoard(tno=${team.tno})}" class="btn btn-success">게시글 목록</a>
+				<!-- <a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
+				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>	 -->			
+			</div>	
+		</div>
+	</th:block>
 </body>
 </html>

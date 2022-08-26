@@ -30,6 +30,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.SecretStatus;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
+import project.moseup.dto.teamPage.CheckBoardDetailDto;
 import project.moseup.dto.teamPage.CheckBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
@@ -272,7 +273,7 @@ public class TeamPageController {
 	}
 	
 	// 인증 게시판 작성 결과
-	@PostMapping("/teamAskBoard/checkBoardWriteForm/createTeamCheck")
+	@PostMapping("/teamCheckBoard/checkBoardWriteForm/createTeamCheck")
 	public String createTeamAsk(@Valid CheckBoardDto teamCheck, BindingResult result, @RequestParam(required = false) MultipartFile checkPhoto, Principal principal, @RequestParam Long tno) throws IOException {
 
 		Member member = this.memberService.getMember(principal.getName());
@@ -302,7 +303,7 @@ public class TeamPageController {
 			 }
 			 
 			 // 저장할 경로 지정
-			 String uuid = UUID.randomUUID().toString() + ".jpg";
+			 String uuid = UUID.randomUUID().toString();
 			 String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
 			 Path savePath = Paths.get(saveName);
 			 try{
@@ -320,6 +321,23 @@ public class TeamPageController {
 	}
 	
 	// 인증 게시판 상세보기
+	@GetMapping("/teamCheckBoard/teamCheckBoardDetail")
+	public String teamCheckBoardDetail(@RequestParam Long cno, Model model, Principal principal, @RequestParam Long tno) {
+		
+		// 상세 보기 부분
+		CheckBoard checkOne = checkBoardService.findOne(cno);
+		CheckBoardDetailDto checkOneDetail = new CheckBoardDetailDto().toDto(checkOne);
+		
+		Team team = teamService.findOne(tno);
+		
+		// 조회수 올리는 부분
+		checkBoardService.increaseReadCount(cno);
+
+		model.addAttribute("team", team);  
+		model.addAttribute("checkOne", checkOneDetail);
+		
+		return "teams/teamCheckBoardDetail";
+	}
 	
 	// 인증 게시판 수정
 	
