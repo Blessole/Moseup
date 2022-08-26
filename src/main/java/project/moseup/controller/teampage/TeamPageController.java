@@ -332,7 +332,13 @@ public class TeamPageController {
 		
 		// 조회수 올리는 부분
 		checkBoardService.increaseReadCount(cno);
-
+		
+		// 사진 경로 src에 맞게 설정
+		String photo = checkOne.getCheckPhoto();
+        int index = photo.indexOf("images");
+        String realPhoto = photo.substring(index-1);
+        
+        model.addAttribute("realPhoto", realPhoto);
 		model.addAttribute("team", team);  
 		model.addAttribute("checkOne", checkOneDetail);
 		
