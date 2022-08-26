@@ -6,11 +6,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Setter @Getter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CheckBoard {
 
 	@Column(name = "check_no")
@@ -42,5 +45,16 @@ public class CheckBoard {
     @Column(name = "check_readcount")
     @NotNull
     private int checkReadCount;
+
+    @Builder(builderClassName = "toEntity", builderMethodName = "createCheckBoard")
+    public CheckBoard(Member member, Team team, LocalDateTime checkDate, String checkContent, String checkPhoto, int checkLike, int checkReadCount) {
+    	this.member = member;
+    	this.team = team;
+    	this.checkDate = checkDate;
+    	this.checkContent = checkContent;
+    	this.checkPhoto = checkPhoto;
+    	this.checkLike = checkLike;
+    	this.checkReadCount = checkReadCount;
+    }
 
 }

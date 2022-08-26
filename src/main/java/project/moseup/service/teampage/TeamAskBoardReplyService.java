@@ -1,7 +1,5 @@
 package project.moseup.service.teampage;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +21,6 @@ public class TeamAskBoardReplyService {
 		TeamAskBoardReply teamAskBoardReply = teamAskBoardReplyDto.toEntity();
 		teamAskBoardReplyRepository.save(teamAskBoardReply);
 	}
-	
-	// 모든 댓글 보이기
-	public List<TeamAskBoardReply> findReplys() {
-		return teamAskBoardReplyRepository.findAll();
-	}
-	
-	// 해당 게시글 댓글 보이기
-	/*
-	 * public List<TeamAskBoardReply> findAskReplys(Long tarno) { return
-	 * teamAskBoardReplyRepository. }
-	 */
 	
 	// 댓글 한건 조회
 	public TeamAskBoardReply findReply(Long tarno) {

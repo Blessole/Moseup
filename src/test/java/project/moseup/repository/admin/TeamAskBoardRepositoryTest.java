@@ -22,26 +22,20 @@ public class TeamAskBoardRepositoryTest {
     AdminMemberRepository adminMemberRepository;
 
 
-    @Test
-    public void 글작성_test(){
-        Member member = adminMemberRepository.findById(47L).orElse(null);
-        TeamAskBoard teamAskBoard = new TeamAskBoard(
-                member,
-                "test",
-                "test",
-                LocalDate.now(),
-                0,
-                SecretStatus.SECRET,
-                DeleteStatus.FALSE
-                );
-        teamAskBoardRepository.save(teamAskBoard);
-
-        assertEquals("test", teamAskBoard.getTeamAskSubject());
-        assertEquals("test", teamAskBoard.getTeamAskContent());
-
-        teamAskBoardRepository.findOne(teamAskBoard.getTano());
-
-
-
-    }
+	/*
+	 * @Test public void 글작성_test(){ Member member =
+	 * adminMemberRepository.findById(47L).orElse(null); TeamAskBoard teamAskBoard =
+	 * new TeamAskBoard( member, "test", "test", LocalDate.now(), 0,
+	 * SecretStatus.SECRET, DeleteStatus.FALSE );
+	 * teamAskBoardRepository.save(teamAskBoard);
+	 * 
+	 * assertEquals("test", teamAskBoard.getTeamAskSubject()); assertEquals("test",
+	 * teamAskBoard.getTeamAskContent());
+	 * 
+	 * teamAskBoardRepository.findOne(teamAskBoard.getTano());
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 }

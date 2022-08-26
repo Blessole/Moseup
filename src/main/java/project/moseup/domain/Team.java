@@ -83,6 +83,9 @@ public class Team {
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "team")
+	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
+
 	@Builder(builderClassName = "createTeamBuilder", builderMethodName = "createTeamBuilder") //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
 	public Team(Member member, String teamName, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete, String teamLeader) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료

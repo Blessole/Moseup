@@ -7,17 +7,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Team;
-import project.moseup.domain.TeamAskBoard;
 
-public interface TeamAskBoardPageRepository extends JpaRepository<TeamAskBoard, Long>{
+public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long> {
+	
+	// 해당 팀으로 조회 후 리스트 나열
+	Page<CheckBoard> findByTeam(Team team, Pageable pageable);
 	
 	// 조회수 증가 로직
 	@Modifying
-	@Query("update TeamAskBoard a set a.teamAskReadCount = a.teamAskReadCount + 1 where a.tano = :tano") 
-	int updateReadCount(@Param("tano") Long tano);
-	
-	// 팀 번호로 조회(tno는 TeamAskBoard에 없다는 오류가 나서 Team team을 넣어서 해결)
-	Page<TeamAskBoard> findByTeam(Team team, Pageable pageable);
+	@Query("update CheckBoard c set c.checkReadCount = c.checkReadCount + 1 where c.cno = :cno") 
+	int updateReadCount(@Param("cno") Long cno);
 	
 }

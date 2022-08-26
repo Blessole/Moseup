@@ -26,6 +26,10 @@ public class TeamAskBoard {
 	@JoinColumn(name = "member_no")
 	private Member member;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "team_no")
+	private Team team;
+
 	@Column(name = "team_asksubject")
 	@NotEmpty
 	private String teamAskSubject;
@@ -49,8 +53,9 @@ public class TeamAskBoard {
 	private DeleteStatus teamAskDelete;
 	
 	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
-	public TeamAskBoard(Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
+	public TeamAskBoard(Member member, Team team, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete,  List<TeamAskBoardReply> teamAskBoardReplies) {
 		this.member = member;
+		this.team = team;
 		this.teamAskSubject = teamAskSubject;
 		this.teamAskContent = teamAskContent;
 		this.teamAskDate = teamAskDate;
@@ -76,6 +81,7 @@ public class TeamAskBoard {
 		this.teamAskReadCount = teamAskReadCount;
 	}
 
+	// 연관 관계 매핑
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 
