@@ -22,7 +22,7 @@ import java.util.List;
 @Table(name = "members")
 public class Member {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_no")
 	private Long mno;
 	
