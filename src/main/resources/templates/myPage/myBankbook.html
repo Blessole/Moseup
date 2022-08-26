@@ -10,18 +10,19 @@
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
     <div class="topless-middle-container">
-        <h2 class="title">귀여운 내 통장</h2>
+        <h2 class="title">작고 귀여운 내 통장</h2>
         <div class="bankBookButton-box">
+            <span>현재 총액 : <span th:text="${myTotal}"></span> 원 </span>
             <a th:href="@{/myPage/moneyCharge}" class="bankBookButton">충전하기</a>
         </div>
         <table class="bankBookTable">
             <tr><th class="col-1">순서</th><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
-            <tr th:each="list : ${bankbookDto}">
-                <td th:text="${list.dno}"></td>
+            <tr th:each="list, stat : ${bankbookDto}">
+                <td th:text="|${stat.count}|"></td>
                 <td th:text="${#temporals.format(list.bankbookDate, 'yyyy.MM.dd HH:mm')}"></td>
                 <td th:text="${list.dealList}"></td>
-                <td th:text="${list.bankbookDeposit}"></td>
-                <td th:text="${list.bankbookWithdraw}"></td>
+                <td th:text="${list.bankbookDeposit}" class="fontColor"></td>
+                <td th:text="${list.bankbookWithdraw}" class="fontColor1"></td>
                 <td th:text="${list.bankbookTotal}"></td>
             </tr>
         </table>
@@ -50,6 +51,18 @@
         </div>
         <!-- paging end -->
     </div>
+<!--    <script th:inline="javascript">-->
+<!--        $(document).ready(function(){-->
+<!--           let num = $('.fontColor').val();-->
+<!--           let num1 = $('.fontColor1').val();-->
+<!--           if (num == 0){-->
+<!--               $('.fontColor').css('color', 'black');-->
+<!--               $('.fontColor1').css('color', 'blue');-->
+<!--           } else if (num1 ==0){-->
+<!--               $('.fontColor1').css('color', 'black');-->
+<!--           }-->
+<!--        });-->
+<!--    </script>-->
 </th:block>
 </body>
 </html>

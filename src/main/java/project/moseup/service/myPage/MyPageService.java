@@ -12,6 +12,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.BankbookSaveReqDto;
+import project.moseup.dto.CheckBoardRespDto;
 import project.moseup.repository.myPage.BankbookInterfaceRepository;
 import project.moseup.repository.myPage.CheckBoardInterfaceRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
@@ -19,6 +20,7 @@ import project.moseup.repository.myPage.MyPageRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +63,18 @@ public class MyPageService {
                 break;
         }
         return teamList;
+    }
+
+    /** 인증글 조회 **/
+    public List<CheckBoard> findCheckBoardPaging(Member member) {
+        List<CheckBoard> checkBoardList = checkBoardInterfaceRepository.findByMember(member);
+        ArrayList<CheckBoardRespDto> dtoList = new ArrayList<CheckBoardRespDto>();
+        CheckBoardRespDto dto = null;
+        for (CheckBoard cb : checkBoardList){
+//            List<CheckBoardRespDto> dtos = dto.toDto(cb);
+//            dtoList.addAll();
+        }
+        return checkBoardInterfaceRepository.findByMember(member);
     }
 
     /** 인증글 조회 + 페이징 **/

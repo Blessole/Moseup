@@ -1,14 +1,6 @@
 package project.moseup.controller.teampage;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.Principal;
-import java.util.UUID;
-
-import javax.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,29 +14,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import lombok.RequiredArgsConstructor;
-import project.moseup.domain.CheckBoard;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.SecretStatus;
-import project.moseup.domain.Team;
-import project.moseup.domain.TeamAskBoard;
-import project.moseup.dto.teamPage.CheckBoardDetailDto;
-import project.moseup.dto.teamPage.CheckBoardDto;
-import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
-import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
-import project.moseup.dto.teamPage.TeamAskBoardDto;
-import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
-import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
-import project.moseup.dto.teamPage.TeamDetailDto;
-import project.moseup.dto.teamPage.TeamMemberDto;
-import project.moseup.service.TeamService;
+import project.moseup.domain.*;
+import project.moseup.dto.teamPage.*;
+import project.moseup.service.TeamCreateService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.CheckBoardService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
 import project.moseup.service.teampage.TeamAskBoardService;
 import project.moseup.service.teampage.TeamMemberService;
+
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,11 +40,11 @@ public class TeamPageController {
 	private final MemberService memberService;
 	private final TeamAskBoardReplyService teamAskBoardReplyService;
 	private final CheckBoardService checkBoardService;
-	private final TeamService teamService;
+	private final TeamCreateService teamService;
 	private final TeamMemberService teamMemberService;
 	
 	// 파일 업로드 경로
-    @Value("${moseup.upload.path2}") //application.properties의 변수
+    @Value("${moseup.upload.path}") //application.properties의 변수
     private String uploadPath;
 
 	// 팀 페이지 메인

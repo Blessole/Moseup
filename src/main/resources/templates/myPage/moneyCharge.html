@@ -12,25 +12,23 @@
     <div class="topless-middle-container">
         <h2 class="title">머니 충전</h2>
         <div class="myBox">
-            <div class="total">내 머니</div>
-            <div th:text="${myTotal}+' 원'"></div>
+            <div class="total">내 머니 : </div>
+            <div class="money" th:text="${myTotal}+' 원'"></div>
         </div>
         <div class="chargeBox">
             <form th:action="@{/myPage/moneyChargeAction}" th:object="${chargeDto}" method="post">
-                <div class="select_bx">충전 금액 선택</div>
-                <select th:field="*{bankbookDeposit}">
-                    <option value="10000" selected>1만원</option>
-                    <option value="30000">3만원</option>
-                    <option value="50000">5만원</option>
-                    <option value="100000">10만원</option>
-
-                </select>
-<!--                <input type="radio" th:field="*{bankbookDeposit}" value="10000" id="m1"><label for="m1">1만원</label>-->
-<!--                <input type="radio" th:field="*{bankbookDeposit}" value="30000" id="m2"><label for="m2">3만원</label>-->
-<!--                <input type="radio" th:field="*{bankbookDeposit}" value="50000" id="m3"><label for="m3">5만원</label>-->
-<!--                <input type="radio" th:field="*{bankbookDeposit}" value="100000" id="m4"><label for="m4">10만원</label>-->
-
-                <input type="submit" value="충전하기">
+                <div class="form-group">충전 금액 선택</div>
+                <div class="select_bx1">
+                    <select class="form-select" th:field="*{bankbookDeposit}">
+                        <option value="10000" selected>1만원</option>
+                        <option value="30000">3만원</option>
+                        <option value="50000">5만원</option>
+                        <option value="100000">10만원</option>
+                    </select>
+                </div>
+                <div class="moneyButton-box">
+                    <input type="submit" class="moneyButton" value="충전하기">
+                </div>
             </form>
         </div>
     </div>

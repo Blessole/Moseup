@@ -7,9 +7,12 @@ import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CheckBoardInterfaceRepository extends JpaRepository<CheckBoard, Long> {
+
+    List<CheckBoard> findByMember(Member member);
 
     Page<CheckBoard> findByMember(Member member, Pageable pageable);
 

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.moseup.domain.Bankbook;
 import project.moseup.domain.Member;
+import project.moseup.domain.TeamMember;
 import project.moseup.dto.BankbookRespDto;
 
 import java.util.List;
@@ -15,5 +16,4 @@ public interface BankbookInterfaceRepository extends JpaRepository<Bankbook, Lon
     Page<Bankbook> findByMember(Member member, Pageable pageable);
 
     List<Bankbook> findTop1ByMemberOrderByDnoDesc(Member member);
-
 }

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.moseup.domain.*;
 import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.BankbookSaveReqDto;
+import project.moseup.dto.CheckBoardRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
@@ -70,8 +71,13 @@ public class MyPageController {
     @GetMapping("/myCheckList")
     public String myCheckList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(required = false) Long tno){
         Member member = memberService.getPhotoAndNickname(principal, model);
+
+        CheckBoard origin = null;
+        CheckBoardRespDto dto = null;
+
         if (tno == null) {
             model.addAttribute("checkList", myPageService.findCheckBoardPaging(member, page));
+
         } else {
             model.addAttribute("checkList", myPageService.findCheckBoardByTeamPaging(member, tno, page));
         }
@@ -152,6 +158,16 @@ public class MyPageController {
     public String myBankbookList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
         Member member = memberService.getPhotoAndNickname(principal, model);
         Page<Bankbook> bankbook = myPageService.findBankbookPaging(member, page);
+
+        List<Bankbook> myBankbook = myPageService.findBankbook(member);
+        int originMoney;
+        if (myBankbook.isEmpty()){
+            originMoney = 0;
+        } else {
+            originMoney = myBankbook.get(0).getBankbookTotal();
+        }
+
+        model.addAttribute("myTotal", originMoney);
         model.addAttribute("bankbookDto", bankbook);
         model.addAttribute("member", member);
         model.addAttribute("maxPage", 20);
