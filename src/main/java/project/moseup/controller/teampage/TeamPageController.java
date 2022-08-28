@@ -336,7 +336,7 @@ public class TeamPageController {
 		// 사진 경로 src에 맞게 설정
 		String photo = checkOne.getCheckPhoto();
         int index = photo.indexOf("images");
-        String realPhoto = photo.substring(index-1);
+        String realPhoto = photo.substring(index - 1);
         
         model.addAttribute("realPhoto", realPhoto);
 		model.addAttribute("team", team);  

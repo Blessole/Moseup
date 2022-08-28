@@ -42,5 +42,4 @@ public class TeamMember implements Serializable {
 		this.team = team;
 		this.teamMemberDelete = teamMemberDelete;
 	}
-	
 }
