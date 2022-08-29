@@ -18,9 +18,11 @@ import project.moseup.repository.myPage.CheckBoardInterfaceRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
 import project.moseup.repository.myPage.MyPageRepository;
 
+import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,15 +68,16 @@ public class MyPageService {
     }
 
     /** 인증글 조회 **/
-    public List<CheckBoard> findCheckBoardPaging(Member member) {
+    public List<CheckBoardRespDto> findCheckBoardList(Member member) {
         List<CheckBoard> checkBoardList = checkBoardInterfaceRepository.findByMember(member);
-        ArrayList<CheckBoardRespDto> dtoList = new ArrayList<CheckBoardRespDto>();
-        CheckBoardRespDto dto = null;
+        List<CheckBoardRespDto> dtoList = new ArrayList<CheckBoardRespDto>();
+
         for (CheckBoard cb : checkBoardList){
-//            List<CheckBoardRespDto> dtos = dto.toDto(cb);
-//            dtoList.addAll();
+            CheckBoardRespDto dto = new CheckBoardRespDto();
+            dto = dto.toDto(cb);
+            dtoList.add(dto);
         }
-        return checkBoardInterfaceRepository.findByMember(member);
+        return dtoList;
     }
 
     /** 인증글 조회 + 페이징 **/

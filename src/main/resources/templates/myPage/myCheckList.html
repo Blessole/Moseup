@@ -36,12 +36,13 @@
 								<a th:href="@{/teams/teamPage(tno=${list.team.tno})}"><img src="/images/go.png" class="dot"></a>
 							</div>
 						</div>
-						<div class="imgBx">
-							<img src="/images/pic01.jpg" class="cover">
-						</div>
+						<span th:each="photo : ${photoList}" th:if="${list.cno == photo.cno}">
+							<div class="imgBx">
+								<img th:src="${photo.realPhoto}" class="cover">
+							</div>
+							</span>
 						<div class="actionBtns">
 							<div class="left">
-<!--								<img src="/images/heart.png" class="heart" onclick="likeButton()">-->
 								<img src="/images/heart_red.png" class="heart">
 								<h4 class="likes" th:text="${list.checkLike}+' likes'"></h4>
 							</div>

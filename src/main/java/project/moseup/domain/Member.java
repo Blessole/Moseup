@@ -95,6 +95,44 @@ public class Member {
 		this.loginType = loginType;
 	}
 
+	// 아이디, 비밀번호 찾기용 builder
+	@Builder(builderClassName = "findIdBuilder", builderMethodName = "findIdBuilder")
+	public Member(String first, String second) {
+
+		if (first.contains("@")){
+			System.out.println("비밀번호 찾기 로직 지나감");
+			Assert.hasText(first, "이메일은 [NULL]이 될 수 없습니다");
+			Assert.hasText(second, "이름은 [NULL]이 될 수 없습니다");
+			this.email = first;
+			this.name = second;
+		} else {
+			System.out.println("아이디 찾기 로직 지나감");
+			Assert.hasText(first, "이름은 [NULL]이 될 수 없습니다");
+			Assert.hasText(second, "전화번호는 [NULL]이 될 수 없습니다");
+
+			this.name = first;
+			this.phone = second;
+		}
+	}
+
+	// 회원정보 수정용 builder
+	@Builder(builderClassName = "myInfoBuilder", builderMethodName = "myInfoBuilder")
+	public Member(String password, String nickname, String name, MemberGender gender, String address, String phone, String photo) {
+		Assert.hasText(password, "비밀번호는 [NULL]이 될 수 없습니다");
+		Assert.hasText(nickname, "닉네임은 [NULL]이 될 수 없습니다");
+		Assert.hasText(name, "이름은 [NULL]이 될 수 없습니다");
+		Assert.hasText(address, "주소는 [NULL]이 될 수 없습니다");
+		Assert.hasText(phone, "전화번호는 [NULL]이 될 수 없습니다");
+
+		this.password = password;
+		this.nickname = nickname;
+		this.name = name;
+		this.gender = gender;
+		this.address = address;
+		this.phone = phone;
+		this.photo = photo;
+	}
+
 	@Override
 	public String toString() {
 		return "Member {" +
@@ -124,18 +162,23 @@ public class Member {
 	}
 
 	// 정보 수정
-	public void infoUpdate(MemberSaveReqDto memberDto){
-		this.name = memberDto.getName();
-		this.nickname = memberDto.getNickname();
-		this.gender = memberDto.getGender();
-		this.photo = memberDto.getPhoto();
-		this.phone = memberDto.getPhone();
-		this.address = memberDto.getAddress();
+	public void infoUpdate(Member member){
+		this.name = member.getName();
+		this.nickname = member.getNickname();
+		this.gender = member.getGender();
+		this.photo = member.getPhoto();
+		this.phone = member.getPhone();
+		this.address = member.getAddress();
+		this.password = member.getPassword();
 	}
 
 	// 비밀번호 암호화
 	public void encodePassword(PasswordEncoder passwordEncoder){
+
 		this.password = passwordEncoder.encode(password);
+	}
+	public void updatePassword(String encryptPassword) {
+		this.password = encryptPassword;
 	}
 
 	// 연관관계 맵핑

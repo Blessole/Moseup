@@ -79,7 +79,6 @@ public class AskBoardController {
         // 작성자 정보 SET
         askBoardForm.setMember(member);
 
-        System.out.println("file : " + file);
         // 파일 업로드
         if (file.isEmpty()){
             askBoardForm.setAskPhoto(null);
@@ -91,32 +90,9 @@ public class AskBoardController {
                 return "redirect:/askBoard/askBoardForm";
             }
 
-            // 사용 브라우저에 따라 파일이름/경로 다름
-            String originalName = file.getOriginalFilename();
-            String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
-
             // askBoard 용 폴더 생성
             String folderPath = "askBoard";
-            File uploadPathFolder = new File(uploadPath, folderPath);
-            if(!uploadPathFolder.exists())  {
-                try{
-                    uploadPathFolder.mkdirs(); //폴더생성
-                } catch (Exception e ){
-                    e.getStackTrace(); //에러발생
-                }
-            }
-
-            // 파일 경로 조합하기
-            String uuid = UUID.randomUUID().toString();
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName + ".jpg";
-            Path savePath = Paths.get(saveName);
-
-            try {
-                file.transferTo(savePath);
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-
+            String saveName = memberService.makeFolderAndFileName(file, folderPath);
             // form에 저장
             askBoardForm.setAskPhoto(saveName);
         }

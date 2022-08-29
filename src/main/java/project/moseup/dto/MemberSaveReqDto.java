@@ -1,7 +1,6 @@
 package project.moseup.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.Assert;
@@ -78,6 +77,33 @@ public class MemberSaveReqDto {
         this.address = address + ", " + address2;
         this.phone = phone;
         this.photo = photo;
+    }
+
+
+    public Member toFindID(){
+        return Member.findIdBuilder()
+                .first(name)
+                .second(phone)
+                .build();
+    }
+
+    public Member toFindPW() {
+        return Member.findIdBuilder()
+                .first(email)
+                .second(name)
+                .build();
+    }
+
+    public Member toUpdate(){
+        return Member.myInfoBuilder()
+                .phone(phone)
+                .name(name.replaceAll(" ", ""))
+                .nickname(nickname)
+                .address(address + ", "+ address2)
+                .gender(gender)
+                .photo(photo)
+                .password(password)
+                .build();
     }
 
     public Member toEntity(){

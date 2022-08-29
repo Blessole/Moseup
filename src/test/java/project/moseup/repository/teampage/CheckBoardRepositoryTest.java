@@ -1,21 +1,19 @@
 package project.moseup.repository.teampage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
-
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
-import project.moseup.repository.TeamRepository;
+import project.moseup.repository.TeamCreateRepository;
 import project.moseup.repository.member.MemberRepository;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -26,7 +24,7 @@ class CheckBoardRepositoryTest {
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired
-	TeamRepository teamRepository;
+	TeamCreateRepository teamRepository;
 	
 	@Test
 	@Rollback(false)
