@@ -82,4 +82,19 @@ public class AskBoardService {
         askBoard.delete();
         askBoardRepository.save(askBoard);
     }
+
+    // 관리자페이지 문의글 리스트 출력
+    public Page<AskBoard> askBoards(String keyword, Pageable pageable) {
+        return askBoardInterfaceRepository.findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(keyword, keyword, keyword, pageable);
+    }
+
+    // 관리자 페이지 문의글 디테일
+    public AskBoardRespDto getAskBoard(Long ano) {
+        AskBoard askBoard = askBoardInterfaceRepository.findById(ano).orElse(null);
+        if(askBoard != null){
+            return new AskBoardRespDto().toDto(askBoard);
+        }else{
+            throw new RuntimeException("문의글 데이터가 없습니다");
+        }
+    }
 }

@@ -35,18 +35,18 @@ public class AdminMemberService {
         Member memberPS = adminMemberRepository.save(memberSaveReqDto.toEntity());
         memberPS.encodePassword(passwordEncoder);
 
-        if(memberPS.getBankbook() == null){
-            // 통장이 없으면 통장 생성
-            Bankbook bankbook = Bankbook.builder()
-                    .member(memberPS)
-                    .bankbookDate(memberPS.getMemberDate())
-                    .bankbookDeposit(0)
-                    .bankbookTotal(0)
-                    .bankbookWithdraw(0)
-                    .dealList("굿모닝^^")
-                    .build();
-            adminBankbookRepository.save(bankbook);
-        }
+//        if(memberPS.getBankbook() == null){
+//            // 통장이 없으면 통장 생성
+//            Bankbook bankbook = Bankbook.builder()
+//                    .member(memberPS)
+//                    .bankbookDate(memberPS.getMemberDate())
+//                    .bankbookDeposit(0)
+//                    .bankbookTotal(0)
+//                    .bankbookWithdraw(0)
+//                    .dealList("굿모닝^^")
+//                    .build();
+//            adminBankbookRepository.save(bankbook);
+//        }
         return new MemberRespDto().toDto(memberPS);
         // 컨트롤러는 DTO 데이터를 가지고 있게하고 클라이언트한테 DTO 데이터를 넘겨줌 = Entity 데이터를 그대로 주면 연관된(조인) 다른 데이터 즉, 클라이언트 입장에서 불필요한 데이터까지 날아감을 방지
         // 간략한 흐름도 ↓
@@ -110,7 +110,7 @@ public class AdminMemberService {
         Optional<Member> memberOP = adminMemberRepository.findById(id);
         if(memberOP.isPresent()){ //찾았으면
             Member memberPS = memberOP.get();
-            memberPS.infoUpdate(dto);
+            memberPS.infoUpdate(dto.toUpdate());
             return memberPS.toDto();
         }else{
             throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");

@@ -12,8 +12,10 @@ import java.util.List;
 
 public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Long> {
 
-//    List<AskBoard> findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus);
+    List<AskBoard> findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus);
 
     /** 문의게시판 리스트 조회 + 페이징 **/
     Page<AskBoard>  findByMemberAndAskDeleteOrderByAnoDesc(Member member, DeleteStatus deleteStatus, Pageable pageable);
+
+    Page<AskBoard> findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(String keyword, String keyword1, String keyword2, Pageable pageable);
 }
