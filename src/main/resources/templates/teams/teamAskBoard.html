@@ -61,14 +61,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="teamaskboard : ${teamAsks}">							
+							<tr th:each="teamaskboard : ${teamAsks}">											
 								<th th:text="${teamaskboard.tano}"></th>
 								<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
 									   th:text="${teamaskboard.teamAskSubject}"></a></th>
 								<th th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
-								<th th:text="${teamaskboard.teamAskReadCount}"></th>
-							</tr>
+								<th th:text="${teamaskboard.teamAskReadCount}"></th>						
+							</tr>						
 						</tbody>
 					</table>
 			
