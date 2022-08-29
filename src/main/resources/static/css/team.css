@@ -2211,7 +2211,7 @@ input, select, textarea {
 
 /* Footer */
 
-	#footer {
+/* 	#footer {
 		position: relative;
 		overflow: hidden;
 		border-top: solid 2px #e5e5e5;
@@ -2237,7 +2237,7 @@ input, select, textarea {
 
 		#footer h2 {
 			text-align: center;
-		}
+		} */
 
 /* Copyright */
 
@@ -2691,13 +2691,13 @@ input, select, textarea {
 
 		/* Footer */
 
-			#footer {
+			/* #footer {
 				padding: 2em 0;
 			}
 
 				#footer ul.icons {
 					margin-bottom: 0;
-				}
+				} */
 
 		/* Copyright */
 

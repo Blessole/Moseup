@@ -1,125 +1,96 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" type="text/css" href="/css/team.css" />
-	<title>Insert title here</title>
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.dropotron.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="/css/team.css" />
+<title>Insert title here</title>
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.dropotron.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<style type="text/css">
+	ul {align-items: flex-end;}
+</style>
 </head>
 <body class="homepage is-preload">
-<!-- 본문 코드 시작 -->
-<th:block layout:fragment="content">
-	<div id="page-wrapper">
-		<!-- Header -->
-		<section id="header">
-			<div class="container">
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<div id="page-wrapper">
+			<!-- Header -->
+			<section id="header">
+				<div class="container">
 
-				<!-- Logo -->
-				<h1 id="logo">
-					<a href="/">Moseup</a>
-				</h1>
-				<p>for the sake of everyone's habits.</p>
+					<!-- Logo -->
+					<h1 id="logo">
+						<a href="/">Moseup</a>
+					</h1>
+					<p>for the sake of everyone's habits.</p>
 
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a class="icon solid fa-home" href="teamPage"><span>소개</span></a></li>
-						<li><a class="icon fa-chart-bar" href="teamAskBoard"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" href="teamCheckBoard"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" href="right-sidebar.html"><span>스터디관리 페이지</span></a></li>
-					</ul>
-				</nav>
-			</div>
-		</section>
-		<!-- features -->
-		<section id="features">
-			<div class="container">
-				<header>
-					<h2>
-						인증 게시판 입니다!
-					</h2>
-				</header>
-				<div class="row aln-center">
-					<div class="col-4 col-6-medium col-12-small">
-
-						<!-- Feature -->
-						<section>
-							<a href="#" class="image featured"><img
-									src="images/spring_boot.jpg" alt="" /></a>
-							<header>
-								<h3>소개사진 1</h3>
-							</header>
-							<p>
-								저희는 <strong>Spring boot</strong>로 개발 공부를 하는 모임입니다.
-							</p>
-							<p>혼자공부하기 막막하신분 환영!</p>
-							<p>남녀노소 제한 없습니다!</p>
-							<p>다다젖는 여기는 아마 존입니다 앞에 있는 안내 근무자의 안내를 받아 한자리에 두분씩 한보트에 열분이서
-								머리 젖어요 옷 젖어요 신발 젖어요 양말까지젖어요 옷머리신발양말 싹다 젖어요 물에 젖고 물만 맞는 여기는 아마
-								존이에요 아 마 존존존존존 물에젖고 물만맞는 여기는 아마 존입니다</p>
-						</section>
-
-					</div>
-					<div class="col-4 col-6-medium col-12-small">
-
-						<!-- Feature -->
-						<section>
-							<a href="#" class="image featured"><img
-									src="images/spring_boot.jpg" alt="" /></a>
-							<header>
-								<h3>소개사진 1</h3>
-							</header>
-							<p>
-								저희는 <strong>Spring boot</strong>로 개발 공부를 하는 모임입니다.
-							</p>
-							<p>혼자공부하기 막막하신분 환영!</p>
-							<p>남녀노소 제한 없습니다!</p>
-							<p>다다젖는 여기는 아마 존입니다 앞에 있는 안내 근무자의 안내를 받아 한자리에 두분씩 한보트에 열분이서
-								머리 젖어요 옷 젖어요 신발 젖어요 양말까지젖어요 옷머리신발양말 싹다 젖어요 물에 젖고 물만 맞는 여기는 아마
-								존이에요 아 마 존존존존존 물에젖고 물만맞는 여기는 아마 존입니다</p>
-						</section>
-
-					</div>
-					<div class="col-4 col-6-medium col-12-small">
-
-						<!-- Feature -->
-						<section>
-							<a href="#" class="image featured"><img
-									src="images/spring_boot.jpg" alt="" /></a>
-							<header>
-								<h3>소개사진 1</h3>
-							</header>
-							<p>
-								저희는 <strong>Spring boot</strong>로 개발 공부를 하는 모임입니다.
-							</p>
-							<p>혼자공부하기 막막하신분 환영!</p>
-							<p>남녀노소 제한 없습니다!</p>
-							<p>다다젖는 여기는 아마 존입니다 앞에 있는 안내 근무자의 안내를 받아 한자리에 두분씩 한보트에 열분이서
-								머리 젖어요 옷 젖어요 신발 젖어요 양말까지젖어요 옷머리신발양말 싹다 젖어요 물에 젖고 물만 맞는 여기는 아마
-								존이에요 아 마 존존존존존 물에젖고 물만맞는 여기는 아마 존입니다</p>
-						</section>
-
-					</div>
-
-					<div class="col-12">
-						<ul class="actions">
-							<li><a href="#" class="button icon solid fa-file">Tell
-								Me More</a></li>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a class="icon solid fa-home" th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+							<li><a class="icon fa-chart-bar" th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+							<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
+							<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
 						</ul>
+					</nav>
+				</div>
+			</section>
+			<!-- features -->
+			<section id="features">
+				<div class="container">
+					<h2 class="text-primary" align="center">인증글 목록</h2>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>글번호</th>
+								<th>내용</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="checkBoards : ${checkBoards}">							
+								<th th:text="${checkBoards.cno}"></th>
+								<th><a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"
+									   th:text="${checkBoards.checkContent}"></a></th>
+								<th th:text="${checkBoards.member.nickname}"></th>
+								<th th:text="${#temporals.format(checkBoards.checkDate,'yyyy-MM-dd HH:mm')}"></th>
+								<th th:text="${checkBoards.checkReadCount}"></th>
+							</tr>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							<li class="page-item" th:classappend="${1 == checkBoards.pageable.pageNumber + 1} ? 'disabled'">
+								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${checkBoards.pageable.pageNumber - 1})}"
+								tabindex="-1" aria-disabled="true">Previous</a>
+							</li>
+							<li class="page-item"
+								th:classappend="${i == checkBoards.pageable.pageNumber + 1} ? 'disabled'"
+								th:each="i : ${#numbers.sequence(startPage, endPage)}">
+								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${i - 1})}" th:text="${i}">1</a>
+							</li>
+							<li class="page-item" th:classappend="${checkBoards.totalPages == checkBoards.pageable.pageNumber + 1} ? 'disabled'">
+								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${checkBoards.pageable.pageNumber + 1})}">Next</a>
+							</li>
+						</ul>
+					</nav>
+					<div align="center">
+						<a th:href="@{/teams/teamCheckBoard/checkBoardWriteForm(tno=${team.tno})}" class="btn btn-info">인증하기</a>
 					</div>
 				</div>
-			</div>
-		</section>
-
-	</div>
-
-</th:block>
+			</section>
+		</div>
+	</th:block>
 </body>
 </html>

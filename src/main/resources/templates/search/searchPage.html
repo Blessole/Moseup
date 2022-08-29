@@ -67,8 +67,8 @@
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
 					<div th:each="searchedTeamList : ${searchedTeamList}" class="center">
 						<div class="card">
-							<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="@{...}" class="card-img-top" alt="..."></a>
-							<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+							<a href="#" th:href="@{/teams/teamPage(tno=${searchedTeamList.tno})}"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="@{...}" class="card-img-top" alt="..."></a>
+							<a href="#" th:href="@{/teams/teamPage(tno=${searchedTeamList.tno})}"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 							<div class="card-body">
 								<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName
 								<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
