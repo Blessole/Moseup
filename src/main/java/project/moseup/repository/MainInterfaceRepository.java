@@ -1,12 +1,11 @@
 package project.moseup.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import project.moseup.domain.Team;
+
+import java.util.List;
 
 @Repository
 public interface MainInterfaceRepository extends JpaRepository<Team, Long>{
@@ -28,7 +27,7 @@ public interface MainInterfaceRepository extends JpaRepository<Team, Long>{
 	//최근 생성 4개팀
 	List<Team> findTop4ByOrderByTnoDesc();
 	//가입 인원 많은순 5개팀
-	@Query(value = "select * from Teams t join team_Members m where t.team_no= m.team_no group by m.team_no order by count(m.team_no) desc limit 5;", nativeQuery = true)
+	@Query(value = "select t.* from Teams t join team_Members m where t.team_no= m.team_no group by m.team_no order by count(m.team_no) desc limit 5;", nativeQuery = true)
 	List<Team> topList();
 	
 	//가입 인원 많은순 5개팀

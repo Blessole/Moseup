@@ -1,20 +1,12 @@
 package project.moseup.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
@@ -43,7 +35,5 @@ public class TeamMember implements Serializable {
 		this.team = team;
 		this.teamMemberDelete = teamMemberDelete;
 	}
-
-//	@Builder(builderClassName = "toEntity", builderMethodName = "joinTeamMember")
 
 }
