@@ -14,7 +14,36 @@
         <div th:replace="admin/memberDetail :: memberInfo"></div>
         <!-- 내비바 -->
         <div th:replace="admin/memberDetail :: memberInfoNav('askBoard')"></div>
-        
+
+        <div class="title-section">
+            <span>관리자 문의글</span>
+          </div>
+        <table class="table caption table-hover">
+            <caption>총 문의글 수 : <span th:text="${member.askBoards.size}">게시글 수</span></caption>
+            <thead>
+              <tr class="tableHeader">
+                <th scope="col">번  호</th>
+                <th scope="col">제  목</th>
+                <th scope="col">내  용</th>
+                <th scope="col">작성일</th>
+                <th scope="col">답변여부</th>
+                <th scope="col">보기</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr class="no-data" th:if="${member.askBoards.size} == 0">
+                    <th colspan="6">작성된 문의글이 없습니다</th>
+                </tr>
+              <tr th:each="askBoard : ${member.askBoards}">
+                <th th:text="${askBoard.ano}">번호</th>
+                <td th:text="${askBoard.askSubject}">제목</a></td>
+                <td th:text="${askBoard.askContent}">내용</td>   
+                <td th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
+                <td th:text="${askBoard.askDelete}">답변여부</td>
+                <td><a class="member-link" th:href="@{/admin/askBoardDetail(ano=${askBoard.ano})}">확인</a></td>
+              </tr>
+            </tbody>
+          </table>
 
         
 

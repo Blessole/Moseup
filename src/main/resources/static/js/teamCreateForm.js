@@ -210,7 +210,10 @@ $(function() {
 		let space = /\s/; //공백체크
 		if (space.exec(teamCategory3)) {//공백 체크
 			$('#teamCategory3Err').text("공백은 사용할 수 없습니다!");
-			$('#teamCategory3').val("");
+			$('#teamCategory3').val(null);
+		}
+		if(!space.exec(teamCategory3)) {
+			$('#teamCategory3Err').text("");
 		}
 	});
 });

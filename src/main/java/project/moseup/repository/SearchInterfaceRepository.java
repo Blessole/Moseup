@@ -1,8 +1,12 @@
 package project.moseup.repository;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import project.moseup.domain.Team;
 
@@ -108,5 +112,17 @@ public interface SearchInterfaceRepository extends JpaRepository<Team, Long>{
 	//필터1 팀장/팀장명/태그, 필터2 예치금순 검색
 	Page<Team> findByTeamNameContainingOrTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(
 			String keyword, String keyword2, String keyword3, String keyword4, String keyword5, Pageable pageable);
+
+	
+	//메인페이지에서 카테고리1 인기순 팀리스트
+	Page<Team> findByTeamCategory1OrderByTeamVolumeDesc(String keyword, Pageable pageable);
+	//메인페이지 최신순 24개
+	Page<Team> queryFirst24ByOrderByTnoDesc(Pageable pageable);
+
+	//필터2만 팀원수순 하는중!
+	@Query(value = "select t.* from teams t join team_members m where t.team_no= m.team_no and \r\n"
+			+ "(t.team_name='대통령' or t.team_leader='대통령' or t.team_category1='대통령' or t.team_category1='대통령' or t.team_category3='대통령')\r\n"
+			+ "group by m.team_no order by count(m.team_no) desc", nativeQuery = true)
+	Page<Team> filter2SearchByTeamMember(String keyword, Pageable pageable);
 
 }

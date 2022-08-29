@@ -17,7 +17,4 @@ public class TeamMemberRepository {
 	public void save(TeamMember teamMember) {
 		 em.persist(teamMember);
 	}
-	
-	// 팀 멤버 목록
-	
 }

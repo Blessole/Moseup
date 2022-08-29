@@ -1,6 +1,7 @@
 package project.moseup.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.domain.TeamMember;
 
 @Getter @Setter
 public class TeamCreateReqDto {
@@ -44,6 +46,16 @@ public class TeamCreateReqDto {
 	
 	private String teamLeader;					//*검색용* 팀장 닉네임
 	
+	
+	
+	private List<TeamMember> teamMembers;	//팀멤버
+
+	private LocalDate teamDate;				//팀 생성일
+
+	private DeleteStatus teamDelete;		//팀 삭제여부
+	
+	
+	
 	//팀생성 메서드
 	public Team teamBuilder() {
 		return Team.createTeamBuilder()
@@ -62,6 +74,25 @@ public class TeamCreateReqDto {
 				.teamDelete(DeleteStatus.FALSE)
 				.teamLeader(teamLeader)
 				.build();
+	}
+	
+	private TeamCreateReqDto toDto(Team team) {
+		this.member = team.getMember();
+		this.teamName = team.getTeamName();
+		this.teamVolume = team.getTeamVolume();
+		this.teamDeposit = team.getTeamDeposit();
+		this.teamCategory1 = team.getTeamCategory1();
+		this.teamCategory2 = team.getTeamCategory2();
+		this.teamCategory3 = team.getTeamCategory3();
+		this.teamDate = team.getTeamDate();
+		this.startDate = team.getStartDate();
+		this.endDate = team.getEndDate();
+		this.teamIntroduce = team.getTeamIntroduce();
+		this.teamPhoto = team.getTeamPhoto();
+		this.teamDelete = team.getTeamDelete();
+		this.teamLeader = team.getTeamLeader();
+		this.teamMembers = team.getTeamMembers();
+		return this;
 	}
 	
 	//팀삭제 메서드

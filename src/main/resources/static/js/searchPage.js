@@ -4,6 +4,11 @@ function searchChk() {
 	if (text == "" || text == null) {
 		return false;
 	}
+	
+	if ($('.filter1value').is(":checked") == false) {
+		$('#filter1main').val("nothing");
+	}
+	
 }
 
 /* filter1 submit체크 */
@@ -12,6 +17,10 @@ function filter1Chk() {
 	let filter2 = $('#filter2main').val();
 
 	if (text == "" || text == null) {
+		return false;
+	}
+	
+	if ($('.filter1value').is(":checked") == false) {
 		return false;
 	}
 

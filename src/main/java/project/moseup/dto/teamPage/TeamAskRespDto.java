@@ -2,10 +2,7 @@ package project.moseup.dto.teamPage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.SecretStatus;
-import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 public class TeamAskRespDto {
 
     private Long tano;
+    private Team team;
     private Member member;
     private String teamAskSubject;
     private String teamAskContent;
@@ -24,6 +22,7 @@ public class TeamAskRespDto {
 
     public TeamAskRespDto toDto(TeamAskBoard teamAskBoardPS){
         this.tano = teamAskBoardPS.getTano();
+        this.team = teamAskBoardPS.getTeam();
         this.member = teamAskBoardPS.getMember();
         this.teamAskSubject = teamAskBoardPS.getTeamAskSubject();
         this.teamAskContent = teamAskBoardPS.getTeamAskContent();

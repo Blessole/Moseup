@@ -49,14 +49,24 @@ public class TeamCreateService {
 //		
 //		createTeamRepository.save(team);
 		
-		
-		
+		//카테고리3 입력 안 했을 시 null값 주기
+		if (teamCreateReqDto.getTeamCategory3().equals("")) {
+			teamCreateReqDto.setTeamCategory3(null);
+		}
 		
 		UUID uuid = UUID.randomUUID();	//고유식별자생성
 		
 		String fileName = uuid + "_" + file.getOriginalFilename(); //파일명
+		
+		//팀명 폴더 생성 - 해당 위치에 폴더가 없을 경우 생성하는 코드
+		String folderName = teamCreateReqDto.getTeamName();
+		String uploadPath2 = uploadPath + "/teamPhotos";
+		File uploadPathFolder = new File(uploadPath2, folderName);
+		if(!uploadPathFolder.exists()){
+			uploadPathFolder.mkdirs(); //폴더 생성
+        }
 
-		File saveFile = new File(uploadPath, fileName);	//uploadPath라는 경로에 fileName이라는 이름으로 폴더 생성
+		File saveFile = new File(uploadPathFolder, fileName);	//uploadPathFolder 경로에 fileName이라는 이름으로 파일 생성
 		
 //		Path savePath = Paths.get(uploadPath);	//경로 정의
 		

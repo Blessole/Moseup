@@ -115,10 +115,7 @@ public class MemberSaveReqDto {
                 .address(address + ", " + address2)
                 .phone(phone)
                 .photo(photo)
-                .memberDelete(DeleteStatus.FALSE)
                 .gender(gender)
-                .memberDate(LocalDateTime.now())
-                .role(Role.USER)
                 .build();
     }
 
@@ -135,7 +132,6 @@ public class MemberSaveReqDto {
         this.memberDelete = memberPS.getMemberDelete();
         this.memberDate = memberPS.getMemberDate();
         this.role = memberPS.getRole();
-
         return this;
     }
 

@@ -40,6 +40,11 @@ public class MemberService {
 	@Value("${moseup.upload.path}") //application.properties의 변수
 	private String uploadPath;
 
+	/** principal 조회 **/
+	public Member getPrincipal(Principal principal) {
+		return this.getMember(principal.getName());
+	}
+
 	/** 회원 정보 조회 **/
 	public Member getMember(String email) {
 		Optional<Member> member = this.memberInterfaceRepository.findByEmail(email);

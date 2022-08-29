@@ -18,7 +18,7 @@ public class TeamMemberDto {
 	
 	// 팀 가입 method
 	public TeamMember toEntity() {
-		return TeamMember.joinTeamMember()
+		return TeamMember.createTeamMemberBuilder()
 				.member(member)
 				.team(team)
 				.teamMemberDelete(DeleteStatus.FALSE).build();

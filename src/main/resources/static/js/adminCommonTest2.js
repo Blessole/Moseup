@@ -9,22 +9,42 @@ let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".bx-menu");
 
 sidebarBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("close");
+    sidebar.classList.toggle("sideBarClose");
+});
+
+let filterVal = $("#memberFilter").val();
+
+
+// const memberFilter = (target) => {
+//     const value = target.value;
+//     const url = "memberList";
+
+//     $.ajax({
+//         url: url,
+//         type: 'get',
+//         dataType: 'text',
+//         data: { memberFilter: value }
+//     });
+// }
+
+
+var edit = document.getElementById('edit');
+var askReplyContent = document.getElementById('askReplyContent');
+
+edit.addEventListener('click', function () {
+
+    if (edit.innerText == "취소") {
+        askReplyContent.removeAttribute('required');
+        askReplyContent.setAttribute('readonly', 'readonly');
+        edit.innerText = "수정";
+    } else {
+        askReplyContent.removeAttribute('readonly');
+        askReplyContent.setAttribute('required', 'required');
+        edit.innerText = "취소";
+    }
 });
 
 
-
-
-$(function () {
-    let sidebarClassList = sidebar.classList;
-    if (!sidebarClassList.contains('close')) {
-        sessionStorage.setItem('sideBar', 'open');
-    }
-    if (sessionStorage.getItem('sideBar') == 'open') {
-        let sidebar = document.querySelector(".sidebar");
-        $('.sidebar').trigger("sidebar.classList.remove('close')");
-    }
-});
 
 // 사진 미리보기
 function loadFile(input) {
