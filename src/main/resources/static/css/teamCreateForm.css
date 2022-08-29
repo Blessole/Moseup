@@ -50,6 +50,21 @@
 	display: none;
 }
 
+/* 이미지 미리보기 div태그 */
+.image_container {
+	margin: 20px 0 ;
+}
+
+/* 이미지 미리보기 이미지 태그 */
+#imgTag {
+	border: 1px solid;
+}
+
+/* 업로드 디스플레이 감추기 */
+.photoDisplayNone{
+	display: none;
+}
+
 .essential {
 	color: red;
 }

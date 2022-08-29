@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.util.Assert;
 
 import lombok.AccessLevel;
@@ -66,6 +67,7 @@ public class Team {
 	@Column(name = "team_category3")
 	private String  teamCategory3;	//소분류
 
+	@CreatedDate
 	private LocalDate teamDate; // 팀 생성일
 
 	private LocalDate startDate; // 습관 시작일

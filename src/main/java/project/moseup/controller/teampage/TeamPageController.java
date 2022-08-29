@@ -39,7 +39,7 @@ import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
 import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.dto.teamPage.TeamMemberDto;
-import project.moseup.service.TeamService;
+import project.moseup.service.TeamCreateService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.CheckBoardService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
@@ -55,7 +55,7 @@ public class TeamPageController {
 	private final MemberService memberService;
 	private final TeamAskBoardReplyService teamAskBoardReplyService;
 	private final CheckBoardService checkBoardService;
-	private final TeamService teamService;
+	private final TeamCreateService teamCreateService;
 	private final TeamMemberService teamMemberService;
 	
 	// 파일 업로드 경로
@@ -67,7 +67,7 @@ public class TeamPageController {
 	public String teamMainPage(@RequestParam Long tno, Model model) {
 		
 		// 팀 정보 보여주기
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		model.addAttribute("team", team);
 		
@@ -79,7 +79,7 @@ public class TeamPageController {
 	public String joinTeam(@RequestParam Long tno, Model model, Principal principal) {
 		
 		Member member = this.memberService.getMember(principal.getName());
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		TeamMemberDto teamMemberDto = new TeamMemberDto();		
 		teamMemberDto.setMember(member);
@@ -94,7 +94,7 @@ public class TeamPageController {
 	@GetMapping("/teamMemberList")
 	public String teamMemberList(@RequestParam Long tno, Model model) {
 		
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
 		teamDetail.getTeamMember();
@@ -108,7 +108,7 @@ public class TeamPageController {
 	@GetMapping("/teamAskBoard")
 	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
 		
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
 		Page<TeamAskBoard> teamAsks = teamAskBoardService.findTeamAsksPage(team, pagable);
@@ -128,7 +128,7 @@ public class TeamPageController {
 	@GetMapping("/teamAskBoard/teamAskBoardWriteForm")
 	public String teamAskBoardWriteForm(@RequestParam Long tno, Model model, Principal principal) {
 		Member member = this.memberService.getMember(principal.getName());
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		model.addAttribute("team", team);     
 		model.addAttribute("member", member);
@@ -142,7 +142,7 @@ public class TeamPageController {
 	public String createTeamAsk(@Valid TeamAskBoardDto teamAsk, BindingResult result, Principal principal, @RequestParam(required = false) String secret, @RequestParam Long tno) {
 
 		Member member = this.memberService.getMember(principal.getName());
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		teamAsk.setTeam(team);
 		teamAsk.setMember(member);
@@ -166,7 +166,7 @@ public class TeamPageController {
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
 		
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		// 조회수 올리는 부분
 		teamAskBoardService.increaseReadCount(tano);
@@ -206,7 +206,7 @@ public class TeamPageController {
 		
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		model.addAttribute("team", team);
 		model.addAttribute("teamAskOne", teamAskOneDetail);
@@ -244,7 +244,7 @@ public class TeamPageController {
 	@GetMapping("/teamCheckBoard")
 	public String teamCheckBoardPage(Model model, @PageableDefault(size = 10, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
 		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
@@ -263,7 +263,7 @@ public class TeamPageController {
 	@GetMapping("/teamCheckBoard/checkBoardWriteForm")
 	public String teamCheckBoardWriteForm(@RequestParam Long tno, Model model, Principal principal) {
 		Member member = this.memberService.getMember(principal.getName());
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		model.addAttribute("team", team);    
 		model.addAttribute("member", member);
@@ -277,7 +277,7 @@ public class TeamPageController {
 	public String createTeamAsk(@Valid CheckBoardDto teamCheck, BindingResult result, @RequestParam(required = false) MultipartFile checkPhoto, Principal principal, @RequestParam Long tno) throws IOException {
 
 		Member member = this.memberService.getMember(principal.getName());
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		teamCheck.setTeam(team);
 		teamCheck.setMember(member);
@@ -328,7 +328,7 @@ public class TeamPageController {
 		CheckBoard checkOne = checkBoardService.findOne(cno);
 		CheckBoardDetailDto checkOneDetail = new CheckBoardDetailDto().toDto(checkOne);
 		
-		Team team = teamService.findOne(tno);
+		Team team = teamCreateService.findOne(tno);
 		
 		// 조회수 올리는 부분
 		checkBoardService.increaseReadCount(cno);

@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Getter
 @Table(name = "team_members")
@@ -36,10 +37,13 @@ public class TeamMember implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamMemberDelete;
 	
-	@Builder(builderClassName = "toEntity", builderMethodName = "joinTeamMember")
+	@Builder(builderClassName = "createTeamMemberBuilder", builderMethodName = "createTeamMemberBuilder")
 	public TeamMember(Member member, Team team, DeleteStatus teamMemberDelete) {
 		this.member = member;
 		this.team = team;
 		this.teamMemberDelete = teamMemberDelete;
 	}
+
+//	@Builder(builderClassName = "toEntity", builderMethodName = "joinTeamMember")
+
 }
