@@ -27,6 +27,7 @@
               <th scope="col">이메일</th>
               <th scope="col">닉네임</th>
               <th scope="col">탈퇴여부</th>
+              <th scope="col">확인</th>
             </tr>
           </thead>
           <tbody>
@@ -34,9 +35,10 @@
               <th th:text="${member.mno}">번호</th>
               <td th:text="${member.role}">권한</td>
               <td th:text="${member.name}">이름</td>
-              <td><a class="member-link" th:text="${member.email}" th:href="@{/admin/memberDetail(mno=${member.mno}, pageNum=${members.pageable.pageNumber})}">이메일</a></td>    
+              <td th:text="${member.email}">이메일</a></td>    
               <td th:text="${member.nickname}">닉네임</td>
               <td th:text="${member.memberDelete}">탈퇴여부</td>
+              <td><a class="member-link" th:href="@{/admin/memberDetail(mno=${member.mno}, pageNum=${members.pageable.pageNumber})}">보기</a></td>
             </tr>
           </tbody>
         </table>

@@ -1,15 +1,17 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Setter @Getter
+@NoArgsConstructor
+@Getter
 public class AskBoardReply {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +36,24 @@ public class AskBoardReply {
 	@Column(name = "ask_replydelete")
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus askReplyDelete;
+
+	@Builder
+	public AskBoardReply(AskBoard askBoard, Member member, String askReplyContent, LocalDateTime askReplyDate, DeleteStatus askReplyDelete) {
+		Assert.notNull(askBoard, "askBoard은 [NULL]이 될 수 없습니다");
+		Assert.notNull(member, "member는 [NULL]이 될 수 없습니다");
+		Assert.hasText(askReplyContent, "askReplyContent은 [NULL]이 될 수 없습니다");
+		Assert.notNull(askReplyDate, "askReplyDate은 [NULL]이 될 수 없습니다");
+		Assert.notNull(askReplyDelete, "askReplyDelete은 [NULL]이 될 수 없습니다");
+
+		this.askBoard = askBoard;
+		this.member = member;
+		this.askReplyContent = askReplyContent;
+		this.askReplyDate = askReplyDate;
+		this.askReplyDelete = askReplyDelete;
+	}
+
+
+
+
+
 }

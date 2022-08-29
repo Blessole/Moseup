@@ -3,7 +3,9 @@ package project.moseup.repository.admin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.domain.Role;
 
 public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
@@ -11,11 +13,14 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
 
+
+
     // 회원리스트
-    Page<Member> findByEmailContainingOrNameContainingOrNicknameContaining(String Email, String name, String nickname, Pageable pageable);
+    Page<Member> findByEmailContainingOrNameContainingOrNicknameContaining(String email, String name, String nickname, Pageable pageable);
 
     Page<Member> findAll(Pageable pageable);
 
+    Page<Member> findByMemberDelete(DeleteStatus mTrue, Pageable pageable);
 
-
+    Page<Member> findByRole(Role admin, Pageable pageable);
 }

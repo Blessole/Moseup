@@ -1,0 +1,131 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('adminAskBoard')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('관리자 문의글')"> </section>
+
+
+    <div class="main-section">
+        <div class="main-info-content">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>회원번호</label>
+                    <span th:text="${askBoard.member.mno}">회원번호</span>
+                </div>
+                <div class="info-data">
+                    <label>작성자</label>
+                    <span th:text="${askBoard.member.nickname}">작성자</span>
+                </div>
+                <div class="info-data">
+                    <label>이메일</label>
+                    <span th:text="${askBoard.member.email}">이메일</span>
+                </div>
+                <div class="info-data">
+                    <label>전화번호</label>
+                    <span th:text="${askBoard.member.phone}">번호</span>
+                </div>
+                <div class="info-data">
+                    <label>가입날짜</label>
+                    <span th:text="${#temporals.format(askBoard.member.memberDate, 'yyyy-MM-dd HH:mm:ss')}">가입날짜</span>
+                </div>
+            </div>
+            <div class="btn-over">
+                <a th:href="@{/admin/memberDetail(mno=${askBoard.member.mno})}" class="btn btn-outline-danger">회원정보</a>
+                <a th:href="@{/admin/adminAskBoards?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
+            </div>
+        </div> <!-- 메인 인포 콘텐츠 end-->
+
+        <div class="askBoardMain">
+
+            <div class="askBoard">
+                <h4 class="mb-3">문의글</h4>
+                <div class="row">
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="ano" class="form-label">문의번호</label>
+                        <input type="text" readonly class="form-control" id="ano" value="" th:value="${askBoard.ano}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askDate" class="form-label">작성일</label>
+                        <input type="text" readonly class="form-control" id="askDate" value=""
+                            th:value="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askSubject" class="form-label">문의제목</label>
+                        <input type="text" readonly class="form-control" id="askSubject" value=""
+                            th:value="${askBoard.askSubject}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="member" class="form-label">작성자</label>
+                        <input type="text" readonly class="form-control" id="member" value=""
+                            th:value="${askBoard.member.nickname}">
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="askContent" class="form-label">문의내용</label>
+                        <pre><textarea readonly class="form-control" id="askContent" rows="20" value=""
+                            th:text="${askBoard.askContent}"></textarea></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="replybox">
+                <h4 class="mb-3">답변글</h4>
+                <div class="row">
+                    <form id="frm" action="#" th:action="@{/admin/askBoardDetail}" th:object="${replySaveDto}"
+                        method="post">
+                        <input type="hidden" name="askBoard" th:value="${askBoard.ano}">
+                        <input type="hidden" name="member" th:value="${member.mno}">
+                        <div class="col-sm-12 mb-3">
+                            <label for="mno" class="form-label">작성자</label>
+                            <input type="text" readonly class="form-control" id="mno" th:value="${member.nickname}">
+                        </div>
+
+                        <div class="col-sm-12 mb-3">
+                            <label for="ano" class="form-label">제목</label>
+                            <input type="text" readonly class="form-control" id="ano"
+                                th:value="${askBoard.member.nickname + ' 님의 문의글 답변입니다.'}">
+                        </div>
+
+                        <div class="col-sm-12 mb-3">
+                            <label for="askContent" class="form-label">답변글</label>
+                            <pre><textarea readonly class="form-control" id="askReplyContent" name="askReplyContent" rows="20" th:text="${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].askReplyContent}"></textarea></pre>
+                        </div>
+
+                        <div class="text-end">
+                            <a th:href="@{/admin/adminAskReplyList(ano=${askBoard.ano})}" id="askReplyList" class="btn btn-outline-primary">답변목록</a>
+                            <button type="button" id="edit" class="btn btn-outline-primary">수정</button>
+                            <input type="submit" id="save" class="btn btn-primary" value="저장">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div> <!-- 메인 세션  end-->
+
+
+
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

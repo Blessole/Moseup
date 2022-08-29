@@ -1,10 +1,6 @@
 package project.moseup.controller;
 
-import java.security.Principal;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,14 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.service.TeamCreateService;
-import project.moseup.service.TeamMemberService;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.teampage.TeamMemberService;
+
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,11 +48,13 @@ public class TeamCreateController {
 		
 		teamCreateReqDto.setMember(member);
 		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
+
 		
 		Long newTeam = teamCreateService.create(teamCreateReqDto, file);	//팀 생성
 		
 		//팀 멤버 테이블에 팀장 넣기
 		Team team =  teamCreateService.findOne(newTeam);	//생성한 팀
+
 		teamMemberService.create(member, team); //팀멤버 생성
 
 		return "redirect:/";	// 초기화면으로 돌아감

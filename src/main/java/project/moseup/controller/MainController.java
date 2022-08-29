@@ -1,16 +1,13 @@
 package project.moseup.controller;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.service.MainService;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,11 +23,11 @@ public class MainController {
 //		System.out.println("tno = " + topList.get(0).getTeamMembers().get(1).getTeam().getTno());
 		
 		List<Team> topList = mainService.topList();
-		System.out.println("사이즈 = " + topList.get(0).getTno());
-		System.out.println("사이즈 = " + topList.get(1).getTno());
-		System.out.println("사이즈 = " + topList.get(2).getTno());
-		System.out.println("사이즈 = " + topList.get(3).getTno());
-		System.out.println("사이즈 = " + topList.get(4).getTno());
+//		System.out.println("사이즈 = " + topList.get(0).getTno());
+//		System.out.println("사이즈 = " + topList.get(1).getTno());
+//		System.out.println("사이즈 = " + topList.get(2).getTno());
+//		System.out.println("사이즈 = " + topList.get(3).getTno());
+//		System.out.println("사이즈 = " + topList.get(4).getTno());
 		
 		//카테고리1 공부 인기순
 		List<Team> studyTopList = mainService.studyTopList();

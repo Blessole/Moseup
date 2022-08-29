@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 
 import javax.persistence.*;
@@ -126,11 +127,11 @@ public class Member {
 	public void infoUpdate(MemberSaveReqDto memberDto){
 		this.name = memberDto.getName();
 		this.nickname = memberDto.getNickname();
-		this.gender = memberDto.getGender();
 		this.photo = memberDto.getPhoto();
 		this.phone = memberDto.getPhone();
 		this.address = memberDto.getAddress();
 	}
+
 
 	// 비밀번호 암호화
 	public void encodePassword(PasswordEncoder passwordEncoder){
@@ -182,4 +183,7 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 
+	public MemberRespDto toDto() {
+		return new MemberRespDto().toDto(this);
+	}
 }

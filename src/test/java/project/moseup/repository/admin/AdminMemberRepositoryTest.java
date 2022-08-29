@@ -4,12 +4,11 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
+import project.moseup.dto.MemberSaveReqDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 // DB와 관련된 컴포넌트만 메모리에 로딩
 @SpringBootTest
-@Transactional //테스트 메서드가 하나 실행 후 종료되면 데이터가 초기화된다. 1건 > 2건 > 트랜잭션 종료 > 데이터 초기화 ***primary key auto_increment 값은 초기화가 안 됨
+//@Transactional //테스트 메서드가 하나 실행 후 종료되면 데이터가 초기화된다. 1건 > 2건 > 트랜잭션 종료 > 데이터 초기화 ***primary key auto_increment 값은 초기화가 안 됨
 public class AdminMemberRepositoryTest {
 
     @Autowired
@@ -32,34 +31,26 @@ public class AdminMemberRepositoryTest {
     @Test //순서 보장이 안 됨
     public void memberSave_test(){
         // given (데이터 준비)
-        Member member = Member.builder()
-                .email("bankbookTest@t1.com")
+        MemberSaveReqDto member = MemberSaveReqDto.builder()
+                .email("test@t0.com")
                 .password("a123123")
-                .nickname("통장테스트")
-                .name("통장테스트")
+                .nickname("자동처리테스트")
+                .name("자동처리테스트")
                 .gender(MemberGender.FEMALE)
                 .address("통장맨")
                 .photo("jpg")
                 .phone("01033333333")
-                .memberDate(LocalDateTime.now())
-                .memberDelete(DeleteStatus.FALSE)
                 .build();
 
         // when (테스트 실행)
-        Member MemberPS = adminMemberRepository.save(member); //save(member) 클라이언트에게 받은 데이터
+        Member MemberPS = adminMemberRepository.save(member.toEntity()); //save(member) 클라이언트에게 받은 데이터
         // MemberPS =  save 메소드가 db에 저장된 Member 를 return(DB 데이터와 동기화된 데이터)
         // PS = persistence(영속성) -> 영구적으로 저장된 데이터 == DB에 저장된 데이터
 
 
 
         // then (검증)
-        assertEquals("123@k1.com", MemberPS.getEmail());
-        assertEquals("1234", MemberPS.getPassword());
-        assertEquals("찬우", MemberPS.getNickname());
-        assertEquals("정찬우", MemberPS.getName());
-        assertEquals("안양", MemberPS.getAddress());
-        assertEquals("jpg", MemberPS.getPhoto());
-        assertEquals("010-3333", MemberPS.getPhone());
+        assertEquals("test@t0.com", MemberPS.getEmail());
 
     }
 

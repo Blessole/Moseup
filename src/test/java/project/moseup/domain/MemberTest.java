@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.repository.admin.AdminMemberRepository;
 
-import java.time.LocalDateTime;
-
 @SpringBootTest
 @Transactional
 public class MemberTest {
@@ -24,8 +22,6 @@ public class MemberTest {
                 .nickname("dd")
                 .password("1234")
                 .phone("3333")
-                .memberDate(LocalDateTime.now())
-                .memberDelete(DeleteStatus.FALSE)
                 .gender(MemberGender.MALE)
                 .address("123")
                 .build();

@@ -28,6 +28,7 @@
                 <th scope="col">스터디명</th>
                 <th scope="col">모집인원</th>
                 <th scope="col">생성날짜</th>
+                <th scope="col">확인</th>
               </tr>
             </thead>
             <tbody>
@@ -35,9 +36,10 @@
                 <th th:text="${team.tno}">번호</th>
                 <td th:text="${team.member.nickname}">팀장</td>
                 <td th:text="${team.teamDeposit}">예치금</td>
-                <td><a th:text="${team.teamName}" th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${teams.pageable.pageNumber})}">스터디명</a></td>    
+                <td th:text="${team.teamName}">스터디명</td>    
                 <td th:text="${team.teamVolume}">모집인원</td>
                 <td th:text="${team.teamDate}">생성날짜</td>
+                <td><a th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${teams.pageable.pageNumber})}">보기</a></td>    
               </tr>
             </tbody>
           </table>

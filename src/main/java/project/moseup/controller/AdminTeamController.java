@@ -28,7 +28,7 @@ public class AdminTeamController {
     public String teamList(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
                            @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
 
-        Page<Team> teams = adminTeamRepository.findByTeamNameContaining(keyword, pageable);
+        Page<Team> teams = adminTeamService.teams(keyword, pageable);
 
         int startPage = Math.max(1, teams.getPageable().getPageNumber() - 5);
         int endPage = Math.min(teams.getTotalPages(), teams.getPageable().getPageNumber() + 5);

@@ -1,6 +1,9 @@
 package project.moseup.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -65,6 +68,11 @@ public class AskBoard {
 		this.askContent = askContent;
 		this.askPhoto = askPhoto;
 	}
+
+	public void addReply(List<AskBoardReply> askBoardReply){
+		this.askBoardReplies.addAll(askBoardReply);
+	}
+
 
 	public void delete(){
 		this.askDelete = DeleteStatus.TRUE;

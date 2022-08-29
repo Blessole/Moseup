@@ -7,7 +7,7 @@ import project.moseup.domain.Team;
 
 public interface AdminTeamRepository extends JpaRepository<Team, Long> {
 
-    Page<Team> findByTeamNameContaining(String keyword, Pageable pageable);
+    Page<Team> findByTeamNameContainingOrMemberNicknameContaining(String keyword, String keyword2, Pageable pageable);
 
 
 }
