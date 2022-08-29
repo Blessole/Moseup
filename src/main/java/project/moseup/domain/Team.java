@@ -1,17 +1,31 @@
 package project.moseup.domain;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.util.Assert;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 //생성자를 따로 안 만들면 자동으로 기본 생성자가 생성됨 하지만 다른 생성자가 있으면 기본 생성자를 만들어 줘야 함
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +35,7 @@ import java.util.List;
 public class Team {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "team_no") // 팀 번호
 	private Long tno;
 
@@ -53,6 +67,7 @@ public class Team {
 	@Column(name = "team_category3")
 	private String  teamCategory3;	//소분류
 
+	@CreatedDate
 	private LocalDate teamDate; // 팀 생성일
 
 	private LocalDate startDate; // 습관 시작일
@@ -80,7 +95,7 @@ public class Team {
 
 	@OneToMany(mappedBy = "team")
     private List<CheckBoard> checkBoards = new ArrayList<>();
-
+	
 	@OneToMany(mappedBy = "team")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
 	

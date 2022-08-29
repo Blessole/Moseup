@@ -6,25 +6,23 @@
 
 /* 슬라이드바 섹션 */
 .slidesSection {
-	border: 1px solid green;
-	height: 300px;
+	margin-bottom: 60px;
 }
 
 /* 메인 검색창 섹션 */
 .searchSection {
-	border: 1px solid red;
 	height: 250px;
 }
 
 /* 팀 리스트 섹션 */
-.mainSection {
+/* .teamListSection {
 	border: 1px solid blue;
 	height: 400px;
-}
+} */
 
 /* 메인 검색창 전부 감싸는 태그 */
 .mainSearch {
-	width: 42%;
+	width: 45%;
 	margin: 0 auto;
 }
 /* 메인 검색창 인풋 및 이미지 감싸는 태그 */
@@ -35,6 +33,7 @@
 /* 메인 검색창 인풋 */
 #mainSearch {
 	width: 100%;
+	height: 70px;
  	border: 1px solid #bbb;
 	border-radius: 30px;
  	padding: 10px 12px;
@@ -47,12 +46,13 @@
 /* 메인 검색창 placeholder */
 .mainSearchInput input::placeholder {
   color: #d4d4d4;
+  font-size: 17px;
 }
 /* 메인 돋보기 이미지 */
 .mainSearchImg{
 	position : absolute;
 	width: 40px;
-	top: 18px;
+	top: 24px;
 	right: 12px;
 	margin: 0;
 	background-image: url('/images/search.png');
@@ -85,6 +85,173 @@
 /* 메인 검색창 타이틀 */
 .mainSearchTitle {
 	margin: 5px;
-	font-size: 1.3em;
+	font-size: 1.6em;
+}
+
+/* 검색창 밑 tag */
+#searchTag {
+	margin-top: 8px;
+}
+
+/* searchTag밑 a태그 */
+#searchTagALink {
+	display:inline-block;
+	border-radius: 10px;
+	margin-right: 20px;
+	background-color: #efefef;
+	line-height: 30px;
+	text-decoration: none;
+	color: black;
+	font-size: 14px;
+}
+
+/* 습관 BEST 5 타이틀 */
+#slideTitle {
+	border-radius: 10px;
+	width: 150px;
+	margin: 0 auto;
+	text-align: center;
+	color: white;
+	background-color: black;
+	margin-bottom: 5px;
+}
+
+/* 슬라이드 이미지 */
+#slideImg {
+	width: 100%;
+	height: 300px;
+}
+
+/* 슬라이드 캡션1 */
+#slideCaption {
+	font-size: 20px; 
+	text-shadow: 1px 1px 1px black;
+}
+
+/* 슬라이드 캡션2 */
+#slideCaption2 {
+	font-size: 17px; 
+	text-shadow: 1px 1px 1px black;
+}
+
+/* 슬라이드 캡션 위치 */
+.item #slideCaption {
+	left: 0 !important;
+	right: 70% !important;
+	bottom: 80% !important;
+	text-align: left;
+	padding-left: 20px;
+}
+
+/* 슬라이드 캡션 위치 */
+.item #slideCaption2 {
+	left: 0 !important;
+	right: 70% !important;
+	bottom: 70% !important;
+	text-align: left;
+	padding-left: 20px;
+}
+
+/* 슬라이드 밑에 버튼 */
+#slideBtn1 {
+	border: 1px solid black;
+}
+
+/* card태그 */
+.card {
+	border-radius: 10px;
+	margin: 10px 10px 30px 10px;
+	height: 403px;
+	text-align: center;
+	border: none;
+}
+.card:hover {
+	border: 1px solid #cecece;
+}
+
+/* card텍스트 */
+.card-text {
+	margin-bottom: 10px;
+}
+
+/* card 팀명 */
+.cardTeamName {
 	font-weight: bold;
+	font-size: 1.02em;
+	height: 50px;
+}
+/* card 팀명안에 a태그 */
+.cardTeamNameA {
+	text-decoration: none;
+	color: black;
+}
+.cardTeamNameA:hover {
+	color: black;
+}
+
+/* card 팀장 */
+.cardTeamLeader {
+	font-size: 0.8em;
+	color: gray;
+}
+/* card 팀예치금 */
+.cardTeamDeposit {
+	color: #004f9d;
+}
+
+/* card 팀모집인원 */
+.cardTeamVolume {
+	color: #007500;
+}
+
+/* card Date */
+.cardTeamDate {
+	font-size: 0.9em;
+}
+
+/* card 이미지 */
+.card-img-top {
+	width: 100%;
+	height: 100px;
+}
+
+/* 카테고리1 버튼 */
+.Category1Btn {
+	background-color: #cee7ff;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+/* 카테고리2 버튼 */
+.Category2Btn {
+	background-color: #ffdfef;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+/* 카테고리3 버튼 */
+.Category3Btn {
+	background-color: #caffe4;
+	font-size: 0.75em;
+	cursor: Default;
+	margin-bottom: 5px;
+}
+
+/* 팀리스트 a링크 제목 */
+#teamListAlinkTitle {
+	text-decoration: none;
+	font-size: 1.6em;
+	font-weight: bold;
+	color: black;
+}
+/* 팀리스트 span태그 */
+#teamListSpan {
+	font-size: 1.2em;
+	color: #c0c0c0;
+}
+/* 림리스트 서브 제목 */
+#teamListSubtitle{
+	color: #808080;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }

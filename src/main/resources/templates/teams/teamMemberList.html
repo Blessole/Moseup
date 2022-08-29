@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/css/team.css" />
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.dropotron.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<style type="text/css">
+	ul {align-items: flex-end;}
+</style>
+</head>
+<body class="homepage is-preload">
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<div id="page-wrapper">
+			<!-- Header -->
+			<section id="header">
+				<div class="container">
+
+					<!-- Logo -->
+					<h1 id="logo">
+						<a href="/">Moseup</a>
+					</h1>
+					<p>for the sake of everyone's habits.</p>
+
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a class="icon solid fa-home" th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+							<li><a class="icon fa-chart-bar" th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+							<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
+							<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+			<!-- checkBoard -->
+			<section id="features">
+				<div class="container">
+					<h2 class="text-primary" align="center">회원 목록</h2>		
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>회원이름</th>
+								<th>성별</th>
+								<th>주소</th>
+								<th>휴대폰</th>								
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="teamMember : ${team.teamMember}">							
+								<th th:text="${teamMember.member.nickname}"></th>
+								<th th:text="${teamMember.member.gender}"></th>
+								<th th:text="${teamMember.member.address}"></th>
+								<th th:text="${teamMember.member.phone}"></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</th:block>
+</body>
+</html>

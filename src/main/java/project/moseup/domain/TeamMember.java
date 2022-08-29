@@ -11,13 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
 
 @Entity
-@Setter @Getter
+@Getter
 @Table(name = "team_members")
 @SuppressWarnings("serial")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamMember implements Serializable {
 
 	@Id
@@ -32,4 +36,14 @@ public class TeamMember implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamMemberDelete;
+	
+	@Builder(builderClassName = "createTeamMemberBuilder", builderMethodName = "createTeamMemberBuilder")
+	public TeamMember(Member member, Team team, DeleteStatus teamMemberDelete) {
+		this.member = member;
+		this.team = team;
+		this.teamMemberDelete = teamMemberDelete;
+	}
+
+//	@Builder(builderClassName = "toEntity", builderMethodName = "joinTeamMember")
+
 }

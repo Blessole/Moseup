@@ -20,23 +20,6 @@ public class SearchController {
 	private final SearchService searchService;
 	
 	//검색 페이징
-//	@GetMapping("")
-//    public String teamSearch(@RequestParam(required = false, defaultValue = "") String keyword, Model model, 
-//    		@PageableDefault(size = 12, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
-//
-//            Page<Team> searchedTeamList = searchRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3Containing(keyword, keyword, keyword, keyword, keyword, pageable);
-//
-//            int startPage = Math.max(1, searchedTeamList.getPageable().getPageNumber() - 5);
-//            int endPage = Math.min(searchedTeamList.getTotalPages(), searchedTeamList.getPageable().getPageNumber() + 5);
-//            
-//			model.addAttribute("startPage", startPage);
-//            model.addAttribute("endPage", endPage);
-//		    model.addAttribute("searchedTeamList", searchedTeamList);
-//		    model.addAttribute("keyword", keyword);
-//        return "search/searchPage";
-//    }
-	
-	//검색 페이징
 	@GetMapping("")
 	public String filter2(@RequestParam(required = false, defaultValue = "") String keyword, String filter1,
 			String filter2, Model model, @PageableDefault(size = 12) Pageable pageable) {

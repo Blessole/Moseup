@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "member_bankbooks")
 public class Bankbook {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "bankbook_dealno") // 통장 번호
 	private Long dno;
 

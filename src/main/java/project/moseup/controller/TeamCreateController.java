@@ -18,6 +18,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.service.TeamCreateService;
+import project.moseup.service.TeamMemberService;
 import project.moseup.service.member.MemberService;
 
 @Controller
@@ -26,6 +27,7 @@ public class TeamCreateController {
 
 	private final TeamCreateService teamCreateService;
 	private final MemberService memberService;
+	private final TeamMemberService teamMemberService;
 
 	@GetMapping("/teams/createTeam")
 	public String createTeamFrom(Model model) {
@@ -49,7 +51,11 @@ public class TeamCreateController {
 		teamCreateReqDto.setMember(member);
 		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
 		
-		teamCreateService.create(teamCreateReqDto, file);
+		Long newTeam = teamCreateService.create(teamCreateReqDto, file);	//팀 생성
+		
+		//팀 멤버 테이블에 팀장 넣기
+		Team team =  teamCreateService.findOne(newTeam);	//생성한 팀
+		teamMemberService.create(member, team); //팀멤버 생성
 
 		return "redirect:/";	// 초기화면으로 돌아감
 	}

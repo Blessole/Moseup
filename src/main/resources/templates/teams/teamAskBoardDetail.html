@@ -49,9 +49,9 @@
 				</tr>
 			</table>
 			<div>
-				<a th:href="@{/teams/teamAskBoard}" class="btn btn-success">게시글 목록</a>
-				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano})}" class="btn btn-primary">수정</a>
-				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano})}" class="btn btn-warning">삭제</a>
+				<a th:href="@{/teams/teamAskBoard(tno=${team.tno})}" class="btn btn-success">게시글 목록</a>
+				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
+				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>
 				
 			</div>	
 			<div>
@@ -64,20 +64,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="replys : ${teamAskReplys}">							
+						<tr th:each="replys : ${teamAskOne.teamAskBoardReplies}">							
 							<th th:text="${replys.member.nickname}"></th>
 							<th th:text="${replys.teamAskReplyContent}"></th>
 							<th th:text="${#temporals.format(replys.teamAskReplyDate,'yyyy-MM-dd HH:mm')}"></th>
+							<th><a class="btn btn-primary">수정</a><a class="btn btn-primary">삭제</a></th>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="input-group mb-3">
-				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply}" th:object="${teamAskReply}" method="post">
+				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply(tno=${team.tno})}" th:object="${teamAskReply}" method="post">
 				<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
 				<div class="replybox">
 					<input type="text" id="nickname" name="nickname" class="form-control" th:value="${loginMember.nickname}" style="text-align: center;">
-					<input type="text" th:field="*{teamAskReplyContent}" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"> 
+					<input type="text" th:field="*{teamAskReplyContent}" class="form-control" placeholder="댓글을 입력해주세요.."  aria-describedby="basic-addon2"> 
 					<button class="btn btn-outline-secondary" type="submit">등록</button>
 				</div>
 				</form>

@@ -1,15 +1,26 @@
 package project.moseup.domain;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,16 +28,16 @@ import java.util.List;
 public class TeamAskBoard {
 
 	@Column(name = "team_askno")
-	@GeneratedValue @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) @Id
 	private Long tano;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_no")
-	private Team team;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "team_no")
+	private Team team;
 
 	@Column(name = "team_asksubject")
 	@NotEmpty
@@ -51,9 +62,9 @@ public class TeamAskBoard {
 	private DeleteStatus teamAskDelete;
 	
 	@Builder(builderClassName = "toEntity", builderMethodName = "creatTeamAskBoard")
-	public TeamAskBoard(Team team, Member member, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete) {
-		this.team = team;
+	public TeamAskBoard(Member member, Team team, String teamAskSubject, String teamAskContent, LocalDate teamAskDate, int teamAskReadCount, SecretStatus secret, DeleteStatus teamAskDelete,  List<TeamAskBoardReply> teamAskBoardReplies) {
 		this.member = member;
+		this.team = team;
 		this.teamAskSubject = teamAskSubject;
 		this.teamAskContent = teamAskContent;
 		this.teamAskDate = teamAskDate;
@@ -79,6 +90,7 @@ public class TeamAskBoard {
 		this.teamAskReadCount = teamAskReadCount;
 	}
 
+	// 연관 관계 매핑
 	@OneToMany(mappedBy = "teamAskBoard")
 	private List<TeamAskBoardReply> teamAskBoardReplies = new ArrayList<>();
 

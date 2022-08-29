@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 public class AskBoardReply {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ask_replyno")
 	private Long arno;
 
