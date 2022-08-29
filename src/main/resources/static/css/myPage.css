@@ -143,6 +143,10 @@ th {
     padding: 10px 0;
 }
 
+.image_container .askBoardPhoto{
+    width: 400px;
+}
+
 .askDetail-button-box{
     width: 60%;
     height: 32px;

@@ -151,7 +151,6 @@ public class MemberController {
     public String findID(@ModelAttribute("memberDto") MemberSaveReqDto memberSaveReqDto){
         return "members/findID";
     }
-
     @PostMapping("/findID")
     public String findIDAction(@ModelAttribute MemberSaveReqDto memberSaveReqDto, Model model){
         int result = 0;

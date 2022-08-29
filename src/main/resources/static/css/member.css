@@ -80,3 +80,19 @@ a {
     font-weight: bold;
     color : #ac2925;
 }
+
+/* 아이디 찾기 */
+.findBox{
+    margin-bottom: 25px;
+}
+
+.findBox label {
+    font-size: 18px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.bankBookButton input {
+    border: none;
+    background: none;
+}

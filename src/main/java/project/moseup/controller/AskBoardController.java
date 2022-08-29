@@ -120,6 +120,15 @@ public class AskBoardController {
         Member member = memberService.getPhotoAndNickname(principal, model);
         AskBoard askBoard = this.askBoardService.findOne(ano);
 
+        String realPhoto = "";
+        if (askBoard.getAskPhoto() == null || askBoard.getAskPhoto().equals("")){
+            realPhoto = "";
+        } else {
+            String photo = askBoard.getAskPhoto();
+            int index = photo.indexOf("images");
+            realPhoto = photo.substring(index - 1);
+        } model.addAttribute("photoPath", realPhoto);
+
         if ( askBoardReplyService.findAll(askBoard, page) != null ) {
             Page<AskBoardReply> askBoardReplies = this.askBoardReplyService.findAll(askBoard, page);
             model.addAttribute("askBoardReplies", askBoardReplies);

@@ -18,6 +18,9 @@
             <div class="content-box">
                 <div class="contentBox" th:utext="${askContent1}"></div>
             </div>
+        <div class="image_container">
+            <img th:src="${photoPath}" class="askBoardPhoto">
+        </div>
         <div class="askDetail-button-box">
             <div class="left">
                 <a class="button" th:href="@{/askBoard/askBoardUpdateForm(ano=${askBoard.ano})}">수정</a>

@@ -150,18 +150,14 @@ public class MemberService {
 		model.addAttribute("member", member);
 
 		String realPhoto = "";
-//		System.out.println("member.getPhoto() : "  + member.getPhoto());
 		if (member.getPhoto()==null || member.getPhoto().equals("")){
-//			System.out.println("지금 여기 지나가다가 에러난거지?");
 			realPhoto = "/images/profile.png";
 		} else {
-//			System.out.println("지금 여기 지나가면 안돼...ㅠ");
 			// 사진 경로 local에서 project용으로 변경
 			String photo = member.getPhoto();
 			int index = photo.indexOf("images");
 			realPhoto = photo.substring(index - 1);
 		}
-//		System.out.println("realPhoto : " +realPhoto);
 		model.addAttribute("photoPath", realPhoto);
 
 		return member;
