@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
@@ -38,8 +39,8 @@ public class TeamAskBoardService {
 	}
 	
 	// 모든글 보여주기(페이징)
-	public Page<TeamAskBoard> findTeamAsksPage(Pageable pageable) {
-		return askBoardPageRepository.findAll(pageable);
+	public Page<TeamAskBoard> findTeamAsksPage(Team team, Pageable pageable) {
+		return askBoardPageRepository.findByTeam(team, pageable);
 	}
 	
 	// 특정 글 1개 찾기

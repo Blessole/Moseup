@@ -16,11 +16,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 @Entity
 @Getter
 @Table(name = "team_members")
 @SuppressWarnings("serial")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamMember implements Serializable {
 
 	@Id
@@ -36,12 +37,13 @@ public class TeamMember implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamMemberDelete;
 	
-	
 	@Builder(builderClassName = "createTeamMemberBuilder", builderMethodName = "createTeamMemberBuilder")
 	public TeamMember(Member member, Team team, DeleteStatus teamMemberDelete) {
 		this.member = member;
 		this.team = team;
 		this.teamMemberDelete = teamMemberDelete;
 	}
+
+//	@Builder(builderClassName = "toEntity", builderMethodName = "joinTeamMember")
 
 }
