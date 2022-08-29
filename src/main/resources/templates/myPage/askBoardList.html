@@ -9,18 +9,45 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <div class="middle-container">
-      <h2 class="title">1:1 문의게시판</h2>
-        <table class="myTeamTable">
-          <tr><th>번호</th><th>제목</th><th>문의날짜</th><th>답변여부</th></tr>
-          <tr  th:each="list, stat : ${askBoardList}">
+  <div class="topless-middle-container">
+      <h2 class="title">1 : 1 문의게시판</h2>
+        <table class="myAskTable">
+          <tr class="tableHead"><th class="col-1">번호</th><th>제목</th><th class="col-2">문의날짜</th><th class="col-1">답변</th></tr>
+          <tr class="tableBody" th:each="list, stat : ${askBoardList}">
             <td th:text="|${stat.count}|"></td>
             <td><a th:href="@{/askBoard/askBoardDetail(ano=${list.ano})}" th:text="${list.askSubject}"></a> </td>
-            <td th:text="${#temporals.format(list.askDate,'yyyy-MM-dd hh:mm')}"></td>
-<!--            <td th:text="${}"></td>-->
+            <td th:text="${#temporals.format(list.askDate,'yy.MM.dd')}"></td>
           </tr>
         </table>
-    <a th:href="@{/askBoard/askBoardForm}">문의하기</a>
+
+    <!-- paging -->
+    <div class="myAsk page-num"
+         th:with="start=${(askBoardList.number/maxPage)*maxPage + 1},
+                       end=(${(askBoardList.totalPages == 0) ? 1
+                       : (start +(maxPage - 1) < askBoardList.totalPages ? start + (maxPage - 1) : askBoardList.totalPages)})">
+      <ul>
+        <li th:if="${start > 1}">
+          <a th:href="@{/askBoard/askBoardList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+        </li>
+        <li th:if="${start > 1}">
+          <a th:href="@{/askBoard/askBoardList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+        </li>
+        <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+          <a th:href="@{/askBoard/askBoardList(page=${page - 1})}" th:text="${page}"></a>
+        </li>
+        <li th:if="${end < askBoardList.totalPages}">
+          <a th:href="@{/askBoard/askBoardList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+        </li>
+        <li th:if="${end < askBoardList.totalPages}">
+          <a th:href="@{/askBoard/askBoardList(page=${askBoardList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+        </li>
+      </ul>
+    </div>
+    <!-- paging end -->
+
+    <div class="askButton-box">
+      <a th:href="@{/askBoard/askBoardForm}" class="askButton">문의하기</a>
+    </div>
   </div>
 </th:block>
 </body>

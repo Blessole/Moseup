@@ -7,17 +7,29 @@
 <!-- layout CSS -->
 <link href="/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/css/layout_myPage.css" rel="stylesheet" type="text/css" />
+<link href="/css/reset.css" rel="stylesheet" type="text/css" />
+
 
 <body>
-	<!-- navbar -->
-	<th:block th:replace="layouts/fragments/navbar :: navbar"></th:block>
-	<!-- sidebar -->
-	<th:block th:replace="layouts/fragments/myPageCommon :: myPageCommon"></th:block>
-	<!-- 본문 -->
-	<th:block layout:fragment="content"></th:block>
+	<div class="fixed-top">
+		<!-- navbar -->
+		<th:block th:replace="layouts/fragments/navbar :: navbar"></th:block>
+	</div>
+	<div class="myLayout">
+		<div class="mySidebar">
+			<!-- sidebar -->
+			<th:block th:replace="layouts/fragments/myPageCommon :: myPageCommon"></th:block>
+		</div>
+		<!-- 본문 -->
+		<div class="myContent">
+			<th:block layout:fragment="content"></th:block>
+		</div>
+	</div>
 	<!-- floatingActionButton -->
 	<th:block th:replace="layouts/fragments/floatingActionButton :: floatingActionButton"></th:block>
 </body>
-<!-- footer -->
-<th:block th:replace="layouts/fragments/footer :: footer"></th:block>
+<div class="myFooter">
+	<!-- footer -->
+	<th:block th:replace="layouts/fragments/footer :: footer"></th:block>
+</div>
 </html>

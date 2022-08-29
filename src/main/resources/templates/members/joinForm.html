@@ -17,7 +17,8 @@
             <div class="form-group">
                 <div class="image_container" id="image_container"></div>
                 <label th:for="photo">프로필사진</label>
-                <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
+                <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:30%;" name="file" id="photo" accept="/image/*">
+                <span id="photoErr" class="text-err"></span>
             </div>
             <div class="form-group">
                 <label th:for="email" class="form-label font-bold">이메일<span class="essential">*</span></label>
@@ -185,16 +186,53 @@
 
         /* 프로필 사진 미리보기 */
         function setImage(event) {
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    let img = document.createElement("img");
-                    img.setAttribute("src", e.target.result);
-                    img.setAttribute("width", "400");
+            let profilePhoto = document.getElementById("photo");
+            let photoErr = document.getElementById("photoErr");
+            let fileVal = $('#photo').val();
+            let photoVal = fileVal.slice(fileVal.indexOf(".")+1).toLowerCase();
+            let imgTag = $("#imgTag");
 
-                    document.querySelector("div#image_container").appendChild(img);
-                };
-                reader.readAsDataURL(event.target.files[0]);
+            function del(){
+                $('#photo').val("");
+                $('#image_container').css("display", "none");
+            }
+
+            if ( fileVal == null || fileVal == ""){
+                imgTag.remove();
+                photoErr.html("사진을 선택해주세요");
+                del()
+            } else if (photoVal != "jpg" && photoVal != "png" && photoVal != "jpeg" && photoVal != "gif") {
+                photoErr.html("확장자가 jpg, png, jpeg, gif 파일만 가능합니다");
+                profilePhoto.focus();
+                imgTag.remove();
+                del()
+            } else {
+                $('#image_container').css("display", "block");
+                let img = document.createElement("img");
+                let reader = new FileReader();
+
+                function readerOnload() {
+                    reader.onload = function (e) {
+                        img.setAttribute("src", e.target.result);
+                        img.setAttribute("width", "400");
+                        img.setAttribute("height", "200");
+                        img.setAttribute("id", "imgTag");
+                        photoErr.innerText="";
+                        document.querySelector("div#image_container").appendChild(img);
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+
+                if (imgTag.length){
+                    imgTag.remove();
+                    readerOnload();
+                } else {
+                    readerOnload();
+                }
+            }
         };
+
+        /* 주소 작성 여부 검사 */
         function makeAdd(){
             let add1 = $('#searchAddress').val();
             let add2 = $('#detailAddress').val();

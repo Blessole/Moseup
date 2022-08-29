@@ -1,20 +1,20 @@
 package project.moseup.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+
+import lombok.*;
+import org.springframework.util.Assert;
 
 @Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AskBoardReply {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ask_replyno")
 	private Long arno;
 
@@ -39,11 +39,11 @@ public class AskBoardReply {
 
 	@Builder
 	public AskBoardReply(AskBoard askBoard, Member member, String askReplyContent, LocalDateTime askReplyDate, DeleteStatus askReplyDelete) {
-		Assert.notNull(askBoard, "askBoard은 [NULL]이 될 수 없습니다");
-		Assert.notNull(member, "member는 [NULL]이 될 수 없습니다");
-		Assert.hasText(askReplyContent, "askReplyContent은 [NULL]이 될 수 없습니다");
-		Assert.notNull(askReplyDate, "askReplyDate은 [NULL]이 될 수 없습니다");
-		Assert.notNull(askReplyDelete, "askReplyDelete은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(member), "멤버는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askBoard), "AskBoard는 [NULL]이 될 수 없습니다");
+		Assert.hasText(askReplyContent, "내용은 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askReplyDelete), "삭제여부는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(askReplyDate), "댓글 작성일은 [NULL]이 될 수 없습니다");
 
 		this.askBoard = askBoard;
 		this.member = member;
@@ -51,9 +51,4 @@ public class AskBoardReply {
 		this.askReplyDate = askReplyDate;
 		this.askReplyDelete = askReplyDelete;
 	}
-
-
-
-
-
 }

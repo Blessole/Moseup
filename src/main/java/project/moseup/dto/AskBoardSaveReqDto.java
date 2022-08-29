@@ -55,6 +55,7 @@ public class AskBoardSaveReqDto {
     public void deleteBoard(){
         this.askDelete = DeleteStatus.TRUE;
     }
+
     public AskBoardSaveReqDto entityToDto(AskBoard askBoardPs){
         this.member = askBoardPs.getMember();
         this.askSubject = askBoardPs.getAskSubject();

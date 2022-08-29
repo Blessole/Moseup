@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+    <div class="topless-middle-container">
+        <h2 class="title">작고 귀여운 내 통장</h2>
+        <div class="bankBookButton-box">
+            <span>현재 총액 : <span th:text="${myTotal}"></span> 원 </span>
+            <a th:href="@{/myPage/moneyCharge}" class="bankBookButton">충전하기</a>
+        </div>
+        <table class="bankBookTable">
+            <tr><th class="col-1">순서</th><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
+            <tr th:each="list, stat : ${bankbookDto}">
+                <td th:text="|${stat.count}|"></td>
+                <td th:text="${#temporals.format(list.bankbookDate, 'yyyy.MM.dd HH:mm')}"></td>
+                <td th:text="${list.dealList}"></td>
+                <td th:text="${list.bankbookDeposit}" class="fontColor"></td>
+                <td th:text="${list.bankbookWithdraw}" class="fontColor1"></td>
+                <td th:text="${list.bankbookTotal}"></td>
+            </tr>
+        </table>
+        <!-- paging -->
+        <div class="page-num"
+             th:with="start=${(bankbookDto.number/maxPage)*maxPage + 1},
+                       end=(${(bankbookDto.totalPages == 0) ? 1
+                       : (start +(maxPage - 1) < bankbookDto.totalPages ? start + (maxPage - 1) : bankbookDto.totalPages)})">
+            <ul>
+                <li th:if="${start > 1}">
+                    <a th:href="@{/myPage/myBankbook(page=0)}"><img th:src="@{/images/left2.png}"></a>
+                </li>
+                <li th:if="${start > 1}">
+                    <a th:href="@{/myPage/myBankbook(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+                </li>
+                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+                    <a th:href="@{/myPage/myBankbook(page=${page - 1})}" th:text="${page}"></a>
+                </li>
+                <li th:if="${end < bankbookDto.totalPages}">
+                    <a th:href="@{/myPage/myBankbook(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+                </li>
+                <li th:if="${end < bankbookDto.totalPages}">
+                    <a th:href="@{/myPage/myBankbook(page=${bankbookDto.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+                </li>
+            </ul>
+        </div>
+        <!-- paging end -->
+    </div>
+<!--    <script th:inline="javascript">-->
+<!--        $(document).ready(function(){-->
+<!--           let num = $('.fontColor').val();-->
+<!--           let num1 = $('.fontColor1').val();-->
+<!--           if (num == 0){-->
+<!--               $('.fontColor').css('color', 'black');-->
+<!--               $('.fontColor1').css('color', 'blue');-->
+<!--           } else if (num1 ==0){-->
+<!--               $('.fontColor1').css('color', 'black');-->
+<!--           }-->
+<!--        });-->
+<!--    </script>-->
+</th:block>
+</body>
+</html>

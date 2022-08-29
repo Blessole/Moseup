@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_myPage}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+    <div class="topless-middle-container">
+        <h2 class="title">머니 충전</h2>
+        <div class="myBox">
+            <div class="total">내 머니 : </div>
+            <div class="money" th:text="${myTotal}+' 원'"></div>
+        </div>
+        <div class="chargeBox">
+            <form th:action="@{/myPage/moneyChargeAction}" th:object="${chargeDto}" method="post">
+                <div class="form-group">충전 금액 선택</div>
+                <div class="select_bx1">
+                    <select class="form-select" th:field="*{bankbookDeposit}">
+                        <option value="10000" selected>1만원</option>
+                        <option value="30000">3만원</option>
+                        <option value="50000">5만원</option>
+                        <option value="100000">10만원</option>
+                    </select>
+                </div>
+                <div class="form-group">결제 방식</div>
+                <div class="pay">
+                    <input type="radio" name="payCheck" value="카카오페이" id="p1"><label for="p1">카카오페이</label><br>
+                    <input type="radio" name="payCheck" value="신용카드" id="p2"><label for="p2">신용카드</label><br>
+                    <input type="radio" name="payCheck" value="계좌이체" id="p3"><label for="p3">계좌이체</label><br>
+                    <input type="radio" name="payCheck" value="네이버페이" id="p4"><label for="p4">네이버페이</label><br>
+                    <input type="radio" name="payCheck" value="페이코" id="p5"><label for="p5">페이코</label>
+                </div>
+                <div class="moneyButton-box">
+                    <input type="submit" class="moneyButton" value="충전하기">
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

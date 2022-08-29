@@ -10,8 +10,17 @@
 	<!-- 본문 코드 시작 -->
 	<th:block layout:fragment="content">
 		<div class="my_body">
-			<div class="middle-container">
-				<h2 class="title">내 인증글 목록</h2>
+			<div class="topless-middle-container">
+				<h2 class="title checkTitle">내 인증글 목록</h2>
+				<div class="select_bx">
+<!--					<select class="form-select text-center" th:field="*{teamList}">-->
+					<select class="selectBox form-select text-center" onchange="changeSelect()">
+						<option value="" class="text-gray" selected>==팀 별 보기==</option>
+						<option th:each="list : ${teamList}" th:name="${param.tno}"
+								th:value="${list.tno}" th:utext="${list.teamName}" th:selected="${list.tno eq param.tno}">
+						</option>
+					</select>
+				</div>
 					<div class="card" th:each="list : ${checkList}">
 						<div class="top">
 							<div class="userDetails">
@@ -27,12 +36,13 @@
 								<a th:href="@{/teams/teamPage(tno=${list.team.tno})}"><img src="/images/go.png" class="dot"></a>
 							</div>
 						</div>
-						<div class="imgBx">
-							<img src="/images/pic01.jpg" class="cover">
-						</div>
+						<span th:each="photo : ${photoList}" th:if="${list.cno == photo.cno}">
+							<div class="imgBx">
+								<img th:src="${photo.realPhoto}" class="cover">
+							</div>
+							</span>
 						<div class="actionBtns">
 							<div class="left">
-<!--								<img src="/images/heart.png" class="heart" onclick="likeButton()">-->
 								<img src="/images/heart_red.png" class="heart">
 								<h4 class="likes" th:text="${list.checkLike}+' likes'"></h4>
 							</div>
@@ -42,20 +52,41 @@
 						</div>
 						<h4 class="message" th:text="${list.checkContent}"></h4>
 					</div>
+
+				<!-- paging -->
+				<div class="myTeam page-num"
+					 th:with="start=${(checkList.number/maxPage)*maxPage + 1},
+                       end=(${(checkList.totalPages == 0) ? 1
+                       : (start +(maxPage - 1) < checkList.totalPages ? start + (maxPage - 1) : checkList.totalPages)})">
+					<ul>
+						<li th:if="${start > 1}">
+							<a th:href="@{/myPage/myCheckList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+						</li>
+						<li th:if="${start > 1}">
+							<a th:href="@{/myPage/myCheckList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+						</li>
+						<li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+							<a th:href="@{/myPage/myCheckList(page=${page - 1})}" th:text="${page}"></a>
+						</li>
+						<li th:if="${end < checkList.totalPages}">
+							<a th:href="@{/myPage/myCheckList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+						</li>
+						<li th:if="${end < checkList.totalPages}">
+							<a th:href="@{/myPage/myCheckList(page=${checkList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+						</li>
+					</ul>
+				</div>
+				<!-- paging end -->
+
 			</div>
 		</div>
-<!--		<script type="text/javascript">-->
-<!--			function likeButton(){-->
-<!--				let heart = document.querySelector('.heart');-->
-<!--				let likes = document.querySelector('.likes');-->
-<!--				if(heart.src.match("/images/heart.png")){-->
-<!--					heart.src = "/images/heart_red.png";-->
-<!--					likes.innerHTML = ""-->
-<!--				} else {-->
-<!--					heart.src ="/images/heart.png";-->
-<!--				}-->
-<!--			}-->
-<!--		</script>-->
+		<script th:inline="javascript">
+			function changeSelect(){
+				let selectTeam = $('.selectBox').val();
+				location.replace("/myPage/myCheckList?tno="+selectTeam);
+			};
+
+		</script>
 	</th:block>
 </body>
 </html>

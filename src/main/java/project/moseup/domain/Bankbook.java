@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 @Table(name = "member_bankbooks")
 public class Bankbook {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "bankbook_dealno") // 통장 번호
 	private Long dno;
 
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no") // 회원 번호
 	private Member member;
 

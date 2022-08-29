@@ -5,47 +5,49 @@
   <meta charset="UTF-8">
   <title>Insert title here</title>
   <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" onsubmit="return check()" method="post">
+  <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" method="post" enctype="multipart/form-data">
     <div class="middle-container">
       <h2 class="title">회원 정보 수정</h2>
       <div class="form-group myInfo">
         <div class="image_container" id="image_container">
-          <img alt="프로필사진" id="originPhoto" th:src="${photoPath}" width="400">
+          <img alt="프로필사진" id="originPhoto" th:src="${photoPath}">
         </div>
         <label th:for="photo">프로필사진</label>
         <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
+        <span id="photoErr" class="text-err"></span>
       </div>
       <div class="form-group myInfo">
         <label th:for="email">이메일</label>
-        <input th:field="*{email}"  class="form-control" name="email" value="${member.email}" th:value="${member.email}" disabled>
+        <input type="text" class="form-control" name="email" th:value="${myInfoDto.email}" disabled>
         <br><span >이메일은 수정이 불가합니다.</span>
       </div>
       <div class="form-group myInfo">
         <label th:for="password">비밀번호</label>
-        <input type="password" th:field="*{password}" class="form-control">
+        <input type="password" th:field="*{password}" class="form-control" required>
         <span class="text-err" id="password1Chk"></span>
       </div>
       <div class="form-group myInfo">
         <label th:for="password">비밀번호 확인</label>
-        <input type="password" th:field="*{password2}" class="form-control">
+        <input type="password" th:field="*{password2}" class="form-control" required>
         <span class="text-err" id="password2Chk"></span>
       </div>
       <div class="form-group myInfo">
         <label th:for="name">이름</label>
-        <input class="form-control" th:field="*{name}" value="${name}">
+        <input class="form-control" th:field="*{name}" value="${name}" required>
       </div>
       <div class="form-group myInfo">
         <label th:for="nickname">닉네임</label>
-        <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}">
+        <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}" required>
         <span class="text-err" id="nicknameChk"></span>
       </div>
       <div class="form-group myInfo">
         <label th:for="phone">전화번호</label>
-        <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}">
+        <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}" required>
         <span class="text-err" id="phoneChk"></span>
       </div>
       <div class="form-group myInfo">
@@ -58,12 +60,12 @@
       <div class="form-group myInfo">
         <label th:for="address">주소<span class="essential">*</span></label>
         <input type="text" th:name="address" th:value="${add1}" id="searchAddress" onclick="findAdd()" readonly>
-        <input type="text" th:name="address2" th:value="${add2}"  id="detailAddress">
+        <input type="text" th:name="address2" th:value="${add2}"  id="detailAddress" required>
         <span class="text-err" id="addressChk"></span>
       </div>
       <div class="button-box">
         <input type="submit" value="수정">
-        <a href="" id="delete" th:href="@{/members/delete(mno=${member.mno})}">탈퇴</a>
+        <a href="#" onclick="deleteMember()">탈퇴</a>
       </div>
     </div>
   </form>
@@ -89,24 +91,134 @@
   <script type="text/javascript">
     /* 프로필 사진 미리보기 */
     function setImage(event) {
-      let reader = new FileReader();
-      reader.onload = function (e) {
-        $('#originPhoto').remove();
-        let img = document.createElement("img");
-        img.setAttribute("src", e.target.result);
-        img.setAttribute("width", "400");
+      let profilePhoto = document.getElementById("photo");
+      let photoErr = document.getElementById("photoErr");
+      let fileVal = $('#photo').val();
+      let photoVal = fileVal.slice(fileVal.indexOf(".")+1).toLowerCase();
+      let imgTag = $("#originPhoto");
 
-        document.querySelector("div#image_container").appendChild(img);
-      };
-      reader.readAsDataURL(event.target.files[0]);
+      function del(){
+        $('#photo').val("");
+      }
+
+      if (photoVal != "jpg" && photoVal != "png" && photoVal != "jpeg" && photoVal != "gif") {
+        photoErr.html("확장자가 jpg, png, jpeg, gif 파일만 가능합니다");
+        profilePhoto.focus();
+        imgTag.remove();
+        del()
+      } else {
+        let img = document.getElementById('originPhoto');
+        let reader = new FileReader();
+
+        function readerOnload() {
+          reader.onload = function (e) {
+            img.setAttribute("src", e.target.result);
+            photoErr.innerText="";
+            document.querySelector("div#image_container").appendChild(img);
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        }
+
+        if (imgTag.length){
+          imgTag.remove();
+          readerOnload();
+        } else {
+          readerOnload();
+        }
+      }
     };
 
-    $('#delete').click(function (){
+    function deleteMember(){
       const choice = confirm("탈퇴하시겠습니까?");
-      if (choice == false) return false;
-      const $form = $('<form>').attr('action','/members/delete').attr('method','post').appendTo($('body'));
-      $('<input>').attr('type', 'hidden').attr('name','_csrf').val(_csrf).appendTo($form);
-      $form.submit;
+      alert("choice : " + choice);
+      if (choice == false) {
+        alert("여기 지나가..?");
+        history.go(-1);
+      } else if (choice == true) {
+        alert("여기 지나간다");
+        console.log("탈퇴 true로 지나감");
+        let f = document.createElement('form');
+        f.setAttribute('method', 'post');
+        f.setAttribute('action', '/members/delete');
+        document.body.appendChild(f);
+        $('<input>').attr('type', 'hidden').attr('name', '_csrf').val(_csrf).appendTo(f);
+        f.submit();
+        // const $form = $('<form>').attr('action', '/members/delete').attr('method', 'post').appendTo($('body'));
+        // $('<input>').attr('type', 'hidden').attr('name', '_csrf').val(_csrf).appendTo($form);
+        // $form.submit;
+      }
+    };
+
+   $(function(){
+      $('#nickname').blur(function(){
+        let nickname = $('#nickname').val();
+        $.ajax({
+          url:'/myPage/checkRealize',
+          type: 'get',
+          data:{"value":nickname},
+          success:function(data){
+            if (nickname == ""){
+              $('#nicknameChk').text("닉네임은 필수 입력사항입니다.");
+              $('#nicknameChk').css('color', 'red');
+              $('#nickname').focus();
+            } else if (data.includes("이미") || data.includes("제외한")) {
+              $('#nicknameChk').html(data);
+              $('#nicknameChk').css('color', 'red');
+              $('#nickname').focus();
+            } else {
+              $('#nicknameChk').html(data);
+              $('#nicknameChk').css('color', 'black');
+            }
+          }
+        });
+      });
+      $('#password').blur(function (){
+        let password1 = $('#password').val();
+        if (password1.length < 8 || password1.length > 20) {
+          $('#password1Chk').text("비밀번호는 8자 이상, 20자 이하입니다.");
+          $('#password').focus();
+        } else if (password1.length >= 8 || password1.length <= 20 ){
+          $('#password1Chk').text(" ");
+          $('#password2').focus();
+        }
+      });
+      $('#password2').blur(function (){
+        let password1 = $('#password').val();
+        let password2 = $('#password2').val();
+        $.ajax({
+          url: '/members/passwordRealize',
+          type: 'get',
+          data: {"password1": password1, "password2": password2},
+          success: function (data) {
+            if (password1 == "") {
+              $('#password1Chk').text("비밀번호는 필수 입력사항입니다.");
+              $('#password1Chk').css('color', 'red');
+              $('#password').focus();
+            } else if (password2 == "") {
+              $('#password2Chk').text("비밀번호는 필수 입력사항입니다.");
+              $('#password2Chk').css('color', 'red');
+              $('#password2').focus();
+            } else if (data.includes("않습니다.")){
+              $('#password2Chk').html(data);
+              $('#password2Chk').css('color', 'red');
+              $('#password2').focus();
+            } else {
+              $('#password2Chk').html(data);
+              $('#password2Chk').css('color', 'black');
+            }
+          }
+        });
+      });
+      $('#phone').blur(function (){
+        let phone = $('#phone').val();
+        let regExp = /^(01[016789])(\d{3,4})(\d{4})$/;
+        if (!regExp.test(phone)){
+          $('#phoneChk').text("전화번호 형식이 잘못되었습니다. (예: 01012345678)");
+          $('#phone').focus();
+        } else if (regExp.test(phone)){
+          $('#phoneChk').text(" ");
+        }
+      });
     });
   </script>
 </th:block>

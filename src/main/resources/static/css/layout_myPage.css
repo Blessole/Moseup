@@ -2,3 +2,74 @@ a {
     text-decoration: none;  /* 링크 밑줄 제거 */
     color : inherit;               /* 글자 색상 제거 */
 }
+
+/* 전체 레이아웃 css */
+.myLayout{
+    position: relative;
+    top: 85px;
+    width: 100%;
+    height: fit-content;
+    display: inline-flex;
+}
+
+.myContent{
+    position: relative;
+    width: 59%;
+    left: 184px;
+}
+
+.myFooter {
+    position: relative;
+    top: 150px;
+}
+
+.footer-width{
+    width: 100%;
+}
+
+.mySidebar{
+    position : relative;
+    left: 146px;
+    width: 18%;
+    height: 80%;
+    top: 46px;
+}
+
+.inlinebox img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.inlinebox {
+    border-bottom: 1px solid #e6e6e6;
+    padding : 30px 0 20px 15px;
+}
+
+.sideList {
+    padding-inline-start: 0px;
+}
+
+.sideList li {
+    border-bottom: 1px solid #e6e6e6;
+    padding: 20px;
+}
+
+.sideList li:hover{
+    background-color: var(--point-color);
+    color: white;
+}
+
+.sideList li a:hover{
+    color: white;
+}
+
+.sideList li:active{
+    background-color: var(--point-color);
+    color: white;
+}
+
+.mNick {
+    font-weight: bold;
+    font-size: 18px;
+}

@@ -1,11 +1,7 @@
 package project.moseup.controller;
 
-import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.apache.catalina.manager.util.SessionUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,33 +15,28 @@ import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.dto.KakaoLoginForm;
+import project.moseup.dto.Mail;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.service.member.MailService;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-//@Slf4j
+@Slf4j
 @RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
     private final CheckRealize checkRealize;
+    private final MailService mailService;
 
-    // 파일 업로드 경로
-    @Value("${moseup.upload.path}") //application.properties의 변수
-    private String uploadPath;
-    
     // 회원가입
     @GetMapping("/joinForm")
     public String joinForm(Model model){
@@ -72,42 +63,24 @@ public class MemberController {
 
         // 파일 업로드 시작
         // 이미지 파일만 업로드 가능하도록 제한하기
-        if(file.getContentType().startsWith("image") == false){
-            System.out.println("MC - 이미지 파일만 올려~");
-            return "redirect:/";
-        }
+        System.out.println("컨텐트 타입2 : "+ file.getContentType());
         if (file.isEmpty()) { // 프로필사진이 등록되지 않은 경우
-            joinForm.setPhoto("none");
+            joinForm.setPhoto("C:\\DevSpace\\Project\\Moseup\\src\\main\\resources\\static\\images\\profile.png");
         } else if (!file.isEmpty()){  // 프로필사진이 등록된 경우
-            // 사용 브라우저에 따라 파일이름/경로 다름
-            String originalName = file.getOriginalFilename();
-            String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
+            if(file.getContentType().startsWith("image") == false){
+                System.out.println("MC - 이미지 파일만 올려~");
+                System.out.println("컨텐트 타입 : "+ file.getContentType());
+                return "redirect:/members/joinForm";
+            }
 
-            // 닉네임 폴더 생성 - 해당 위치에 폴더가 없을 경우 생성하는 코드
-            String folderPath = joinForm.getNickname();
-            File uploadPathFolder = new File(uploadPath, folderPath);
-            if(!uploadPathFolder.exists()){
-                try{
-                    uploadPathFolder.mkdirs(); //폴더 생성
-                } catch (Exception e){
-                    e.getStackTrace(); // 에러 발생
-                }
-            }
-            // 파일 경로 저장하기
-            String uuid = UUID.randomUUID().toString()+".jpg";
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
-            Path savePath = Paths.get(saveName);
-            try{
-                file.transferTo(savePath);
-            } catch (IOException e){
-                e.printStackTrace();
-            }
+            // 이메일 폴더 생성 - 해당 위치에 폴더가 없을 경우 생성하는 코드
+            String folderPath = joinForm.getEmail();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath);
             //form에 저장
             joinForm.setPhoto(saveName);
         }
 
         try {
-            joinForm.toEntity();
             memberService.join(joinForm);
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
@@ -169,8 +142,58 @@ public class MemberController {
 
         //탈퇴 후 로그아웃
         handler.logout(req, res, authentication);
+        log.info("회원 탈퇴 완료");
         return "redirect:/";
     }
 
+    /** 아이디 찾기 **/
+    @GetMapping("/findID")
+    public String findID(@ModelAttribute("memberDto") MemberSaveReqDto memberSaveReqDto){
+        return "members/findID";
+    }
+    @PostMapping("/findID")
+    public String findIDAction(@ModelAttribute MemberSaveReqDto memberSaveReqDto, Model model){
+        int result = 0;
+        Member member = memberService.findByName(memberSaveReqDto);
+        if (member != null){
+            result = 1;
+            model.addAttribute("member", member);
+        } else {
+            result = -1;
+        } model.addAttribute("result", result);
+        return "members/findIDAction";
+    }
 
+
+    /** 비밀번호 찾기 **/
+    @GetMapping("/findPW")
+    public String findPW(@ModelAttribute("memberDto") MemberSaveReqDto memberSaveReqDto){
+        return "members/findPW";
+    }
+    @PostMapping("/findPW")
+    public String findPWAction(@ModelAttribute MemberSaveReqDto memberSaveReqDto, Model model){
+        log.info("findPW 진입");
+        log.info("이메일 : " + memberSaveReqDto.getEmail());
+
+        int result = 0;
+        Member member = memberService.findByEmail(memberSaveReqDto);
+        if (member != null){
+            result = 1;
+
+            // 임시 비밀번호 생성
+            String tmpPw = memberService.getTmpPassword();
+
+            // 임시 비밀번호 저장
+            memberService.updatePassword(tmpPw, member.getEmail());
+
+            // 메일 생성 & 전송
+            Mail mail = mailService.createMail(tmpPw, member.getEmail());
+            mailService.sendMail(mail);
+            
+            log.info("임시 비밀번호 전송 완료");
+        } else {
+            result = -1;
+        } model.addAttribute("result", result);
+        return "members/findPWAction";
+    }
 }

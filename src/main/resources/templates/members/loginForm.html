@@ -32,23 +32,27 @@
         </div>
         <div class="button-box">
             <button type="submit" class="btn-sol form-control" id="btn_login">Login</button>
-            <a href="" th:href="@{/members/joinForm}">>> 이메일로 회원가입</a>
+            <a href="" class="right" th:href="@{/members/joinForm}">회원가입</a>
+            <div class="left">
+                <a href="" th:href="@{/members/findPW}">비밀번호찾기</a>
+                <a href="" th:href="@{/members/findID}">아이디찾기</a>
+            </div>
         </div>
-        <div class="social-box">
-            <div class="alert alert-danger d-none" id="alert-kakao-login">오류메시지</div>
-            <ul>
-                <li onclick="kakaoLogin();">
-                    <a id="btn-kakao-login" href="javascript:void(0)">
-                        <img src="/images/kakao_login_m.png" alt="카카오 로그인"/>
-                    </a>
-                </li>
-                <li onclick="kakaoLogout()">
-                    <a id="btn-kakao-logout" href="javascript:void(0)">
-                        <img src="/images/kakao_login_m.png" alt="카카오 로그아웃"/>
-                    </a>
-                </li>
-            </ul>
-        </div>
+<!--        <div class="social-box">-->
+<!--            <div class="alert alert-danger d-none" id="alert-kakao-login">오류메시지</div>-->
+<!--            <ul>-->
+<!--                <li onclick="kakaoLogin();">-->
+<!--                    <a id="btn-kakao-login" href="javascript:void(0)">-->
+<!--                        <img src="/images/kakao_login_m.png" alt="카카오 로그인"/>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li onclick="kakaoLogout()">-->
+<!--                    <a id="btn-kakao-logout" href="javascript:void(0)">-->
+<!--                        <img src="/images/kakao_login_m.png" alt="카카오 로그아웃"/>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
 <!--        <form id="form-kakao-login" method="post" action="kakao-login">-->
 <!--            <input type="hidden" name="email"/>-->
 <!--            <input type="hidden" name="name"/>-->
@@ -57,45 +61,45 @@
 <!--        </form>-->
     </div>
 </form>
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <script>
-        Kakao.init('480e3d556df860207bd7e24848cc3fdf'); //발급받은 키 중 javascript키를 사용해준다.
-        console.log(Kakao.isInitialized()); // sdk초기화여부판단
-        //카카오로그인
-        function kakaoLogin() {
-            Kakao.Auth.login({
-                success: function (response) {
-                    Kakao.API.request({
-                        url: '/v2/user/me',
-                        success: function (response) {
-                            console.log(response)
-                        },
-                        fail: function (error) {
-                            console.log(error)
-                        },
-                    })
-                },
-                fail: function (error) {
-                    console.log(error)
-                },
-            })
-        }
-        //카카오로그아웃
-        function kakaoLogout() {
-            if (Kakao.Auth.getAccessToken()) {
-                Kakao.API.request({
-                    url: '/v1/user/unlink',
-                    success: function (response) {
-                        console.log(response)
-                    },
-                    fail: function (error) {
-                        console.log(error)
-                    },
-                })
-                Kakao.Auth.setAccessToken(undefined)
-            }
-        }
-    </script>
+<!--    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>-->
+<!--    <script>-->
+<!--        Kakao.init('480e3d556df860207bd7e24848cc3fdf'); //발급받은 키 중 javascript키를 사용해준다.-->
+<!--        console.log(Kakao.isInitialized()); // sdk초기화여부판단-->
+<!--        //카카오로그인-->
+<!--        function kakaoLogin() {-->
+<!--            Kakao.Auth.login({-->
+<!--                success: function (response) {-->
+<!--                    Kakao.API.request({-->
+<!--                        url: '/v2/user/me',-->
+<!--                        success: function (response) {-->
+<!--                            console.log(response)-->
+<!--                        },-->
+<!--                        fail: function (error) {-->
+<!--                            console.log(error)-->
+<!--                        },-->
+<!--                    })-->
+<!--                },-->
+<!--                fail: function (error) {-->
+<!--                    console.log(error)-->
+<!--                },-->
+<!--            })-->
+<!--        }-->
+<!--        //카카오로그아웃-->
+<!--        function kakaoLogout() {-->
+<!--            if (Kakao.Auth.getAccessToken()) {-->
+<!--                Kakao.API.request({-->
+<!--                    url: '/v1/user/unlink',-->
+<!--                    success: function (response) {-->
+<!--                        console.log(response)-->
+<!--                    },-->
+<!--                    fail: function (error) {-->
+<!--                        console.log(error)-->
+<!--                    },-->
+<!--                })-->
+<!--                Kakao.Auth.setAccessToken(undefined)-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
 <!--    <script type="text/javascript">-->
 <!--        $(function (){-->
 <!--            $('#btn-kakao-login').click(function (event){-->

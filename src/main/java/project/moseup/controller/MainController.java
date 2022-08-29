@@ -14,7 +14,7 @@ import java.util.List;
 public class MainController {
 	
 	private final MainService mainService;
-	
+
 	@RequestMapping("/")
 	public String main(Model model) {
 //		List<Team> topList = mainService.topList();
@@ -49,9 +49,9 @@ public class MainController {
 		System.out.println("메인리스트 = " + topList);
 		return "main";
 	}
-	
-	
-	
+
+
+
 //	@RequestMapping(value = "*")
 //	public String navbar(Model model, Principal principal) {
 //		Member member = memberService.getMember(principal.getName());
@@ -59,5 +59,5 @@ public class MainController {
 //		model.addAttribute("navMember", member);
 //		return "";
 //	}
-	 
+
 }

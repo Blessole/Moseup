@@ -27,6 +27,7 @@ public class AdminTeamController {
     @GetMapping("/teamList")
     public String teamList(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
                            @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
+        System.out.println("teamList - 지나감");
 
         Page<Team> teams = adminTeamService.teams(keyword, pageable);
 
@@ -44,6 +45,7 @@ public class AdminTeamController {
     @GetMapping("/teamDetail")
     public String memberDetail(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
             Team team = adminTeamService.teamDetail(tno);
+        System.out.println("teamDetail - 지나감");
 
             model.addAttribute("team", team);
             model.addAttribute("pageNum", pageNum);
