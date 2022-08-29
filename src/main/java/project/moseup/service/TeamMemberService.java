@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.domain.TeamMember;
+import project.moseup.dto.TeamMemberReqDto;
 import project.moseup.repository.TeamMemberRepository;
 
 @Service
@@ -14,9 +16,18 @@ import project.moseup.repository.TeamMemberRepository;
 public class TeamMemberService {
 	
 	private final TeamMemberRepository  teamMemberRepository;
+	
+	//팀멤버 생성
+	@Transactional
+	public void create(Member member, Team team) {
+		
+		TeamMemberReqDto teamMemberReqDto = new TeamMemberReqDto();
+		teamMemberReqDto.setMember(member);
+		teamMemberReqDto.setTeam(team);
+		
+		TeamMember teamMember = teamMemberReqDto.teamMemberBuilder();
 
-	/*
-	 * public void create(Member member, Team team) {
-	 * teamMemberRepository.save(member, team); }
-	 */
+		teamMemberRepository.save(teamMember);
+	}
+	 
 }

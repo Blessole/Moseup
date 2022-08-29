@@ -21,26 +21,30 @@
 				<h5 id="slideTitle">습관 BEST 5</h5>
 				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				<!-- 슬라이드 밑에 버튼 -->
-				  <div class="carousel-indicators">
-					  <th:block th:each="topList, index : ${topList}">
-					    <button th:if="${index.index == 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" class="active" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
-					    <button th:if="${index.index != 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
-					  </th:block>
+				<div th:if="${!topList.isEmpty()}">
+					  <div class="carousel-indicators">
+						  <th:block th:each="topList, index : ${topList}">
+						    <button th:if="${index.index == 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" class="active" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+						    <button th:if="${index.index != 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+						  </th:block>
+					  </div>
 				  </div>
 				  <!-- 슬라이드 이미지 부분 -->
-				  <div class="carousel-inner">
- 					  <th:block th:each="topList, index : ${topList}">
-					    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
-					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
-					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
-					    </div> 
-					    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
-					    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
-					    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-					    	<a href="#"><img th:src="'teamPhotos/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
-					    </div> 
-					  </th:block>
+				  <div th:if="${!topList.isEmpty()}">
+					  <div class="carousel-inner">
+	 					  <th:block th:each="topList, index : ${topList}">
+						    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
+						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+						    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+						    	<a href="#"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+						    </div> 
+						    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
+						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+						    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
+						    	<a href="#"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+						    </div> 
+						  </th:block>
+					  </div>
 				  </div>
 				  <!-- 슬라이드 화살표 버튼 -->
 				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -58,26 +62,123 @@
 			<section class="searchSection">
 				<div class="mainSearch">
 					<div class="mainSearchTitle" align="center">모두의 습관</div>
-					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
-						action="/search" method="get" onsubmit="return searchChk()">
+					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 						<div class="mainSearchInput">
-							<input type="hidden" id="filter2main" name="filter2"
-								th:value="${filter2}"> <input type="hidden"
-								id="filter1main" name="filter1" th:value="${filter1}"> <input
-								type="search" class="form-control" id="mainSearch"
-								placeholder="지키고 싶은 습관을 입력해보세요 :)" aria-label="Search"
-								name="keyword"> <input type="submit"
-								class="mainSearchImg" name="submit" value="">
+							<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}"> <input type="hidden" id="filter1main" name="filter1" th:value="${filter1}"> 
+							<input type="search" class="form-control" id="mainSearch" placeholder="  지키고 싶은 습관을 입력해보세요 :)" aria-label="Search" name="keyword">
+							<input type="submit" class="mainSearchImg" name="submit" value="">
 						</div>
 					</form>
+					<!-- 태그 -->
+					<div align="center" id="searchTag">
+						<a th:href="@{/search(keyword=공부,filter1=nothing,filter2=팀원수순)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#공부 &nbsp;&nbsp;</a>
+						<a th:href="@{/search(keyword=운동,filter1=nothing,filter2=팀원수순)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#운동 &nbsp;&nbsp;</a>
+						<a th:href="@{/search(keyword=습관,filter1=nothing,filter2=팀원수순)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#습관 &nbsp;&nbsp;</a>
+					</div>
 				</div>
 			</section>
-			
-			<section class="mainSection">팀 리스트</section>
+			<!-- 추천 팀 세션 -->
+			<section class="teamListSection">
+				<!-- 공부순 -->
+				<div><a th:href="@{/search(keyword=공부,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">시간이 없다는건 핑계야! 📚<span id="teamListSpan"> ></span></a></div>
+				<div id="teamListSubtitle">개인, 회사, 시험, 공무원, 자격증 등 모든 공부!!</div>
+				<div th:if="${!studyTopList.isEmpty()}">
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="studyTopList : ${studyTopList}" class="center">
+							<div class="card">
+								<a href="#"><img th:if="${studyTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${studyTopList.teamName}+'/'+${studyTopList.teamPhoto}" class="card-img-top" alt="..."></a>
+								<a href="#"><img th:if="${studyTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+								<div class="card-body">
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${studyTopList.teamName}">teamName
+										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
+									<p class="card-text cardTeamLeader" th:text="${studyTopList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${studyTopList.teamDeposit+'/'+studyTopList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+studyTopList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+studyTopList.startDate+' ~ '+studyTopList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${studyTopList.teamCategory1}">teamCategory1</p>
+									<p th:if="${studyTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${studyTopList.teamCategory2}">teamCategory2</p>
+									<p th:if="${studyTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${studyTopList.teamCategory3}">teamCategory3</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 운동순 -->
+				<div><a th:href="@{/search(keyword=운동,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">오늘 걷지 않으면 내일 뛰어야 한다! 💪<span id="teamListSpan"> ></span></a></div>
+				<div id="teamListSubtitle">헬스, 요가, 생활체육, 필라테스 등 모든 운동!!</div>
+				<div th:if="${!exerciseTopList.isEmpty()}">
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="exerciseTopList : ${exerciseTopList}" class="center">
+							<div class="card">
+								<a href="#"><img th:if="${exerciseTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="..."></a>
+								<a href="#"><img th:if="${exerciseTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+								<div class="card-body">
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${exerciseTopList.teamName}">teamName
+										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
+									<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamDeposit+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+exerciseTopList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+exerciseTopList.startDate+' ~ '+exerciseTopList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${exerciseTopList.teamCategory1}">teamCategory1</p>
+									<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
+									<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 습관순 -->
+				<div><a th:href="@{/search(keyword=습관,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">습관이 바꾸는 미래! ✨<span id="teamListSpan"> ></span></a></div>
+				<div id="teamListSubtitle">식습관, 생활습관, 수면습관 등 모든 습관!!</div>
+				<div th:if="${!habitTopList.isEmpty()}">
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="habitTopList : ${habitTopList}" class="center">
+							<div class="card">
+								<a href="#"><img th:if="${habitTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${habitTopList.teamName}+'/'+${habitTopList.teamPhoto}" class="card-img-top" alt="..."></a>
+								<a href="#"><img th:if="${habitTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+								<div class="card-body">
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${habitTopList.teamName}">teamName
+										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
+									<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+habitTopList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+habitTopList.startDate+' ~ '+habitTopList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${habitTopList.teamCategory1}">teamCategory1</p>
+									<p th:if="${habitTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${habitTopList.teamCategory2}">teamCategory2</p>
+									<p th:if="${habitTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${habitTopList.teamCategory3}">teamCategory3</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 신규순 -->
+				<div><a th:href="@{/search(keyword='',filter1='',filter2=최신순)}" id="teamListAlinkTitle">신규 팀을 만나보세요! 🆕<span id="teamListSpan"> ></span></a></div>
+				<div id="teamListSubtitle">따끈따끈, 신규 팀 추천!!</div>
+				<div th:if="${!newTeamList.isEmpty()}">
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="newTeamList : ${newTeamList}" class="center">
+							<div class="card">
+								<a href="#"><img th:if="${newTeamList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${newTeamList.teamName}+'/'+${newTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
+								<a href="#"><img th:if="${newTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+								<div class="card-body">
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${newTeamList.teamName}">teamName
+										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
+									<p class="card-text cardTeamLeader" th:text="${newTeamList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${newTeamList.teamDeposit+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+newTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+newTeamList.startDate+' ~ '+newTeamList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${newTeamList.teamCategory1}">teamCategory1</p>
+									<p th:if="${newTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${newTeamList.teamCategory2}">teamCategory2</p>
+									<p th:if="${newTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${newTeamList.teamCategory3}">teamCategory3</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 		</div>
 		<div>
-			<a href="" th:href="@{/admin}">관리자페이지</a> <a href="teamPage"
-				th:href="@{/teams/teamPage}">팀페이지</a>
+			<a href="" th:href="@{/admin}">관리자페이지</a> <a href="teamPage" th:href="@{/teams/teamPage}">팀페이지</a>
 		</div>
 	</th:block>
 </body>
