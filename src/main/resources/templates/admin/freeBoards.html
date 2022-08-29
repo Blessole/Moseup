@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원목록')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('freeBoard')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('자유게시판')"> </section>
+
+    <div class="main-list-section">
+      <div class="main-list-content">
+        <div class="search-box">
+        <form action="#" th:action="@{/admin/freeBoards}" method="GET">
+          <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
+        </form>
+        <i class='bx bx-search' ></i>
+      </div>
+        <table class="table caption table-hover">
+          <caption>총 게시글 수 : <span th:text="${freeBoards.totalElements}">게시글 수</span></caption>
+          <thead>
+            <tr class="tableHeader">
+              <th scope="col">번  호</th>
+              <th scope="col">작성자</th>
+              <th scope="col">제목</th>
+              <th scope="col">조회수</th>
+              <th scope="col">좋아요</th>
+              <th scope="col">삭제여부</th>
+              <th scope="col">확인</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="freeBoard : ${freeBoards}">
+              <th th:text="${freeBoard.fno}">번호</th>
+              <td th:text="${freeBoard.member.nickname}">작성자</td>
+              <td th:text="${freeBoard.freeTitle}">글제목</td>
+              <td th:text="${freeBoard.freeReadCount}">조회수</td>
+              <td th:text="${freeBoard.freeLike}">좋아요</td>
+              <td th:text="${freeBoard.freeDelete}">삭제여부</td>
+              <td><a class="member-link" th:href="@{/admin/freeBoardDetail(fno=${freeBoard.fno}, pageNum=${freeBoards.pageable.pageNumber})}">보기</a></td>    
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- 페이징 -->
+        <div class="page-in" aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${1 == freeBoards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/admin/freeBoards(page=${freeBoards.pageable.pageNumber - 1})}"><</a>
+            </li>
+            <li class="page-item" th:classappend="${i == freeBoards.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+              <a class="page-link" href="#" th:href="@{/admin/freeBoards(page=${i - 1})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${freeBoards.totalPages == freeBoards.pageable.pageNumber + 1} ? 'disabled'">
+              <a class="page-link" href="#" th:href="@{/admin/freeBoards(page=${freeBoards.pageable.pageNumber + 1})}">></a>
+            </li>
+          </ul>
+        </div>
+     
+        
+      
+    </div>
+        </div>
+
+        
+    
+
+
+
+    
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

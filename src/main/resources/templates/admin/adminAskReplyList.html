@@ -1,0 +1,70 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('adminAskBoard')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('답변글 목록')"> </section>
+
+
+    <div class="main-section">
+        <div class="main-info-content">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>문의번호</label>
+                    <span th:text="${askBoard.ano}">회원번호</span>
+                </div>
+                <div class="info-data">
+                    <label>문의글작성자</label>
+                    <span th:text="${askBoard.member.nickname}">작성자</span>
+                </div>
+                <div class="info-data">
+                    <label>문의제목</label>
+                    <span th:text="${askBoard.askSubject}">문의제목</span>
+                </div>
+                <div class="info-data">
+                    <label>작성일</label>
+                    <span th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+                </div>
+            </div>
+            <div class="btn-over">
+                <a th:href="@{/admin/askBoardDetail(ano=${askBoard.ano})}" class="btn btn-outline-danger">문의정보</a>
+                <a th:href="@{/admin/adminAskReplyList(ano=${askBoard.ano})}" class="btn btn-outline-success">목록</a>
+            </div>
+        </div> <!-- 메인 인포 콘텐츠 end-->
+
+        <table class="table caption table-hover">
+            <caption>총 답변글 수 : <span th:text="${askBoard.askBoardReplies.size}">답변글 수</span></caption>
+            <thead>
+              <tr class="tableHeader">
+                <th scope="col">번  호</th>
+                <th scope="col">답변작성자</th>
+                <th scope="col">답변날짜</th>
+                <th scope="col">확인</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="askBoardReplie : ${askBoard.askBoardReplies}">
+                <th th:text="${askBoardReplie.arno}">번호</th>
+                <td th:text="${askBoardReplie.member.nickname}">작성자</td>
+                <td th:text="${#temporals.format(askBoardReplie.askReplyDate, 'yyyy-MM-dd HH:mm:ss')}">답변날짜</td>
+                <td><a class="member-link" th:href="@{/admin/askBoardListDetail(arno=${askBoardReplie.arno})}">보기</a></td>
+              </tr>
+            </tbody>
+          </table>
+    
+          
+
+    </div> <!-- 메인 세션  end-->
+
+
+
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

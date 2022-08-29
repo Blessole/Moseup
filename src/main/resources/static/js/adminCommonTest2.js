@@ -28,41 +28,21 @@ let filterVal = $("#memberFilter").val();
 // }
 
 
+var edit = document.getElementById('edit');
+var askReplyContent = document.getElementById('askReplyContent');
 
+edit.addEventListener('click', function () {
 
-$(document).ready(function () {
-    //여기 아래 부분
-    $('#summernote').summernote({
-        height: 440,                 // 에디터 높이
-        minHeight: null,             // 최소 높이
-        maxHeight: null,             // 최대 높이
-        lang: "ko-KR",					// 한글 설정
-        placeholder: '수정 버튼을 클릭해 답변을 입력해주세요.', //placeholder 설정
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link']],
-            ['view', ['help']]
-        ]
-    });
+    if (edit.innerText == "취소") {
+        askReplyContent.removeAttribute('required');
+        askReplyContent.setAttribute('readonly', 'readonly');
+        edit.innerText = "수정";
+    } else {
+        askReplyContent.removeAttribute('readonly');
+        askReplyContent.setAttribute('required', 'required');
+        edit.innerText = "취소";
+    }
 });
-
-function edit() {
-    $('#summernote').summernote({ focus: true });
-}
-
-function save() {
-    var markup = $('#summernote').summernote('code');
-    $('#summernote').summernote('destroy');
-}
-
-
-
-
 
 
 

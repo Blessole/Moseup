@@ -42,7 +42,7 @@
                 <td><a class="member-link" th:text="${freeBoard.freeLike}" th:href="@{/admin/memberDetail(mno=${member.mno})}">좋아요</a></td>    
                 <td th:text="${freeBoard.freeReadCount}">조회수</td>
                 <td th:text="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
-                <td><a class="member-link" th:href="@{/admin/memberDetail(mno=${member.mno})}">확인</a></td>
+                <td><a class="member-link" th:href="@{/admin/freeBoardDetail(fno=${freeBoard.fno})}">확인</a></td>
               </tr>
             </tbody>
           </table>

@@ -106,10 +106,11 @@ public class AdminMemberService {
         }
     }
 
-    public MemberRespDto 회원수정(Long id){
+    public MemberRespDto 회원수정(Long id, MemberSaveReqDto dto){
         Optional<Member> memberOP = adminMemberRepository.findById(id);
         if(memberOP.isPresent()){ //찾았으면
             Member memberPS = memberOP.get();
+            memberPS.infoUpdate(dto);
             return memberPS.toDto();
         }else{
             throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
@@ -120,6 +121,7 @@ public class AdminMemberService {
         Optional<Member> memberOP = adminMemberRepository.findById(id);
         if(memberOP.isPresent()){ //찾았으면
             Member memberPS = memberOP.get();
+            memberPS.deleteUpdate(DeleteStatus.TRUE);
             return memberPS.toDto();
         }else{
             throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");

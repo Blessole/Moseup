@@ -41,23 +41,22 @@
             </tr>
           </tbody>
         </table>
+        
         <!-- 페이징 -->
         <div class="page-in" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${1 == askBoards.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${askBoards.pageable.pageNumber - 1})}"><</a>
+              <a class="page-link" href="#" th:href="@{/admin/askBoards(page=${askBoards.pageable.pageNumber - 1})}"><</a>
             </li>
             <li class="page-item" th:classappend="${i == askBoards.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${i - 1})}" th:text="${i}">1</a>
+              <a class="page-link" href="#" th:href="@{/admin/askBoards(page=${i - 1})}" th:text="${i}">1</a>
             </li>
             <li class="page-item" th:classappend="${askBoards.totalPages == askBoards.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${askBoards.pageable.pageNumber + 1})}">></a>
+              <a class="page-link" href="#" th:href="@{/admin/askBoards(page=${askBoards.pageable.pageNumber + 1})}">></a>
             </li>
           </ul>
         </div>
-        <div>
-            <a type="button" class="btn btn-outline-primary" th:href="@{/admin/memberJoinForm}">회원등록</a>
-        </div>
+     
         
       
     </div>

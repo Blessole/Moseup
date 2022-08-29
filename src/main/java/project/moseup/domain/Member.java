@@ -127,11 +127,11 @@ public class Member {
 	public void infoUpdate(MemberSaveReqDto memberDto){
 		this.name = memberDto.getName();
 		this.nickname = memberDto.getNickname();
-		this.gender = memberDto.getGender();
 		this.photo = memberDto.getPhoto();
 		this.phone = memberDto.getPhone();
 		this.address = memberDto.getAddress();
 	}
+
 
 	// 비밀번호 암호화
 	public void encodePassword(PasswordEncoder passwordEncoder){

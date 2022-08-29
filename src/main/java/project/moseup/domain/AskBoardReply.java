@@ -18,7 +18,7 @@ public class AskBoardReply {
 	@Column(name = "ask_replyno")
 	private Long arno;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ask_no")
 	private AskBoard askBoard;
 
@@ -51,6 +51,9 @@ public class AskBoardReply {
 		this.askReplyDate = askReplyDate;
 		this.askReplyDelete = askReplyDelete;
 	}
+
+
+
 
 
 }

@@ -409,6 +409,13 @@ td .leaderMno{
     border-radius: 6px;
     padding: 14px; 
 }
+.freeBoardMain{
+  width: 100%;
+  height: 100%;
+}
+.freeBoardMain .freeBoard{
+
+}
 
 
 .main-section .main-content .member-link{
@@ -488,6 +495,9 @@ td .leaderMno{
   color: #E1E1E1;
   font-size: 22px;
   transition: all 0.4 ease;
+}
+.readonly{
+  pointer-events:none;
 }
 
 .sidebar.sideBarClose ~ .main-section{

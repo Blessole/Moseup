@@ -10,6 +10,7 @@ import project.moseup.domain.Member;
 import project.moseup.dto.AskBoardSaveReqDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,9 +54,8 @@ public class AdminAskBoardRepositoryTest {
                 .build();
         adminAskBoardReplyRepository.save(askBoardReply);
 
-        askBoard.addReply(askBoardReply);
+        askBoard.addReply((List<AskBoardReply>) askBoardReply);
 
-        assertThat(askBoard.getAskBoardReplies().getAskReplyContent()).isEqualTo(askBoardReply.getAskReplyContent());
         assertThat(askBoard.getAno()).isEqualTo(askBoardReply.getAskBoard().getAno());
 
 

@@ -19,7 +19,7 @@
                     <span th:text="${askBoard.member.mno}">회원번호</span>
                 </div>
                 <div class="info-data">
-                    <label>닉네임</label>
+                    <label>작성자</label>
                     <span th:text="${askBoard.member.nickname}">작성자</span>
                 </div>
                 <div class="info-data">
@@ -72,8 +72,8 @@
 
                     <div class="col-sm-12 mb-3">
                         <label for="askContent" class="form-label">문의내용</label>
-                        <textarea readonly class="form-control" id="askContent" rows="20" value=""
-                            th:text="${askBoard.askContent}"></textarea>
+                        <pre><textarea readonly class="form-control" id="askContent" rows="20" value=""
+                            th:text="${askBoard.askContent}"></textarea></pre>
                     </div>
                 </div>
             </div>
@@ -98,14 +98,13 @@
 
                         <div class="col-sm-12 mb-3">
                             <label for="askContent" class="form-label">답변글</label>
-                            <textarea id="summernote" name="askReplyContent">
-
-                            </textarea>
+                            <pre><textarea readonly class="form-control" id="askReplyContent" name="askReplyContent" rows="20" th:text="${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].askReplyContent}"></textarea></pre>
                         </div>
 
                         <div class="text-end">
-                            <button id="edit" class="btn btn-primary" onclick="edit()" type="button">수정</button>
-                            <input type="submit" id="save" class="btn btn-primary" onclick="save()">
+                            <a th:href="@{/admin/adminAskReplyList(ano=${askBoard.ano})}" id="askReplyList" class="btn btn-outline-primary">답변목록</a>
+                            <button type="button" id="edit" class="btn btn-outline-primary">수정</button>
+                            <input type="submit" id="save" class="btn btn-primary" value="저장">
                         </div>
                     </form>
                 </div>
@@ -122,7 +121,7 @@
 
 
     </div> <!-- 메인 세션  end-->
-    
+
 
 
 

@@ -56,4 +56,5 @@ public class FreeBoard {
 		this.freeReadCount = freeReadCount;
 		this.freeDelete = freeDelete;
 	}
+	
 }

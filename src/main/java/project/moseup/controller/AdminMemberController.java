@@ -13,14 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.moseup.domain.AskBoard;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.MemberGender;
-import project.moseup.dto.AskBoardReplySaveReqDto;
-import project.moseup.dto.AskBoardRespDto;
-import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.domain.*;
+import project.moseup.dto.*;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.service.admin.AdminFreeBoardService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AskBoardReplyService;
 import project.moseup.service.member.MemberService;
@@ -50,6 +46,7 @@ public class AdminMemberController {
     private final MemberService memberService;
     private final AskBoardService askBoardService;
     private final AskBoardReplyService askBoardReplyService;
+    private final AdminFreeBoardService adminFreeBoardService;
 
 
     // 유효성 검사
@@ -268,10 +265,10 @@ public class AdminMemberController {
                                  Principal principal, Model model){
         Member member = memberService.getPrincipal(principal);
         if(member == null){
-            return "redirect:/admin/adminAskBoards";
+            return "members/loginForm";
         }
-        AskBoardRespDto askBoardRespDto = askBoardService.getAskBoard(ano);
 
+        AskBoardRespDto askBoardRespDto = askBoardService.getAskBoard(ano);
 
         model.addAttribute("askBoard", askBoardRespDto);
         model.addAttribute("pageNum", pageNum);
@@ -279,15 +276,67 @@ public class AdminMemberController {
         model.addAttribute("replySaveDto", new AskBoardReplySaveReqDto());
 
         return "admin/askBoardDetail";
+
     }
 
     @PostMapping("/askBoardDetail")
-    public String askBoardReplyWrite(AskBoardReplySaveReqDto replySaveDto,  Model model){
-
+    public String askBoardReplyWrite(AskBoardReplySaveReqDto replySaveDto, Model model){
 
         askBoardReplyService.replyAdd(replySaveDto);
 
-
         return "redirect:/admin/askBoardDetail?ano=" + replySaveDto.getAskBoard().getAno();
+    }
+
+    @GetMapping("/adminAskReplyList")
+    public String adminAskReplyList(@RequestParam(required = false) Long ano, Model model){
+
+        AskBoardRespDto askBoard = askBoardService.getAskBoard(ano);
+        model.addAttribute("askBoard", askBoard);
+
+        return "admin/adminAskReplyList";
+    }
+
+    @GetMapping("/askBoardListDetail")
+    public String askBoardListDetail(@RequestParam Long arno, Model model){
+        if(arno == null){
+            return "admin/adminAskReplyList";
+        }
+
+        AskBoardReplyRespDto askBoardReplyRespDto = askBoardReplyService.getAskBoardReply(arno);
+        model.addAttribute("reply", askBoardReplyRespDto);
+
+        return "admin/askBoardListDetail";
+    }
+
+    @GetMapping("/freeBoards")
+    public String freeBoards(@RequestParam(required = false, defaultValue = "") String keyword,
+                             @PageableDefault(size = 15, sort = "fno", direction = Sort.Direction.DESC) Pageable pageable,
+                             Model model){
+
+        Page<FreeBoard> freeBoards = adminFreeBoardService.freeBoards(keyword, pageable);
+
+        int startPage = Math.max(1, freeBoards.getPageable().getPageNumber() - 5);
+        int endPage = Math.min(freeBoards.getTotalPages(), freeBoards.getPageable().getPageNumber() + 5);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("freeBoards", freeBoards);
+
+        return "admin/freeBoards";
+    }
+
+    @GetMapping("/freeBoardDetail")
+    public String freeBoardDetail(@RequestParam Long fno,
+                                  @RequestParam(required = false, defaultValue = "0") int pageNum,
+                                  Model model){
+        if(fno == null){
+            return "admin/freeBoards";
+        }
+        FreeBoardRespDto freeBoardRespDto = adminFreeBoardService.freeBoardDetail(fno);
+
+        model.addAttribute("freeBoard", freeBoardRespDto);
+        model.addAttribute("pageNum", pageNum);
+
+        return "admin/freeBoardDetail";
     }
 }

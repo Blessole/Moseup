@@ -1,0 +1,94 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('freeBoard')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('자유게시판')"> </section>
+
+
+    <div class="main-section">
+        <div class="main-info-content">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>회원번호</label>
+                    <span th:text="${freeBoard.member.mno}">회원번호</span>
+                </div>
+                <div class="info-data">
+                    <label>작성자</label>
+                    <span th:text="${freeBoard.member.nickname}">작성자</span>
+                </div>
+                <div class="info-data">
+                    <label>이메일</label>
+                    <span th:text="${freeBoard.member.email}">이메일</span>
+                </div>
+                <div class="info-data">
+                    <label>전화번호</label>
+                    <span th:text="${freeBoard.member.phone}">번호</span>
+                </div>
+                <div class="info-data">
+                    <label>가입날짜</label>
+                    <span th:text="${#temporals.format(freeBoard.member.memberDate, 'yyyy-MM-dd HH:mm:ss')}">가입날짜</span>
+                </div>
+            </div>
+            <div class="btn-over">
+                <a th:href="@{/admin/memberDetail(mno=${freeBoard.member.mno})}" class="btn btn-outline-danger">회원정보</a>
+                <a th:href="@{/admin/freeBoards?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
+            </div>
+        </div> <!-- 메인 인포 콘텐츠 end-->
+
+        <div class="freeBoardMain">
+
+            <div class="freeBoard">
+                <h4 class="mb-3">게시글</h4>
+                <div class="row">
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="ano" class="form-label">번호</label>
+                        <input type="text" readonly class="form-control" id="ano" value="" th:value="${freeBoard.fno}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askDate" class="form-label">작성일</label>
+                        <input type="text" readonly class="form-control" id="askDate" value=""
+                            th:value="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askSubject" class="form-label">제목</label>
+                        <input type="text" readonly class="form-control" id="askSubject" value=""
+                            th:value="${freeBoard.freeTitle}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="member" class="form-label">작성자</label>
+                        <input type="text" readonly class="form-control" id="member" value=""
+                            th:value="${freeBoard.member.nickname}">
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="askContent" class="form-label">내용</label>
+                        <pre><textarea readonly class="form-control" id="askContent" rows="20" value=""
+                            th:text="${freeBoard.freeContent}"></textarea></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div> <!-- 메인 세션  end-->
+
+
+
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

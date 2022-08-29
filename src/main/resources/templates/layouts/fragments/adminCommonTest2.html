@@ -26,7 +26,9 @@
     <!-- 사이드바 -->
     <div class="sidebar sideBarClose" th:fragment="sidebar(sidebar)">
         <div class="logo-details">
-            <i class='bx bxl-c-plus-plus'></i>
+            <a th:href="@{/}">
+                <i class='bx bxl-c-plus-plus'></i>
+            </a>
             <span class="logo_name">Moseup</span>
         </div>
         <ul class="nav-links">
@@ -50,7 +52,7 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name">User</a></li>
+                    <li><a class="link_name" th:href="@{/admin/memberList}">User</a></li>
                         <li><a href="#" th:href="@{/admin/memberList(orderBy = 'deleteTrue')}">탈퇴계정</a></li>
                         <li><a href="#" th:href="@{/admin/memberList(orderBy = 'admin')}">관리자계정</a></li>
                 </ul>
@@ -64,7 +66,7 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name">Team</a></li>
+                    <li><a class="link_name" th:href="@{/admin/teamList}">Team</a></li>
                     <li><a href="#">뭐적지</a></li>
                     <li><a href="#">뭐적지</a></li>
                     <li><a href="#">뭐적지</a></li>
@@ -78,16 +80,18 @@
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">AskBoard</a></li>
+                    <li><a class="link_name" th:href="@{/admin/adminAskBoards}">AskBoard</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <div class="iocn-link" th:classappend="${sidebar} == 'freeBoard'? 'active'">
+                <a th:href="@{/admin/freeBoards}">
                     <i class='bx bx-line-chart'></i>
                     <span class="link_name">FreeBoard</span>
                 </a>
+                </div>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">FreeBoard</a></li>
+                    <li><a class="link_name" th:href="@{/admin/freeBoards}">FreeBoard</a></li>
                 </ul>
             </li>
             <li>

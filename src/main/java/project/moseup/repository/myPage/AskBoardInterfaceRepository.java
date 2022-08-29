@@ -14,4 +14,6 @@ public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Lon
     List<AskBoard> findByMemberAndAskDelete(Member member, DeleteStatus deleteStatus);
 
     Page<AskBoard> findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(String keyword, String keyword1, String keyword2, Pageable pageable);
+
+
 }

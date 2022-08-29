@@ -1,6 +1,8 @@
 package project.moseup.service.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.Team;
@@ -17,5 +19,9 @@ public class AdminTeamService {
     public Team teamDetail(Long tno) {
         Team team = adminTeamRepository.findById(tno).orElse(null);
         return team;
+    }
+
+    public Page<Team> teams(String keyword, Pageable pageable) {
+        return adminTeamRepository.findByTeamNameContainingOrMemberNicknameContaining(keyword, keyword, pageable);
     }
 }

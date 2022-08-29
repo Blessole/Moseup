@@ -139,6 +139,8 @@ public class AdminMemberServiceTest {
     public void 회원한명조회_테스트(){
         // given
         Long id = 43L;
+
+        // stub
         Member member = new Member(
                 "777@777.com",
                 "a123123",
@@ -153,8 +155,6 @@ public class AdminMemberServiceTest {
                 Role.USER,
                 "로그인타입");
         Optional<Member> memberOP = Optional.of(member);
-
-        // stub
         when(adminMemberRepository.findById(id)).thenReturn(memberOP);
 
         // when
@@ -172,15 +172,52 @@ public class AdminMemberServiceTest {
 
     }
 
-    @Test
-    public void 회원삭제_Test(){
 
-
-
-    }
 
     @Test
-    public void 회원수정_Test(){
+    public void 회원수정테스트(){
+        // given (수정 데이터)
+        Long id = 43L;
+        MemberSaveReqDto dto = new MemberSaveReqDto();
+        dto.setAddress("dd");
+        dto.setPhone("01022222222");
+        dto.setPhoto("null");
+        dto.setGender(MemberGender.FEMALE);
+        dto.setRole(Role.USER);
+        dto.setEmail("111@111.com");
+        dto.setPassword("a123123");
+        dto.setNickname("테스트1234");
+        dto.setMemberDate(LocalDateTime.now());
+        dto.setMemberDelete(DeleteStatus.FALSE);
+        dto.setName("테스트용용");
+
+        // stub (가설로 db에 있는 데이터 정의)
+        Member member = new Member(
+                "777@777.com",
+                "a123123",
+                "조회테스트",
+                "조회테스트",
+                MemberGender.FEMALE,
+                "주소",
+                "01033333333",
+                "NULL",
+                DeleteStatus.FALSE,
+                LocalDateTime.now(),
+                Role.USER,
+                "로그인타입");
+        Optional<Member> memberOP = Optional.of(member);
+        when(adminMemberRepository.findById(id)).thenReturn(memberOP);
+
+        // when
+        MemberRespDto memberRespDto = adminMemberService.회원수정(id, dto);
+
+        // then
+        assertThat(memberRespDto.getName()).isEqualTo(dto.getName());
+        assertThat(memberRespDto.getNickname()).isEqualTo(dto.getNickname());
+        assertThat(memberRespDto.getPhone()).isEqualTo(dto.getPhone());
+        assertThat(memberRespDto.getPhoto()).isEqualTo(dto.getPhoto());
+
+
 
 
 

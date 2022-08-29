@@ -6,7 +6,7 @@ import project.moseup.domain.FreeBoard;
 import project.moseup.domain.FreeBoardReply;
 import project.moseup.domain.Member;
 
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class FreeBoardRespDto {
     private String freeTitle;			//게시물 제목
     private String freeContent;		//게시물 내용
     private int freeLike;				//좋아요
-    private String freeStrDate;
+    private LocalDateTime freeDate;
     private int freeReadCount;				//조회수
     private DeleteStatus freeDelete;	//게시물 삭제 여부
     private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
@@ -31,7 +31,7 @@ public class FreeBoardRespDto {
         this.freeTitle = freeBoard.getFreeTitle();
         this.freeContent = freeBoard.getFreeContent();
         this.freeLike = freeBoard.getFreeLike();
-        this.freeStrDate = freeBoard.getFreeDate().format(DateTimeFormatter.ISO_DATE);
+        this.freeDate = freeBoard.getFreeDate();
         this.freeReadCount = freeBoard.getFreeReadCount();
         this.freeDelete = freeBoard.getFreeDelete();
         this.freeBoardReplies = freeBoard.getFreeBoardReplies();

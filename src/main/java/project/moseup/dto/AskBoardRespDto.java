@@ -8,6 +8,7 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class AskBoardRespDto {
     private String askPhoto;
     private LocalDateTime askDate;
     private DeleteStatus askDelete;
-    private AskBoardReply askBoardReplies;
+    private List<AskBoardReply> askBoardReplies;
 
     public AskBoardRespDto toDto(AskBoard askBoard){
         this.ano = askBoard.getAno();

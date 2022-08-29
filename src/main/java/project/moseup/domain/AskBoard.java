@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -57,8 +59,8 @@ public class AskBoard {
 	}
 
 	// 연관관계 맵핑
-	@OneToOne(mappedBy = "askBoard")
-	private AskBoardReply askBoardReplies;
+	@OneToMany(mappedBy = "askBoard")
+	private List<AskBoardReply> askBoardReplies = new ArrayList<>();
 
 	// 게시글 수정
 	public void update(String askSubject, String askContent, String askPhoto) {
@@ -67,8 +69,8 @@ public class AskBoard {
 		this.askPhoto = askPhoto;
 	}
 
-	public void addReply(AskBoardReply askBoardReply){
-		this.askBoardReplies = askBoardReply;
+	public void addReply(List<AskBoardReply> askBoardReply){
+		this.askBoardReplies.addAll(askBoardReply);
 	}
 
 

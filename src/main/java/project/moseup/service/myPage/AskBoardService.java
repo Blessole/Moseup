@@ -25,6 +25,7 @@ public class AskBoardService {
 
 
 
+
     /** 문의게시판 리스트 조회 **/
     public List<AskBoard> findAskBoards(Member member){
         return askBoardInterfaceRepository.findByMemberAndAskDelete(member, DeleteStatus.FALSE);
@@ -90,4 +91,9 @@ public class AskBoardService {
             throw new RuntimeException("문의글 데이터가 없습니다");
         }
     }
+
+
+
+
+
 }
