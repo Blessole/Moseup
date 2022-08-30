@@ -33,7 +33,7 @@
             </thead>
             <tbody>
               <tr class="no-data" th:if="${member.freeBoards.size} == 0">
-                <th colspan="6">작성된 게시글이 없습니다</th>
+                <th colspan="7">작성된 게시글이 없습니다</th>
               </tr>
               <tr th:each="freeBoard : ${member.freeBoards}">
                 <th th:text="${freeBoard.fno}">번호</th>

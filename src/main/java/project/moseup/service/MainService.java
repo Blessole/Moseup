@@ -1,15 +1,13 @@
 package project.moseup.service;
 
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
-import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.repository.MainInterfaceRepository;
 import project.moseup.repository.MainRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,8 +35,7 @@ public class MainService {
 	
 	//카테고리1 공부 인기순
 	public List<Team> studyTopList() {
-		List<Team> studyTopList = mainInterfaceRepository.studyTopList();
-		return studyTopList;
+		return mainInterfaceRepository.studyTopList();
 	}
 	//카테고리1 운동 인기순
 	public List<Team> exerciseTopList() {

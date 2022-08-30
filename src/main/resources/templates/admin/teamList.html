@@ -19,7 +19,7 @@
         <i class='bx bx-search' ></i>
       </div>
         <table class="table caption table-hover">
-            <caption>총 스터디 수 : <span th:text="${teams.totalElements}">회원 수</span></caption>
+            <caption>총 스터디 수 : <span th:text="${teams.totalElements}">스터디 수</span></caption>
             <thead>
               <tr class="tableHeader">
                 <th scope="col">번  호</th>
@@ -32,6 +32,9 @@
               </tr>
             </thead>
             <tbody>
+              <tr th:if="${teams.totalElements} == 0">
+                <th colspan="7" style="text-align: center;">생성된 스터디가 없습니다.</th>
+              </tr>
               <tr th:each="team : ${teams}">
                 <th th:text="${team.tno}">번호</th>
                 <td th:text="${team.member.nickname}">팀장</td>
@@ -47,13 +50,13 @@
           <div class="page-in" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               <li class="page-item" th:classappend="${1 == teams.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber - 1})}">이전</a>
+                <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber - 1})}"><</a>
               </li>
               <li class="page-item" th:classappend="${i == teams.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
                 <a class="page-link" href="#" th:href="@{/admin/teamList(page=${i - 1})}" th:text="${i}">1</a>
               </li>
               <li class="page-item" th:classappend="${teams.totalPages == teams.pageable.pageNumber + 1} ? 'disabled'">
-                <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber + 1})}">다음</a>
+                <a class="page-link" href="#" th:href="@{/admin/teamList(page=${teams.pageable.pageNumber + 1})}">></a>
               </li>
             </ul>
           </div>

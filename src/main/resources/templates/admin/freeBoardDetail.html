@@ -77,7 +77,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="freeBoard">
+                <h4 class="mb-3">댓글&nbsp;<span th:text="${freeBoard.freeBoardReplies.size}"></span><span>개</span></h4>
+
+                
+                <div class="info-Row">
+                    <div class="info-data" th:each="freeBoardReplies : ${freeBoard.freeBoardReplies}">
+                        <label th:text="${freeBoardReplies.member.nickname}">댓글작성자</label>
+                        <span th:text="${freeBoardReplies.freeReplyContent}">댓글내용</span>
+                        <span th:text="${freeBoardReplies.freeReplyDate}">댓글내용</span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- 게시판 댓글 끝 -->
+
+
+
         </div>
+
 
 
 

@@ -31,6 +31,9 @@
             </tr>
           </thead>
           <tbody>
+            <tr th:if="${freeBoards.totalElements} == 0">
+              <th colspan="7" style="text-align: center;">작성된 게시글이 없습니다.</th>
+            </tr>
             <tr th:each="freeBoard : ${freeBoards}">
               <th th:text="${freeBoard.fno}">번호</th>
               <td th:text="${freeBoard.member.nickname}">작성자</td>

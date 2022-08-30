@@ -1,0 +1,10 @@
+package project.moseup.repository.admin;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import project.moseup.domain.FreeBoardReply;
+
+public interface AdminFreeBoardReplyRepository extends JpaRepository<FreeBoardReply, Long> {
+
+
+
+}
