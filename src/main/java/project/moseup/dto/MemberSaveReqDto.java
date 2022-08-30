@@ -116,6 +116,9 @@ public class MemberSaveReqDto {
                 .phone(phone)
                 .photo(photo)
                 .gender(gender)
+                .memberDate(LocalDateTime.now())
+                .memberDelete(DeleteStatus.FALSE)
+                .role(Role.USER)
                 .build();
     }
 
