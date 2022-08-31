@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.moseup.domain.Bankbook;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
@@ -16,7 +15,9 @@ import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminBankbookRepository;
 import project.moseup.repository.admin.AdminMemberRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -156,6 +157,23 @@ public class AdminMemberService {
                 break;
         }
         return members;
+    }
+
+
+    public Map<String, Object> getMemberMap(Long mno) {
+        Map<String, Object> map = new HashMap<>();
+        Member member = adminMemberRepository.findById(mno).orElse(null);
+        if(member != null){
+            String photo = member.getPhoto();
+            int index = photo.indexOf("images");
+            String realPhoto = photo.substring(index - 1);
+
+            map.put("member", member);
+            map.put("realPath", realPhoto);
+            return map;
+        }else{
+            throw new RuntimeException("찾는 회원이 없습니다");
+        }
     }
 
 

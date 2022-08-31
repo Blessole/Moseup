@@ -29,9 +29,8 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -161,18 +160,20 @@ public class AdminMemberController {
     // 회원 정보 상세보기
     @GetMapping("/memberDetail")
     public String memberDetail(@RequestParam Long mno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if(member == null){
-            return "redirect:/admin/memberList";
-        }else{
-            Path path = Paths.get(member.getPhoto());
 
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
-            model.addAttribute("fileName", path.getFileName());
-            model.addAttribute("member", member);
-            model.addAttribute("pageNum", pageNum);
+            Map<String, Object> map = adminMemberService.getMemberMap(mno);
 
-            return "admin/memberDetail";
+            if(map.get("member") == null){
+                return "redirect:/admin/memberList";
+            }else{
+                model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+                model.addAttribute("fileName", map.get("realPath"));
+                model.addAttribute("member", map.get("member"));
+                model.addAttribute("pageNum", pageNum);
+
+                //model.addAttribute("map", map);
+
+                return "admin/memberDetail";
         }
 
     }
