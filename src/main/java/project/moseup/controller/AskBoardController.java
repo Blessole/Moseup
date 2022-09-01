@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -45,26 +46,29 @@ public class AskBoardController {
 
     @GetMapping("/askBoardList")
     public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
-        model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging(member, page));
+        model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging((Member) map.get("member"), page));
+        model.addAttribute("map", map);
         model.addAttribute("maxPage", 5);
         return "myPage/askBoardList";
     }
 
     @GetMapping("/askBoardForm")
     public String askBoardForm(Model model, Principal principal){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
         model.addAttribute("askBoardForm", new AskBoardSaveReqDto());
-        model.addAttribute("member", member);
+        model.addAttribute("map", map);
         return "myPage/askBoardForm";
     }
 
     @PostMapping("/ask")
     public String askBoardAction(@Valid @ModelAttribute("askBoardForm") AskBoardSaveReqDto askBoardForm, BindingResult bindingResult,
                                  @RequestPart(required = false) MultipartFile file, Principal principal, Model model) throws IOException{
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
+
         System.out.println("error:"+ bindingResult.hasErrors());
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
@@ -72,12 +76,11 @@ public class AskBoardController {
                 System.out.println(e.getDefaultMessage());
             }
             model.addAttribute("askBoardForm", new AskBoardSaveReqDto());
-            model.addAttribute("member", member);
             return "redirect:/askBoard/askBoardForm";
         }
 
         // 작성자 정보 SET
-        askBoardForm.setMember(member);
+        askBoardForm.setMember((Member) map.get("member"));
 
         // 파일 업로드
         if (file.isEmpty()){
@@ -86,7 +89,6 @@ public class AskBoardController {
             if (file.getContentType().startsWith("image")== false){
                 System.out.println("ABC - 이미지 파일만 올리셈");
                 System.out.println("content type : "+ file.getContentType());
-                model.addAttribute("member", member);
                 return "redirect:/askBoard/askBoardForm";
             }
 
@@ -117,7 +119,7 @@ public class AskBoardController {
 
     @GetMapping("/askBoardDetail")
     public String askBoardDetail(@RequestParam(name = "ano") Long ano, Model model, Principal principal, @RequestParam(value="page",  defaultValue = "0") int page){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         AskBoard askBoard = this.askBoardService.findOne(ano);
 
         String realPhoto = "";
@@ -138,7 +140,7 @@ public class AskBoardController {
         String askContent = askBoard.getAskContent().replace("<br>", "<br/>");
         model.addAttribute("askContent1", askContent); // DTO 이용했으면 없었을 코드임 (Setter!!!!!!!!!!!!!)
         model.addAttribute("askBoard", askBoard);
-        model.addAttribute("member", member);
+        model.addAttribute("map", map);
         model.addAttribute("askBoardReplyDto", new AskBoardReplySaveReqDto());
 
         // clean code 생각해보기 - detail & update 코드 동일!
@@ -148,7 +150,7 @@ public class AskBoardController {
     /** 글 수정 **/
     @GetMapping("/askBoardUpdateForm")
     public String askBoardUpdateForm(@RequestParam("ano") Long ano, Model model, Principal principal){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         AskBoardSaveReqDto askBoardDto = this.askBoardService.getPost(ano);
 
         // 내용에 엔터 태그 적용되도록 변경하여 set
@@ -156,7 +158,7 @@ public class AskBoardController {
 
         model.addAttribute("ano", ano);
         model.addAttribute("askBoardDto", askBoardDto);
-        model.addAttribute("member", member);
+        model.addAttribute("map", map);
         return "/myPage/askBoardUpdateForm";
     }
 
@@ -176,8 +178,9 @@ public class AskBoardController {
         // 내용에 엔터 태그 적용되도록 변경하여 저장
         askBoardDto.setAskContent(askBoardDto.getAskContent().replace("\r\n", "<br>"));
 
-        Member member = this.memberService.getMember(principal.getName());
-        model.addAttribute("member", member);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
+
         askBoardService.update(askBoardDto, ano);
 
         return "redirect:/askBoard/askBoardDetail?ano="+ano;
@@ -186,8 +189,8 @@ public class AskBoardController {
     /** 글 삭제 **/
     @GetMapping("/askBoardDelete")
     public String askBoardDelete(@RequestParam Long ano, Model model, Principal principal) {
-        Member member = memberService.getPhotoAndNickname(principal, model);
-        model.addAttribute("member", member);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
 
         askBoardService.deleteBoard(ano);
         return "redirect:/askBoard/askBoardList";

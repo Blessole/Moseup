@@ -113,7 +113,7 @@
 								<a href="#"><img th:if="${exerciseTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="..."></a>
 								<a href="#"><img th:if="${exerciseTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 								<div class="card-body">
-									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${exerciseTopList.teamName}" th:href="@{/teams/teamPage(tno=${studyTopList.tno})}">teamName
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${exerciseTopList.teamName}" th:href="@{/teams/teamPage(tno=${exerciseTopList.tno})}">teamName
 										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
 									<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
 									<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamDeposit+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
@@ -137,7 +137,7 @@
 								<a href="#"><img th:if="${habitTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${habitTopList.teamName}+'/'+${habitTopList.teamPhoto}" class="card-img-top" alt="..."></a>
 								<a href="#"><img th:if="${habitTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 								<div class="card-body">
-									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${habitTopList.teamName}" th:href="@{/teams/teamPage(tno=${studyTopList.tno})}">teamName
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${habitTopList.teamName}" th:href="@{/teams/teamPage(tno=${habitTopList.tno})}">teamName
 										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
 									<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
 									<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>

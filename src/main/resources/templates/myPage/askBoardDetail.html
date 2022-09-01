@@ -45,7 +45,7 @@
                     <form th:action="@{/askBoard/askBoardReplyWrite}" th:object="${askBoardReplyDto}" method="post">
                         <input type="hidden" id="ano" name="ano" th:value="${askBoard.ano}">
                         <div class="replyWrite">
-                            <input type="text" name="nickname" th:value="${member.nickname}" class="replyNick" disabled>
+                            <input type="text" name="nickname" th:value="${map.member.nickname}" class="replyNick" disabled>
                             <div class="replyBottom">
                                 <input type="text" th:field="*{askReplyContent}" class="form-control" placeholder="댓글을 입력하세요">
                                 <input type="submit" value="등록">

@@ -2,8 +2,8 @@
 <!--MyPage용 SideBar-->
 <th:block th:fragment="myPageCommon">
     <div class="inlinebox">
-        <img th:src="${photoPath}">
-        <span th:text="${member.nickname}" class="mNick"></span> 님, 환영합니다.
+        <img th:src="${map.realPhoto}">
+        <span th:text="${map.member.nickname}" class="mNick"></span> 님, 환영합니다.
     </div>
     <ul class="sideList" id="accordionSidebar">
         <li class="non-Active"><a th:href="@{/myPage/myTeamList(sort='none')}">가입 스터디 목록</a></li>

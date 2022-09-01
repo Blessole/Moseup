@@ -31,6 +31,7 @@ import java.io.File;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -60,33 +61,37 @@ public class MyPageController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
     public String myPage(Model model, Principal principal) {
-        memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
         return "myPage/myPage";
     }
 
     /** 가입 스터디 목록 **/
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
         model.addAttribute("maxPage", 5);
-        model.addAttribute("teamList", myPageService.findTeamPaging(member, sort, page));
+        model.addAttribute("teamList", myPageService.findTeamPaging((Member) map.get("member"), sort, page));
+        model.addAttribute("map", map);
         return "myPage/myTeamList";
     }
 
     /** 인증글 목록 **/
     @GetMapping("/myCheckList")
     public String myCheckList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(required = false) Long tno){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        Member member = (Member) map.get("member");
+
         if (tno == null) {
             model.addAttribute("checkList", myPageService.findCheckBoardPaging(member, page));
-            model.addAttribute("photoList", myPageService.findCheckBoardList(member));
         } else {
             model.addAttribute("checkList", myPageService.findCheckBoardByTeamPaging(member, tno, page));
-            model.addAttribute("photoList", myPageService.findCheckBoardList(member));
         }
+        model.addAttribute("photoList", myPageService.findCheckBoardList(member));
         model.addAttribute("teamList", myPageService.findTeam(member));
         model.addAttribute("maxPage", 5);
+        model.addAttribute("map", map);
         return "myPage/myCheckList";
     }
 
@@ -94,7 +99,8 @@ public class MyPageController {
     @PreAuthorize("isAuthenticated()")
      @GetMapping("/myInfoMain")
     public String myInfoMain(Model model, Principal principal){
-        memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
         return "myPage/myInfoMain";
     }
 
@@ -114,7 +120,8 @@ public class MyPageController {
     @GetMapping("/myInfo")
     public String myInfo(Model model, Principal principal){
         openForm(model, principal);
-        memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
         return "myPage/myInfo";
     }
 
@@ -130,7 +137,7 @@ public class MyPageController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/myInfo")
     public String myInfoUpdate(@ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam(required = false, name="file") MultipartFile file, @RequestParam(name = "mno") Long mno, Model model, Principal principal){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
         // 유효성 검사
         if(bindingResult.hasErrors()){
@@ -143,7 +150,7 @@ public class MyPageController {
         }
 
         // 파일 업로드 시작
-        String originPath = member.getPhoto();
+        String originPath = ((Member)map.get("member")).getPhoto();
         if(!file.isEmpty()){
             if(file.getContentType().startsWith("image")==false){
                 log.info("이미지 파일만 올리세요 ㅠ");
@@ -161,7 +168,7 @@ public class MyPageController {
                    }
             }
             // 새로운 사진 저장 (폴더 없으면 폴더 생성)
-            String folderPath = member.getEmail();
+            String folderPath = ((Member)map.get("member")).getEmail();
             String saveName = memberService.makeFolderAndFileName(file, folderPath);
             // form에 저장
             memberDto.setPhoto(saveName);
@@ -172,6 +179,7 @@ public class MyPageController {
         }
 
         memberService.update(memberDto, mno);
+        model.addAttribute("map", map);
         return "redirect:/myPage/myInfo?mno="+mno;
     }
 
@@ -199,7 +207,8 @@ public class MyPageController {
 
     @GetMapping("/myBankbook")
     public String myBankbookList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        Member member = (Member) map.get("member");
         Page<Bankbook> bankbook = myPageService.findBankbookPaging(member, page);
 
         List<Bankbook> myBankbook = myPageService.findBankbook(member);
@@ -212,26 +221,28 @@ public class MyPageController {
 
         model.addAttribute("myTotal", originMoney);
         model.addAttribute("bankbookDto", bankbook);
-        model.addAttribute("member", member);
         model.addAttribute("maxPage", 20);
+        model.addAttribute("map", map);
         return "myPage/myBankbook";
     }
 
     @GetMapping("/moneyCharge")
     public String moneyCharge(@ModelAttribute("chargeDto") BankbookSaveReqDto bankbookDto, Principal principal, Model model){
-        Member member = memberService.getPhotoAndNickname(principal, model);
-        List<Bankbook> myBankbook = myPageService.findBankbook(member);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        List<Bankbook> myBankbook = myPageService.findBankbook((Member) map.get("member"));
         if (myBankbook.isEmpty()){
             model.addAttribute("myTotal", 0);
         } else {
             model.addAttribute("myTotal", myBankbook.get(0).getBankbookTotal());
-        }
+        }        model.addAttribute("map", map);
+
         return "myPage/moneyCharge";
     }
 
     @PostMapping("/moneyChargeAction")
     public String moneyChargeAction(BankbookSaveReqDto bankbookDto, BindingResult bindingResult, Principal principal, Model model){
-        Member member = memberService.getPhotoAndNickname(principal, model);
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        Member member = (Member) map.get("member");
 
         // 유효성 검사
         if(bindingResult.hasErrors()){
@@ -240,7 +251,7 @@ public class MyPageController {
                 System.out.println(e.getDefaultMessage());
             }
             List<Bankbook> myBankbook = myPageService.findBankbook(member);
-            model.addAttribute("member", member);
+            model.addAttribute("map", map);
             if (myBankbook.isEmpty()){
                 model.addAttribute("myTotal", 0);
             } else model.addAttribute("myTotal", myBankbook);
@@ -266,6 +277,7 @@ public class MyPageController {
         bankbookDto.setBankbookTotal(newTotal);
 
         myPageService.charge(bankbookDto);
+        model.addAttribute("map", map);
 
         return "redirect:/myPage/myBankbook";
     }
