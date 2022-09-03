@@ -139,11 +139,11 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="/static/images/profile.png" th:src="@{/images/profile.png}" alt="profileImg">
+                        <img src="/static/images/profile.png" th:src="@{fileName}" alt="profileImg">
                     </div>
                     <div class="name-job">
-                        <div class="profile_name">Prem Shahi</div>
-                        <div class="job">Admin</div>
+                        <div class="profile_name" th:text="${loginMember.nickname}"></div>
+                        <div class="job" th:text="${loginMember.name}">Admin</div>
                     </div>
                     <a href="#" th:href="@{/}">
                         <i class='bx bx-log-out'></i>

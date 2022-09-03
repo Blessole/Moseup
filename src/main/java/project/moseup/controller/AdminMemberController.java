@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.*;
+import project.moseup.dto.searchDto.MemberDateSearchDto;
+import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminFreeBoardService;
 import project.moseup.service.admin.AdminMemberService;
@@ -62,6 +64,19 @@ public class AdminMemberController {
         binder.addValidators(checkEmailValidator);
         binder.addValidators(checkPasswordValidator);
     }
+    // 공용 데이터 (사이드바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("loginMember", memberMap.get("member"));
+            model.addAttribute("fileName", memberMap.get("realPath"));
+        }
+    }
 
     // 대시보드(시작 페이지)
     @GetMapping("")
@@ -73,26 +88,36 @@ public class AdminMemberController {
         return "admin/adminIndex";
     }
 
-    // 회원 리스트 출력
+    // 회원 리스트 출력 (keyword, orderBy 를 하나의 클래스로 묶어서 관리할까 고민 || 아니면 date Dto도 같이 묶어서? 아예 하나로)
     @GetMapping("/memberList")
     public String list(@RequestParam(required = false, defaultValue = "") String keyword,
                        @RequestParam(required = false, defaultValue = "") String orderBy,
+                       @RequestParam(required = false) String startDate,
+                       @RequestParam(required = false) String endDate,
                        @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable,
                        Model model){
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
             //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
             // Member member = memberService.getPrincipal(principal);
 
-            Page<Member> memberList = adminMemberService.members(orderBy, keyword, pageable);
+            Page<Member> memberList = adminMemberService.members(orderBy, keyword, startDate, endDate, pageable);
             int startPage = Math.max(1, memberList.getPageable().getPageNumber() - 5);
             int endPage = Math.min(memberList.getTotalPages(), memberList.getPageable().getPageNumber() + 5);
 
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
             model.addAttribute("members", memberList);
+            model.addAttribute("searchDto", new MemberDateSearchDto());
 
         return "admin/memberList";
     }
+
+//    @PostMapping("memberSearchList")
+//    public String memberSearchList(@RequestParam(required = false) MemberDateSearchDto searchDto, Model model){
+//
+//
+//        return "admin/memberList";
+//    }
 
 
 
@@ -191,7 +216,7 @@ public class AdminMemberController {
     @GetMapping("/memberRecover")
     public String memberRecover(@RequestParam Long mno){
 
-        adminMemberService.RecoverMember(mno);
+        adminMemberService.memberRecover(mno);
 
         return "redirect:/admin/memberDetail?mno="+mno;
     }

@@ -118,7 +118,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findAll()).thenReturn(memberList);
 
         // when
-        List<MemberRespDto> dtos = adminMemberService.회원목록보기();
+        List<MemberRespDto> dtos = adminMemberService.memberFindAll();
 
         //print
         dtos.stream().forEach((dto) -> {
@@ -158,7 +158,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findById(id)).thenReturn(memberOP);
 
         // when
-        MemberRespDto memberRespDto = adminMemberService.회원한건조회(id);
+        MemberRespDto memberRespDto = adminMemberService.memberFindBy(id);
 
         // then
         log.info(member.getEmail());
@@ -209,7 +209,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findById(id)).thenReturn(memberOP);
 
         // when
-        MemberRespDto memberRespDto = adminMemberService.회원수정(id, dto);
+        MemberRespDto memberRespDto = adminMemberService.memberUpdate(id, dto);
 
         // then
         assertThat(memberRespDto.getName()).isEqualTo(dto.getName());

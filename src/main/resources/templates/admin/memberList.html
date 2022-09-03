@@ -12,11 +12,21 @@
     <div class="main-list-section">
       <div class="main-list-content">
         <div class="search-box">
-        <form action="#" th:action="@{/admin/memberList}" method="GET">
-          <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
-        </form>
-        <i class='bx bx-search' ></i>
-      </div>
+          <form action="#" th:action="@{/admin/memberList}" method="GET">
+            <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
+          </form>
+          <i class='bx bx-search' ></i>
+          <div>
+            <form action="#" th:action="@{/admin/memberList}" th:object="${searchDto}" method="GET">
+              <label for="birthday">startDate:</label>
+              <input type="date" id="startDate" name="startDate" th:value="${param.startDate}">
+              <label for="birthday">endDate:</label>
+              <input type="date" id="endDate" name="endDate" th:value="${param.endDate}">
+              <input type="submit" value="검색">
+            </form>
+          </div>
+          
+        </div> <!-- search-box END -->
         <table class="table caption table-hover">
           <caption>총 회원 수 : <span th:text="${members.totalElements}">회원 수</span></caption>
           <thead>

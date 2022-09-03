@@ -7,6 +7,8 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
 
+import java.time.LocalDateTime;
+
 public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
     // 유효성(중복)검사
@@ -23,4 +25,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByMemberDelete(DeleteStatus mTrue, Pageable pageable);
 
     Page<Member> findByRole(Role admin, Pageable pageable);
+
+    Page<Member> findByMemberDateBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
 }
