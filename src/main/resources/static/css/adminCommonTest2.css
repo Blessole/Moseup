@@ -297,8 +297,15 @@
 .detail{
   align-items: center;
 }
-
-
+.main-content.bankbookList{
+  display: flex;
+  height: 100vh;
+  border-radius: 6px;
+  padding: 12px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border: 1px solid lightgray;
+}
 .bankbook-title-section{
   height: 8vh;
   display: flex;
@@ -435,9 +442,18 @@ td .leaderMno{
   max-width: 300px;
   width: 50%;
   margin-bottom: 10px;
-  display: inline-block;
+  display: -webkit-box;
 }
-
+.main-list-section .main-list-content .search-box .search-date-box{
+  margin: 0 0 0 15px;
+}
+.main-list-section .main-list-content .search-box .search-date-box form{
+  display: flex;
+  align-items: center;
+}
+.main-list-section .main-list-content .search-box .search-date-box form input:last-child{
+  width: 100px;
+}
 .main-section .main-content .search-box form{
   height: 100%;
   width: 100%;

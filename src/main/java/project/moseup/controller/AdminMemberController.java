@@ -2,7 +2,6 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,11 +28,8 @@ import project.moseup.validator.CheckPasswordValidator;
 
 import javax.validation.Valid;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @Log4j2
@@ -88,38 +84,26 @@ public class AdminMemberController {
         return "admin/adminIndex";
     }
 
-    // 회원 리스트 출력 (keyword, orderBy 를 하나의 클래스로 묶어서 관리할까 고민 || 아니면 date Dto도 같이 묶어서? 아예 하나로)
+    // 회원 리스트 출력
     @GetMapping("/memberList")
-    public String list(@RequestParam(required = false, defaultValue = "") String keyword,
-                       @RequestParam(required = false, defaultValue = "") String orderBy,
-                       @RequestParam(required = false) String startDate,
-                       @RequestParam(required = false) String endDate,
+    public String list(@ModelAttribute MemberDateSearchDto searchDto,
                        @PageableDefault(size = 15, sort = "mno", direction = Sort.Direction.DESC) Pageable pageable,
                        Model model){
             //아래 코드로 실행해야 하는데 페이징이 안 먹힘 = 시작 페이지와 끝 페이지를 직접 정의해야 해서 해결책 못 찾음
-            //Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
+            // Page<MemberRespDto> members = adminMemberService.memberKeywordList(keyword, keyword, keyword, pageable);
             // Member member = memberService.getPrincipal(principal);
 
-            Page<Member> memberList = adminMemberService.members(orderBy, keyword, startDate, endDate, pageable);
+            Page<Member> memberList = adminMemberService.members(searchDto, pageable);
+
             int startPage = Math.max(1, memberList.getPageable().getPageNumber() - 5);
             int endPage = Math.min(memberList.getTotalPages(), memberList.getPageable().getPageNumber() + 5);
 
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
             model.addAttribute("members", memberList);
-            model.addAttribute("searchDto", new MemberDateSearchDto());
 
         return "admin/memberList";
     }
-
-//    @PostMapping("memberSearchList")
-//    public String memberSearchList(@RequestParam(required = false) MemberDateSearchDto searchDto, Model model){
-//
-//
-//        return "admin/memberList";
-//    }
-
-
 
     // 회원 가입 폼 이동
     @GetMapping("/memberJoinForm")
@@ -133,7 +117,12 @@ public class AdminMemberController {
 
     // 회원 정보 받아오기(회원가입)
     @PostMapping("/memberJoinForm")
-    public String memberSubmit(@Valid MemberSaveReqDto memberSaveReqDto, BindingResult bindingResult, @RequestParam(required = false) MultipartFile file, Model model) throws IOException {
+    public String memberSubmit(@Valid MemberSaveReqDto memberSaveReqDto, BindingResult bindingResult,
+                               @RequestParam(required = false) MultipartFile file, Model model){
+
+        File resultFile;
+        FileSave saveFile = new FileSave();
+
         // 유효성 검사
         if(bindingResult.hasErrors() && memberSaveReqDto.getGender() == null){
             model.addAttribute("male", MemberGender.MALE);
@@ -145,37 +134,13 @@ public class AdminMemberController {
             log.warn("이미지 파일이 아닙니다");
             return "admin/memberJoinForm";
         }
-
-        // 파일 저장
-        String fileRoot = "D:\\spring\\Moseup_image\\";	//저장될 외부 파일 경로
-
-        String originalFileName = file.getOriginalFilename();	//오리지날 파일명
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-        log.info("extension = " + extension);
-
-        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-        log.info("savedFileName = " + savedFileName);
-
-        // 최종 경로
-        File targetFile = new File(fileRoot + savedFileName);
-        log.info("targetFile = " + targetFile);
-
-        try {
-            InputStream fileStream = file.getInputStream();
-            log.info("fileStream = " + fileStream);
-
-            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-
-        } catch (IOException e) {
-            FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-            e.printStackTrace();
+        // 프로필 사진 설정
+        if(file != null){
+            resultFile = saveFile.save(file);
+            memberSaveReqDto.setPhoto(resultFile.getAbsolutePath());
+        }else{
+            memberSaveReqDto.setPhoto("images/profile.png");
         }
-
-        if(memberSaveReqDto.getAddress2() == null){
-            memberSaveReqDto.setAddress2("");
-        }
-
-        memberSaveReqDto.setPhoto(targetFile.getAbsolutePath());
         adminMemberService.joinMember(memberSaveReqDto);
 
         return "redirect:/admin/memberList";
@@ -184,7 +149,8 @@ public class AdminMemberController {
 
     // 회원 정보 상세보기
     @GetMapping("/memberDetail")
-    public String memberDetail(@RequestParam Long mno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
+    public String memberDetail(@RequestParam Long mno, @RequestParam(required = false, defaultValue = "0")
+                                int pageNum, Model model){
 
             Map<String, Object> map = adminMemberService.getMemberMap(mno);
 
@@ -192,11 +158,8 @@ public class AdminMemberController {
                 return "redirect:/admin/memberList";
             }else{
                 model.addAttribute("deleteFalse", DeleteStatus.FALSE);
-                model.addAttribute("fileName", map.get("realPath"));
-                model.addAttribute("member", map.get("member"));
                 model.addAttribute("pageNum", pageNum);
-
-                //model.addAttribute("map", map);
+                model.addAttribute("memberMap", map);
 
                 return "admin/memberDetail";
         }
@@ -223,9 +186,11 @@ public class AdminMemberController {
 
     @GetMapping("/memberBankbook")
     public String memberBankbook(@RequestParam Long mno, Model model){
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if(member != null){
-            model.addAttribute("member", member);
+        Map<String, Object> memberMap = adminMemberService.getMemberMap(mno);
+        Map<String, Object> bankbookMap = adminMemberService.getBankbookMap(mno);
+        if(bankbookMap != null){
+            model.addAttribute("memberMap", memberMap);
+            model.addAttribute("bankbookMap", bankbookMap);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
@@ -235,9 +200,9 @@ public class AdminMemberController {
 
     @GetMapping("/memberFreeBoard")
     public String memberFreeBoard(@RequestParam Long mno, Model model){
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if(member != null){
-            model.addAttribute("member", member);
+        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        if(map != null){
+            model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
@@ -247,9 +212,9 @@ public class AdminMemberController {
 
     @GetMapping("/memberAskBoard")
     public String memberAskBoard(@RequestParam Long mno, Model model){
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if(member != null){
-            model.addAttribute("member", member);
+        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        if(map != null){
+            model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
@@ -259,9 +224,9 @@ public class AdminMemberController {
 
     @GetMapping("/memberTeamAskBoard")
     public String memberTeamAskBoard(@RequestParam Long mno, Model model){
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if(member != null){
-            model.addAttribute("member", member);
+        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        if(map != null){
+            model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");

@@ -7,17 +7,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.domain.Bankbook;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
+import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.MemberNotFoundException;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.repository.myPage.BankbookInterfaceRepository;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
+    private final BankbookInterfaceRepository bankbookInterfaceRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원 등록
@@ -74,51 +77,38 @@ public class AdminMemberService {
     //테스트용
     public MemberRespDto memberFindBy(Long id){
         Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
-        //찾았으면
         return member.toDto();
     }
 
     public MemberRespDto memberUpdate(Long id, MemberSaveReqDto dto){
         Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
-         //찾았으면
         member.infoUpdate(dto.toUpdate());
         return member.toDto();
     }
 
-
-    public Page<Member> members(String orderBy, String keyword, String start, String end, Pageable pageable){
+    public Page<Member> members(MemberDateSearchDto searchDto, Pageable pageable){
         Page<Member> members;
 
-        switch (orderBy){
+        switch (searchDto.getOrderBy()){
             case "deleteTrue": members = adminMemberRepository.findByMemberDelete(DeleteStatus.TRUE, pageable);
                 break;
             case "admin": members = adminMemberRepository.findByRole(Role.ADMIN, pageable);
                 break;
             default: members = adminMemberRepository.
-                    findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
+                    findByEmailContainingOrNameContainingOrNicknameContaining(searchDto.getKeyword(), searchDto.getKeyword(), searchDto.getKeyword(), pageable);
                 break;
         }
-
-        if(start != null && end != null){
-
-
-            LocalDateTime startDate = null;
-            LocalDateTime endDate = null;
+        if(searchDto.getStartDate() != null && searchDto.getEndDate() != null){
+            LocalDate startDate = null;
+            LocalDate endDate = null;
             try {
-                startDate = LocalDateTime.parse(start);
-                endDate = LocalDateTime.parse(end);
-                log.info("1 진행 중=================================");
+                startDate = LocalDate.parse(searchDto.getStartDate());
+                endDate = LocalDate.parse(searchDto.getEndDate());
             } catch (Exception e) {
-                log.info("2 예외 발생=================================");
-                log.info(startDate);
-                log.info(endDate);
-
                 e.printStackTrace();
             }
-
             members = adminMemberRepository.findByMemberDateBetween(startDate, endDate, pageable);
         }
-
         return members;
     }
 
@@ -136,16 +126,16 @@ public class AdminMemberService {
         return map;
     }
 
-    
-    // 날짜 포맷 변경
-    public static String toYYYY_MM_DD(Date date) {
-        if(date!=null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            return formatter.format(date);
-        }else{
-            return null;
-        }
+
+    public Map<String, Object> getBankbookMap(Long id) {
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+        Bankbook bankbookPS = bankbookInterfaceRepository.findByMember(member);
+
+        BankbookRespDto bankbookRespDto = new BankbookRespDto().toDto(bankbookPS);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("bankbook", bankbookRespDto);
+
+        return map;
     }
-
-
 }

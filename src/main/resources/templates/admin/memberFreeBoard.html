@@ -19,7 +19,7 @@
           <span>게시글</span>
         </div>
         <table class="table caption table-hover">
-            <caption>총 게시글 수 : <span th:text="${member.freeBoards.size}">게시글 수</span></caption>
+            <caption>총 게시글 수 : <span th:text="${memberMap.member.freeBoards.size}">게시글 수</span></caption>
             <thead>
               <tr class="tableHeader">
                 <th scope="col">번  호</th>
@@ -32,14 +32,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="no-data" th:if="${member.freeBoards.size} == 0">
+              <tr class="no-data" th:if="${memberMap.member.freeBoards.size} == 0">
                 <th colspan="7">작성된 게시글이 없습니다</th>
               </tr>
-              <tr th:each="freeBoard : ${member.freeBoards}">
+              <tr th:each="freeBoard : ${memberMap.member.freeBoards}">
                 <th th:text="${freeBoard.fno}">번호</th>
                 <td th:text="${freeBoard.freeTitle}">제목</td>
                 <td th:text="${freeBoard.freeContent}">내용</td>
-                <td><a class="member-link" th:text="${freeBoard.freeLike}" th:href="@{/admin/memberDetail(mno=${member.mno})}">좋아요</a></td>    
+                <td><a class="member-link" th:text="${freeBoard.freeLike}" th:href="@{/admin/memberDetail(mno=${memberMap.member.mno})}">좋아요</a></td>    
                 <td th:text="${freeBoard.freeReadCount}">조회수</td>
                 <td th:text="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
                 <td><a class="member-link" th:href="@{/admin/freeBoardDetail(fno=${freeBoard.fno})}">확인</a></td>

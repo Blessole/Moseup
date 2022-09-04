@@ -1,86 +1,92 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layouts/fragments/adminCommonTest2 :: head('회원목록')"></head>
 
 <body>
-    <!-- 사이드 바 -->
-    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+  <!-- 사이드 바 -->
+  <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
 
-    <!-- 헤더  -->
-    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원목록')"> </section>
+  <!-- 헤더  -->
+  <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원목록')"> </section>
 
-    <div class="main-list-section">
-      <div class="main-list-content">
-        <div class="search-box">
+  <div class="main-list-section">
+    <div class="main-list-content">
+
+
+      <div class="search-box">
+        <form action="#" th:action="@{/admin/memberList}" method="GET">
+          <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword"
+            th:value="${param.keyword}">
+        </form>
+        <i class='bx bx-search'></i>
+        <div class="search-date-box">
           <form action="#" th:action="@{/admin/memberList}" method="GET">
-            <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
+            <input type="date" id="startDate" name="startDate" th:value="${param.startDate}">
+            <input type="date" id="endDate" name="endDate" th:value="${param.endDate}">
+            <input type="submit" value="검색">
           </form>
-          <i class='bx bx-search' ></i>
-          <div>
-            <form action="#" th:action="@{/admin/memberList}" th:object="${searchDto}" method="GET">
-              <label for="birthday">startDate:</label>
-              <input type="date" id="startDate" name="startDate" th:value="${param.startDate}">
-              <label for="birthday">endDate:</label>
-              <input type="date" id="endDate" name="endDate" th:value="${param.endDate}">
-              <input type="submit" value="검색">
-            </form>
-          </div>
-          
-        </div> <!-- search-box END -->
-        <table class="table caption table-hover">
-          <caption>총 회원 수 : <span th:text="${members.totalElements}">회원 수</span></caption>
-          <thead>
-            <tr class="tableHeader">
-              <th scope="col">번  호</th>
-              <th scope="col">권  한</th>
-              <th scope="col">이  름</th>
-              <th scope="col">이메일</th>
-              <th scope="col">닉네임</th>
-              <th scope="col">탈퇴여부</th>
-              <th scope="col">확인</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="member : ${members}">
-              <th th:text="${member.mno}">번호</th>
-              <td th:text="${member.role}">권한</td>
-              <td th:text="${member.name}">이름</td>
-              <td th:text="${member.email}">이메일</a></td>    
-              <td th:text="${member.nickname}">닉네임</td>
-              <td th:text="${member.memberDelete}">탈퇴여부</td>
-              <td><a class="member-link" th:href="@{/admin/memberDetail(mno=${member.mno}, pageNum=${members.pageable.pageNumber})}">보기</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- 페이징 -->
-        <div class="page-in" aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${1 == members.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber - 1})}"><</a>
-            </li>
-            <li class="page-item" th:classappend="${i == members.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${i - 1})}" th:text="${i}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${members.totalPages == members.pageable.pageNumber + 1} ? 'disabled'">
-              <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber + 1})}">></a>
-            </li>
-          </ul>
         </div>
-        <div>
-            <a type="button" class="btn btn-outline-primary" th:href="@{/admin/memberJoinForm}">회원등록</a>
-        </div>
-        
-      
+      </div> <!-- search-box END -->
+
+
+      <table class="table caption table-hover">
+        <caption>총 회원 수 : <span th:text="${members.totalElements}">회원 수</span></caption>
+        <thead>
+          <tr class="tableHeader">
+            <th scope="col">번 호</th>
+            <th scope="col">권 한</th>
+            <th scope="col">이 름</th>
+            <th scope="col">이메일</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">탈퇴여부</th>
+            <th scope="col">확인</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="member : ${members}">
+            <th th:text="${member.mno}">번호</th>
+            <td th:text="${member.role}">권한</td>
+            <td th:text="${member.name}">이름</td>
+            <td th:text="${member.email}">이메일</a></td>
+            <td th:text="${member.nickname}">닉네임</td>
+            <td th:text="${member.memberDelete}">탈퇴여부</td>
+            <td><a class="member-link"
+                th:href="@{/admin/memberDetail(mno=${member.mno}, pageNum=${members.pageable.pageNumber})}">보기</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- 페이징 -->
+      <div class="page-in" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${1 == members.pageable.pageNumber + 1} ? 'disabled'">
+            <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber - 1})}">
+              <</a>
+          </li>
+          <li class="page-item" th:classappend="${i == members.pageable.pageNumber + 1} ? 'disabled'"
+            th:each="i : ${#numbers.sequence(startPage, endPage)}">
+            <a class="page-link" href="#" th:href="@{/admin/memberList(page=${i - 1})}" th:text="${i}">1</a>
+          </li>
+          <li class="page-item" th:classappend="${members.totalPages == members.pageable.pageNumber + 1} ? 'disabled'">
+            <a class="page-link" href="#" th:href="@{/admin/memberList(page=${members.pageable.pageNumber + 1})}">></a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <a type="button" class="btn btn-outline-primary" th:href="@{/admin/memberJoinForm}">회원등록</a>
+      </div>
+
+
     </div>
-        </div>
-
-        
-    
+  </div>
 
 
 
-    
-    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+
+
+
+
+  <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
 </body>
 
 </html>

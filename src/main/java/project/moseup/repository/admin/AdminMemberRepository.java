@@ -7,7 +7,7 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
@@ -15,9 +15,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
 
-
-
-    // 회원리스트
     Page<Member> findByEmailContainingOrNameContainingOrNicknameContaining(String email, String name, String nickname, Pageable pageable);
 
     Page<Member> findAll(Pageable pageable);
@@ -26,5 +23,5 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
     Page<Member> findByRole(Role admin, Pageable pageable);
 
-    Page<Member> findByMemberDateBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<Member> findByMemberDateBetween(LocalDate start, LocalDate end, Pageable pageable);
 }
