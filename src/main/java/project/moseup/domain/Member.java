@@ -12,6 +12,7 @@ import project.moseup.dto.MemberSaveReqDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class Member {
 	private DeleteStatus memberDelete;
 
 	@Column(name = "member_date")
-	private LocalDateTime memberDate;
+	private LocalDate memberDate;
 
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -70,7 +71,7 @@ public class Member {
 	private String loginType;
 
 	@Builder //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
-	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDateTime memberDate, Role role, String loginType) {
+	public Member(String email, String password, String nickname, String name, MemberGender gender, String address, String phone, String photo, DeleteStatus memberDelete, LocalDate memberDate, Role role, String loginType) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
 		Assert.hasText(email, "이메일은 [NULL]이 될 수 없습니다");
 		Assert.hasText(password, "비밀번호는 [NULL]이 될 수 없습니다");

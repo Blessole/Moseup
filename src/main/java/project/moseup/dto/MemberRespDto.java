@@ -7,6 +7,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.MemberGender;
 import project.moseup.domain.Role;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,7 +24,7 @@ public class MemberRespDto {
     private String phone;
     private String photo;
     private DeleteStatus memberDelete;
-    private LocalDateTime memberDate;
+    private LocalDate memberDate;
     private Role role;
 
     public MemberRespDto toDto(Member memberPS){

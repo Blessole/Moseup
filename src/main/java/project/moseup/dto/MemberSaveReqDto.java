@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -55,7 +56,7 @@ public class MemberSaveReqDto {
 
     private DeleteStatus memberDelete;
 
-    private LocalDateTime memberDate;
+    private LocalDate memberDate;
 
     public MemberSaveReqDto() {}
 
@@ -116,7 +117,7 @@ public class MemberSaveReqDto {
                 .phone(phone)
                 .photo(photo)
                 .gender(gender)
-                .memberDate(LocalDateTime.now())
+                .memberDate(LocalDate.now())
                 .memberDelete(DeleteStatus.FALSE)
                 .role(Role.USER)
                 .build();

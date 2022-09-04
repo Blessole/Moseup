@@ -13,6 +13,7 @@ import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.repository.admin.AdminBankbookRepository;
 import project.moseup.repository.admin.AdminMemberRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class AdminMemberServiceTest {
         dto.setAddress2("");
         dto.setPhoto("");
         dto.setAddress("안양");
-        dto.setMemberDate(LocalDateTime.now());
+        dto.setMemberDate(LocalDate.now());
         dto.setMemberDelete(DeleteStatus.FALSE);
         dto.setEmail("5093@k.com");
         dto.setGender(MemberGender.FEMALE);
@@ -58,7 +59,6 @@ public class AdminMemberServiceTest {
 
         Bankbook bankbook = Bankbook.builder()
                 .member(dto.toEntity())
-                .bankbookDate(dto.getMemberDate())
                 .bankbookDeposit(0)
                 .bankbookTotal(0)
                 .bankbookWithdraw(0)
@@ -86,7 +86,7 @@ public class AdminMemberServiceTest {
         Member dto1 = Member.builder()
                 .photo("")
                 .address("안양")
-                .memberDate(LocalDateTime.now())
+                .memberDate(LocalDate.now())
                 .memberDelete(DeleteStatus.FALSE)
                 .email("5093@k.com")
                 .gender(MemberGender.FEMALE)
@@ -99,7 +99,7 @@ public class AdminMemberServiceTest {
         Member dto2 = Member.builder()
                 .photo("")
                 .address("경기도")
-                .memberDate(LocalDateTime.now())
+                .memberDate(LocalDate.now())
                 .memberDelete(DeleteStatus.FALSE)
                 .email("50933@k.com")
                 .gender(MemberGender.FEMALE)
@@ -151,7 +151,7 @@ public class AdminMemberServiceTest {
                 "01033333333",
                 "NULL",
                 DeleteStatus.FALSE,
-                LocalDateTime.now(),
+                LocalDate.now(),
                 Role.USER,
                 "로그인타입");
         Optional<Member> memberOP = Optional.of(member);
@@ -187,7 +187,7 @@ public class AdminMemberServiceTest {
         dto.setEmail("111@111.com");
         dto.setPassword("a123123");
         dto.setNickname("테스트1234");
-        dto.setMemberDate(LocalDateTime.now());
+        dto.setMemberDate(LocalDate.now());
         dto.setMemberDelete(DeleteStatus.FALSE);
         dto.setName("테스트용용");
 
@@ -202,7 +202,7 @@ public class AdminMemberServiceTest {
                 "01033333333",
                 "NULL",
                 DeleteStatus.FALSE,
-                LocalDateTime.now(),
+                LocalDate.now(),
                 Role.USER,
                 "로그인타입");
         Optional<Member> memberOP = Optional.of(member);
