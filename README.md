@@ -30,6 +30,7 @@
 - 2022년 7월 8일 ~ 2022년 8월 29일 (Refactoring 진행 중)
 - 4명 (Back-end)
     - 권기준, 김솔, 김진만, 정찬우
+<br/><br/>
 
 ## Techs Used
 
@@ -50,7 +51,7 @@
     - Apache Tomcat v9.0
 - collaboration
     - Github
-
+<br/><br/>
 ## Project design
 
 
@@ -66,7 +67,7 @@
 ### ERD
 
 ![ERD](https://user-images.githubusercontent.com/101856118/188369498-878912d3-7fe9-42ac-886f-edf4b93cde5f.jpg)
-
+<br/><br/>
 ## **Specific description**
 
 
