@@ -60,7 +60,7 @@
 
 ### Flowchart
 
-![Untitled](Moseup%2015eaf12a729f417cbf5b2181d96530e7/Untitled%201.png)
+![flowchart](https://user-images.githubusercontent.com/101856118/188369248-2bec926d-df59-48a8-94ab-cef8145f5be5.jpg)
 
 ### ERD
 
