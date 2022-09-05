@@ -56,7 +56,7 @@
 
 ### Architecture
 
-![Untitled](Moseup%2015eaf12a729f417cbf5b2181d96530e7/Untitled.png)
+![architecture](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3844a2af-254c-4490-ae14-8f006f7d6f6c/Untitled.png)
 
 ### Flowchart
 
