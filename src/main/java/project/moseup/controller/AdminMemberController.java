@@ -69,8 +69,7 @@ public class AdminMemberController {
             Member member = memberService.getPrincipal(principal);
             Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
 
-            model.addAttribute("loginMember", memberMap.get("member"));
-            model.addAttribute("fileName", memberMap.get("realPath"));
+            model.addAttribute("memberMap", memberMap);
         }
     }
 
@@ -139,7 +138,7 @@ public class AdminMemberController {
             resultFile = saveFile.save(file);
             memberSaveReqDto.setPhoto(resultFile.getAbsolutePath());
         }else{
-            memberSaveReqDto.setPhoto("images/profile.png");
+            memberSaveReqDto.setPhoto("D:\\spring\\Moseup\\src\\main\\resources\\static\\images\\profile.png");
         }
         adminMemberService.joinMember(memberSaveReqDto);
 
@@ -160,6 +159,7 @@ public class AdminMemberController {
                 model.addAttribute("deleteFalse", DeleteStatus.FALSE);
                 model.addAttribute("pageNum", pageNum);
                 model.addAttribute("memberMap", map);
+                log.info(map.get("realPath"));
 
                 return "admin/memberDetail";
         }

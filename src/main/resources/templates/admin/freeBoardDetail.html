@@ -32,7 +32,7 @@
                 </div>
                 <div class="info-data">
                     <label>가입날짜</label>
-                    <span th:text="${#temporals.format(freeBoard.member.memberDate, 'yyyy-MM-dd HH:mm:ss')}">가입날짜</span>
+                    <span th:text="${#temporals.format(freeBoard.member.memberDate, 'yyyy-MM-dd')}">가입날짜</span>
                 </div>
             </div>
             <div class="btn-over">
@@ -44,7 +44,7 @@
         <div class="freeBoardMain">
 
             <div class="freeBoard">
-                <h4 class="mb-3">게시글</h4>
+                <h4 class="mb-3">조회수&nbsp;<span th:text="${freeBoard.freeReadCount}"></span></h4>
                 <div class="row">
 
                     <div class="col-sm-6 mb-3">
@@ -79,14 +79,13 @@
             </div>
 
             <div class="freeBoard">
-                <h4 class="mb-3">댓글&nbsp;<span th:text="${freeBoard.freeBoardReplies.size}"></span><span>개</span></h4>
+                <h4 class="mb-3">댓글수&nbsp;<span th:text="${freeBoard.freeBoardReplies.size}"></span></h4>
 
-                
-                <div class="info-Row">
-                    <div class="info-data" th:each="freeBoardReplies : ${freeBoard.freeBoardReplies}">
-                        <label th:text="${freeBoardReplies.member.nickname}">댓글작성자</label>
+                <div class="Replies-Row">
+                    <div class="Replies-data" th:each="freeBoardReplies : ${freeBoard.freeBoardReplies}">
+                        <label><a th:text="${freeBoardReplies.member.nickname}" th:href="@{/admin/memberDetail(mno=${freeBoardReplies.member.mno})}">댓글작성자</a></label>
                         <span th:text="${freeBoardReplies.freeReplyContent}">댓글내용</span>
-                        <span th:text="${freeBoardReplies.freeReplyDate}">댓글내용</span>
+                        <span th:text="${#temporals.format(freeBoardReplies.freeReplyDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
                     </div>
                 </div>
 

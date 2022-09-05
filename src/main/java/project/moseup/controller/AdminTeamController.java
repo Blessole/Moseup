@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.exception.NoLoginException;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AdminTeamService;
 import project.moseup.service.member.MemberService;
 
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 @Log4j2
@@ -27,12 +30,19 @@ public class AdminTeamController {
 
     private final AdminTeamService adminTeamService;
     private final MemberService memberService;
+    private final AdminMemberService adminMemberService;
 
     // 공용 데이터
     @ModelAttribute
     public void loginMember(Principal principal, Model model){
+        if(principal == null){
+            throw new NoLoginException();
+        }else{
             Member member = memberService.getPrincipal(principal);
-            model.addAttribute("loginMember", member);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("memberMap", memberMap);
+        }
     }
 
     @GetMapping("/teamList")
