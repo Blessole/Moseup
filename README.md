@@ -56,7 +56,7 @@
 
 ### Architecture
 
-![architecture](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3844a2af-254c-4490-ae14-8f006f7d6f6c/Untitled.png)
+![architecture](https://user-images.githubusercontent.com/101856118/188369657-dca68df2-85ef-4010-b7d4-327c48733ffd.jpg)
 
 ### Flowchart
 
@@ -64,7 +64,7 @@
 
 ### ERD
 
-![Untitled](Moseup%2015eaf12a729f417cbf5b2181d96530e7/Untitled%202.png)
+![ERD](https://user-images.githubusercontent.com/101856118/188369498-878912d3-7fe9-42ac-886f-edf4b93cde5f.jpg)
 
 ## **Specific description**
 
