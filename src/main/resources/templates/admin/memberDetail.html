@@ -181,14 +181,14 @@
                             <th colspan="7">가입된 스터디가 없습니다</th>
                         </tr>
                         <tr th:each="teamMember : ${memberMap.member.teamMembers}" th:if="${memberMap.member.teamMembers} != null">
-                            <th th:text="${teamMember.tno}">스터디번호</th>
-                            <td th:text="${teamMember.teamName}">스터디명</td>
+                            <th th:text="${teamMember.team.tno}">스터디번호</th>
+                            <td th:text="${teamMember.team.teamName}">스터디명</td>
                             <td><span th:text="${teamMember.member.nickname}">스터디장</span>&nbsp;<span class="leaderMno">(<span th:text="${teamMember.member.mno}">장번호</span>)</span></td>
-                            <td th:text="${teamMember.teamDate}">개설날짜</td>
-                            <td th:text="${teamMember.startDate}">시작날짜</td>
-                            <td th:text="${teamMember.teamDelete}">탈퇴여부</td>
+                            <td th:text="${teamMember.team.teamDate}">개설날짜</td>
+                            <td th:text="${teamMember.team.startDate}">시작날짜</td>
+                            <td th:text="${teamMember.team.teamDelete}">탈퇴여부</td>
                             <td>
-                                <a class="member-link" th:href="@{/admin/teamDetail(tno=${teamMember.tno})}">보기</a>
+                                <a class="member-link" th:href="@{/admin/teamDetail(tno=${teamMember.team.tno})}">보기</a>
                             </td>
                         </tr>
                     </tbody>

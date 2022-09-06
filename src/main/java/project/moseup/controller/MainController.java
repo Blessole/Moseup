@@ -16,7 +16,7 @@ public class MainController {
 	private final MainService mainService;
 
 	@RequestMapping("/")
-	public String main(Model model) {
+	public String main(Model model) { //메소드명 정정
 //		List<Team> topList = mainService.topList();
 //		System.out.println("사이즈 = " + topList.size());
 		

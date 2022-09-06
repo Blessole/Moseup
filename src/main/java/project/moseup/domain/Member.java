@@ -152,9 +152,8 @@ public class Member {
 	}
 
 	// 엔티티 데이터를 수정해야 한다면 update 사용
-	public Member deleteUpdate(DeleteStatus deleteStatus){
+	public void deleteUpdate(DeleteStatus deleteStatus){
 		this.memberDelete = deleteStatus;
-		return this;
 	}
 
 	public Member newMember() {
@@ -178,6 +177,11 @@ public class Member {
 	}
 	public void updatePassword(String encryptPassword) {
 		this.password = encryptPassword;
+	}
+
+	public String getPhotoViewPath(){
+		int index = this.photo.indexOf("images");
+		return this.photo.substring(index - 1);
 	}
 
 	// 연관관계 맵핑

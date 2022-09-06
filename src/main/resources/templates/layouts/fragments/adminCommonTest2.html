@@ -119,7 +119,7 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="/static/images/profile.png" th:src="@{memberMap.realPath}" alt="profileImg">
+                        <img src="/static/images/profile.png" th:src="${memberMap.member.getPhotoViewPath}" alt="profileImg">
                     </div>
                     <div class="name-job">
                         <div class="profile_name" th:text="${memberMap.member.nickname}"></div>

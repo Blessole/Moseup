@@ -19,6 +19,7 @@ import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminFreeBoardService;
 import project.moseup.service.admin.AdminMemberService;
+import project.moseup.service.admin.FreeBoardReplyService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
@@ -44,6 +45,7 @@ public class AdminMemberController {
     private final AskBoardService askBoardService;
     private final AskBoardReplyService askBoardReplyService;
     private final AdminFreeBoardService adminFreeBoardService;
+    private final FreeBoardReplyService freeBoardReplyService;
 
 
     // 유효성 검사
@@ -191,9 +193,9 @@ public class AdminMemberController {
         if(bankbookMap != null){
             model.addAttribute("memberMap", memberMap);
             model.addAttribute("bankbookMap", bankbookMap);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
+
         }
         return "admin/memberBankbook";
     }
@@ -323,11 +325,30 @@ public class AdminMemberController {
         if(fno == null){
             return "admin/freeBoards";
         }
-        FreeBoardRespDto freeBoardRespDto = adminFreeBoardService.freeBoardDetail(fno);
+        Map<String, Object> freeBoardMap = adminFreeBoardService.freeBoardDetail(fno);
 
-        model.addAttribute("freeBoard", freeBoardRespDto);
+        model.addAttribute("freeBoardMap", freeBoardMap);
         model.addAttribute("pageNum", pageNum);
 
         return "admin/freeBoardDetail";
+    }
+
+    @PostMapping("/freeBoardDetail")
+    public String replySave(@ModelAttribute FreeBoardReplySaveDto replySaveDto){
+
+        freeBoardReplyService.save(replySaveDto);
+        return "redirect:/admin/freeBoardDetail?fno="+replySaveDto.getFno();
+    }
+
+    @GetMapping("/replyDelete")
+    public String replyDelete(@RequestParam Long frno){
+        Map<String, Object> replyMap = freeBoardReplyService.delete(frno);
+        return "redirect:/admin/freeBoardDetail?fno="+replyMap.get("fno");
+    }
+
+    @GetMapping("/deleteReplyRecover")
+    public String deleteReplyDetail(@RequestParam Long frno){
+        Map<String, Object> replyMap = freeBoardReplyService.reCover(frno);
+        return "redirect:/admin/freeBoardDetail?fno="+replyMap.get("fno");
     }
 }

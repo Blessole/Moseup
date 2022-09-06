@@ -47,7 +47,7 @@
         </table>
         
         <!-- 페이징 -->
-        <div class="page-in" aria-label="Page navigation example">
+        <div class="page-in" aria-label="Page navigation example" th:if="${freeBoards.totalElements} != 0">
           <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${1 == freeBoards.pageable.pageNumber + 1} ? 'disabled'">
               <a class="page-link" href="#" th:href="@{/admin/freeBoards(page=${freeBoards.pageable.pageNumber - 1})}"><</a>

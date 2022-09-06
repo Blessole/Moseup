@@ -53,4 +53,13 @@ public class FreeBoardReply {
 		this.level = level;
 		this.freeReplyDelete = freeReplyDelete;
 	}
+
+	// 삭제 업데이트
+	public void deleteUpdate(){
+		this.freeReplyDelete = DeleteStatus.TRUE;
+	}
+
+	public void deleteRecover(){
+		this.freeReplyDelete = DeleteStatus.FALSE;
+	}
 }

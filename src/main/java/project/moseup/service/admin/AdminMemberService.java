@@ -95,7 +95,8 @@ public class AdminMemberService {
             case "admin": members = adminMemberRepository.findByRole(Role.ADMIN, pageable);
                 break;
             default: members = adminMemberRepository.
-                    findByEmailContainingOrNameContainingOrNicknameContaining(searchDto.getKeyword(), searchDto.getKeyword(), searchDto.getKeyword(), pageable);
+                    findByEmailContainingOrNameContainingOrNicknameContaining
+                            (searchDto.getKeyword(), searchDto.getKeyword(), searchDto.getKeyword(), pageable);
                 break;
         }
         if(searchDto.getStartDate() != null && searchDto.getEndDate() != null){
@@ -128,12 +129,23 @@ public class AdminMemberService {
 
 
     public Map<String, Object> getBankbookMap(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        BankbookRespDto bankbookRespDto = null;
+        int bankbookTotal = 0;
         Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+
+        if(!member.getBankbooks().isEmpty()){
+            int bankbookSize = member.getBankbooks().size();
+            bankbookTotal = member.getBankbooks().get(bankbookSize - 1).getBankbookTotal();
+        }
+
         Bankbook bankbookPS = bankbookInterfaceRepository.findByMember(member);
 
-        BankbookRespDto bankbookRespDto = new BankbookRespDto().toDto(bankbookPS);
+        if(bankbookPS != null){
+            bankbookRespDto = new BankbookRespDto().toDto(bankbookPS);
+        }
 
-        Map<String, Object> map = new HashMap<>();
+        map.put("bankbookTotal", bankbookTotal);
         map.put("bankbook", bankbookRespDto);
 
         return map;

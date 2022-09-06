@@ -20,7 +20,7 @@
         
         <div class="bankbook-title-section">
             <span>총 금액</span>
-            <span><span class="bankbookTotal" th:text="${bankbookMap.bankbook.bankbookTotal}"></span>&nbsp;&nbsp;원</span>
+            <span><span class="bankbookTotal" th:text="${bankbookMap.bankbookTotal}"></span>&nbsp;&nbsp;원</span>
         </div>
         <div class="title-section">
             <span>입출금 내역</span>
@@ -40,9 +40,9 @@
                 </thead>
                 <tbody>
                     <tr class="no-data" th:if="${memberMap.member.bankbooks.size} == 0">
-                        <th colspan="6">거래 내역이 없습니다.</th>
+                        <th colspan="7">거래 내역이 없습니다.</th>
                     </tr>
-                    <tr th:each="bankbook : ${memberMap.member.bankbooks}" th:if="${memberMap.member.bankbooks} != null">
+                    <tr th:each="bankbook : ${memberMap.member.bankbooks}" th:if="${memberMap.member.bankbooks.size} != 0">
                         <th th:text="${bankbook.dno}">거래번호</th>
                         <td th:text="${bankbook.dealList}">거래내역</td>
                         <td th:text="${bankbook.bankbookDeposit}">입금액</td>
