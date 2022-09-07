@@ -48,4 +48,5 @@ public class Bankbook {
 		this.bankbookTotal = bankbookTotal;
 		this.bankbookDate = bankbookDate;
 	}
+
 }

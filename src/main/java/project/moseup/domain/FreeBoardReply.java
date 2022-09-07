@@ -1,15 +1,16 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor
 public class FreeBoardReply {
 
 	@Id
@@ -41,4 +42,24 @@ public class FreeBoardReply {
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus freeReplyDelete;		//댓글 삭제 여부
 
+
+	@Builder
+	public FreeBoardReply(FreeBoard freeBoard, Member member, String freeReplyContent, LocalDateTime freeReplyDate, int step, int level, DeleteStatus freeReplyDelete) {
+		this.freeBoard = freeBoard;
+		this.member = member;
+		this.freeReplyContent = freeReplyContent;
+		this.freeReplyDate = freeReplyDate;
+		this.step = step;
+		this.level = level;
+		this.freeReplyDelete = freeReplyDelete;
+	}
+
+	// 삭제 업데이트
+	public void deleteUpdate(){
+		this.freeReplyDelete = DeleteStatus.TRUE;
+	}
+
+	public void deleteRecover(){
+		this.freeReplyDelete = DeleteStatus.FALSE;
+	}
 }

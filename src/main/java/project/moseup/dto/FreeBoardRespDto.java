@@ -23,8 +23,6 @@ public class FreeBoardRespDto {
     private DeleteStatus freeDelete;	//게시물 삭제 여부
     private List<FreeBoardReply> freeBoardReplies = new ArrayList<>();
 
-
-
     public FreeBoardRespDto toDto(FreeBoard freeBoard){
         this.fno = freeBoard.getFno();
         this.member = freeBoard.getMember();
@@ -37,4 +35,5 @@ public class FreeBoardRespDto {
         this.freeBoardReplies = freeBoard.getFreeBoardReplies();
         return this;
     }
+
 }

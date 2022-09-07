@@ -50,7 +50,8 @@ public class TeamPageController {
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
 	public String teamMainPage(@RequestParam Long tno, Model model) {
-		
+
+
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
 		

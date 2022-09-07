@@ -16,27 +16,27 @@
             <div class="info-Row">
                 <div class="info-data">
                     <label>회원번호</label>
-                    <span th:text="${freeBoard.member.mno}">회원번호</span>
+                    <span th:text="${freeBoardMap.freeBoard.member.mno}">회원번호</span>
                 </div>
                 <div class="info-data">
                     <label>작성자</label>
-                    <span th:text="${freeBoard.member.nickname}">작성자</span>
+                    <span th:text="${freeBoardMap.freeBoard.member.nickname}">작성자</span>
                 </div>
                 <div class="info-data">
                     <label>이메일</label>
-                    <span th:text="${freeBoard.member.email}">이메일</span>
+                    <span th:text="${freeBoardMap.freeBoard.member.email}">이메일</span>
                 </div>
                 <div class="info-data">
                     <label>전화번호</label>
-                    <span th:text="${freeBoard.member.phone}">번호</span>
+                    <span th:text="${freeBoardMap.freeBoard.member.phone}">번호</span>
                 </div>
                 <div class="info-data">
                     <label>가입날짜</label>
-                    <span th:text="${#temporals.format(freeBoard.member.memberDate, 'yyyy-MM-dd HH:mm:ss')}">가입날짜</span>
+                    <span th:text="${#temporals.format(freeBoardMap.freeBoard.member.memberDate, 'yyyy-MM-dd')}">가입날짜</span>
                 </div>
             </div>
             <div class="btn-over">
-                <a th:href="@{/admin/memberDetail(mno=${freeBoard.member.mno})}" class="btn btn-outline-danger">회원정보</a>
+                <a th:href="@{/admin/memberDetail(mno=${freeBoardMap.freeBoard.member.mno})}" class="btn btn-outline-danger">회원정보</a>
                 <a th:href="@{/admin/freeBoards?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
             </div>
         </div> <!-- 메인 인포 콘텐츠 end-->
@@ -44,40 +44,80 @@
         <div class="freeBoardMain">
 
             <div class="freeBoard">
-                <h4 class="mb-3">게시글</h4>
+                <h4 class="mb-3">조회수&nbsp;<span th:text="${freeBoardMap.freeBoard.freeReadCount}"></span></h4>
                 <div class="row">
 
                     <div class="col-sm-6 mb-3">
                         <label for="ano" class="form-label">번호</label>
-                        <input type="text" readonly class="form-control" id="ano" value="" th:value="${freeBoard.fno}">
+                        <input type="text" readonly class="form-control" id="ano" value="" th:value="${freeBoardMap.freeBoard.fno}">
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <label for="askDate" class="form-label">작성일</label>
                         <input type="text" readonly class="form-control" id="askDate" value=""
-                            th:value="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">
+                            th:value="${#temporals.format(freeBoardMap.freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <label for="askSubject" class="form-label">제목</label>
                         <input type="text" readonly class="form-control" id="askSubject" value=""
-                            th:value="${freeBoard.freeTitle}">
+                            th:value="${freeBoardMap.freeBoard.freeTitle}">
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <label for="member" class="form-label">작성자</label>
                         <input type="text" readonly class="form-control" id="member" value=""
-                            th:value="${freeBoard.member.nickname}">
+                            th:value="${freeBoardMap.freeBoard.member.nickname}">
                     </div>
 
                     <div class="col-sm-12 mb-3">
                         <label for="askContent" class="form-label">내용</label>
                         <pre><textarea readonly class="form-control" id="askContent" rows="20" value=""
-                            th:text="${freeBoard.freeContent}"></textarea></pre>
+                            th:text="${freeBoardMap.freeBoard.freeContent}"></textarea></pre>
                     </div>
                 </div>
             </div>
+
+            <div class="freeBoard">
+                <h4 class="mb-3">댓글&nbsp;<span th:text="${freeBoardMap.boardReplies.size}"></span></h4>
+
+                <form action="#" th:action="@{/admin/freeBoardDetail}" method="POST">
+                    <input type="hidden" th:value="${memberMap.member.mno}" name="mno">
+                    <input type="hidden" th:value="${freeBoardMap.freeBoard.fno}" name="fno">
+                    <input type="text" class="form-control mb-3" name="reply" placeholder="댓글 입력" >
+                </form>
+
+                <div class="Replies-Row">
+                    <div class="Replies-data" th:each="freeBoardReplies : ${freeBoardMap.boardReplies}">
+                        <div class="replyTitle">
+                            <img th:src="${freeBoardReplies.member.getPhotoViewPath}" class="replyImg">
+                            <label>
+                                <a th:text="${freeBoardReplies.member.nickname}" th:href="@{/admin/memberDetail(mno=${freeBoardReplies.member.mno})}">댓글작성자</a>
+                            </label>
+                        </div>
+                        <span th:if="${freeBoardReplies.freeReplyDelete} != ${freeBoardMap.deleteTrue}" th:text="${freeBoardReplies.freeReplyContent}">댓글내용</span>
+                        <span th:if="${freeBoardReplies.freeReplyDelete} == ${freeBoardMap.deleteTrue}" class="delete">[관리자에 의해 삭제된 댓글입니다]</span>
+                        <span th:text="${#temporals.format(freeBoardReplies.freeReplyDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+                        <span th:if="${freeBoardReplies.freeReplyDelete} != ${freeBoardMap.deleteTrue}">
+                            <a th:href="@{/admin/replyDelete(frno=${freeBoardReplies.frno})}">삭제</a>
+                            <span class="frno" th:text="ID + ${freeBoardReplies.frno}" style="font-size: 12px;"></span>
+                        </span>
+                        <span th:if="${freeBoardReplies.freeReplyDelete} == ${freeBoardMap.deleteTrue}">
+                            <a th:href="@{/admin/deleteReplyRecover(frno=${freeBoardReplies.frno})}">복구</a>
+                            <span class="frno" th:text="ID + ${freeBoardReplies.frno}" style="font-size: 12px;"></span>
+                        </span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- 게시판 댓글 끝 -->
+
+
+
         </div>
+
 
 
 
