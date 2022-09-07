@@ -54,7 +54,6 @@ public class FreeBoardReplyService {
 
             adminFreeBoardReplyRepository.save(replySaveDto.toEntity());
         }
-
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
