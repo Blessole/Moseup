@@ -13,6 +13,4 @@
 //            HttpServletRequest request, HttpServletResponse response,
 //            Object handler, Principal principal, Model model) throws Exception;
 //
-//    @PreAuthorize("isAuthenticated()")
-//    void getNav(Principal principal, Model model);
 //}

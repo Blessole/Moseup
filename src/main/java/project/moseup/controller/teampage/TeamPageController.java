@@ -334,5 +334,5 @@ public class TeamPageController {
 	// 인증 게시판 수정
 	
 	// 인증 게시판 삭제
-	
+
 }

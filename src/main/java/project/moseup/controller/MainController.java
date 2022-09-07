@@ -21,13 +21,8 @@ public class MainController {
 //		System.out.println("사이즈 = " + topList.size());
 		
 //		System.out.println("tno = " + topList.get(0).getTeamMembers().get(1).getTeam().getTno());
-		
+
 		List<Team> topList = mainService.topList();
-//		System.out.println("사이즈 = " + topList.get(0).getTno());
-//		System.out.println("사이즈 = " + topList.get(1).getTno());
-//		System.out.println("사이즈 = " + topList.get(2).getTno());
-//		System.out.println("사이즈 = " + topList.get(3).getTno());
-//		System.out.println("사이즈 = " + topList.get(4).getTno());
 		
 		//카테고리1 공부 인기순
 		List<Team> studyTopList = mainService.studyTopList();
@@ -46,7 +41,7 @@ public class MainController {
 		model.addAttribute("habitTopList", habitTopList);
 		model.addAttribute("etcTopList", etcTopList);
 		model.addAttribute("newTeamList", newTeamList);
-		System.out.println("메인리스트 = " + topList);
+//		System.out.println("메인리스트 = " + topList);
 		return "main";
 	}
 

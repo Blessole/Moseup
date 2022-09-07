@@ -19,5 +19,4 @@ public class MyPageRepository {
                 .setParameter("member", member)
                 .getResultList();
     }
-
 }

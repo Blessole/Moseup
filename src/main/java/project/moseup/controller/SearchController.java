@@ -18,7 +18,7 @@ import project.moseup.service.SearchService;
 public class SearchController {
 	
 	private final SearchService searchService;
-	
+
 	//검색 페이징
 	@GetMapping("")
 	public String filter2(@RequestParam(required = false, defaultValue = "") String keyword, String filter1,
