@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.exception.NoLoginException;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 
@@ -147,9 +148,35 @@ public class MemberService {
 		return passwordEncoder.matches(password, member.getPassword());
 	}
 
+	public Map<String, Object> getPhotoAndNicknameForNavBar(String email) {
+		Map<String, Object> map = new HashMap<>();
+		Member member = this.getMember(email);
+		map.put("member", member);
+		System.out.println("service member : " + member);
+
+		String realPhoto = "";
+		if (member.getPhoto()==null || member.getPhoto().equals("")){
+			realPhoto = "/images/profile.png";
+			map.put("realPhoto", realPhoto);
+		} else {
+			// 사진 경로 local에서 project용으로 변경
+			String photo = member.getPhoto();
+			int index = photo.indexOf("images");
+			realPhoto = photo.substring(index - 1);
+			map.put("realPhoto", realPhoto);
+		}
+		System.out.println("service realPhoto : " + realPhoto);
+		System.out.println("service map : " + map);
+
+		return map;
+	}
+
 	/** 마이페이지 사진, 닉네임 불러오기 메소드 **/
 	public Map<String, Object> getPhotoAndNickname(Principal principal) {
 		Map<String, Object> map = new HashMap<>();
+//		if (principal == null) {
+//			throw new NoLoginException();
+//		}
 		Member member = this.getMember(principal.getName());
 		map.put("member", member);
 

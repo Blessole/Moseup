@@ -16,6 +16,7 @@ import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.Member;
 import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.dto.AskBoardSaveReqDto;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
@@ -255,4 +256,5 @@ public class AskBoardController {
 //        img.transferTo(file);
 //        return ResponseEntity.ok().body("askBoard/image/"+fileName);
 //    }
+
 }

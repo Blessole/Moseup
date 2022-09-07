@@ -113,4 +113,8 @@ public class MyPageService {
         bankbookInterfaceRepository.save(bankbook);
     }
 
+    public Page<Team> getMyLikeList(Member member, int startAt) {
+        Pageable pageable = PageRequest.of(startAt, 10);
+        return teamInterfaceRepository.findMyLikeTeam(member, pageable);
+    }
 }

@@ -641,3 +641,32 @@ input#askPhoto {
 .pay input{
     margin-bottom: 18px;
 }
+
+/* 찜한 팀 리스트 목록*/
+.oneTeam {
+    position: relative;
+    width: 210px;
+    height: 330px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.oneTeam .team_img {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border: 1px solid #e6e6e6;
+    margin: 15px auto;
+}
+
+.oneTeam .team_img .heartBox{
+    position: relative;
+    top:0;
+    text-align: right;
+}
+
+.oneTeam .team_img .heartBox img {
+    width: 28px;
+    margin: 5px 5px;
+    cursor: pointer;
+}

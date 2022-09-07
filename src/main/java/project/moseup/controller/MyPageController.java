@@ -17,6 +17,7 @@ import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.BankbookSaveReqDto;
 import project.moseup.dto.CheckBoardRespDto;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
 import project.moseup.validator.CheckEmailValidator;
@@ -211,6 +212,7 @@ public class MyPageController {
         Member member = (Member) map.get("member");
         Page<Bankbook> bankbook = myPageService.findBankbookPaging(member, page);
 
+        // total 금액 구하기
         List<Bankbook> myBankbook = myPageService.findBankbook(member);
         int originMoney;
         if (myBankbook.isEmpty()){
@@ -218,6 +220,10 @@ public class MyPageController {
         } else {
             originMoney = myBankbook.get(0).getBankbookTotal();
         }
+
+        // 참고할 찬우 코드 - total 금액 구하는 방법 : size 구해서 -1
+//        int bankbookSize = member.getBankbooks().size();
+//        bankbookTotal = member.getBankbooks().get(bankbookSize - 1).getBankbookTotal();
 
         model.addAttribute("myTotal", originMoney);
         model.addAttribute("bankbookDto", bankbook);
@@ -282,5 +288,14 @@ public class MyPageController {
         return "redirect:/myPage/myBankbook";
     }
 
+    @GetMapping("/myLikeList")
+    public String myLikeList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        Member member = (Member) map.get("member");
 
+        model.addAttribute("map", map);
+        model.addAttribute("likeList", myPageService.getMyLikeList(member, page));
+        model.addAttribute("maxPage", 10);
+        return "myPage/myLikeList";
+    }
 }

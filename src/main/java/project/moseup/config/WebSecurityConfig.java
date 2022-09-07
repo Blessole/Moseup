@@ -12,7 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import project.moseup.domain.Member;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberSecurityService;
+import project.moseup.service.member.MemberService;
+
+import java.security.Principal;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
