@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter //컨트롤러 에서 setter 가 호출되면서 dto 에 값이 채워짐
@@ -42,7 +41,7 @@ public class MemberSaveReqDto {
     @NotBlank(message = "주소를 입력해주세요.")
     private String address;
 
-    private String address2;
+    private String address2 = "";
 
     @NotBlank
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
@@ -114,12 +113,12 @@ public class MemberSaveReqDto {
                 .name(name.replaceAll(" ", ""))
                 .nickname(nickname)
                 .address(address + ", " + address2)
+                .memberDelete(DeleteStatus.FALSE)
+                .role(Role.USER)
+                .memberDate(LocalDate.now())
                 .phone(phone)
                 .photo(photo)
                 .gender(gender)
-                .memberDate(LocalDate.now())
-                .memberDelete(DeleteStatus.FALSE)
-                .role(Role.USER)
                 .build();
     }
 

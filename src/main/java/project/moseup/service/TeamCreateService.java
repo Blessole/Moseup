@@ -1,18 +1,18 @@
 package project.moseup.service;
 
-import java.io.File;
-import java.util.List;
-import java.util.UUID;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.repository.TeamCreateRepository;
+import project.moseup.repository.myPage.TeamInterfaceRepository;
+
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,6 +20,7 @@ import project.moseup.repository.TeamCreateRepository;
 public class TeamCreateService {
 
 	private final TeamCreateRepository teamCreateRepository;
+	private final TeamInterfaceRepository TeamInterfaceRepository;
 //	private final TeamCreateRespDto teamCreateRespDto;
 	
 	// 파일 업로드 경로
@@ -124,4 +125,7 @@ public class TeamCreateService {
 		return null;
 	}
 
+	public List<Team> teams() {
+		return TeamInterfaceRepository.findAll();
+	}
 }

@@ -18,7 +18,7 @@ public class TeamMemberService {
 
 	private final TeamMemberRepository teamMemberRepository;
 	
-	// 팀 가입
+	// 팀 가입 (가입된 인원 추가, 중복 가입 방지)
 	@Transactional
 	public void joinTeamMember(TeamMemberDto teamMemberDto) {
 		TeamMember teamMember = teamMemberDto.toEntity();

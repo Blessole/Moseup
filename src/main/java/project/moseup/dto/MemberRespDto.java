@@ -8,7 +8,6 @@ import project.moseup.domain.MemberGender;
 import project.moseup.domain.Role;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

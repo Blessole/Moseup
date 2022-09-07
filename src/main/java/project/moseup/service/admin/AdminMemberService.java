@@ -1,8 +1,8 @@
 package project.moseup.service.admin;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,22 +11,28 @@ import project.moseup.domain.Bankbook;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
+import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
-import project.moseup.repository.admin.AdminBankbookRepository;
+import project.moseup.dto.searchDto.MemberDateSearchDto;
+import project.moseup.exception.MemberNotFoundException;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.repository.myPage.BankbookInterfaceRepository;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
-    private final AdminBankbookRepository adminBankbookRepository;
+    private final BankbookInterfaceRepository bankbookInterfaceRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원 등록
@@ -35,18 +41,6 @@ public class AdminMemberService {
         Member memberPS = adminMemberRepository.save(memberSaveReqDto.toEntity());
         memberPS.encodePassword(passwordEncoder);
 
-//        if(memberPS.getBankbook() == null){
-//            // 통장이 없으면 통장 생성
-//            Bankbook bankbook = Bankbook.builder()
-//                    .member(memberPS)
-//                    .bankbookDate(memberPS.getMemberDate())
-//                    .bankbookDeposit(0)
-//                    .bankbookTotal(0)
-//                    .bankbookWithdraw(0)
-//                    .dealList("굿모닝^^")
-//                    .build();
-//            adminBankbookRepository.save(bankbook);
-//        }
         return new MemberRespDto().toDto(memberPS);
         // 컨트롤러는 DTO 데이터를 가지고 있게하고 클라이언트한테 DTO 데이터를 넘겨줌 = Entity 데이터를 그대로 주면 연관된(조인) 다른 데이터 즉, 클라이언트 입장에서 불필요한 데이터까지 날아감을 방지
         // 간략한 흐름도 ↓
@@ -57,8 +51,8 @@ public class AdminMemberService {
 
     // 회원 삭제(업데이트)
     @Transactional(rollbackFor = RuntimeException.class)
-    public void deleteMember(Long mno) {
-        Member member = adminMemberRepository.findById(mno).orElse(null);
+    public void deleteMember(Long id) {
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
         if(member != null){
             member.deleteUpdate(DeleteStatus.TRUE);
             adminMemberRepository.save(member);
@@ -67,96 +61,93 @@ public class AdminMemberService {
 
     // 회원 복구(업데이트)
     @Transactional(rollbackFor = RuntimeException.class)
-    public void RecoverMember(Long mno) {
-        Member member = adminMemberRepository.findById(mno).orElse(null);
-        if (member != null) {
-            member.deleteUpdate(DeleteStatus.FALSE);
-            adminMemberRepository.save(member);
-        }
+    public void memberRecover(Long id) {
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+        member.deleteUpdate(DeleteStatus.FALSE);
+        adminMemberRepository.save(member);
     }
 
-    // 회원 목록 보기
-    // Entity List -> dto List -> page List
-    public Page<MemberRespDto> memberListAll(Pageable pageable) {
-        List<MemberRespDto> list = adminMemberRepository.findAll(pageable).stream() // Entity List
-                .map((memberPS) -> new MemberRespDto().toDto(memberPS)) // dto data
-                .collect(Collectors.toList()); // dto List
-
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), list.size());
-
-        return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
-    }
-    
     //테스트용
-    public List<MemberRespDto> 회원목록보기(){
+    public List<MemberRespDto> memberFindAll(){
         return adminMemberRepository.findAll().stream()
                 .map(memberPS -> new MemberRespDto().toDto(memberPS))
                 .collect(Collectors.toList());
     }
 
     //테스트용
-    public MemberRespDto 회원한건조회(Long id){
-        Optional<Member> memberOP = adminMemberRepository.findById(id);
-        if(memberOP.isPresent()){ //찾았으면
-            Member memberPS = memberOP.get();
-            return memberPS.toDto();
-        }else{
-            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
-        }
+    public MemberRespDto memberFindBy(Long id){
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+        return member.toDto();
     }
 
-    public MemberRespDto 회원수정(Long id, MemberSaveReqDto dto){
-        Optional<Member> memberOP = adminMemberRepository.findById(id);
-        if(memberOP.isPresent()){ //찾았으면
-            Member memberPS = memberOP.get();
-            memberPS.infoUpdate(dto.toUpdate());
-            return memberPS.toDto();
-        }else{
-            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
-        }
+    public MemberRespDto memberUpdate(Long id, MemberSaveReqDto dto){
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+        member.infoUpdate(dto.toUpdate());
+        return member.toDto();
     }
 
-    public MemberRespDto 회원삭제(Long id){
-        Optional<Member> memberOP = adminMemberRepository.findById(id);
-        if(memberOP.isPresent()){ //찾았으면
-            Member memberPS = memberOP.get();
-            memberPS.deleteUpdate(DeleteStatus.TRUE);
-            return memberPS.toDto();
-        }else{
-            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
-        }
-    }
+    public Page<Member> members(MemberDateSearchDto searchDto, Pageable pageable){
+        Page<Member> members;
 
-
-    public Page<MemberRespDto> memberKeywordList(String keyword, String keyword1, String keyword2, Pageable pageable) {
-        List<MemberRespDto> list = adminMemberRepository
-                        .findByEmailContainingOrNameContainingOrNicknameContaining
-                                (keyword, keyword1, keyword2, pageable)
-                        .stream() // Entity List
-                        .map(memberPS -> new MemberRespDto().toDto(memberPS)) // dto data
-                        .collect(Collectors.toList()); // dto List
-
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), list.size());
-
-        return new PageImpl<>(list.subList(start, end), pageable, list.size()); // page List
-    }
-
-
-
-    public Page<Member> members(String orderBy, String keyword, Pageable pageable) {
-        Page<Member> members = null;
-        switch (orderBy){
+        switch (searchDto.getOrderBy()){
             case "deleteTrue": members = adminMemberRepository.findByMemberDelete(DeleteStatus.TRUE, pageable);
                 break;
             case "admin": members = adminMemberRepository.findByRole(Role.ADMIN, pageable);
                 break;
-            default: members = adminMemberRepository.findByEmailContainingOrNameContainingOrNicknameContaining(keyword, keyword, keyword, pageable);
+            default: members = adminMemberRepository.
+                    findByEmailContainingOrNameContainingOrNicknameContaining
+                            (searchDto.getKeyword(), searchDto.getKeyword(), searchDto.getKeyword(), pageable);
                 break;
+        }
+        if(searchDto.getStartDate() != null && searchDto.getEndDate() != null){
+            LocalDate startDate = null;
+            LocalDate endDate = null;
+            try {
+                startDate = LocalDate.parse(searchDto.getStartDate());
+                endDate = LocalDate.parse(searchDto.getEndDate());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            members = adminMemberRepository.findByMemberDateBetween(startDate, endDate, pageable);
         }
         return members;
     }
 
 
+    public Map<String, Object> getMemberMap(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+
+        String photo = member.getPhoto();
+        int index = photo.indexOf("images");
+        String realPhoto = photo.substring(index - 1);
+
+        map.put("member", member);
+        map.put("realPath", realPhoto);
+        return map;
+    }
+
+
+    public Map<String, Object> getBankbookMap(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        BankbookRespDto bankbookRespDto = null;
+        int bankbookTotal = 0;
+        Member member = adminMemberRepository.findById(id).orElseThrow(() -> new MemberNotFoundException(id));
+
+        if(!member.getBankbooks().isEmpty()){
+            int bankbookSize = member.getBankbooks().size();
+            bankbookTotal = member.getBankbooks().get(bankbookSize - 1).getBankbookTotal();
+        }
+
+        Bankbook bankbookPS = bankbookInterfaceRepository.findByMember(member);
+
+        if(bankbookPS != null){
+            bankbookRespDto = new BankbookRespDto().toDto(bankbookPS);
+        }
+
+        map.put("bankbookTotal", bankbookTotal);
+        map.put("bankbook", bankbookRespDto);
+
+        return map;
+    }
 }

@@ -30,6 +30,9 @@
             </tr>
           </thead>
           <tbody>
+            <tr th:if="${askBoards.totalElements} == 0">
+              <th colspan="6" style="text-align: center;">작성된 문의글이 없습니다.</th>
+            </tr>
             <tr th:each="askBoard : ${askBoards}">
               <th th:text="${askBoard.ano}">번호</th>
               <td th:text="${askBoard.member.nickname}">작성자</td>
@@ -43,7 +46,7 @@
         </table>
         
         <!-- 페이징 -->
-        <div class="page-in" aria-label="Page navigation example">
+        <div class="page-in" aria-label="Page navigation example" th:if="${askBoards.totalElements} != 0">
           <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${1 == askBoards.pageable.pageNumber + 1} ? 'disabled'">
               <a class="page-link" href="#" th:href="@{/admin/askBoards(page=${askBoards.pageable.pageNumber - 1})}"><</a>

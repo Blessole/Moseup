@@ -7,14 +7,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import project.moseup.domain.*;
+import project.moseup.domain.DeleteStatus;
+import project.moseup.domain.Member;
+import project.moseup.domain.MemberGender;
+import project.moseup.domain.Role;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
-import project.moseup.repository.admin.AdminBankbookRepository;
 import project.moseup.repository.admin.AdminMemberRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +37,8 @@ public class AdminMemberServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    @Mock
-    private AdminBankbookRepository adminBankbookRepository;
+//    @Mock
+//    private AdminBankbookRepository adminBankbookRepository;
 
     // 문제점 -> 서비스만 테스트하고 싶은데, 레포지토리 레이어가 함께 테스트 된다는 점
     @Test
@@ -57,20 +58,21 @@ public class AdminMemberServiceTest {
         dto.setPhone("01011111234");
         dto.setRole(Role.USER);
 
-        Bankbook bankbook = Bankbook.builder()
-                .member(dto.toEntity())
-                .bankbookDeposit(0)
-                .bankbookTotal(0)
-                .bankbookWithdraw(0)
-                .dealList("굿모닝^^")
-                .build();
-        adminBankbookRepository.save(bankbook);
+//        Bankbook bankbook = Bankbook.builder()
+//                .member(dto.toEntity())
+//                .bankbookDate(dto.getMemberDate())
+//                .bankbookDeposit(0)
+//                .bankbookTotal(0)
+//                .bankbookWithdraw(0)
+//                .dealList("굿모닝^^")
+//                .build();
+//        adminBankbookRepository.save(bankbook);
 
         // stub (가설)
         // any() 아무 데이터가 들어간다는 의미
         when(adminMemberRepository.save(any())).thenReturn(dto.toEntity());
         when(passwordEncoder.encode(dto.getPassword())).thenReturn(dto.getPassword());
-        when(adminBankbookRepository.save(any())).thenReturn(bankbook);
+//        when(adminBankbookRepository.save(any())).thenReturn(bankbook);
 
         // when
         MemberRespDto memberRespDto = adminMemberService.joinMember(dto);
@@ -118,7 +120,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findAll()).thenReturn(memberList);
 
         // when
-        List<MemberRespDto> dtos = adminMemberService.회원목록보기();
+        List<MemberRespDto> dtos = adminMemberService.memberFindAll();
 
         //print
         dtos.stream().forEach((dto) -> {
@@ -158,7 +160,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findById(id)).thenReturn(memberOP);
 
         // when
-        MemberRespDto memberRespDto = adminMemberService.회원한건조회(id);
+        MemberRespDto memberRespDto = adminMemberService.memberFindBy(id);
 
         // then
         log.info(member.getEmail());
@@ -209,7 +211,7 @@ public class AdminMemberServiceTest {
         when(adminMemberRepository.findById(id)).thenReturn(memberOP);
 
         // when
-        MemberRespDto memberRespDto = adminMemberService.회원수정(id, dto);
+        MemberRespDto memberRespDto = adminMemberService.memberUpdate(id, dto);
 
         // then
         assertThat(memberRespDto.getName()).isEqualTo(dto.getName());
