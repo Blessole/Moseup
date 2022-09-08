@@ -33,7 +33,7 @@
 								</div>
 							</div>
 							<div>
-								<a th:href="@{/teams/teamPage(tno=${list.team.tno})}"><img src="/images/go.png" class="dot"></a>
+								<a th:href="@{/teams/teamPage(tno=${list.team.tno})}"><img src="/images/go.png" width="20px" class="dot"></a>
 							</div>
 						</div>
 						<span th:each="photo : ${photoList}" th:if="${list.cno == photo.cno}">

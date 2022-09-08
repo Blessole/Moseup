@@ -64,8 +64,8 @@ a {
     color: white;
 }
 
-.sideList li:active{
-    background-color: var(--point-color);
+.sideList .active{
+    background-color: #95abe6;
     color: white;
 }
 

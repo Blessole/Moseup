@@ -151,7 +151,12 @@ public class TeamPageController {
 		// 상세 보기 부분
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
-		
+
+		SecretStatus o = teamAskOneDetail.getSecret();
+		if (o == SecretStatus.SECRET){
+		}
+		System.out.println("비밀글이다!2");
+
 		Team team = teamCreateService.findOne(tno);
 		
 		// 조회수 올리는 부분

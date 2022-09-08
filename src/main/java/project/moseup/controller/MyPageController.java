@@ -44,30 +44,10 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     // 유효성 검사
-//    private final CheckNicknameValidator checkNicknameValidator;
-//    private final CheckEmailValidator checkEmailValidator;
-//    private final CheckPasswordValidator checkPasswordValidator;
     private final CheckRealize checkRealize;
 
-
-    // Spring Validator 사용 시
-    // @Valid annotation으로 검증이 필요한 객체를 가져오기 전에 수행할 method를 지정
-//    @InitBinder
-//    public void validatorBinder(WebDataBinder webDataBinder) {
-//        webDataBinder.addValidators(checkNicknameValidator);
-//        webDataBinder.addValidators(checkEmailValidator);
-//        webDataBinder.addValidators(checkPasswordValidator);
-//    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/myPage")
-    public String myPage(Model model, Principal principal) {
-        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
-        model.addAttribute("map", map);
-        return "myPage/myPage";
-    }
-
     /** 가입 스터디 목록 **/
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);

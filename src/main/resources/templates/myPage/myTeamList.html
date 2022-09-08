@@ -24,7 +24,7 @@
       </div>
     </div>
     <table class="myTeamTable">
-      <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>자세히</th></tr>
+      <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>팀페이지 가기</th></tr>
       <tr th:each="list, stat : ${teamList}">
         <td th:text="|${stat.count}|"></td>
         <td th:text="${list.teamName}"></td>
@@ -32,7 +32,7 @@
         <td th:text="${list.startDate}"></td>
         <td th:text="${list.endDate}"></td>
         <td th:text="${list.teamDeposit}+'0,000원'"></td>
-        <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="40"></a> </td>
+        <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="25"></a> </td>
       </tr>
     </table>
 
@@ -62,6 +62,20 @@
     <!-- paging end -->
 
   </div>
+  <script type="text/javascript">
+    $(function (){
+      // 현재 url 가져오기
+      let url = window.location.href;
+
+      $(".sort-btn-box a").each(function (){
+        // url이랑 비교 체크하기
+        if (url.includes(this.href)){
+          $(this).addClass("active");
+        }
+      });
+
+    })
+  </script>
 </th:block>
 </body>
 </html>

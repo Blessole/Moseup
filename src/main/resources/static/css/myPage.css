@@ -340,6 +340,9 @@ input#askPhoto {
     margin-bottom: 20px;
 }
 
+.myTeamTable tr{
+    height: 37px;
+}
 .sort-btn-box {
     display: block;
     font-weight: 600;
@@ -369,6 +372,12 @@ input#askPhoto {
     color: white;
     background-color: var(--point-color);
 }
+
+.sort-btn-box .active {
+    background-color: #95abe6;
+    color: white;
+}
+
 /* 가입 팀 리스트 끝 */
 
 .button-box {
@@ -436,6 +445,7 @@ input#askPhoto {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .card .top .userDetails{
@@ -475,7 +485,7 @@ input#askPhoto {
 .dot {
     transform: scale(0.6);
     cursor: pointer;
-    width: 80px;
+    width: 50px;
 }
 
 .imgBx{
