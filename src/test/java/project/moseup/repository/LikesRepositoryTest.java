@@ -29,7 +29,7 @@ public class LikesRepositoryTest {
 
     @Test
     public void 찜목록추가(){
-        Optional<Member> memberOP = adminMemberRepository.findById(2L);
+        Optional<Member> memberOP = adminMemberRepository.findById(1L);
         Optional<Team> teamOP = teamInterfaceRepository.findById(1L);
 
         if(memberOP.isPresent() && teamOP.isPresent()){

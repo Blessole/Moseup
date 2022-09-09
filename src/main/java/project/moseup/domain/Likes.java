@@ -2,6 +2,7 @@ package project.moseup.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -9,22 +10,21 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@IdClass(LikesId.class)
-@SuppressWarnings("serial")
+@NoArgsConstructor
 public class Likes {
 
-	@Id
+	@EmbeddedId
+	private LikesId likesId = new LikesId();
+
+	@MapsId("mno")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
 
-
-	@Id
+	@MapsId("tno")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_no")
 	private Team team;
-
-	public Likes(){}
 
 	@Builder
 	public Likes(Member member, Team team) {
