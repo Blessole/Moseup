@@ -13,59 +13,88 @@
   <form th:action="@{/myPage/myInfo(mno=${member.mno})}" th:object="${myInfoDto}" method="post" enctype="multipart/form-data">
     <div class="middle-container">
       <h2 class="title">회원 정보 수정</h2>
-      <div class="form-group myInfo">
-        <div class="image_container" id="image_container">
-          <img alt="프로필사진" id="originPhoto" th:src="${map.realPhoto}">
+      <div class="flex_group">
+        <div class="form-group myInfo">
+          <div class="image_container" id="image_container">
+            <img alt="프로필사진" id="originPhoto" th:src="${map.realPhoto}">
+          </div>
+          <div class="take_container">
+            <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+            <label class="photoLabel" th:for="photo">프로필사진</label>
+          </div>
+          <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
+          <span id="photoErr" class="text-err"></span>
         </div>
-        <label th:for="photo">프로필사진</label>
-        <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:50%;" name="file" id="photo">
-        <span id="photoErr" class="text-err"></span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="email">이메일</label>
-        <input type="text" class="form-control" name="email" th:value="${myInfoDto.email}" disabled>
-        <br><span >이메일은 수정이 불가합니다.</span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="password">비밀번호</label>
-        <input type="password" th:field="*{password}" class="form-control" required>
-        <span class="text-err" id="password1Chk"></span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="password">비밀번호 확인</label>
-        <input type="password" th:field="*{password2}" class="form-control" required>
-        <span class="text-err" id="password2Chk"></span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="name">이름</label>
-        <input class="form-control" th:field="*{name}" value="${name}" required>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="nickname">닉네임</label>
-        <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}" required>
-        <span class="text-err" id="nicknameChk"></span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="phone">전화번호</label>
-        <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}" required>
-        <span class="text-err" id="phoneChk"></span>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="gender">성별</label>
-        <div th:each="type : ${genders}" class="form-check form-check-inline">
-          <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
-          <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="email">이메일</label>
+          </div>
+          <input type="text" class="form-control" name="email" th:value="${myInfoDto.email}" disabled>
+          <br><span class="email_disabled">이메일은 수정이 불가합니다.</span>
         </div>
-      </div>
-      <div class="form-group myInfo">
-        <label th:for="address">주소<span class="essential">*</span></label>
-        <input type="text" th:name="address" th:value="${add1}" id="searchAddress" onclick="findAdd()" readonly>
-        <input type="text" th:name="address2" th:value="${add2}"  id="detailAddress" required>
-        <span class="text-err" id="addressChk"></span>
-      </div>
-      <div class="button-box">
-        <input type="submit" value="수정">
-        <a href="#" onclick="deleteMember()">탈퇴</a>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="password">비밀번호<span class="essential">*</span></label>
+          </div>
+          <input type="password" th:field="*{password}" class="form-control" required  placeholder="비밀번호를 입력하세요."><br>
+          <span class="text-err" id="password1Chk"></span>
+        </div>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="password">비밀번호 확인<span class="essential">*</span></label>
+          </div>
+          <input type="password"  th:field="*{password2}" class="form-control" placeholder="비밀번호를 한번 더 입력하세요."><br>
+          <span class="text-err" id="password2Chk"></span>
+        </div>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="name">이름<span class="essential">*</span></label>
+          </div>
+          <input class="form-control" th:field="*{name}" value="${name}" required>
+        </div>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="nickname">닉네임<span class="essential">*</span></label>
+          </div>
+          <input type="text" th:field="*{nickname}" class="form-control" th:placeholder="*{nickname}" required><br>
+          <span class="text-err" id="nicknameChk"></span>
+        </div>
+        <div class="form-group myInfo">
+          <div class="labelBox">
+            <label class="label" th:for="phone">전화번호<span class="essential">*</span></label>
+          </div>
+          <input type="text" th:field="*{phone}" class="form-control" th:placeholder="*{phone}" th:value="*{phone}" required><br>
+          <span class="text-err" id="phoneChk"></span>
+        </div>
+        <div class="form-group myInfo">
+          <div class="take_container">
+            <div class="labelBox">
+              <label class="label" th:for="gender">성별<span class="essential">*</span></label>
+            </div>
+            <div class="genderBox">
+              <div th:each="type : ${genders}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group myInfo">
+          <div class="labelBox_ad">
+            <label class="label" th:for="address">주소<span class="essential">*</span></label>
+          </div>
+          <div class="addressBox">
+            <input type="text" th:name="address" th:value="${add1}" id="searchAddress" onclick="findAdd()" readonly>
+            <div class="make_right">
+              <input type="text" th:name="address2" th:value="${add2}"  id="detailAddress" required>
+            </div>
+            <span class="text-err" id="addressChk"></span>
+          </div>
+        </div>
+        <div class="myInfo-button-box">
+          <input type="submit" id="changeMyInfo" value="수정">
+          <a href="#" onclick="deleteMember()">탈퇴</a>
+        </div>
       </div>
     </div>
   </form>

@@ -17,10 +17,11 @@ a {
 }
 
 /* 로그인 폼 */
-.title {
+.title, .find {
     margin-top: 10px;
     margin-bottom: 25px;
     padding-bottom: 30px;
+    border: none;
 }
 
 .formBx {
@@ -45,27 +46,62 @@ a {
 
 .btn-sol{
     margin-top: 50px;
-    background-color: lightskyblue;
+    background-color: #5c75bb;
+    color: #fff;
+
+    /* findID/findPW action */
+    padding: 13px;
+    border-radius: 10px;
+}
+
+.btn-sol:hover{
+    background-color: #fff;
+    color: #5c75bb;
+    border: 1px solid #5c75bb;
 }
 
 .button-box a{
-    color: darkblue;
+    color: #5c75bb;
 }
 
 .form-control{
-    text-align: center;
     width: 300px;
     margin: auto;
 }
 
-.email_already{
-    color: red;
-    display:none;
+/*.email_already{*/
+/*    color: red;*/
+/*    display:none;*/
+/*}*/
+
+/*.email_ok{*/
+/*    color: black;*/
+/*    display: none;*/
+/*}*/
+
+#joinButton{
+    width: 55%;
+    height: 47px;
+    background: #5c75bb;
+    border-radius: 10px;
+    border:none;
+    color: #fff;
 }
 
-.email_ok{
-    color: black;
-    display: none;
+#joinButton:hover{
+    background: #fff;
+    color: #5c75bb;
+    border: 1px solid #5c75bb;
+}
+
+.join_addressBox {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 48%;
+}
+
+.join_addressBox #searchAddress, .join_addressBox #detailAddress{
+    width: 49%;
 }
 
 .fieldError{
@@ -74,6 +110,14 @@ a {
 
 .text-err {
     color: red;
+}
+
+.photo-text-err {
+    color: red;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .essential {
@@ -90,6 +134,18 @@ a {
     font-size: 18px;
     font-weight: 500;
     width: 100%;
+}
+
+.findID-button-box{
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.findAction-button-box{
+    width: 100%;
+    text-align: center;
+    margin: 50px auto;
 }
 
 .bankBookButton input {

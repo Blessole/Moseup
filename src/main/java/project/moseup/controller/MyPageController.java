@@ -212,7 +212,7 @@ public class MyPageController {
         return "myPage/myBankbook";
     }
 
-    @GetMapping("/moneyCharge")
+    @GetMapping("/myBankbook/moneyCharge")
     public String moneyCharge(@ModelAttribute("chargeDto") BankbookSaveReqDto bankbookDto, Principal principal, Model model){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         List<Bankbook> myBankbook = myPageService.findBankbook((Member) map.get("member"));

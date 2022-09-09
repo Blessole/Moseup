@@ -13,12 +13,12 @@
     <form th:action="@{/myPage/myInfoMain}" id="check_password_form" method="post">
         <div class="topless2-middle-container">
             <h2 class="title">비밀번호 확인</h2>
-            <div class="form-group checkPw">
+            <div class="checkPw">
 <!--                <label for="check_password_email">비밀번호</label>-->
                 <input type="password" id="check_password_email" name="password" class="form-control">
 <!--                <span class="text-err" id="passwordChk"></span>-->
+                <input type="submit" id="checkPassword" value="확인">
             </div>
-            <input type="submit" id="checkPassword" value="확인"></input><br>
         </div>
     </form>
 <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->

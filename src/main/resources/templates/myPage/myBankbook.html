@@ -13,7 +13,7 @@
         <h2 class="title">작고 귀여운 내 통장</h2>
         <div class="bankBookButton-box">
             <span>현재 총액 : <span th:text="${myTotal}"></span> 원 </span>
-            <a th:href="@{/myPage/moneyCharge}" class="bankBookButton">충전하기</a>
+            <a th:href="@{/myPage/myBankbook/moneyCharge}" class="bankBookButton">충전하기</a>
         </div>
         <table class="bankBookTable">
             <tr><th class="col-1">순서</th><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
