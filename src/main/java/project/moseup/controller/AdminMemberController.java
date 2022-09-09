@@ -193,6 +193,7 @@ public class AdminMemberController {
         if(bankbookMap != null){
             model.addAttribute("memberMap", memberMap);
             model.addAttribute("bankbookMap", bankbookMap);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
 
@@ -210,6 +211,30 @@ public class AdminMemberController {
             throw new RuntimeException("회원 정보가 없습니다");
         }
         return "admin/memberFreeBoard";
+    }
+
+    @GetMapping("/memberLikes")
+    public String memberLikes(@RequestParam Long mno, Model model){
+        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        if(map != null){
+            model.addAttribute("memberMap", map);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberLikes";
+    }
+
+    @GetMapping("/memberCheckBoard")
+    public String memberCheckBoard(@RequestParam Long mno, Model model){
+        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        if(map != null){
+            model.addAttribute("memberMap", map);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        }else{
+            throw new RuntimeException("회원 정보가 없습니다");
+        }
+        return "admin/memberCheckBoard";
     }
 
     @GetMapping("/memberAskBoard")
@@ -351,4 +376,6 @@ public class AdminMemberController {
         Map<String, Object> replyMap = freeBoardReplyService.reCover(frno);
         return "redirect:/admin/freeBoardDetail?fno="+replyMap.get("fno");
     }
+
+
 }

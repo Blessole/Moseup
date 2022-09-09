@@ -306,6 +306,15 @@
   margin-bottom: 20px;
   border: 1px solid lightgray;
 }
+.main-content.likes{
+  display: flex;
+  height: 100vh;
+  border-radius: 6px;
+  padding: 0px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border: 0px;
+}
 .bankbook-title-section{
   height: 8vh;
   display: flex;

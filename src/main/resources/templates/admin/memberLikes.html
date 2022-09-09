@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/memberDetail :: memberInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/memberDetail :: memberInfoNav('like')"></div>
+        <!-- 탭 -->
+        
+        
+        <div class="title-section">
+            <span>팀 좋아요 목록</span>&nbsp;<span th:text="${memberMap.member.likes.size}">좋아요 수</span>
+        </div>
+        <div class="main-content likes">
+            <div class="card" style="width: 18rem;" th:each="like : ${memberMap.member.likes}" th:if="${memberMap.member.likes.size} != 0">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title" th:text="${like.team.teamName}">습관 제목</h5>
+                  <p class="card-text" th:text="${like.team.teamIntroduce}">습관 소개글</p>
+                  <a href="#" th:href="@{/admin/teamDetail(tno=${like.team.tno})}" class="btn btn-primary">확인</a>
+                </div>
+            </div>
+        </div> <!-- 콘텐츠 영역 end-->
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

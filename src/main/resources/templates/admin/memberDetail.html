@@ -55,6 +55,12 @@
                     <a class="nav-link" href="#" th:href="@{/admin/memberFreeBoard(mno=${memberMap.member.mno})}" th:classappend="${memberInfoNav} == 'freeBoard'? 'active'">게시글</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberLikes(mno=${memberMap.member.mno})}" th:classappend="${memberInfoNav} == 'like'? 'active'">찜목록</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/memberCheckBoard(mno=${memberMap.member.mno})}" th:classappend="${memberInfoNav} == 'checkBoard'? 'active'">인증글</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/admin/memberAskBoard(mno=${memberMap.member.mno})}" th:classappend="${memberInfoNav} == 'askBoard'? 'active'">문의글</a>
                 </li>
                 <li class="nav-item">
