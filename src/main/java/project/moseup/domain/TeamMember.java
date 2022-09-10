@@ -12,16 +12,18 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Table(name = "team_members")
-@SuppressWarnings("serial")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamMember implements Serializable {
 
-	@Id
+	@EmbeddedId
+	private TeamMemberId teamMemberId = new TeamMemberId();
+
+	@MapsId("mno")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
 
-	@Id
+	@MapsId("tno")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_no")
 	private Team team;

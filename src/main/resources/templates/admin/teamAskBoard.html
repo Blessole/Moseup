@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/teamDetail :: teamInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/teamDetail :: teamInfoNav('askBoard')"></div>
+        <!-- 탭 -->
+        
+        <!-- <div class="bankbook-title-section">
+            <span>총 금액</span>
+            <span><span class="bankbookTotal" th:text="${bankbookMap.bankbookTotal}"></span>&nbsp;&nbsp;원</span>
+        </div>
+        <div class="title-section">
+            <span>입출금 내역</span>
+        </div>
+        <div class="main-content bankbookList">
+            <table class="table table-borderless caption table-hover">
+                <thead>
+                    <tr class="tableHeader">
+                        <th scope="col">거래번호</th>
+                        <th scope="col">거래내역</th>
+                        <th scope="col">입금액</th>
+                        <th scope="col">출금액</th>
+                        <th scope="col">총액</th>
+                        <th scope="col">거래일자</th>
+                        <th scope="col">확인</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="no-data" th:if="${memberMap.member.bankbooks.size} == 0">
+                        <th colspan="7">거래 내역이 없습니다.</th>
+                    </tr>
+                    <tr th:each="bankbook : ${memberMap.member.bankbooks}" th:if="${memberMap.member.bankbooks.size} != 0">
+                        <th th:text="${bankbook.dno}">거래번호</th>
+                        <td th:text="${bankbook.dealList}">거래내역</td>
+                        <td th:text="${bankbook.bankbookDeposit}">입금액</td>
+                        <td th:text="${bankbook.bankbookWithdraw}">출금액</td>
+                        <td th:text="${bankbook.bankbookTotal}">총액</td>
+                        <td th:text="${#temporals.format(bankbook.bankbookDate, 'yyyy-MM-dd HH:mm:ss')}">거래일자</td>
+                        <td>
+                            <a class="member-link" th:href="@{/admin/dealDetail(dno=${bankbook.dno})}">보기</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table> -->
+        </div> <!-- 콘텐츠 영역 end-->
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

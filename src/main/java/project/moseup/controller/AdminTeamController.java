@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AdminTeamService;
@@ -48,7 +50,6 @@ public class AdminTeamController {
     @GetMapping("/teamList")
     public String teamList(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
                            @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
-        log.info("teamList - 지나감");
 
         Page<Team> teams = adminTeamService.teams(keyword, pageable);
 
@@ -62,16 +63,53 @@ public class AdminTeamController {
         return "admin/teamList";
     }
 
-    // 회원 정보 상세보기
+    // 팀 정보 상세보기
     @GetMapping("/teamDetail")
     public String memberDetail(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
-            Team team = adminTeamService.teamDetail(tno);
-        log.info("teamDetail - 지나감");
+            TeamDetailDto team = adminTeamService.teamDetail(tno);
 
             model.addAttribute("team", team);
+            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("pageNum", pageNum);
 
             return "admin/teamDetail";
-        }
+    }
+    
+    // 팀 통장 정보
+    @GetMapping("/teamBankbook")
+    public String teamBankbook(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+        TeamDetailDto team = adminTeamService.teamDetail(tno);
+
+        model.addAttribute("team", team);
+        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        model.addAttribute("pageNum", pageNum);
+
+        return "admin/teamBankbook";
+    }
+
+    // 팀 문의글
+    @GetMapping("/teamAskBoard")
+    public String teamAskBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+        TeamDetailDto team = adminTeamService.teamDetail(tno);
+
+        model.addAttribute("team", team);
+        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        model.addAttribute("pageNum", pageNum);
+
+        return "admin/teamAskBoard";
+    }
+
+    // 팀 가입 멤버
+    @GetMapping("/teamInMember")
+    public String teamInMember(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+        TeamDetailDto team = adminTeamService.teamDetail(tno);
+
+        model.addAttribute("team", team);
+        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        model.addAttribute("pageNum", pageNum);
+
+        return "admin/teamInMember";
+    }
+
 
 }

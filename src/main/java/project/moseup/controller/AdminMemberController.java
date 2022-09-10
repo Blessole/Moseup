@@ -30,6 +30,7 @@ import project.moseup.validator.CheckPasswordValidator;
 import javax.validation.Valid;
 import java.io.File;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -228,9 +229,11 @@ public class AdminMemberController {
     @GetMapping("/memberCheckBoard")
     public String memberCheckBoard(@RequestParam Long mno, Model model){
         Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        List<CheckBoardRespDto> checkBoards = adminMemberService.getCheckBoards(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+            model.addAttribute("checkBoards", checkBoards);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }

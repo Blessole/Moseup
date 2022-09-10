@@ -6,7 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.Team;
+import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.repository.admin.AdminTeamRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +19,14 @@ public class AdminTeamService {
     private final AdminTeamRepository adminTeamRepository;
 
 
-    public Team teamDetail(Long tno) {
-        Team team = adminTeamRepository.findById(tno).orElse(null);
-        return team;
+    public TeamDetailDto teamDetail(Long id) {
+        Optional<Team> teamOP = adminTeamRepository.findById(id);
+        if (teamOP.isPresent()){
+            Team teamPS = teamOP.get();
+            return new TeamDetailDto().toDto(teamPS);
+        }else{
+            throw new NullPointerException("팀 정보가 없습니다 id = " + id);
+        }
     }
 
     public Page<Team> teams(String keyword, Pageable pageable) {

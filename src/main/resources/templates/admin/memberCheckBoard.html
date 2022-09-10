@@ -19,10 +19,10 @@
         <!-- 탭 -->
         
         <div class="title-section">
-            <span>인증글 목록</span>&nbsp;<span th:text="${memberMap.member.checkBoards.size}">인증글 수</span>
+            <span>인증글 목록</span>&nbsp;<span th:text="${checkBoards.size}">인증글 수</span>
         </div>
         <div class="main-content checkBoard">
-            <div class="card" style="width: 18rem;" th:each="checkBoard : ${memberMap.member.checkBoards}" th:if="${memberMap.member.checkBoards.size} != 0">
+            <div class="card" style="width: 18rem;" th:each="checkBoard : ${checkBoards}" th:if="${checkBoards.size} != 0">
                 <img src="..." class="card-img-top" alt="teamImg" th:src="${checkBoard.getPhotoViewPath}">
                 <div class="card-body">
                   <div class="checkContent">
