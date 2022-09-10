@@ -1,45 +1,48 @@
 package project.moseup.service.myPage;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.moseup.domain.Bankbook;
-import project.moseup.domain.CheckBoard;
-import project.moseup.domain.Member;
-import project.moseup.domain.Team;
+import project.moseup.domain.*;
 import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.BankbookSaveReqDto;
 import project.moseup.dto.CheckBoardRespDto;
-import project.moseup.repository.myPage.BankbookInterfaceRepository;
-import project.moseup.repository.myPage.CheckBoardInterfaceRepository;
-import project.moseup.repository.myPage.TeamInterfaceRepository;
-import project.moseup.repository.myPage.MyPageRepository;
+import project.moseup.dto.TeamMemberReqDto;
+import project.moseup.repository.myPage.*;
+import project.moseup.repository.teampage.TeamMemberRepository;
 
 import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class MyPageService {
 
     private final MyPageRepository myPageRepository;
     private final TeamInterfaceRepository teamInterfaceRepository;
     private final CheckBoardInterfaceRepository checkBoardInterfaceRepository;
     private final BankbookInterfaceRepository bankbookInterfaceRepository;
+    private final TeamMemberInterfaceRepository teamMemberInterfaceRepository;
+
+    private final TeamMemberRepository teamMemberRepository;
 
     /** 가입한 팀 조회 **/
     public List<Team> findTeam(Member member){
         return myPageRepository.findTeam(member);
     }
+
+//    /** 가입한 팀 카운트 + 필터 **/
+//    public int findTeamCount(Member member, String sort){
+//        return myPageRepository
+//    }
 
     /** 가입한 팀 조회 + 필터 + 페이징 **/
     public Page<Team> findTeamPaging(Member member, String sort, int startAt) {
@@ -98,7 +101,7 @@ public class MyPageService {
     /** 내 통장 조회 + 페이징 **/
     public Page<Bankbook> findBankbookPaging(Member member, int startAt){
         Pageable pageable = PageRequest.of(startAt, 6);
-        return bankbookInterfaceRepository.findByMember(member, pageable);
+        return bankbookInterfaceRepository.findByMemberOrderByDnoDesc(member, pageable);
     }
 
     /** 내 통장에서 가장 마지막 거래기록 가져오기 (충전페이지 총액 용) **/
@@ -116,5 +119,33 @@ public class MyPageService {
     public Page<Team> getMyLikeList(Member member, int startAt) {
         Pageable pageable = PageRequest.of(startAt, 10);
         return teamInterfaceRepository.findMyLikeTeam(member, pageable);
+    }
+
+    /** 회원 탈퇴 전 진행 중 팀 여부 찾기 **/
+    public List<Team> beforeDelete(Member member) {
+        LocalDate localDate = LocalDate.now();
+        List<Team> teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate);
+
+        return teamList;
+    }
+
+    /** 회원 탈퇴 전 진행 예정 팀멤버 delete 하기 **/
+    @Transactional
+    public int updateTeamMember(Member member){
+        int result = 0;
+
+//        TeamMemberReqDto dto = new TeamMemberReqDto();
+        LocalDate localDate = LocalDate.now();
+        List<TeamMember> teamMemberList = teamMemberInterfaceRepository.findByMemberAndStartDateAfter(member, localDate);
+        if (teamMemberList.isEmpty()){
+            result = 1;
+        } else {
+//            dto.setMember(member);
+            for (TeamMember tm : teamMemberList) {
+                tm.deleteUpdate(DeleteStatus.TRUE);
+            }
+//            teamMemberRepository.merge(dto.teamMemberDelete());
+        }
+        return result;
     }
 }

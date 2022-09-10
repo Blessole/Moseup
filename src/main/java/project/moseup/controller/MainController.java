@@ -23,11 +23,11 @@ public class MainController {
 //		System.out.println("tno = " + topList.get(0).getTeamMembers().get(1).getTeam().getTno());
 
 		List<Team> topList = mainService.topList();
-		
+
 		//카테고리1 공부 인기순
 		List<Team> studyTopList = mainService.studyTopList();
 		//카테고리1 운동 인기순
-		List<Team> exerciseTopList = mainService.exerciseTopList();	
+		List<Team> exerciseTopList = mainService.exerciseTopList();
 		//카테고리1 습관 인기순
 		List<Team> habitTopList = mainService.habitTopList();
 		//카테고리1 ETC 인기순

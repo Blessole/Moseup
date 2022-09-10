@@ -11,15 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.Likes;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.domain.TeamMember;
 import project.moseup.dto.LikeSaveReqDto;
 import project.moseup.repository.likes.LikesRepository;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 import project.moseup.repository.myPage.MyPageRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
+import project.moseup.repository.myPage.TeamMemberInterfaceRepository;
 import project.moseup.service.member.MemberService;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -45,11 +49,12 @@ public class MyPageServiceTest {
     @Autowired
     TeamInterfaceRepository  teamInterfaceRepository;
     @Autowired
+    TeamMemberInterfaceRepository teamMemberInterfaceRepository;
+    @Autowired
     LikesRepository likesRepository;
 
     @Test
     public void 찜목록추가() throws Exception {
-        // given
         Optional<Member> memberOP =  memberInterfaceRepository.findById(1L);
         Optional<Team> teamOP = teamInterfaceRepository.findById(2L);
 
@@ -69,10 +74,12 @@ public class MyPageServiceTest {
         } else {
             log.info("에러");
         }
+    }
 
-
-        // when
-
-        // then
+    @Test
+    public void 팀멤버삭제() throws Exception{
+//        Optional<Member> memberOP =  memberInterfaceRepository.findById(1L);
+//        Optional<TeamMember> teamMemberOP = teamMemberInterfaceRepository.findByMember(memberOP);
+//        List<TeamMember> myListOP = teamMemberInterfaceRepository.findByMemberAndStartDateAfter(memberOP, LocalDate.now());
     }
 }

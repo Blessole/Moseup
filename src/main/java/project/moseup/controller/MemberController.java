@@ -133,19 +133,6 @@ public class MemberController {
         return "redirect:/";
     }
 
-    /** 회원 탈퇴 **/
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/delete")
-    public String memberDelete(SecurityContextLogoutHandler handler, HttpServletRequest req, HttpServletResponse res, Authentication authentication){
-        // LogoutHandler가 Authentication을 파라미터로 요구함(굳이 principal을 또 받아오지 않아도 됨)
-        memberService.delete(authentication.getName());
-
-        //탈퇴 후 로그아웃
-        handler.logout(req, res, authentication);
-        log.info("회원 탈퇴 완료");
-        return "redirect:/";
-    }
-
     /** 아이디 찾기 **/
     @GetMapping("/findID")
     public String findID(@ModelAttribute("memberDto") MemberSaveReqDto memberSaveReqDto){

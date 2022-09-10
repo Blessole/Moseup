@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,8 @@ import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
 import project.moseup.validator.CheckRealize;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -52,9 +56,20 @@ public class MyPageController {
     public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
+        Page<Team> teamList = myPageService.findTeamPaging((Member) map.get("member"), sort, page);
+        // 팀 번호 매기기
+        int rowNum = teamList.getNumberOfElements();
+        int[] rowList = new int[rowNum];
+        System.out.println("rowList : " + rowNum);
+        for (int row = 0; row<rowNum; row++){
+            System.out.println("row : " + row );
+            rowList[row] = row+1;
+        }
+
         model.addAttribute("maxPage", 5);
-        model.addAttribute("teamList", myPageService.findTeamPaging((Member) map.get("member"), sort, page));
+        model.addAttribute("teamList", teamList);
         model.addAttribute("map", map);
+        model.addAttribute("rowNum", rowList);
         return "myPage/myTeamList";
     }
 
@@ -278,4 +293,32 @@ public class MyPageController {
         model.addAttribute("maxPage", 10);
         return "myPage/myLikeList";
     }
+
+    /** 회원 탈퇴 **/
+    @GetMapping("/deleteMember")
+    public String deleteMember(Model model, Principal principal, SecurityContextLogoutHandler handler, HttpServletRequest req, HttpServletResponse res, Authentication authentication){
+        int result;
+
+        // 진행중인 팀 여부 확인하기
+        List<Team> ing = myPageService.beforeDelete(memberService.getMember(principal.getName()));
+        System.out.println("ing : " + ing);
+        if (ing.isEmpty()){
+            // LogoutHandler가 Authentication을 파라미터로 요구함(굳이 principal을 또 받아오지 않아도 됨)
+            memberService.delete(authentication.getName());
+            myPageService.updateTeamMember(memberService.getMember(principal.getName()));
+
+            //탈퇴 후 로그아웃
+            handler.logout(req, res, authentication);
+            log.info("회원 탈퇴 완료");
+            result = 1;
+        } else {
+            Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+            model.addAttribute("map", map);
+            log.info("회원 탈퇴 실패");
+            result = 0;
+        }
+        model.addAttribute("result", result);
+        return "myPage/deleteMember";
+    }
+
 }

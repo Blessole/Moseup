@@ -25,15 +25,15 @@
     </div>
     <table class="myTeamTable">
       <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>팀페이지 가기</th></tr>
-      <tr th:each="list, stat : ${teamList}">
-        <td th:text="|${stat.count}|"></td>
-        <td th:text="${list.teamName}"></td>
-        <td th:text="${list.member.nickname}"></td>
-        <td th:text="${list.startDate}"></td>
-        <td th:text="${list.endDate}"></td>
-        <td th:text="${list.teamDeposit}+'0,000원'"></td>
-        <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="25"></a> </td>
-      </tr>
+      <tr th:each="list : ${teamList}">
+          <td th:text="${list.tno}"></td>
+          <td th:text="${list.teamName}"></td>
+          <td th:text="${list.member.nickname}"></td>
+          <td th:text="${list.startDate}"></td>
+          <td th:text="${list.endDate}"></td>
+          <td th:text="${list.teamDeposit}+'0,000원'"></td>
+          <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="25"></a> </td>
+        </tr>
     </table>
 
     <!-- paging -->

@@ -74,7 +74,7 @@ public class Team {
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamDelete; //팀 삭제여부
-	
+
 	// 연관관계 맵핑
 	@OneToMany(mappedBy = "team")
 	private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요

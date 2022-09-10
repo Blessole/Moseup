@@ -15,6 +15,11 @@ public class TeamMemberRepository {
 	
 	// 팀 멤버 저장
 	public void save(TeamMember teamMember) {
-		 em.persist(teamMember);
+		em.persist(teamMember);
+	}
+	
+	// 팀 멤버 탈퇴 - 솔 -
+	public void merge(TeamMember teamMember){
+		em.merge(teamMember);
 	}
 }

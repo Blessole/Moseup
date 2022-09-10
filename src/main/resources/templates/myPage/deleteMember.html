@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<div th:if="${result == 0}">
+    <script type="text/javascript">
+            alert("진행 중인 팀이 있는 경우, 회원 탈퇴가 불가합니다.");
+            history.go(-1);
+    </script>
+</div>
+<div th:if="${result == 1}">
+    <script type="text/javascript">
+        alert("회원 탈퇴 완료했습니다.");
+        location.href="/";
+    </script>
+</div>
+</body>
+</html>
