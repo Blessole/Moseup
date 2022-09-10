@@ -297,6 +297,12 @@
 .detail{
   align-items: center;
 }
+.checkContent h6{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 0px;
+}
 .main-content.bankbookList{
   display: flex;
   height: 100vh;
@@ -306,14 +312,47 @@
   margin-bottom: 20px;
   border: 1px solid lightgray;
 }
+.card-img, .card-img-top{
+  height: 214px;
+  object-fit: none;
+}
 .main-content.likes{
-  display: flex;
-  height: 100vh;
-  border-radius: 6px;
-  padding: 0px;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  border: 0px;
+  display: grid;
+    height: 100vh;
+    border-radius: 6px;
+    padding: 0px;
+    margin-bottom: 20px;
+    border: 0px;
+    white-space: normal;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    grid-gap: 12px;
+    justify-content: space-between;
+    grid-auto-flow: row dense;
+}
+.list-group-item{
+  position: relative;
+    display: block;
+    padding: 0.5rem 0rem;
+    color: darkgray;
+    font-size: 14px;
+    border: 1px solid rgba(0,0,0,.125);
+    text-decoration: none;
+    background-color: #fff;
+}
+.main-content.checkBoard{
+  display: grid;
+    height: 100vh;
+    border-radius: 6px;
+    padding: 0px;
+    margin-bottom: 20px;
+    border: 0px;
+    white-space: normal;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    grid-gap: 12px;
+    justify-content: space-between;
+    grid-auto-flow: row;
 }
 .bankbook-title-section{
   height: 8vh;

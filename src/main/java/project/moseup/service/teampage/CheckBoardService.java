@@ -42,4 +42,5 @@ public class CheckBoardService {
 	public int increaseReadCount(Long cno) {
 		return checkBoardPageRepository.updateReadCount(cno);
 	}
+
 }

@@ -19,10 +19,23 @@
         <!-- 탭 -->
         
         <div class="title-section">
-            <span>인증글 목록</span>
+            <span>인증글 목록</span>&nbsp;<span th:text="${memberMap.member.checkBoards.size}">인증글 수</span>
         </div>
-        <div class="main-content">
-            
+        <div class="main-content checkBoard">
+            <div class="card" style="width: 18rem;" th:each="checkBoard : ${memberMap.member.checkBoards}" th:if="${memberMap.member.checkBoards.size} != 0">
+                <img src="..." class="card-img-top" alt="teamImg" th:src="${checkBoard.getPhotoViewPath}">
+                <div class="card-body">
+                  <div class="checkContent">
+                      <h6 class="card-subtitle mb-2 text-muted" th:text="${checkBoard.checkContent}">인증글내용</h6>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <a class="list-group-item" th:href="@{/admin/teamDetail(tno=${checkBoard.team.tno})}">
+                        <li th:text="${checkBoard.team.teamName}">팀명</li>
+                    </a>
+                    <li class="list-group-item" th:text="${#temporals.format(checkBoard.checkDate, 'yyyy-MM-dd HH:mm:ss')}">인증 날짜</li>
+                  </ul>
+                </div>
+            </div>
         </div> <!-- 콘텐츠 영역 end-->
     </div>
 

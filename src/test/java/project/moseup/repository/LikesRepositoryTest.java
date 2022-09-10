@@ -50,6 +50,10 @@ public class LikesRepositoryTest {
         }
     }
 
+    @Test
+    public void 찜목록삭제(){
+
+    }
 
 
 

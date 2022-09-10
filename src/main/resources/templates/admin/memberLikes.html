@@ -24,11 +24,14 @@
         </div>
         <div class="main-content likes">
             <div class="card" style="width: 18rem;" th:each="like : ${memberMap.member.likes}" th:if="${memberMap.member.likes.size} != 0">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="..." class="card-img-top" alt="..." th:src="|\images\teamPhotos\${like.team.teamName}\${like.team.teamPhoto}|">
                 <div class="card-body">
-                  <h5 class="card-title" th:text="${like.team.teamName}">습관 제목</h5>
-                  <p class="card-text" th:text="${like.team.teamIntroduce}">습관 소개글</p>
-                  <a href="#" th:href="@{/admin/teamDetail(tno=${like.team.tno})}" class="btn btn-primary">확인</a>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${like.team.teamName}" style="font-size: 18px; color:black;">팀명</li>
+                        <a class="list-group-item" th:href="@{/admin/teamDetail(tno=${like.team.tno})}">
+                            <span>상세보기</span>
+                        </a>
+                    </ul>
                 </div>
             </div>
         </div> <!-- 콘텐츠 영역 end-->
