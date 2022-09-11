@@ -302,7 +302,124 @@
   align-items: flex-start;
   margin-bottom: 20px;
   border: 0px solid lightgray;
+  flex-direction: column;
 }
+.main-content.teamDetail img:nth-child(1){
+  width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+.main-content.teamDetail .imgSize{
+  width: 100%;
+  height: 400px;
+}
+.main-content.teamDetail .teamNameAndLeader{
+  text-align: center;
+    width: 70%;
+    height: 200px;
+    margin: 0px auto;
+    position: relative;
+    top: -70px;
+    word-break: break-all;
+}
+.main-content.teamDetail .teamNameAndLeader .dataOutput{
+  display: flex;
+  border: 1px solid lightgray;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: white;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px;
+  word-break: break-all;
+}
+.main-content.teamDetail .teamNameAndLeader .teamCategory{
+  padding: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 20px;
+}
+.img-thumbnail{
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 0px solid #dee2e6;
+  border-radius: 0.25rem;
+  max-width: 100%;
+  height: auto;
+}
+.main-content.teamDetail .teamIntroduce{
+  width: 70%;
+  height: 100%;
+  margin: 40px auto;
+  border: 1px solid lightgray;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.main-content.teamDetail .teamIntroduce pre span{
+  font-size: 20px;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo{
+  margin-top: 40px;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo .teamGuidelines{
+  display: block;
+  color: red;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo .teamDescription{
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo .teamInfoStart{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 8px;
+  font-size: 18px;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo .teamInfoStart .teamInfoData{
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+}
+.main-content.teamDetail .teamIntroduce .teamInfo .teamInfoStart span{
+  margin: 0px 10px;
+}
+.main-content.teamDetail .teamNameAndLeader .teamCategory span{
+  border: 1px solid antiquewhite;
+  width: 100px;
+  border-radius: 50px;
+  background: antiquewhite;
+}
+
+
+.main-content.teamDetail .teamNameAndLeader img{
+  width: 100px;
+height: 100px;
+border-radius: 50%;
+position: relative;
+top: -65px;
+}
+.main-content.teamDetail .teamNameAndLeader .dataOutput span.leaderName{
+  top: -50px;
+  position: relative;
+  color: darkgray;
+}
+.main-content.teamDetail .teamNameAndLeader .dataOutput span.teamName{
+  font-weight: 600;
+  font-size: 30px;
+  position: relative;
+    top: -25px;
+}
+
+
+
+
 .detail{
   align-items: center;
 }

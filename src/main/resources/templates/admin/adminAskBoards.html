@@ -38,8 +38,8 @@
               <td th:text="${askBoard.member.nickname}">작성자</td>
               <td th:text="${askBoard.askSubject}">문의제목</td>
               <td th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성날짜</td>
-              <td th:if="${askBoard.askBoardReplies} == null" th:text="미완료">답변여부</td>
-              <td th:if="${askBoard.askBoardReplies} != null" th:text="완료">답변여부</td>
+              <td th:if="${askBoard.askBoardReplies.size == 0}">미완료</td>
+              <td th:if="${askBoard.askBoardReplies.size != 0}">완료</td>
               <td><a class="member-link" th:href="@{/admin/askBoardDetail(ano=${askBoard.ano}, pageNum=${askBoards.pageable.pageNumber})}">보기</a></td>    
             </tr>
           </tbody>
