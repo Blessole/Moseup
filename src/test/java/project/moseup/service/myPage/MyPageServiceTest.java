@@ -13,7 +13,7 @@ import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamMember;
 import project.moseup.dto.LikeSaveReqDto;
-import project.moseup.repository.likes.LikesRepository;
+import project.moseup.repository.myPage.LikeInterfaceRepository;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 import project.moseup.repository.myPage.MyPageRepository;
@@ -51,7 +51,7 @@ public class MyPageServiceTest {
     @Autowired
     TeamMemberInterfaceRepository teamMemberInterfaceRepository;
     @Autowired
-    LikesRepository likesRepository;
+    LikeInterfaceRepository likeInterfaceRepository;
 
     @Test
     public void 찜목록추가() throws Exception {
@@ -66,7 +66,7 @@ public class MyPageServiceTest {
             dto.setMember(member);
             dto.setTeam(team);
 
-            Likes likes = likesRepository.save(dto.toEntity());
+            Likes likes = likeInterfaceRepository.save(dto.toEntity());
 
             assertThat(likes.getMember().getMno()).isEqualTo(member.getMno());
             assertThat(likes.getTeam().getTno()).isEqualTo(team.getTno());
@@ -75,6 +75,26 @@ public class MyPageServiceTest {
             log.info("에러");
         }
     }
+
+    @Test
+    public void 찜취소() throws Exception {
+        Optional<Member> memberOP =  memberInterfaceRepository.findById(1L);
+        Optional<Team> teamOP = teamInterfaceRepository.findById(1L);
+
+        if (memberOP.isPresent() && teamOP.isPresent()) {
+            Member member = memberOP.get();
+            Team team = teamOP.get();
+
+            LikeSaveReqDto dto = new LikeSaveReqDto();
+            dto.setMember(member);
+            dto.setTeam(team);
+
+            likeInterfaceRepository.delete(dto.toEntity());
+
+        } else {
+            log.info("에러");
+        }
+        }
 
     @Test
     public void 팀멤버삭제() throws Exception{

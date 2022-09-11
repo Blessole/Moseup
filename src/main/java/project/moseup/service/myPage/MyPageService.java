@@ -8,15 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.*;
-import project.moseup.dto.BankbookRespDto;
-import project.moseup.dto.BankbookSaveReqDto;
-import project.moseup.dto.CheckBoardRespDto;
-import project.moseup.dto.TeamMemberReqDto;
+import project.moseup.dto.*;
 import project.moseup.repository.myPage.*;
 import project.moseup.repository.teampage.TeamMemberRepository;
 
-import java.sql.Array;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -33,6 +28,7 @@ public class MyPageService {
     private final TeamMemberInterfaceRepository teamMemberInterfaceRepository;
 
     private final TeamMemberRepository teamMemberRepository;
+    private final LikeInterfaceRepository likeInterfaceRepository;
 
     /** 가입한 팀 조회 **/
     public List<Team> findTeam(Member member){
@@ -94,7 +90,6 @@ public class MyPageService {
         Pageable pageable = PageRequest.of(startAt, 6);
         Optional<Team> teamOptional = teamInterfaceRepository.findById(tno);
         Team team = teamOptional.get();
-        System.out.println("MPS - team : "+ team.getTno());
         return checkBoardInterfaceRepository.findByMemberAndTeam(member, team, pageable);
     }
 
@@ -147,5 +142,30 @@ public class MyPageService {
 //            teamMemberRepository.merge(dto.teamMemberDelete());
         }
         return result;
+    }
+
+    // 찜 추가/취소
+    @Transactional
+    public void likeUnlike(String name, Likes likes) {
+        if(name.equals("unLike")){
+            try {
+                log.info("찜 취소 시작");
+                likeInterfaceRepository.deleteAllByTeamAndMember(likes.getTeam(), likes.getMember());
+                log.info("찜 취소 완료");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            try{
+                likeInterfaceRepository.save(likes);
+                log.info("찜 추가 완료");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Optional<Team> getTeam(Long tno) {
+        return teamInterfaceRepository.findById(tno);
     }
 }

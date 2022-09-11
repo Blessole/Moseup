@@ -129,9 +129,14 @@ th {
 .content-box {
     text-align: left;
     width: 60%;
-    height: 200px;
+    height: auto;
+    overflow: hidden;
     margin: auto;
     border: 1px solid #e6e6e6;
+}
+
+.contentBox{
+    padding : 10px 10px 30px 10px;
 }
 
 .subTitle {
@@ -151,8 +156,18 @@ th {
     padding: 10px 0;
 }
 
-.image_container .askBoardPhoto{
-    width: 400px;
+.ask_image_container {
+    width: 60%;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    margin: 10px auto 20px;
+}
+
+.ask_image_container .askBoardPhoto {
+    width: 100%;
+    padding: 10px;
+    object-fit: cover;
 }
 
 .askDetail-button-box{
@@ -199,10 +214,13 @@ th {
 
 .oneReply {
     width: 97%;
-    height: 60px;
     margin: auto auto 5px;
     border: 1px solid #e6e6e6;
     padding: 7px 0 7px 0;
+
+    /* 자동 높이 조절 */
+    height: auto;
+    overflow: hidden;
 }
 
 .replyInfo {
@@ -225,7 +243,7 @@ th {
 }
 
 .oneReply .content{
-    width: 100%;
+    width: 96%;
     float: left;
     text-align: left;
     margin: 5px 10px;
@@ -233,6 +251,10 @@ th {
     font-size: 17px;
 }
 
+.oneReply .content p {
+    word-break: break-all;
+    margin-bottom: 0;
+}
 /*- 댓글 쓰기 -*/
 .replyWrite {
     width: 60%;
@@ -855,4 +877,10 @@ input#askPhoto {
     width: 28px;
     margin: 5px 5px;
     cursor: pointer;
+}
+
+.noList{
+    margin-top: 130px;
+    font-weight: 500;
+    font-size: 18px;
 }

@@ -12,47 +12,88 @@
     <div class="topless2-middle-container">
         <h2 class="title teamTitle">내가 찜한 스터디</h2>
 
-        <div class="oneTeam" th:each="list : ${likeList}">
-            <div class="team_img">
-                <a th:href="@{/teams/teamPage(tno=${list.tno})}"><img th:src="'/images/teamPhotos/'+${list.teamName}+'/'+${list.teamPhoto}" class="cover"></a>
-                <div class="heartBox">
-                    <a onclick="return likes()"><img src="/images/heart_red.png"></a>
+        <div th:if="${likeList.isEmpty()}" class="noList">
+            <span>찜한 스터디가 없습니다.</span>
+        </div>
+        <div th:if="${!likeList.isEmpty()}">
+            <div class="oneTeam" th:each="list : ${likeList}">
+                <div class="team_img">
+                    <a th:href="@{/teams/teamPage(tno=${list.tno})}"><img th:src="'/images/teamPhotos/'+${list.teamName}+'/'+${list.teamPhoto}" class="cover"></a>
+                    <div class="heartBox">
+                        <a th:onclick="likeUnlike(this)" th:id="${list.tno}" class="like"><img src="/images/heart_red.png" th:id="${list.tno}+'사진'"></a>
+                    </div>
+                </div>
+                <div class="team_info">
+                    <a th:href="@{/teams/teamPage(tno=${list.tno})}"><h5 class="teamName" th:text="${list.teamName}"></h5></a>
                 </div>
             </div>
-            <div class="team_info">
-                <a th:href="@{/teams/teamPage(tno=${list.tno})}"><h5 class="teamName" th:text="${list.teamName}"></h5></a>
+            <!-- paging -->
+            <div class="myTeam page-num"
+                 th:with="start=${(likeList.number/maxPage)*maxPage + 1},
+                           end=(${(likeList.totalPages == 0) ? 1
+                           : (start +(maxPage - 1) < likeList.totalPages ? start + (maxPage - 1) : likeList.totalPages)})">
+                <ul>
+                    <li th:if="${start > 1}">
+                        <a th:href="@{/myPage/myLikeList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+                    </li>
+                    <li th:if="${start > 1}">
+                        <a th:href="@{/myPage/myLikeList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+                    </li>
+                    <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+                        <a th:href="@{/myPage/myLikeList(page=${page - 1})}" th:text="${page}"></a>
+                    </li>
+                    <li th:if="${end < likeList.totalPages}">
+                        <a th:href="@{/myPage/myLikeList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+                    </li>
+                    <li th:if="${end < likeList.totalPages}">
+                        <a th:href="@{/myPage/myLikeList(page=${likeList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <!-- paging -->
-        <div class="myTeam page-num"
-             th:with="start=${(likeList.number/maxPage)*maxPage + 1},
-                       end=(${(likeList.totalPages == 0) ? 1
-                       : (start +(maxPage - 1) < likeList.totalPages ? start + (maxPage - 1) : likeList.totalPages)})">
-            <ul>
-                <li th:if="${start > 1}">
-                    <a th:href="@{/myPage/myLikeList(page=0)}"><img th:src="@{/images/left2.png}"></a>
-                </li>
-                <li th:if="${start > 1}">
-                    <a th:href="@{/myPage/myLikeList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
-                </li>
-                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
-                    <a th:href="@{/myPage/myLikeList(page=${page - 1})}" th:text="${page}"></a>
-                </li>
-                <li th:if="${end < likeList.totalPages}">
-                    <a th:href="@{/myPage/myLikeList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
-                </li>
-                <li th:if="${end < likeList.totalPages}">
-                    <a th:href="@{/myPage/myLikeList(page=${likeList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
-                </li>
-            </ul>
-        </div>
         <!-- paging end -->
-
+        </div>
     </div>
     <script th:inline="javascript">
-        function likes(){
+        function likeUnlike(value) {
+            // a태그 element 가져오기
+            let tno = value.getAttribute('id');
+            let aElement = document.getElementById(tno);
+            let className = value.getAttribute('class');
 
-        }
+            // img태그 element 가져오기
+            let tmpId = tno+"사진";
+            let imgElement = document.getElementById(tmpId);
+
+            let name = "";
+
+            if (className == 'like'){
+                name = 'unLike';
+            } else {
+                name = 'like';
+            }
+            function changeLike(){
+                imgElement.setAttribute('src', '/images/heart.png');
+                aElement.classList.add('unLike');
+                aElement.classList.remove('like');
+            }
+            function changeUnlike(){
+                imgElement.setAttribute('src', '/images/heart_red.png');
+                aElement.classList.add('like');
+                aElement.classList.remove('unLike');
+            }
+            $.ajax({
+               url:'/myPage/likeUnlike',
+               type: 'get',
+               data: {"tno": tno, "name": name},
+                success:function(data){
+                    if (data == "0"){
+                        changeLike();
+                    } else {
+                        changeUnlike();
+                    }
+                }
+            });
+        };
     </script>
 </th:block>
 </body>

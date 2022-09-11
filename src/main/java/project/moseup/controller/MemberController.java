@@ -82,6 +82,7 @@ public class MemberController {
 
         try {
             memberService.join(joinForm);
+            return "members/joinMember";
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
             bindingResult.reject("joinFailed", "이미 등록된 사용자입니다.");
@@ -91,7 +92,6 @@ public class MemberController {
             bindingResult.reject("joinFailed", e.getMessage());
             return "members/joinForm";
         }
-        return "redirect:/";
     }
 
     /** 중복체크 **/

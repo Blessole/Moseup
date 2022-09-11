@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import project.moseup.domain.AskBoard;
 import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.Member;
 import project.moseup.dto.AskBoardReplySaveReqDto;
+import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberService;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -49,7 +52,9 @@ public class AskBoardController {
     public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
-        model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging((Member) map.get("member"), page));
+//        askBoardList = askBoardService.findAskBoards(member);
+
+        model.addAttribute("askBoardList", askBoardService.findAskBoardsPaging((Member)map.get("member"), page));
         model.addAttribute("map", map);
         model.addAttribute("maxPage", 5);
         return "myPage/askBoardList";
@@ -197,64 +202,18 @@ public class AskBoardController {
         return "redirect:/askBoard/askBoardList";
     }
 
-    /** 댓글 작성 **/
-    @PostMapping("/askBoardReplyWrite")
-    public String askBoardReplyWrite(@Valid AskBoardReplySaveReqDto askBoardReplyDto, @RequestParam Long ano, Principal principal){
-        Member member = this.memberService.getMember(principal.getName());
-        askBoardReplyDto.setMember(member);
-
-        AskBoard askBoard = askBoardService.findOne(ano);
-        askBoardReplyDto.setAskBoard(askBoard);
-
-        askBoardReplyService.saveAskBoardReply(askBoardReplyDto.toEntity());
-
-        return "redirect:/askBoard/askBoardDetail?ano="+ano;
-    }
-
-//    @PostMapping("/image")
-//    public void handlerFileUpload(@RequestParam("file")MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-//        // askBoard 용 폴더 생성
-//        String folderPath = "askBoard";
-//        File uploadPathFolder = new File(uploadPath, folderPath);
-//        if(!uploadPathFolder.exists())  {
-//            try{
-//                uploadPathFolder.mkdirs(); //폴더생성
-//            } catch (Exception e ){
-//                e.getStackTrace(); //에러발생
-//            }
-//        }
+//    /** 댓글 작성 **/
+//    @PostMapping("/askBoardReplyWrite")
+//    public String askBoardReplyWrite(@Valid AskBoardReplySaveReqDto askBoardReplyDto, @RequestParam Long ano, Principal principal){
+//        Member member = this.memberService.getMember(principal.getName());
+//        askBoardReplyDto.setMember(member);
 //
-//        // 사진 업로드!
-//        try{
-//            PrintWriter out = response.getWriter();
-//            UUID uuid = UUID.randomUUID();
+//        AskBoard askBoard = askBoardService.findOne(ano);
+//        askBoardReplyDto.setAskBoard(askBoard);
 //
-//            // 업로드 할 파일 이름
-//            String org_filename = file.getOriginalFilename();
-//            String str_filename = uuid.toString() + "_" + org_filename;
+//        askBoardReplyService.saveAskBoardReply(askBoardReplyDto.toEntity());
 //
-//            log.info("org_filename ====" + org_filename);
-//            log.info("str_filename ====" + str_filename);
-//
-//            String filePath = uploadPath +  File.separator + folderPath +  File.separator  + str_filename;
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-//    @PostMapping("/image")
-//    public ResponseEntity<?> summerImage(@RequestParam("file") MultipartFile img, HttpServletRequest request) throws IOException{
-//        System.out.println("여기 지나가긴 하니..?");
-//        String path = request.getServletContext().getRealPath("resources/static/images");
-//        Random random = new Random();
-//
-//        long currentTime = System.currentTimeMillis();
-//        int randomValue = random.nextInt(100);
-//        String fileName = Long.toString(currentTime)+"_"+randomValue+"_a_"+img.getOriginalFilename();
-//
-//        File file = new File(path, fileName);
-//        img.transferTo(file);
-//        return ResponseEntity.ok().body("askBoard/image/"+fileName);
+//        return "redirect:/askBoard/askBoardDetail?ano="+ano;
 //    }
 
 }

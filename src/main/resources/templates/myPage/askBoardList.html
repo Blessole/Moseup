@@ -13,15 +13,20 @@
       <h2 class="title">1 : 1 문의게시판</h2>
         <table class="myAskTable">
           <tr class="tableHead"><th class="col-1">번호</th><th>제목</th><th class="col-2">문의날짜</th><th class="col-1">답변</th></tr>
-          <tr class="tableBody" th:each="list, stat : ${askBoardList}">
-            <td th:text="|${stat.count}|"></td>
+          <tr th:if="${askBoardList.isEmpty()}">
+            <td colspan="4">작성한 문의글이 존재하지 않습니다.</td>
+          </tr>
+          <tr class="tableBody" th:if="${!askBoardList.isEmpty()}" th:each="list : ${askBoardList}">
+            <td th:text="${list.ano}"></td>
             <td><a th:href="@{/askBoard/askBoardDetail(ano=${list.ano})}" th:text="${list.askSubject}"></a> </td>
             <td th:text="${#temporals.format(list.askDate,'yy.MM.dd')}"></td>
+            <td th:if="${list.askBoardReplies.isEmpty()}"></td>
+            <td th:if="${!list.askBoardReplies.isEmpty()}">완료</td>
           </tr>
         </table>
 
     <!-- paging -->
-    <div class="myAsk page-num"
+    <div class="myAsk page-num"  th:if="${!askBoardList.isEmpty()}"
          th:with="start=${(askBoardList.number/maxPage)*maxPage + 1},
                        end=(${(askBoardList.totalPages == 0) ? 1
                        : (start +(maxPage - 1) < askBoardList.totalPages ? start + (maxPage - 1) : askBoardList.totalPages)})">

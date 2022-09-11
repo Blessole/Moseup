@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.moseup.domain.*;
-import project.moseup.dto.BankbookRespDto;
-import project.moseup.dto.BankbookSaveReqDto;
-import project.moseup.dto.CheckBoardRespDto;
-import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.dto.*;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
@@ -132,7 +129,7 @@ public class MyPageController {
     /** 내 정보 수정 액션 **/
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/myInfo")
-    public String myInfoUpdate(@ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam(required = false, name="file") MultipartFile file, @RequestParam(name = "mno") Long mno, Model model, Principal principal){
+    public String myInfo(@ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam(required = false, name="file") MultipartFile file, @RequestParam(name = "mno") Long mno, Model model, Principal principal){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
         // 유효성 검사
@@ -173,10 +170,16 @@ public class MyPageController {
                 memberDto.setPhoto(originPath);
             }
         }
-
-        memberService.update(memberDto, mno);
+        try{
+            memberService.update(memberDto, mno);
+            model.addAttribute("result", "1");
+            model.addAttribute("mno", mno);
+        } catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("result", "0");
+        }
         model.addAttribute("map", map);
-        return "redirect:/myPage/myInfo?mno="+mno;
+        return "myPage/updateMember";
     }
 
     /** MemberSaveReqDto 중복코드 합침*/  // 서비스단으로 빼야겠다 이거
@@ -283,6 +286,7 @@ public class MyPageController {
         return "redirect:/myPage/myBankbook";
     }
 
+    // 찜 목록 불러오기
     @GetMapping("/myLikeList")
     public String myLikeList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
@@ -293,6 +297,31 @@ public class MyPageController {
         model.addAttribute("maxPage", 10);
         return "myPage/myLikeList";
     }
+
+    // 찜 기능
+    @GetMapping(value = "/likeUnlike", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String likeUnlike(Long tno, String name, LikeSaveReqDto likesDto, Model model, Principal principal){
+
+        System.out.println("team : "+ tno);
+        String result="";
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
+
+        likesDto.setTeam(myPageService.getTeam(tno).get());
+        likesDto.setMember((Member) map.get("member"));
+        Likes likes = likesDto.toEntity();
+        if (name.equals("unLike")) {
+            myPageService.likeUnlike(name, likes);
+            result = "0";
+        } else {
+            myPageService.likeUnlike(name, likes);
+            result = "1";
+        }
+        System.out.println("result : " + result);
+        return result;
+    }
+
 
     /** 회원 탈퇴 **/
     @GetMapping("/deleteMember")

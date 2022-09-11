@@ -16,6 +16,7 @@ import project.moseup.repository.myPage.AskBoardInterfaceRepository;
 import project.moseup.repository.myPage.AskBoardReplyInterfaceRepository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +31,21 @@ public class AskBoardReplyService {
         Pageable pageable = PageRequest.of(startAt, 5);
         return askBoardReplyInterfaceRepository.findByAskBoardAndAskReplyDelete(askBoard, DeleteStatus.FALSE, pageable);
     }
+
+    /** 문의게시판 댓글 리스트 조회 **/
+    public List<AskBoardReply> findAll(AskBoard askBoard) {
+        return askBoardReplyInterfaceRepository.findAllByAskBoardAndAskReplyDelete(askBoard, DeleteStatus.FALSE);
+    }
+
+//    public boolean getAskBoardReply(AskBoard askBoard){
+//        askBoardReplyInterfaceRepository.findAskBoardReplyByAskBoardAndAndAskReplyDelete(askBoard, DeleteStatus.FALSE);
+//        if () {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
 
     /** 문의게시판 댓글 작성 **/
     @Transactional

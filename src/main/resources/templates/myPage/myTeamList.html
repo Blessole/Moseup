@@ -25,7 +25,8 @@
     </div>
     <table class="myTeamTable">
       <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>팀페이지 가기</th></tr>
-      <tr th:each="list : ${teamList}">
+      <tr th:if="${teamList.isEmpty()}"><td colspan="7">가입한 팀이 없습니다.</td></tr>
+      <tr th:if="${!teamList.isEmpty()}" th:each="list : ${teamList}">
           <td th:text="${list.tno}"></td>
           <td th:text="${list.teamName}"></td>
           <td th:text="${list.member.nickname}"></td>
@@ -36,31 +37,32 @@
         </tr>
     </table>
 
-    <!-- paging -->
-    <div class="myTeam page-num"
-         th:with="start=${(teamList.number/maxPage)*maxPage + 1},
-                       end=(${(teamList.totalPages == 0) ? 1
-                       : (start +(maxPage - 1) < teamList.totalPages ? start + (maxPage - 1) : teamList.totalPages)})">
-      <ul>
-        <li th:if="${start > 1}">
-          <a th:href="@{/myPage/myTeamList(page=0)}"><img th:src="@{/images/left2.png}"></a>
-        </li>
-        <li th:if="${start > 1}">
-          <a th:href="@{/myPage/myTeamList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
-        </li>
-        <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
-          <a th:href="@{/myPage/myTeamList(page=${page - 1})}" th:text="${page}"></a>
-        </li>
-        <li th:if="${end < teamList.totalPages}">
-          <a th:href="@{/myPage/myTeamList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
-        </li>
-        <li th:if="${end < teamList.totalPages}">
-          <a th:href="@{/myPage/myTeamList(page=${teamList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
-        </li>
-      </ul>
+    <div th:if="${!teamList.isEmpty()}">
+      <!-- paging -->
+      <div class="myTeam page-num"
+           th:with="start=${(teamList.number/maxPage)*maxPage + 1},
+                         end=(${(teamList.totalPages == 0) ? 1
+                         : (start +(maxPage - 1) < teamList.totalPages ? start + (maxPage - 1) : teamList.totalPages)})">
+        <ul>
+          <li th:if="${start > 1}">
+            <a th:href="@{/myPage/myTeamList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+          </li>
+          <li th:if="${start > 1}">
+            <a th:href="@{/myPage/myTeamList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+          </li>
+          <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+            <a th:href="@{/myPage/myTeamList(page=${page - 1})}" th:text="${page}"></a>
+          </li>
+          <li th:if="${end < teamList.totalPages}">
+            <a th:href="@{/myPage/myTeamList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+          </li>
+          <li th:if="${end < teamList.totalPages}">
+            <a th:href="@{/myPage/myTeamList(page=${teamList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+          </li>
+        </ul>
+      </div>
+     <!-- paging end -->
     </div>
-    <!-- paging end -->
-
   </div>
   <script type="text/javascript">
     $(function (){
