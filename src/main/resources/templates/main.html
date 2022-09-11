@@ -137,7 +137,7 @@
 								<a href="#"><img th:if="${habitTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${habitTopList.teamName}+'/'+${habitTopList.teamPhoto}" class="card-img-top" alt="..."></a>
 								<a href="#"><img th:if="${habitTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 								<div class="card-body">
-									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:href="@{/teams/teamPage(tno=${studyTopList.tno})}" th:text="${habitTopList.teamName}">teamName
+									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${habitTopList.teamName}">teamName
 										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
 									<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
 									<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
@@ -158,8 +158,8 @@
 					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
 						<div th:each="newTeamList : ${newTeamList}" class="center">
 							<div class="card">
-								<a href="#"><img th:if="${newTeamList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${newTeamList.teamName}+'/'+${newTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
-								<a href="#"><img th:if="${newTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
+								<a th:href="@{teams/teamPage(tno=${newTeamList.tno})}"><img th:if="${newTeamList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${newTeamList.teamName}+'/'+${newTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
+								<a th:href="@{teams/teamPage(tno=${newTeamList.tno})}"><img th:if="${newTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
 								<div class="card-body">
 									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${newTeamList.teamName}">teamName
 										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
