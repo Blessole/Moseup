@@ -3,21 +3,15 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 	<title>Insert title here</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="/css/team.css" />
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.dropotron.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<link rel="stylesheet" href="/css/teamMain.css" />
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<style type="text/css">
-	ul {align-items: flex-end;}
-</style>
 </head>
-<body class="homepage is-preload">
+<script type="text/javascript">
+	$(function(){
+		
+	});
+</script>
+<body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
 	<div id="page-wrapper">
@@ -25,52 +19,45 @@
 		<!-- Header -->
 		<section id="header">
 			<div class="container">
-
-				<!-- Logo -->
-				<h1 id="logo"><a href="/">Moseup</a></h1>
-				<p>for the sake of everyone's habits.</p>
-
+			
 				<!-- Nav -->
 				<nav id="nav">
 					<ul>
-						<li><a class="icon solid fa-home" th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-						<li><a class="icon fa-chart-bar" th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
 						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
 						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
 					</ul>
 				</nav>
-
+				<!-- Logo -->
+				<h1 th:text="${team.teamName}"></h1>
+				<p>for the sake of everyone's habits.</p>
 			</div>
 		</section>
+		<br>
 
 		<!-- Features -->
 		<section id="features">
 			<div class="container">
-				<header>
-					<!-- <h2>안녕하세요 저희는 <strong th:text="${team.teamName}"></strong>입니다!</h2> -->
-				</header>
-				<div class="row aln-center">
-					<div class="col-6 col-6-medium col-12-small">
-
-						<!-- Feature -->
+				<div>
+					<div>
 						<section>
 							<a href="#" class="image featured"><img src="images/spring_boot.jpg" alt="" /></a>
-							<header>
-								<h3>소개사진 1</h3>
-							</header>
-							<p th:text="${team.teamIntroduce}"></p>
+							<div id="team_volume">‍👨‍👩‍👧‍👧가입 인원 :&nbsp;<p th:text="'가입된 인원 수'"></p>/<p th:text="${team.teamVolume}"></p></div>
+							<div id="team_category">✅분류 :&nbsp;<p th:text="${team.teamCategory1}"></p>,<p th:text="${team.teamCategory2}"></p>,<p th:text="${team.teamCategory3}"></p></div>
+							<div id="team_deposit">💵예치금 :&nbsp;<p th:text="'￦'+${team.teamDeposit}*10000"></p></div>
 						</section>
-
 					</div>
-
-					<div class="col-12">
-						<ul class="actions">
-							<li><a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="button icon solid fa-file">가입하기</a></li>
-						</ul>
-					</div>
+					<div id="introduce">
+						<p th:text="${team.teamIntroduce}"></p>
+					</div>				
 				</div>
 			</div>
+			<div id="jointeam">
+				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-primary">가입하기</a>
+			</div>
 		</section>
+		
 	</div>
 </th:block>
 </body>

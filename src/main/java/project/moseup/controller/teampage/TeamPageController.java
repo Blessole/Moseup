@@ -51,9 +51,10 @@ public class TeamPageController {
 	@GetMapping("/teamPage")
 	public String teamMainPage(@RequestParam Long tno, Model model) {
 
-
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
+		
+		// 팀 회원 정보 보여주기
 		
 		model.addAttribute("team", team);
 		

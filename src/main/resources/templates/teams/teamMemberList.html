@@ -58,7 +58,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="teamMember : ${team.teamMember}">							
-								<th th:text="${teamMember.member.nickname}"></th>
+								<th th:text="${teamMember.member.nickname}"><img th:src=""></th>
 								<th th:text="${teamMember.member.gender}"></th>
 								<th th:text="${teamMember.member.address}"></th>
 								<th th:text="${teamMember.member.phone}"></th>
