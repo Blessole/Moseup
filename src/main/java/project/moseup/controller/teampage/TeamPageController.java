@@ -92,7 +92,9 @@ public class TeamPageController {
 
 	// 팀 페이지 문의게시판(페이징)
 	@GetMapping("/teamAskBoard")
-	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
+	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable, Principal principal) {
+		
+		Member member = this.memberService.getMember(principal.getName());
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
@@ -102,7 +104,7 @@ public class TeamPageController {
 		int endPage = Math.min(teamAsks.getTotalPages(), teamAsks.getPageable().getPageNumber() + 5);
 		
 		
-		
+		model.addAttribute("member", member);
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);

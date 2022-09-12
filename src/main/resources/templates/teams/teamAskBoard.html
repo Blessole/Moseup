@@ -5,11 +5,24 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/teamMain.css" />
+<link rel="stylesheet" href="/css/teamAsk.css" />
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <style type="text/css">
 	ul {align-items: flex-end;}
 </style>
+<script type="text/javascript">
+	function checkSecret(tno, tano){
+		var username = $('#username').text();
+		var writer = $('#writer').text();
+		alert(username);
+		alert(writer);
+		if(username != writer){
+			alert('작성자만 볼 수 있어요');
+		} else {
+			location.href="/teams/teamAskBoard/teamAskBoardDetail?tano="+tano+'&tno='+tno;
+		}
+	}
+</script>
 </head>
 <body class="homepage is-preload">
 	<!-- 본문 코드 시작 -->
@@ -42,6 +55,7 @@
 					<!-- <div>
 						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
 					</div> -->
+					<div hidden="hidden" id="username" th:text="${member.nickname}"></div>
 					
 					<table class="table table-striped">
 						<thead>
@@ -57,15 +71,14 @@
 							<tr th:each="teamaskboard : ${teamAsks}">											
 								<th th:text="${teamaskboard.tano}"></th>
 								<div th:if="${teamaskboard.secret != p}">
-								<th><span class="glyphicon">&#xe033</span><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
-									   th:text="${teamaskboard.teamAskSubject}"
-									   onclick=""></a></th>
+									<th><span class="glyphicon">&#xe033</span>
+										<a href="#" th:text="${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|"></a></th>
 								</div>
 								<div th:if="${teamaskboard.secret == p}">
-								<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
-									   th:text="${teamaskboard.teamAskSubject}"></a></th>
+									<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
+									   	   th:text="${teamaskboard.teamAskSubject}"></a></th>								
 								</div>
-								<th th:text="${teamaskboard.member.nickname}"></th>
+								<th id="writer" th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
 								<th th:text="${teamaskboard.teamAskReadCount}"></th>						
 							</tr>						
