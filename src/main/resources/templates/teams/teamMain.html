@@ -12,13 +12,16 @@
 	});
 </script>
 <body>
-<!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
 	<div id="page-wrapper">
 
 		<!-- Header -->
 		<section id="header">
 			<div class="container">
+			
+				<!-- Logo -->
+				<h1 th:text="${team.teamName}"></h1>
+				<p>for the sake of everyone's habits.</p>
 			
 				<!-- Nav -->
 				<nav id="nav">
@@ -28,10 +31,7 @@
 						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
 						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
 					</ul>
-				</nav>
-				<!-- Logo -->
-				<h1 th:text="${team.teamName}"></h1>
-				<p>for the sake of everyone's habits.</p>
+				</nav>				
 			</div>
 		</section>
 		<br>
@@ -42,9 +42,12 @@
 				<div>
 					<div>
 						<section>
-							<a href="#" class="image featured"><img src="images/spring_boot.jpg" alt="" /></a>
-							<div id="team_volume">‍👨‍👩‍👧‍👧가입 인원 :&nbsp;<p th:text="'가입된 인원 수'"></p>/<p th:text="${team.teamVolume}"></p></div>
-							<div id="team_category">✅분류 :&nbsp;<p th:text="${team.teamCategory1}"></p>,<p th:text="${team.teamCategory2}"></p>,<p th:text="${team.teamCategory3}"></p></div>
+							<img th:src="'/'+'images/teamPhotos/'+${team.teamName}+'/'+${team.teamPhoto}" th:alt="팀사진" />
+							<div id="team_name">🚩팀명 :&nbsp;<p th:text="${team.teamName}"></p></div>
+							<div id="team_date">⏰팀 생성일 :&nbsp;<p th:text="${team.teamDate}"></p></div>
+							<div id="team_volume">‍👨‍👩‍👧‍👧가입 인원 :&nbsp;<p th:text="${team.teamMembers.size}"></p>/<p th:text="${team.teamVolume}"></p></div>
+							<div id="team_period">📅기간 :&nbsp;<p th:text="${team.startDate}"></p>&nbsp;~&nbsp;<p th:text="${team.endDate}"></p></div>
+							<div id="team_category">✅분류 :&nbsp;<p th:text="${team.teamCategory1}"></p>,&nbsp;<p th:text="${team.teamCategory2}"></p>,&nbsp;<p th:text="${team.teamCategory3}"></p></div>
 							<div id="team_deposit">💵예치금 :&nbsp;<p th:text="'￦'+${team.teamDeposit}*10000"></p></div>
 						</section>
 					</div>
@@ -54,7 +57,7 @@
 				</div>
 			</div>
 			<div id="jointeam">
-				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-primary">가입하기</a>
+				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
 			</div>
 		</section>
 		

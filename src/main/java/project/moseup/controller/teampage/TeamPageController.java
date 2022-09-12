@@ -44,7 +44,7 @@ public class TeamPageController {
 	private final TeamMemberService teamMemberService;
 	
 	// 파일 업로드 경로
-    @Value("${moseup.upload.path}") //application.properties의 변수
+    @Value("${moseup.upload.path}/check") //application.properties의 변수
     private String uploadPath;
 
 	// 팀 페이지 메인
@@ -54,8 +54,7 @@ public class TeamPageController {
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
 		
-		// 팀 회원 정보 보여주기
-		
+		// 팀 회원 정보 보여주기		
 		model.addAttribute("team", team);
 		
 		return "teams/teamMain";

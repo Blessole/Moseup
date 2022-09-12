@@ -36,7 +36,7 @@
 						    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
 						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
 						    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-						    	<a href="#" th:href="@{/teams/teamPage(tno=${topList.tno})}"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
+						    	<a href="#" th:href="@{/teams/teamPage(tno=${topList.tno})}"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" th:alt="top5이미지"></a>
 						    </div> 
 						    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
 						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>

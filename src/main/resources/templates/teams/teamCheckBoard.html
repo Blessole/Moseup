@@ -6,15 +6,8 @@
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" type="text/css" href="/css/team.css" />
+<link rel="stylesheet" href="/css/teamMain.css" />
 <title>Insert title here</title>
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.dropotron.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <style type="text/css">
 	ul {align-items: flex-end;}
@@ -26,25 +19,23 @@
 		<div id="page-wrapper">
 			<!-- Header -->
 			<section id="header">
-				<div class="container">
-
-					<!-- Logo -->
-					<h1 id="logo">
-						<a href="/">Moseup</a>
-					</h1>
-					<p>for the sake of everyone's habits.</p>
-
-					<!-- Nav -->
-					<nav id="nav">
-						<ul>
-							<li><a class="icon solid fa-home" th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-							<li><a class="icon fa-chart-bar" th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
-							<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
-							<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
-						</ul>
-					</nav>
-				</div>
-			</section>
+			<div class="container">
+			
+				<!-- Logo -->
+				<h1 th:text="${team.teamName}"></h1>
+				<p>for the sake of everyone's habits.</p>
+			
+				<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
+						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
+					</ul>
+				</nav>				
+			</div>
+		</section>
 			<!-- features -->
 			<section id="features">
 				<div class="container">

@@ -1,5 +1,5 @@
 #page-wrapper{
-	display: flex;
+	display: block;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -14,7 +14,7 @@
 }
 
 #nav ul li {
-    margin: 0 40px 40px 40px;
+    margin: 0 40px 1px 40px;
     padding: 0;
     border : 0;
     float: left;
@@ -51,6 +51,14 @@
 	text-align: center;
 }
 
+#features .container div div section #team_name p{
+	display: inline-flex;
+}
+
+#features .container div div section #team_date p{
+	display: inline-flex;
+}
+
 #features .container div div section #team_volume p{
 	display: inline-flex;
 }
@@ -60,6 +68,10 @@
 }
 
 #features .container div div section #team_deposit p{
+	display: inline-flex;
+}
+
+#features .container div div section #team_period p{
 	display: inline-flex;
 }
 
