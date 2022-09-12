@@ -172,7 +172,7 @@ public class MemberService {
 	}
 
 	/** 파일 등록 시 폴더 생성  및 파일 경로 저장 **/
-	public String makeFolderAndFileName(MultipartFile file, String folderPath){
+	public String makeFolderAndFileName(MultipartFile file, String folderPath, String personalPath){
 		// 사용 브라우저에 따라 파일이름/경로 다름
 		String originalName = file.getOriginalFilename();
 		String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
@@ -185,9 +185,18 @@ public class MemberService {
 				e.getStackTrace(); // 에러 발생
 			}
 		}
+		String newPath = uploadPath+File.separator+folderPath;
+		File personalUploadPathFolder = new File(newPath, personalPath);
+		if(!personalUploadPathFolder.exists()){
+			try{
+				personalUploadPathFolder.mkdirs();
+			}catch (Exception e){
+				e.getStackTrace(); // 에러 발생
+			}
+		}
 		// 파일 경로 저장하기
 		String uuid = UUID.randomUUID().toString();
-		String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
+		String saveName =newPath + File.separator + personalPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
 		Path savePath = Paths.get(saveName);
 		try{
 			file.transferTo(savePath);

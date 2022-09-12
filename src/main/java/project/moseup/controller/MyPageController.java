@@ -2,7 +2,9 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -17,8 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.moseup.domain.*;
 import project.moseup.dto.*;
 import project.moseup.exception.NoLoginException;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
+import project.moseup.service.teampage.TeamMemberService;
 import project.moseup.validator.CheckEmailValidator;
 import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
@@ -43,9 +47,23 @@ public class MyPageController {
 
     private final MemberService memberService;
     private final MyPageService myPageService;
+    private final AdminMemberService adminMemberService;
 
     // 유효성 검사
     private final CheckRealize checkRealize;
+
+    // 공용 데이터 (사이드바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("memberMap", memberMap);
+        }
+    }
 
     /** 가입 스터디 목록 **/
     @PreAuthorize("isAuthenticated()")
@@ -57,9 +75,7 @@ public class MyPageController {
         // 팀 번호 매기기
         int rowNum = teamList.getNumberOfElements();
         int[] rowList = new int[rowNum];
-        System.out.println("rowList : " + rowNum);
         for (int row = 0; row<rowNum; row++){
-            System.out.println("row : " + row );
             rowList[row] = row+1;
         }
 
@@ -161,8 +177,9 @@ public class MyPageController {
                    }
             }
             // 새로운 사진 저장 (폴더 없으면 폴더 생성)
-            String folderPath = ((Member)map.get("member")).getEmail();
-            String saveName = memberService.makeFolderAndFileName(file, folderPath);
+            String folderPath = "memberPhotos";
+            String personalPath = ((Member)map.get("member")).getEmail();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
             // form에 저장
             memberDto.setPhoto(saveName);
         } else if (file.isEmpty()){
@@ -247,7 +264,7 @@ public class MyPageController {
     public String moneyChargeAction(BankbookSaveReqDto bankbookDto, BindingResult bindingResult, Principal principal, Model model){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         Member member = (Member) map.get("member");
-
+        int result = 0;
         // 유효성 검사
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
@@ -258,11 +275,11 @@ public class MyPageController {
             model.addAttribute("map", map);
             if (myBankbook.isEmpty()){
                 model.addAttribute("myTotal", 0);
-            } else model.addAttribute("myTotal", myBankbook);
-            return "myPage/moneyCharge";
+            } else {model.addAttribute("myTotal", myBankbook);}
+            result = 0;
         }
 
-        model.addAttribute("member", member);
+//        model.addAttribute("member", member);
 
         List<Bankbook> myBankbook = myPageService.findBankbook(member);
         int originMoney;
@@ -280,13 +297,24 @@ public class MyPageController {
         bankbookDto.setBankbookDeposit(bankbookDto.getBankbookDeposit());
         bankbookDto.setBankbookTotal(newTotal);
 
-        myPageService.charge(bankbookDto);
+        try {
+            myPageService.charge(bankbookDto);
+            result = 1;
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("moneyChargeFailed", "아쉽게도 충전 실패다!");
+            result=0;
+        } catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("moneyChargeFailed", "아쉽게도 충전 실패다!");
+            result = 0;
+        }
         model.addAttribute("map", map);
-
-        return "redirect:/myPage/myBankbook";
+        model.addAttribute("result", result);
+        return "myPage/moneyChargeAction";
     }
 
-    // 찜 목록 불러오기
+    /** 찜 목록 불러오기 **/
     @GetMapping("/myLikeList")
     public String myLikeList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
@@ -298,7 +326,7 @@ public class MyPageController {
         return "myPage/myLikeList";
     }
 
-    // 찜 기능
+    /** 찜 기능 **/
     @GetMapping(value = "/likeUnlike", produces = "text/html;charset=utf-8")
     @ResponseBody
     public String likeUnlike(Long tno, String name, LikeSaveReqDto likesDto, Model model, Principal principal){
@@ -350,4 +378,16 @@ public class MyPageController {
         return "myPage/deleteMember";
     }
 
+    /** 팀 탈퇴 기능 **/
+    @GetMapping("/teamMemberDelete")
+    public String teamMemberDelete(@Param("tno") Long tno, Principal principal, Model model){
+        log.info("과연 : " + tno);
+
+        Member member = memberService.getMember(principal.getName());
+        int result = myPageService.deleteTeamMember(tno, member);
+
+        System.out.println("result : " + result);
+        model.addAttribute("result", result);
+        return "myPage/teamMemberDelete";
+    }
 }

@@ -1,9 +1,13 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!--MyPage용 SideBar-->
 <th:block th:fragment="myPageCommon">
-    <div class="inlinebox">
-        <img th:src="${map.realPhoto}">
-        <span th:text="${map.member.nickname}" class="mNick"></span> 님, 환영합니다.
+    <div class="inline_Box">
+        <div class="myImgBox">
+            <img th:src="${map.realPhoto}">
+        </div>
+        <div class="nickBox">
+            <span th:text="${map.member.nickname}" class="mNick"></span> 님, 환영합니다.
+        </div>
     </div>
     <div class="sidebar">
         <ul class="sideList" id="accordionSidebar">

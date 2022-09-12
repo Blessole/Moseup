@@ -48,19 +48,19 @@ public class MyPageService {
 
         switch (sort) {
             case "none":
-                teamList = teamInterfaceRepository.findTeamMember(member, pageable);
+                teamList = teamInterfaceRepository.findTeamMember(member, DeleteStatus.FALSE, pageable);
                 break;
             case "myLead":
-                teamList = teamInterfaceRepository.findByMember(member, pageable);
+                teamList = teamInterfaceRepository.findByMember(member, DeleteStatus.FALSE, pageable);
                 break;
             case "future":
-                teamList = teamInterfaceRepository.findByMemberAndStartDateAfter(member, localDate, pageable);
+                teamList = teamInterfaceRepository.findByMemberAndStartDateAfter(member, localDate, DeleteStatus.FALSE, pageable);
                 break;
             case "current":
-                teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate, pageable);
+                teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate, DeleteStatus.FALSE, pageable);
                 break;
             case "past":
-                teamList = teamInterfaceRepository.findByMemberAndEndDateBefore(member, localDate, pageable);
+                teamList = teamInterfaceRepository.findByMemberAndEndDateBefore(member, localDate, DeleteStatus.FALSE, pageable);
                 break;
         }
         return teamList;
@@ -144,7 +144,34 @@ public class MyPageService {
         return result;
     }
 
-    // 찜 추가/취소
+    /** 팀 탈퇴 **/
+    @Transactional
+    public int deleteTeamMember(Long tno, Member member){
+        Optional<Team> teamOP = teamInterfaceRepository.findById(tno);
+        Team team = teamOP.get();
+
+        int result = 0;
+
+        Optional<TeamMember> teamMemberOP = teamMemberInterfaceRepository.findByTeamAndMember(team, member);
+        if (!teamMemberOP.isPresent()){
+            log.info("존재하지 않는 정보입니다.");
+            result = 0;
+        } else {
+            try {
+                TeamMember teamMember = teamMemberOP.get();
+                teamMember.deleteUpdate(DeleteStatus.TRUE);
+                result = 1;
+                log.info("팀 탈퇴 완료");
+            } catch (Exception e){
+                e.printStackTrace();
+                result = 0;
+                log.info("팀 탈퇴 실패");
+            }
+        }
+        return result;
+    }
+
+    /** 찜 추가/취소 **/
     @Transactional
     public void likeUnlike(String name, Likes likes) {
         if(name.equals("unLike")){

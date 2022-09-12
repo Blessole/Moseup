@@ -3,17 +3,39 @@ package project.moseup.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.MainService;
+import project.moseup.service.admin.AdminMemberService;
+import project.moseup.service.member.MemberService;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 	
 	private final MainService mainService;
+	private final MemberService memberService;
+	private final AdminMemberService adminMemberService;
+
+	// 공용 데이터 (사이드바에 들어갈 회원 정보)
+	@ModelAttribute
+	public void loginMember(Principal principal, Model model){
+		if(principal == null){
+//			throw new NoLoginException();
+		}else{
+			Member member = memberService.getPrincipal(principal);
+			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+			model.addAttribute("memberMap", memberMap);
+		}
+	}
 
 	@RequestMapping("/")
 	public String main(Model model) { //메소드명 정정

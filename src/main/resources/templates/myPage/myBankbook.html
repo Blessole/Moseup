@@ -43,7 +43,7 @@
                 <li th:if="${start > 1}">
                     <a th:href="@{/myPage/myBankbook(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
                 </li>
-                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == bankbookDto.pageable.pageNumber + 1} ? 'nowPage'">
                     <a th:href="@{/myPage/myBankbook(page=${page - 1})}" th:text="${page}"></a>
                 </li>
                 <li th:if="${end < bankbookDto.totalPages}">

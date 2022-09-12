@@ -39,7 +39,7 @@
                     <li th:if="${start > 1}">
                         <a th:href="@{/myPage/myLikeList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
                     </li>
-                    <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+                    <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == likeList.pageable.pageNumber + 1} ? 'nowPage'">
                         <a th:href="@{/myPage/myLikeList(page=${page - 1})}" th:text="${page}"></a>
                     </li>
                     <li th:if="${end < likeList.totalPages}">

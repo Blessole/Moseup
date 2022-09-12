@@ -134,8 +134,29 @@ input::-webkit-search-results-decoration{
     display:none;
 }
 
+/* 네비바 회원 사진 (by. 솔) */
+.inlineBox{
+    display: inline-flex;
+}
+.nav-nickBox{
+    margin: auto 10px;
+}
+.nav-myImgBox{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.nav-myImg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* footer */
 .footer-width{
 	margin: 0 auto;
 	width: 80%
 }
+

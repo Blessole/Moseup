@@ -16,7 +16,7 @@
 <!--					<select class="form-select text-center" th:field="*{teamList}">-->
 					<select class="selectBox form-select text-center" onchange="changeSelect()">
 						<option class="text-gray" th:selected="${param.tno} == null">==팀 별 보기==</option>
-						<option th:each="list : ${teamList}" th:value="${list.tno}" th:utext="${list.teamName}" th:selected="${param.tno} == ${list.tno}">
+						<option th:each="list : ${teamList}" th:value="${list.tno}" th:utext="${list.teamName}" th:selected="${#strings.equals(param.tno, list.tno)}">
 						</option>
 					</select>
 				</div>
@@ -28,7 +28,7 @@
 						<div class="top">
 							<div class="userDetails">
 								<div class="profile_img">
-									<img src="/images/logo.png" class="cover">
+									<img th:src="|/images/teamPhotos/${list.team.teamName}/${list.team.teamPhoto}|" class="cover">
 								</div>
 								<div class="checkInfo">
 									<h3 th:text="${list.team.teamName}"></h3>
@@ -67,7 +67,7 @@
 							<li th:if="${start > 1}">
 								<a th:href="@{/myPage/myCheckList(page=${start - maxPage}, tno=${param.tno})}"><img th:src="@{/images/left.png}"></a>
 							</li>
-							<li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+							<li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == checkList.pageable.pageNumber + 1} ? 'nowPage'">
 								<a th:href="@{/myPage/myCheckList(page=${page - 1}, tno=${param.tno})}" th:text="${page}"></a>
 							</li>
 							<li th:if="${end < checkList.totalPages}">

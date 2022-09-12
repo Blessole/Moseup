@@ -17,6 +17,8 @@ import project.moseup.domain.MemberGender;
 import project.moseup.dto.KakaoLoginForm;
 import project.moseup.dto.Mail;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.exception.NoLoginException;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MailService;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
@@ -25,7 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +40,20 @@ public class MemberController {
     private final MemberService memberService;
     private final CheckRealize checkRealize;
     private final MailService mailService;
+    private final AdminMemberService adminMemberService;
+
+    // 공용 데이터 (네비바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+//            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("memberMap", memberMap);
+        }
+    }
 
     // 회원가입
     @GetMapping("/joinForm")
@@ -74,8 +92,9 @@ public class MemberController {
             }
 
             // 이메일 폴더 생성 - 해당 위치에 폴더가 없을 경우 생성하는 코드
-            String folderPath = joinForm.getEmail();
-            String saveName = memberService.makeFolderAndFileName(file, folderPath);
+            String folderPath = "memberPhotos";
+            String personalPath = joinForm.getEmail();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
             //form에 저장
             joinForm.setPhoto(saveName);
         }

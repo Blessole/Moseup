@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.moseup.domain.Member;
+import project.moseup.domain.Team;
 import project.moseup.domain.TeamMember;
 
 import java.time.LocalDate;
@@ -16,5 +17,6 @@ public interface TeamMemberInterfaceRepository extends JpaRepository<TeamMember,
     @Query(findByMemberAndStartDateAfter)
     List<TeamMember> findByMemberAndStartDateAfter(@Param("member") Member member, @Param("localDate") LocalDate localDate);
 
+    Optional<TeamMember> findByTeamAndMember(Team team, Member member);
 //    Optional<TeamMember> findByMember(Optional<Member> member);
 }

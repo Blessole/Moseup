@@ -884,3 +884,10 @@ input#askPhoto {
     font-weight: 500;
     font-size: 18px;
 }
+
+
+.nowPage{
+    color: var(--point-color);
+    font-weight: 500;
+    text-decoration: underline;
+}

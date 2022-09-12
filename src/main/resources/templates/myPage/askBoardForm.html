@@ -9,7 +9,7 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-    <form th:action="@{/askBoard/ask}" th:object="${askBoardForm}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/askBoard/askBoardAction}" th:object="${askBoardForm}" method="post" enctype="multipart/form-data">
         <div class="topless-middle-container">
             <h2 class="title">1:1 문의하기</h2>
             <div class="ask-form1">

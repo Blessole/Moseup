@@ -36,11 +36,18 @@
 				<!-- 로그인(마이페이지) -->
 				<a href="#" sec:authorize="isAuthenticated()"  class="d-block link-dark text-decoration-none dropdown-toggle nav-right"
 					id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<img th:src="..." alt="..." width="40" height="40" class="rounded-circle">
-					<!-- <span th:text="${navMember.nickname}"></span> -->
+					<div class="inlineBox">
+						<div class="nav-myImgBox">
+							<img th:src="${memberMap.realPath}" alt="..." class="nav-myImg">
+						</div>
+						<div class="nav-nickBox">
+							 <span th:text="${memberMap.member.nickname}+' 님'"></span>
+						</div>
+					</div>
 				</a>
 				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li><a class="dropdown-item" th:href="@{/myPage/myTeamList}">myPage</a></li>
+					<li><a class="dropdown-item" th:href="@{/myPage/myTeamList}">마이페이지</a></li>
+					<li th:if="${#strings.equals(memberMap.member.role, 'ADMIN')}"><a class="dropdown-item" th:href="@{/admin}">관리자페이지</a></li>
 					<li><hr class="dropdown-divider"></li>
 					<li><a class="dropdown-item" th:href="@{/members/logout}">로그아웃</a>
 					</li>
@@ -50,4 +57,5 @@
 	</div>
 </nav>
 </html>
+
 

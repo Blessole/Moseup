@@ -19,6 +19,7 @@ import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
 import project.moseup.exception.NoLoginException;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
@@ -43,10 +44,25 @@ public class AskBoardController {
     private final MemberService memberService;
     private final AskBoardService askBoardService;
     private final AskBoardReplyService askBoardReplyService;
+    private final AdminMemberService adminMemberService;
+
 
     // 파일 업로드 경로
     @Value("${moseup.upload.path}") //application.properties의 변수
     private String uploadPath;
+
+    // 공용 데이터 (사이드바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("memberMap", memberMap);
+        }
+    }
 
     @GetMapping("/askBoardList")
     public String askBoardList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page){
@@ -69,9 +85,10 @@ public class AskBoardController {
         return "myPage/askBoardForm";
     }
 
-    @PostMapping("/ask")
+    @PostMapping("/askBoardAction")
     public String askBoardAction(@Valid @ModelAttribute("askBoardForm") AskBoardSaveReqDto askBoardForm, BindingResult bindingResult,
                                  @RequestPart(required = false) MultipartFile file, Principal principal, Model model) throws IOException{
+        int result = 0;
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         model.addAttribute("map", map);
 
@@ -82,7 +99,7 @@ public class AskBoardController {
                 System.out.println(e.getDefaultMessage());
             }
             model.addAttribute("askBoardForm", new AskBoardSaveReqDto());
-            return "redirect:/askBoard/askBoardForm";
+            result=0;
         }
 
         // 작성자 정보 SET
@@ -95,12 +112,13 @@ public class AskBoardController {
             if (file.getContentType().startsWith("image")== false){
                 System.out.println("ABC - 이미지 파일만 올리셈");
                 System.out.println("content type : "+ file.getContentType());
-                return "redirect:/askBoard/askBoardForm";
+                result=0;
             }
 
             // askBoard 용 폴더 생성
             String folderPath = "askBoard";
-            String saveName = memberService.makeFolderAndFileName(file, folderPath);
+            String personalPath = principal.getName();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
             // form에 저장
             askBoardForm.setAskPhoto(saveName);
         }
@@ -110,17 +128,19 @@ public class AskBoardController {
 
         try{
             askBoardService.save(askBoardForm);
+            result=1;
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
             bindingResult.reject("askBoardSaveFailed", "아쉽게도 등록 실패다!");
-            return "myPage/askBoardForm";
+            result=0;
         } catch (Exception e){
             e.printStackTrace();
             bindingResult.reject("askBoardSaveFailed", e.getMessage());
-            return "myPage/askBoardForm";
-
+            result=0;
         }
-        return "redirect:/askBoard/askBoardList";
+        model.addAttribute("result", result);
+
+        return "myPage/askBoardAction";
     }
 
     @GetMapping("/askBoardDetail")
@@ -172,13 +192,13 @@ public class AskBoardController {
     public String askBoardUpdate(@ModelAttribute("askBoardDto") AskBoardSaveReqDto askBoardDto, BindingResult bindingResult,
                                  @RequestParam("ano") Long ano, Model model, Principal principal){
         System.out.println("error:"+ bindingResult.hasErrors());
-
+        int result = 0;
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
             for(ObjectError e : list){
                 System.out.println(e.getDefaultMessage());
             }
-            return "redirect:/askBoard/askUpdate?ano="+ano;
+            result = 0;
         }
 
         // 내용에 엔터 태그 적용되도록 변경하여 저장
@@ -187,9 +207,20 @@ public class AskBoardController {
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         model.addAttribute("map", map);
 
-        askBoardService.update(askBoardDto, ano);
-
-        return "redirect:/askBoard/askBoardDetail?ano="+ano;
+        try{
+            askBoardService.update(askBoardDto, ano);
+            result=1;
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("askBoardUpdateFailed", "아쉽게도 수정 실패다!");
+            result=0;
+        } catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("askBoardUpdateFailed", e.getMessage());
+            result=0;
+        }
+        model.addAttribute("result", result);
+        return "myPage/askBoardUpdateAction";
     }
 
     /** 글 삭제 **/
