@@ -103,7 +103,6 @@ public class TeamPageController {
 		int startPage = Math.max(1, teamAsks.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(teamAsks.getTotalPages(), teamAsks.getPageable().getPageNumber() + 5);
 		
-		
 		model.addAttribute("member", member);
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);

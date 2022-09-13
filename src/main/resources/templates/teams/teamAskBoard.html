@@ -12,14 +12,14 @@
 </style>
 <script type="text/javascript">
 	function checkSecret(tno, tano){
-		var username = $('#username').text();
-		var writer = $('#writer').text();
-		alert(username);
-		alert(writer);
-		if(username != writer){
-			alert('작성자만 볼 수 있어요');
+		let username = $('#username').text();
+		let writer = $('#writer'+tano).text();
+		let leadername = $('#leadername').text();
+
+		if((username == writer)||(username == leadername)){
+			location.href="/teams/teamAskBoard/teamAskBoardDetail?tano="+tano+'&tno='+tno;			
 		} else {
-			location.href="/teams/teamAskBoard/teamAskBoardDetail?tano="+tano+'&tno='+tno;
+			alert('작성자만 볼 수 있어요');
 		}
 	}
 </script>
@@ -56,7 +56,7 @@
 						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
 					</div> -->
 					<div hidden="hidden" id="username" th:text="${member.nickname}"></div>
-					
+					<div hidden="hidden" id="leadername" th:text="${team.teamLeader}"></div>				
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -69,16 +69,12 @@
 						</thead>
 						<tbody>
 							<tr th:each="teamaskboard : ${teamAsks}">											
-								<th th:text="${teamaskboard.tano}"></th>
-								<div th:if="${teamaskboard.secret != p}">
-									<th><span class="glyphicon">&#xe033</span>
-										<a href="#" th:text="${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|"></a></th>
-								</div>
-								<div th:if="${teamaskboard.secret == p}">
-									<th><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
-									   	   th:text="${teamaskboard.teamAskSubject}"></a></th>								
-								</div>
-								<th id="writer" th:text="${teamaskboard.member.nickname}"></th>
+								<th th:text="${teamaskboard.tano}"></th>							
+								<th th:if="${teamaskboard.secret != p}"><span class="glyphicon">&#xe033</span>
+									<a href="#" th:text="${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|"></a></th>							
+								<th th:if="${teamaskboard.secret == p}"><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
+									th:text="${teamaskboard.teamAskSubject}"></a></th>																
+								<th th:id="writer+${teamaskboard.tano}" th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
 								<th th:text="${teamaskboard.teamAskReadCount}"></th>						
 							</tr>						
