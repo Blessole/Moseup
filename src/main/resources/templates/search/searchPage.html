@@ -73,21 +73,37 @@
 			<div th:if="${!searchedTeamList.isEmpty()}">
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
 					<div th:each="searchedTeamList : ${searchedTeamList}" class="center">
-						<div class="card">
-							<a href="#"><img th:if="${searchedTeamList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${searchedTeamList.teamName}+'/'+${searchedTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
-							<a href="#"><img th:if="${searchedTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
-							<div class="card-body">
-								<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${searchedTeamList.teamName}">teamName
-									<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
-								<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
-								<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
-								<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
-								<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
-								<p class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</p>
-								<p th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</p>
-								<p th:if="${searchedTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${searchedTeamList.teamCategory3}">teamCategory3</p>
+						<a th:href="@{/teams/teamPage(tno=${searchedTeamList.tno})}">
+							<!-- 시작일이 지난 습관 -->
+							<div class="card pastHabits" th:if="${searchedTeamList.startDate}<${today}">
+								<img th:src="'images/teamPhotos/'+${searchedTeamList.teamName}+'/'+${searchedTeamList.teamPhoto}" class="card-img-top" alt="...">
+								<p class="centered displayNone" id="studyCentered">시작된 습관입니다❕</p>
+								<div class="card-body">
+									<p class="card-title cardTeamName" th:text="${searchedTeamList.teamName}">teamName</p>
+									<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</p>
+									<p th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</p>
+									<p th:if="${searchedTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${searchedTeamList.teamCategory3}">teamCategory3</p>
+								</div>
 							</div>
-						</div>
+							<!-- 시작일이 지나지 않은 습관 -->
+							<div class="card" th:if="${searchedTeamList.startDate}>=${today}">
+								<img th:src="'images/teamPhotos/'+${searchedTeamList.teamName}+'/'+${searchedTeamList.teamPhoto}" class="card-img-top" alt="...">
+								<div class="card-body">
+									<p class="card-title cardTeamName" th:text="${searchedTeamList.teamName}">teamName</p>
+									<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
+									<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
+									<p class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</p>
+									<p th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</p>
+									<p th:if="${searchedTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${searchedTeamList.teamCategory3}">teamCategory3</p>
+								</div>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>

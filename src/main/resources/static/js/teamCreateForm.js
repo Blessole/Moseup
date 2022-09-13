@@ -126,7 +126,7 @@ function setImage(event) {
 		function readerOnload() {
 			reader.onload = function(e) {
 				img.setAttribute("src", e.target.result);
-				img.setAttribute("width", "500");
+				img.setAttribute("width", "600");
 				img.setAttribute("height", "300");
 				img.setAttribute("id", "imgTag");
 				teamPhotoErr.innerText="";

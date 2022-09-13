@@ -58,6 +58,7 @@
 /* 이미지 미리보기 이미지 태그 */
 #imgTag {
 	border: 1px solid;
+	object-fit: cover;
 }
 
 /* 업로드 디스플레이 감추기 */
