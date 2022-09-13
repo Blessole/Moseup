@@ -83,7 +83,7 @@ public class TeamPageController {
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
-		teamDetail.getTeamMember();
+		//teamDetail.getTeamMember();
 		
 		model.addAttribute("team", teamDetail);
 		

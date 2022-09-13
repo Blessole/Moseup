@@ -229,6 +229,10 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "member")
+	private List<TeamBankbookDetail> teamBankbookDetails = new ArrayList<>();
+
 	public MemberRespDto toDto() {
 		return new MemberRespDto().toDto(this);
 	}
