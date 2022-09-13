@@ -119,7 +119,7 @@ public class MyPageService {
     /** 회원 탈퇴 전 진행 중 팀 여부 찾기 **/
     public List<Team> beforeDelete(Member member) {
         LocalDate localDate = LocalDate.now();
-        List<Team> teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate);
+        List<Team> teamList = teamInterfaceRepository.findByMemberAndStartDateBeforeAndEndDateAfter(member, localDate, DeleteStatus.FALSE);
 
         return teamList;
     }

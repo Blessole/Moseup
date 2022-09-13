@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import project.moseup.config.CustomUserDetails;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
 import project.moseup.repository.member.MemberInterfaceRepository;
@@ -26,14 +27,25 @@ public class MemberSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // 로그인 하기 위해 가입된 user정보 조회하는 메소드
-        Optional<Member> memberWrapper = this.memberInterfaceRepository.findByEmail(email);
-        if (memberWrapper.isEmpty()) {
-            throw new UsernameNotFoundException("아이디가 없습니다 : " + email);
+        Member member = memberInterfaceRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("아이디가 없습니다 : " + email));
+
+//        Optional<Member> memberWrapper = this.memberInterfaceRepository.findByEmail(email);
+//        if (memberWrapper.isEmpty()) {
+//            throw new UsernameNotFoundException("아이디가 없습니다 : " + email);
+//        }
+
+//        Member member = memberWrapper.get();
+
+        CustomUserDetails customUserDetails = new CustomUserDetails();
+        if ( member != null){
+//            customUserDetails.
         }
 
-        Member member = memberWrapper.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin@admin.com".equals(email)) {
+        System.out.println("member Security Service 지나감");
+        if (email.equals("admin@admin.com")) {
+            System.out.println("어드민 가입 중");
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));

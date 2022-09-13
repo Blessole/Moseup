@@ -25,7 +25,7 @@ a {
 }
 
 .formBx {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 .formBx .form-group{
     margin-bottom: 15px;
@@ -35,6 +35,23 @@ a {
     float: right;
     margin-top: 10px;
     margin-right: 50px;
+}
+
+.aButtonBox{
+    width: 300px;
+    margin: auto;
+    padding: 10px;
+}
+
+.aButtonBox .right{
+    float: right;
+    color: var(--point-color);
+}
+
+.aButtonBox .left{
+    float: left;
+    margin-right: 10px;
+    color: var(--point-color);
 }
 
 /* 회원가입 폼 */
@@ -80,8 +97,8 @@ a {
 /*}*/
 
 #joinButton{
-    width: 55%;
-    height: 47px;
+    width: 62%;
+    height: 62px;
     background: #5c75bb;
     border-radius: 10px;
     border:none;
@@ -125,11 +142,14 @@ a {
     color : #ac2925;
 }
 
-/* 아이디 찾기 */
+/* 아이디/비밀번호 찾기 - findID/findPW */
 .findBox{
-    margin-bottom: 25px;
+    margin-bottom: 8px;
 }
 
+.findBox .findMargin {
+    margin-bottom: 13px;
+}
 .findBox label {
     font-size: 18px;
     font-weight: 500;

@@ -7,10 +7,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.service.SearchService;
+import project.moseup.service.admin.AdminMemberService;
+import project.moseup.service.member.MemberService;
+
+import java.security.Principal;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +25,21 @@ import project.moseup.service.SearchService;
 public class SearchController {
 	
 	private final SearchService searchService;
+	private final MemberService memberService;
+	private final AdminMemberService adminMemberService;
+
+	// 공용 데이터 (네비바에 들어갈 회원 정보)
+	@ModelAttribute
+	public void loginMember(Principal principal, Model model){
+		if(principal == null){
+//            throw new NoLoginException();
+		}else{
+			Member member = memberService.getPrincipal(principal);
+			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+			model.addAttribute("memberMap", memberMap);
+		}
+	}
 
 	//검색 페이징
 	@GetMapping("")

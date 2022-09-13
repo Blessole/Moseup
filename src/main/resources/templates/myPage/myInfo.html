@@ -93,7 +93,7 @@
         </div>
         <div class="myInfo-button-box">
           <input type="submit" id="changeMyInfo" value="수정">
-          <input type="button" onclick="deleteMember()" value="탈퇴">
+          <input type="button" onclick="deleteMember()" value="탈퇴" class="a">
 <!--          <a href="javascript:void(0)" onClick="javascript:deleteMember()">탈퇴</a>-->
         </div>
       </div>
@@ -164,7 +164,13 @@
         alert("탈퇴가 취소 되었습니다.");
         history.go(-1);
       } else if (choice == true) {
-        location.href="/myPage/deleteMember";
+        const check = confirm("정말입니까? 진짜입니까?");
+        if (check == false){
+          alert("탈퇴가 취소되었습니다!! 야호 :D");
+          history.go(-1);
+        } else if (check == true) {
+          location.href="/myPage/deleteMember";
+        }
       }
     };
 

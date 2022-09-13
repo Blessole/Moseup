@@ -81,7 +81,6 @@ public class MemberController {
 
         // 파일 업로드 시작
         // 이미지 파일만 업로드 가능하도록 제한하기
-        System.out.println("컨텐트 타입2 : "+ file.getContentType());
         if (file.isEmpty()) { // 프로필사진이 등록되지 않은 경우
             joinForm.setPhoto("C:\\DevSpace\\Project\\Moseup\\src\\main\\resources\\static\\images\\profile.png");
         } else if (!file.isEmpty()){  // 프로필사진이 등록된 경우

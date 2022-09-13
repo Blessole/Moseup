@@ -56,7 +56,7 @@ public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
 
     /** 마이페이지용 - 탈퇴 전 진행 중인 팀 조회 **/
     @Query(findByMemberAndStartDateBeforeAndEndDateAfter)
-    List<Team> findByMemberAndStartDateBeforeAndEndDateAfter(@Param("member") Member member, @Param("localDate") LocalDate localDate);
+    List<Team> findByMemberAndStartDateBeforeAndEndDateAfter(@Param("member") Member member, @Param("localDate") LocalDate localDate, @Param("deleteStat") DeleteStatus deleteStatus);
 
     /** 마이페이지용 - 탈퇴 전 진행 예정 팀 조회 **/
     @Query(findByMemberAndStartDateAfter)

@@ -182,6 +182,16 @@ public class AskBoardController {
         // 내용에 엔터 태그 적용되도록 변경하여 set
         askBoardDto.setAskContent(askBoardDto.getAskContent().replace("<br>", "\r\n"));
 
+        String realPhoto = "";
+        if (askBoardDto.getAskPhoto() == null || askBoardDto.getAskPhoto().equals("")){
+            realPhoto = "";
+        } else {
+            String photo = askBoardDto.getAskPhoto();
+            int index = photo.indexOf("images");
+            realPhoto = photo.substring(index - 1);
+        } model.addAttribute("photoPath", realPhoto);
+
+
         model.addAttribute("ano", ano);
         model.addAttribute("askBoardDto", askBoardDto);
         model.addAttribute("map", map);
@@ -190,7 +200,7 @@ public class AskBoardController {
 
     @PostMapping("/askUpdate")
     public String askBoardUpdate(@ModelAttribute("askBoardDto") AskBoardSaveReqDto askBoardDto, BindingResult bindingResult,
-                                 @RequestParam("ano") Long ano, Model model, Principal principal){
+                                 @RequestPart(required = false) MultipartFile file, @RequestParam("ano") Long ano, Model model, Principal principal){
         System.out.println("error:"+ bindingResult.hasErrors());
         int result = 0;
         if(bindingResult.hasErrors()){
@@ -206,6 +216,23 @@ public class AskBoardController {
 
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         model.addAttribute("map", map);
+
+        // 파일 업로드
+        if (file.isEmpty()){
+            askBoardDto.setAskPhoto(null);
+        } else if (!file.isEmpty()) {
+            if (file.getContentType().startsWith("image") == false) {
+                System.out.println("ABC - 이미지 파일만 올리셈");
+                System.out.println("content type : " + file.getContentType());
+                result = 0;
+            }
+            // askBoard 용 폴더 생성
+            String folderPath = "askBoard";
+            String personalPath = principal.getName();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
+            // form에 저장
+            askBoardDto.setAskPhoto(saveName);
+        }
 
         try{
             askBoardService.update(askBoardDto, ano);

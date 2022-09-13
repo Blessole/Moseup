@@ -86,14 +86,15 @@ th {
 }
 
 .askButton {
+    background-color: var(--point-color);
     border:  var(--point-color) solid 1px;
     padding: 10px;
-    color:  var(--point-color);
+    color : white;
 }
 
 .askButton:hover {
-    background-color: var(--point-color);
-    color : white;
+    background-color: #fff;
+    color:  var(--point-color);
 }
 
 .myAsk{
@@ -194,6 +195,83 @@ th {
     background-color:  var(--point-color) ;
     color : white;
 }
+
+/* askBoardUpdateForm 문의글 수정 */
+.ask_up_image_container {
+    width: 69%;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    margin: 10px auto -1px;
+}
+
+.ask_up_image_container .askBoardPhoto {
+    width: 100%;
+    padding: 10px;
+    object-fit: cover;
+}
+
+.ask_up_image_container .small{
+    width: 5%;
+    padding: 10px;
+    object-fit: cover;
+}
+
+.ask_up_take_container{
+    border: 1px solid #e6e6e6;
+    width: 69%;
+    margin: 0 auto 20px;
+    background-color: var(--point-light);
+    color: #fff;
+}
+
+.ask_up_take_container label{
+    width: 100%;
+    height: 100%;
+    padding:10px;
+    cursor: pointer;
+}
+
+.ask_up_button_box {
+    width: 69%;
+    margin: 16px auto 4px;
+    height: 70px;
+}
+
+.ask_up_button_box .askButton2 {
+    width: 30%;
+    height: 85%;
+    border: var(--point-color) solid 1px;
+    padding: 10px;
+    color: #FFFFFF;
+    background-color: var(--point-color);
+    font-weight: 500;
+}
+
+.ask_up_button_box .askButton2:hover {
+    border: var(--point-color) solid 1px;
+    color: var(--point-color);
+    background: none;
+}
+
+.ask_up_button_box .askButton3 {
+    width: 30%;
+    height: 85%;
+    border: var(--point-color) solid 1px;
+    background-color: var(--point-color);
+    font-weight: 500;
+    padding: 20px;
+    color: #FFFFFF;
+    display: inline-block;
+}
+
+.ask_up_button_box .askButton3:hover {
+    border: var(--point-color) solid 1px;
+    color: var(--point-color);
+    background: none;
+}
+/* 문의게시판 수정 폼 끝 */
+
 
 /*- 댓글 목록 -*/
 .reply-box{
@@ -370,9 +448,14 @@ input#askPhoto {
     margin-bottom: 20px;
 }
 
-.myTeamTable tr{
-    height: 37px;
+.myTeamTable  .teamTableH{
+    border-bottom: 3px double gray;
 }
+
+.myTeamTable tr{
+    height: 43px;
+}
+
 .sort-btn-box {
     display: block;
     font-weight: 600;
@@ -579,10 +662,25 @@ input#askPhoto {
     color: #fff;
 }
 
-#changeMyInfo:hover {
+/*#changeMyInfo:hover {*/
+/*    background-color: #fff;*/
+/*    border: 1px solid var(--point-color);*/
+/*    color: var(--point-color);*/
+/*}*/
+
+.myInfo-button-box .a{
+    width: 52px;
+    height: 47px;
+    padding: 12px;
     background-color: #fff;
     border: 1px solid var(--point-color);
+    border-radius: 10px;
     color: var(--point-color);
+}
+
+.myInfo-button-box .a:hover {
+    background: var(--point-color);
+    color: #fff;
 }
 
 .myInfo-button-box a{
@@ -771,14 +869,16 @@ input#askPhoto {
 }
 
 .bankBookButton {
+    background-color: var(--point-color);
     border:  var(--point-color) solid 1px;
     padding: 10px;
-    color:  var(--point-color);
+    color : white;
+
 }
 
 .bankBookButton:hover {
-    background-color: var(--point-color);
-    color : white;
+    background-color: white;
+    color:  var(--point-color);
 }
 
 /* 머니 충전 페이지 */

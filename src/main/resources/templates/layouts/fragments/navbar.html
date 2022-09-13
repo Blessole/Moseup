@@ -45,7 +45,7 @@
 						</div>
 					</div>
 				</a>
-				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+				<ul class="dropdown-menu text-small" sec:authorize="isAuthenticated()" aria-labelledby="dropdownUser1">
 					<li><a class="dropdown-item" th:href="@{/myPage/myTeamList}">마이페이지</a></li>
 					<li th:if="${#strings.equals(memberMap.member.role, 'ADMIN')}"><a class="dropdown-item" th:href="@{/admin}">관리자페이지</a></li>
 					<li><hr class="dropdown-divider"></li>

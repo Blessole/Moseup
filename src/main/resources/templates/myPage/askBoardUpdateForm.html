@@ -9,7 +9,7 @@
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
-  <form th:action="@{/askBoard/askUpdate}" th:object="${askBoardDto}" method="post">
+  <form th:action="@{/askBoard/askUpdate}" th:object="${askBoardDto}" method="post" enctype="multipart/form-data">
     <input type="hidden" id="ano" name="ano" th:value="${ano}">
     <div class="topless-middle-container">
       <h2 class="title">1:1 문의하기</h2>
@@ -18,19 +18,67 @@
         <input type="text" th:field="*{askSubject}"  th:value="*{askSubject}"  class="form-control">
         <span class="text-err" id="askSubjectChk"></span>
       </div>
+      <div class="ask_up_image_container">
+        <img alt="첨부파일" class="askBoardPhoto" id="originPhoto" th:classappend="${photoPath.isEmpty()} ? 'small'" th:src="${!photoPath.isEmpty() ? photoPath : '/images/plus.svg'}">
+      </div>
+      <div class="ask_up_take_container">
+        <label class="photoLabel" th:for="photo">사진업로드</label>
+      </div>
+      <input type="file" name="file" th:value="*{askPhoto}" style="display: none"  class="form-control"  onchange="setImage(event);" id="photo">
+      <span id="photoErr" class="text-err"></span>
       <div class="ask-form2">
         <textarea th:field="*{askContent}" th:value="*{askContent}" th:text="*{askContent}" class="form-control" rows="8" cols="40"></textarea>
         <span class="text-err" id="askContentChk"></span>
       </div>
-      <div class="ask-form3">
-        <input type="file" name="file" th:value="*{askPhoto}"  class="form-control">
-      </div>
-      <div class="askButton-box2">
+      <div class="ask_up_button_box">
         <input type="submit" value="수정" class="askButton2">
-        <a th:href="@{/askBoard/askBoardDetail(ano=${ano})}">취소</a>
+        <div class="askButton3">
+          <a th:href="@{/askBoard/askBoardDetail(ano=${ano})}">취소</a>
+        </div>
       </div>
     </div>
   </form>
+  <script type="text/javascript">
+    /* 사진 미리보기 */
+    function setImage(event) {
+      let askPhoto = document.getElementById("photo");
+      let photoErr = document.getElementById("photoErr");
+      let fileVal = $('#photo').val();
+      let photoVal = fileVal.slice(fileVal.indexOf(".")+1).toLowerCase();
+      let imgTag = $("#originPhoto");
+
+      function del(){
+        $('#photo').val("");
+      }
+
+      if (photoVal != "jpg" && photoVal != "png" && photoVal != "jpeg" && photoVal != "gif") {
+        photoErr.html("확장자가 jpg, png, jpeg, gif 파일만 가능합니다");
+        askPhoto.focus();
+        imgTag.remove();
+        del()
+      } else {
+        let img = document.getElementById('originPhoto');
+        let reader = new FileReader();
+
+        function readerOnload() {
+          reader.onload = function (e) {
+            img.setAttribute("src", e.target.result);
+            img.classList.remove('small');
+            photoErr.innerText="";
+            document.querySelector("div.ask_up_image_container").appendChild(img);
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        }
+
+        if (imgTag.length){
+          imgTag.remove();
+          readerOnload();
+        } else {
+          readerOnload();
+        }
+      }
+    };
+  </script>
 </th:block>
 </body>
 </html>
