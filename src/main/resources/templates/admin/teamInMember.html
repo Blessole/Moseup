@@ -18,7 +18,7 @@
         <div th:replace="admin/teamDetail :: teamInfoNav('teamInMember')"></div>
         <!-- 탭 -->
         <div class="title-section">
-            <span>가입된 멤버 수</span>&nbsp;<span th:text="${team.teamMembers.size}">멤버 수</span>
+            <span th:text="|가입된 멤버 수 ${team.teamVolume} / ${team.teamMembers.size}|">가입된 멤버 수</span>
         </div>
         <div class="main-content likes">
             <div class="card" style="width: 18rem;" th:each="teamMembers : ${team.teamMembers}" th:if="${team.teamMembers.size} != 0">

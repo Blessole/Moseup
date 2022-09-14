@@ -89,6 +89,20 @@ public class AdminTeamController {
         return "admin/teamBankbook";
     }
 
+    // 팀 인증글
+    @GetMapping("/teamCheckBoard")
+    public String teamCheckBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+        TeamDetailDto team = adminTeamService.teamDetail(tno);
+        Map<String, Object> checkBoardsDesc = adminTeamService.getCheckBoard(tno);
+
+        model.addAttribute("team", team);
+        model.addAttribute("checkBoardMap", checkBoardsDesc);
+        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
+        model.addAttribute("pageNum", pageNum);
+
+        return "admin/teamCheckBoard";
+    }
+
     // 팀 문의글
     @GetMapping("/teamAskBoard")
     public String teamAskBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){

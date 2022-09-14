@@ -5,11 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamBankbook;
 import project.moseup.domain.TeamBankbookDetail;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.repository.admin.AdminTeamRepository;
+import project.moseup.repository.myPage.TeamInterfaceRepository;
+import project.moseup.repository.teampage.CheckBoardPageRepository;
 import project.moseup.repository.teampage.TeamBankbookDetailRepository;
 import project.moseup.repository.teampage.TeamBankbookRepository;
 
@@ -26,6 +29,8 @@ public class AdminTeamService {
     private final AdminTeamRepository adminTeamRepository;
     private final TeamBankbookDetailRepository teamBankbookDetailRepository;
     private final TeamBankbookRepository teamBankbookRepository;
+    private final CheckBoardPageRepository checkBoardPageRepository;
+    private final TeamInterfaceRepository teamInterfaceRepository;
 
 
     public TeamDetailDto teamDetail(Long id) {
@@ -70,5 +75,21 @@ public class AdminTeamService {
         resultMap.put("total", total);
 
         return resultMap;
+    }
+
+
+    public Map<String, Object> getCheckBoard(Long tno) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Optional<Team> teamOP = teamInterfaceRepository.findById(tno);
+        if(teamOP.isPresent()){
+            List<CheckBoard> checkBoards = checkBoardPageRepository.findByTeamOrderByCnoDesc(teamOP.get());
+            resultMap.put("checkBoards", checkBoards);
+            return resultMap;
+
+        }else{
+            throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
+        }
+
+
     }
 }

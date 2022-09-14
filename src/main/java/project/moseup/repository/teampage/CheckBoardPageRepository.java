@@ -25,4 +25,6 @@ public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long
 
 
 	List<CheckBoard> findByMemberOrderByCnoDesc(Member memberPS);
+
+    List<CheckBoard> findByTeamOrderByCnoDesc(Team team);
 }

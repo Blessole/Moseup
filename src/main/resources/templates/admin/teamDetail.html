@@ -37,7 +37,7 @@
             </div>
             <div class="btn-over">
                 <a th:href="@{/admin/memberDetail(mno=${team.member.mno})}" class="btn btn-primary">회원정보</a>
-                <a th:href="@{/admin/teamList?page=} + ${pageNum}" class="btn btn-outline-success">확인</a>
+                <a th:href="@{/admin/teamList?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
                 <a th:href="@{/admin/teamDelete(tno=${team.tno})}" class="btn btn-outline-danger"
                     th:if="${team.teamDelete} == ${deleteFalse}">삭제</a>
                 <a th:href="@{/admin/teamRecover(tno=${team.tno})}" class="btn btn-outline-info"
@@ -53,6 +53,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/admin/teamBankbook(tno=${team.tno}, pageNum=${pageNum})}"
                         th:classappend="${teamInfoNav} == 'bankbook'? 'active'">통장</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamCheckBoard(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == 'checkBoard'? 'active'">인증글</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/admin/teamAskBoard(tno=${team.tno}, pageNum=${pageNum})}"

@@ -40,7 +40,7 @@
                 <td th:text="${team.member.nickname}">팀장</td>
                 <td th:text="${team.teamDeposit}">예치금</td>
                 <td th:text="${team.teamName}">스터디명</td>    
-                <td th:text="${team.teamVolume}">모집인원</td>
+                <td th:text="|${team.teamVolume} / ${team.teamMembers.size}|">모집인원</td>
                 <td th:text="${team.teamDate}">생성날짜</td>
                 <td><a th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${teams.pageable.pageNumber})}">보기</a></td>    
               </tr>
