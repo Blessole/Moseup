@@ -79,8 +79,10 @@ public class AdminTeamController {
     @GetMapping("/teamBankbook")
     public String teamBankbook(@RequestParam Long tno, @RequestParam int pageNum, Model model){
         TeamDetailDto team = adminTeamService.teamDetail(tno);
+        Map<String, Object> teamAndDetailsDESC = adminTeamService.getTeamBankbook(tno);
 
         model.addAttribute("team", team);
+        model.addAttribute("teamMap", teamAndDetailsDESC);
         model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 

@@ -1,6 +1,9 @@
 package project.moseup.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "team_bankbook_detail")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamBankbookDetail {
 
     @Id
@@ -36,12 +40,16 @@ public class TeamBankbookDetail {
     private int teamBankbookTotal;
 
     @Column(name = "team_bankbook_date") // 거래일
-    LocalDateTime teamBankbookDate;
+    private LocalDateTime teamBankbookDate;
 
-
-
-
-
-
-
+    @Builder
+    public TeamBankbookDetail(TeamBankbook teamBankbook, Member member, String dealList, int teamBankbookDeposit, int teamBankbookWithdraw, int teamBankbookTotal, LocalDateTime teamBankbookDate) {
+        this.teamBankbook = teamBankbook;
+        this.member = member;
+        this.dealList = dealList;
+        this.teamBankbookDeposit = teamBankbookDeposit;
+        this.teamBankbookWithdraw = teamBankbookWithdraw;
+        this.teamBankbookTotal = teamBankbookTotal;
+        this.teamBankbookDate = teamBankbookDate;
+    }
 }

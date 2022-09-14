@@ -74,8 +74,8 @@ public class Team {
 	private DeleteStatus teamDelete; //팀 삭제여부
 	
 	// 연관관계 맵핑
-	@OneToOne(mappedBy = "team")
-	private TeamBankbook teamBankbook = new TeamBankbook();
+	@OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
+	private TeamBankbook teamBankbook;
 
 	@OneToMany(mappedBy = "team")
 	private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요

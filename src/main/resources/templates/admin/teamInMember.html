@@ -17,44 +17,21 @@
         <!-- 내비바 -->
         <div th:replace="admin/teamDetail :: teamInfoNav('teamInMember')"></div>
         <!-- 탭 -->
-        
-        <!-- <div class="bankbook-title-section">
-            <span>총 금액</span>
-            <span><span class="bankbookTotal" th:text="${bankbookMap.bankbookTotal}"></span>&nbsp;&nbsp;원</span>
-        </div>
         <div class="title-section">
-            <span>입출금 내역</span>
+            <span>가입된 멤버 수</span>&nbsp;<span th:text="${team.teamMembers.size}">멤버 수</span>
         </div>
-        <div class="main-content bankbookList">
-            <table class="table table-borderless caption table-hover">
-                <thead>
-                    <tr class="tableHeader">
-                        <th scope="col">거래번호</th>
-                        <th scope="col">거래내역</th>
-                        <th scope="col">입금액</th>
-                        <th scope="col">출금액</th>
-                        <th scope="col">총액</th>
-                        <th scope="col">거래일자</th>
-                        <th scope="col">확인</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="no-data" th:if="${memberMap.member.bankbooks.size} == 0">
-                        <th colspan="7">거래 내역이 없습니다.</th>
-                    </tr>
-                    <tr th:each="bankbook : ${memberMap.member.bankbooks}" th:if="${memberMap.member.bankbooks.size} != 0">
-                        <th th:text="${bankbook.dno}">거래번호</th>
-                        <td th:text="${bankbook.dealList}">거래내역</td>
-                        <td th:text="${bankbook.bankbookDeposit}">입금액</td>
-                        <td th:text="${bankbook.bankbookWithdraw}">출금액</td>
-                        <td th:text="${bankbook.bankbookTotal}">총액</td>
-                        <td th:text="${#temporals.format(bankbook.bankbookDate, 'yyyy-MM-dd HH:mm:ss')}">거래일자</td>
-                        <td>
-                            <a class="member-link" th:href="@{/admin/dealDetail(dno=${bankbook.dno})}">보기</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
+        <div class="main-content likes">
+            <div class="card" style="width: 18rem;" th:each="teamMembers : ${team.teamMembers}" th:if="${team.teamMembers.size} != 0">
+                <img src="..." class="card-img-top" alt="..." th:src="${teamMembers.member.getPhotoViewPath}">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${teamMembers.member.nickname}" style="font-size: 18px; color:black;">회원닉네임</li>
+                        <a class="list-group-item" th:href="@{/admin/memberDetail(mno=${teamMembers.member.mno})}">
+                            <span>상세보기</span>
+                        </a>
+                    </ul>
+                </div>
+            </div>
         </div> <!-- 콘텐츠 영역 end-->
     </div>
 

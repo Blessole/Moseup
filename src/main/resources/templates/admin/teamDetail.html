@@ -14,6 +14,11 @@
         <div class="main-info-content" th:fragment="teamInfo">
             <div class="info-Row">
                 <div class="info-data">
+                    <label>팀번호</label>
+                    <span th:text="${team.tno}">팀번호</span>
+                </div>
+
+                <div class="info-data">
                     <label>팀장번호</label>
                     <span th:text="${team.member.mno}">팀장번호</span>
                 </div>
@@ -28,10 +33,6 @@
                 <div class="info-data">
                     <label>팀장이름</label>
                     <span th:text="${team.member.name}">팀장이름</span>
-                </div>
-                <div class="info-data">
-                    <label>전화번호</label>
-                    <span th:text="${team.member.phone}">전화번호</span>
                 </div>
             </div>
             <div class="btn-over">

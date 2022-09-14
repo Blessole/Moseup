@@ -1,20 +1,18 @@
 package project.moseup.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamMember;
+
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter @Setter
 public class TeamCreateReqDto {
@@ -53,9 +51,8 @@ public class TeamCreateReqDto {
 	private LocalDate teamDate;				//팀 생성일
 
 	private DeleteStatus teamDelete;		//팀 삭제여부
-	
-	
-	
+
+
 	//팀생성 메서드
 	public Team teamBuilder() {
 		return Team.createTeamBuilder()
