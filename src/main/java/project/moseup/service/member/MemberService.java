@@ -3,7 +3,9 @@ package project.moseup.service.member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class MemberService {
 	@Value("${moseup.upload.path}") //application.properties의 변수
 	private String uploadPath;
 
-	/** principal 조회 **/
+		/** principal 조회 **/
 	public Member getPrincipal(Principal principal) {
 		return this.getMember(principal.getName());
 	}
@@ -55,7 +57,7 @@ public class MemberService {
 
 	/** 회원가입 **/
 	@Transactional // 값을 넣어야하는 곳에는 읽기만 하면 안되니 따로 @Transactional를 사용
-	public void join(MemberSaveReqDto joinForm) {
+	public Long join(MemberSaveReqDto joinForm) {
 
 		Member member = joinForm.toEntity();
 
@@ -63,7 +65,7 @@ public class MemberService {
 		member.encodePassword(passwordEncoder);
 
 		// DB 저장
-		memberRepository.save(member);
+		return memberInterfaceRepository.save(member).getMno();
 	}
 
 	/** 회원 전체 조회 **/

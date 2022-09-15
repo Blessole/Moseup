@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+.hanna * {
+    font-family: 'Hanna', fantasy;
+}
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+.notosanskr * {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+@font-face {
+    font-family: 'Gyeonggi';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gyeonggi/GyeonggiTitleMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gyeonggi/GyeonggiTitleMedium.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gyeonggi/GyeonggiTitleMedium.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gyeonggi/GyeonggiTitleMedium.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/gyeonggi/GyeonggiTitleMedium.ttf') format("truetype");
+    font-display: swap;
+}

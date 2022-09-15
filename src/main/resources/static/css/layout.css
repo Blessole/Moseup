@@ -159,3 +159,10 @@ input::-webkit-search-results-decoration{
 	margin: 0 auto;
 	width: 80%
 }
+
+
+
+/* */
+.dropdown .show {
+    top: 14px;
+}

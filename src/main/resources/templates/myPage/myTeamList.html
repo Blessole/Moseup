@@ -78,13 +78,25 @@
     })
     function deleteChk(value){
       let tno = value.getAttribute('id');
-      const check = confirm("탈퇴하면 예치금을 돌려받지 못합니다.\r\n그래도 탈퇴하시겠습니까?");
+      const check = confirm("팀 탈퇴하면 *예치금*을 돌려받지 못합니다.\r\n그래도 탈퇴하시겠습니까?");
       if(check == false){
-        alert("탈퇴가 취소 되었습니다.");
+        alert("탈퇴가 취소되었습니다.");
         return false;
-      } else if (check == true){
-        location.href="/myPage/teamMemberDelete?tno="+tno;
-        // $.get('/myPage/teamMemberDelete', {"tno": tno});
+      } else if (check == true) {
+        const doubleCheck = confirm("팀 탈퇴하면 *재가입 불가*합니다.\r\n그래도 탈퇴하시겠습니까?");
+        if (doubleCheck == false) {
+          alert("탈퇴가 취소되었습니다.");
+          return false;
+        } else if (doubleCheck == true) {
+          const tripleCheck = prompt("탈퇴를 위해 '에휴 내가 그럼 그렇지 뭐'라고 입력해주세요.\r\n* 띄어쓰기 주의 *");
+          if (tripleCheck == "에휴 내가 그럼 그렇지 뭐") {
+            location.href = "/myPage/teamMemberDelete?tno=" + tno;
+          } else {
+            alert("탈퇴가 취소되었습니다.");
+            return false;
+          }
+          // $.get('/myPage/teamMemberDelete', {"tno": tno});
+        }
       }
     }
   </script>

@@ -1,4 +1,8 @@
+@charset "UTF-8";
 
+body{
+    font-family: 'S-CoreDream-3Light';
+}
 * {
     margin: 0;
     padding: 0;
@@ -446,6 +450,8 @@ input#askPhoto {
 
 .teamTitle {
     margin-bottom: 20px;
+    font-family: 'Gyeonggi';
+
 }
 
 .myTeamTable  .teamTableH{
