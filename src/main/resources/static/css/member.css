@@ -3,13 +3,17 @@
     padding-top : 100px;
     padding-bottom: 100px;
     width: 80%;
-    margin: auto;
     text-align: center;
+    margin: 64px auto;
 }
 
 a {
     text-decoration: none;  /* 링크 밑줄 제거 */
     color : inherit;               /* 글자 색상 제거 */
+}
+
+body {
+    font-family: 'LG Regular';
 }
 
 .fieldError{
@@ -22,6 +26,7 @@ a {
     margin-bottom: 25px;
     padding-bottom: 30px;
     border: none;
+    font-family: 'Gyeonggi';
 }
 
 .formBx {
@@ -55,6 +60,11 @@ a {
 }
 
 /* 회원가입 폼 */
+.narrow-middle-container h1 {
+    font-family: 'Gyeonggi';
+    margin-bottom: 23px;
+}
+
 .button-box{
     width: 400px;
     text-align: center;

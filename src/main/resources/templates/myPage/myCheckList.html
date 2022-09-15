@@ -15,7 +15,7 @@
 				<div class="select_bx">
 <!--					<select class="form-select text-center" th:field="*{teamList}">-->
 					<select class="selectBox form-select text-center" onchange="changeSelect()">
-						<option class="text-gray" th:selected="${param.tno} == null">==팀 별 보기==</option>
+						<option class="text-gray" th:value="${null}">==팀 별 보기==</option>
 						<option th:each="list : ${teamList}" th:value="${list.tno}" th:utext="${list.teamName}" th:selected="${#strings.equals(param.tno, list.tno)}">
 						</option>
 					</select>
