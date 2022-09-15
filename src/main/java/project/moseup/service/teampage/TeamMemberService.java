@@ -1,5 +1,7 @@
 package project.moseup.service.teampage;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class TeamMemberService {
 	// 팀 가입 (가입된 인원 추가, 중복 가입 방지)
 	@Transactional
 	public void joinTeamMember(TeamMemberDto teamMemberDto) {
-		TeamMember teamMember = teamMemberDto.toEntity();
+		TeamMember teamMember = teamMemberDto.createTeamMemberBuilder();
 		teamMemberRepository.save(teamMember);
 	}
 
@@ -36,5 +38,10 @@ public class TeamMemberService {
 		TeamMember teamMember = teamMemberReqDto.teamMemberBuilder();
 
 		teamMemberRepository.save(teamMember);
+	}
+	
+	// 팀 가입 여부 판단
+	public Optional<TeamMember> findMember(Team team, Member member) {
+		return teamMemberRepository.findMember(team, member);
 	}
 }

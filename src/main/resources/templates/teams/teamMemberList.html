@@ -51,7 +51,8 @@
 							<tr th:each="teamMember : ${team.teamMember}">
 								<th><img th:src="'images/'+${teamMember.member.email}+'/'+${teamMember.member.photo}" th:alt="프로필사진"></th>							
 								<th th:text="${teamMember.member.nickname}"></th>
-								<th th:text="${teamMember.member.phone}"></th>
+								<th th:if="${team.teamLeader} == ${teamMember.member.nickname}" th:text="스터디장"></th>
+								<th th:if="${team.teamLeader} != ${teamMember.member.nickname}" th:text="일반회원"></th>
 							</tr>
 						</tbody>
 					</table>

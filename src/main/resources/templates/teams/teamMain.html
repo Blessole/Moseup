@@ -58,7 +58,8 @@
 				</div>
 			</div>
 			<div id="jointeam">
-				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
+				<a th:if="${teamMember.isEmpty()}" th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
+				<p th:if="${!teamMember.isEmpty()}">이미 가입한 스터디 입니다.</p>
 			</div>
 		</section>
 		

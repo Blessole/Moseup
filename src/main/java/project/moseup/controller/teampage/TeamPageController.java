@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -49,13 +50,19 @@ public class TeamPageController {
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
-	public String teamMainPage(@RequestParam Long tno, Model model) {
+	public String teamMainPage(@RequestParam Long tno, Model model, Principal principal) {
 
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
+		Member member = this.memberService.getMember(principal.getName());
 		
-		// 팀 회원 정보 보여주기		
+		// 팀 회원 정보 가져오기			
+		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+		
+		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
+		model.addAttribute("member", member);
+		model.addAttribute("t", DeleteStatus.TRUE);
 		
 		return "teams/teamMain";
 	}

@@ -19,7 +19,7 @@
 		if((username == writer)||(username == leadername)){
 			location.href="/teams/teamAskBoard/teamAskBoardDetail?tano="+tano+'&tno='+tno;			
 		} else {
-			alert('작성자만 볼 수 있어요');
+			alert('작성자와 팀장만 볼 수 있어요');
 		}
 	}
 </script>
@@ -52,9 +52,6 @@
 			<section id="features">
 				<div class="container">
 					<h2 class="text-primary" align="center">문의글 목록</h2>
-					<!-- <div>
-						총 건수 : <span th:text="${teamAsks.totalElements}"></span>
-					</div> -->
 					<div hidden="hidden" id="username" th:text="${member.nickname}"></div>
 					<div hidden="hidden" id="leadername" th:text="${team.teamLeader}"></div>				
 					<table class="table table-striped">
