@@ -44,4 +44,9 @@ public class TeamMemberService {
 	public Optional<TeamMember> findMember(Team team, Member member) {
 		return teamMemberRepository.findMember(team, member);
 	}
+	
+	// 팀 멤버 단건 조회
+	public TeamMember findExistMember(Team team, Member member) {
+		return teamMemberRepository.findExistMember(team, member);
+	}
 }

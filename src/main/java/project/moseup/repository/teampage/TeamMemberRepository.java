@@ -28,12 +28,20 @@ public class TeamMemberRepository {
 		em.merge(teamMember);
 	}
 	
-	// 팀 멤버 조회
+	// 팀 멤버 존재 판단
 	public Optional<TeamMember> findMember(Team team, Member member) {
 		List<TeamMember> teamMember = em.createQuery("select t from TeamMember t where t.team =: team and t.member =: member", TeamMember.class)
 				.setParameter("team", team)
 				.setParameter("member", member)
 				.getResultList();
 		return teamMember.stream().findAny();
+	}
+	
+	// 팀 멤버 조회
+	public TeamMember findExistMember(Team team, Member member) {
+		return em.createQuery("select t from TeamMember t where t.team =: team and t.member =: member", TeamMember.class)
+				.setParameter("team", team)
+				.setParameter("member", member)
+				.getSingleResult();
 	}
 }

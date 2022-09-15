@@ -59,6 +59,19 @@ public class TeamPageController {
 		// 팀 회원 정보 가져오기			
 		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
 		
+		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
+		if(!teamMember.isEmpty()) {
+			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
+			TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
+			model.addAttribute("teamMemberDetail", teamMemberDetail);
+		} else if(teamMember.isEmpty()) {
+			TeamMemberDto teamFakeMember = new TeamMemberDto();
+			teamFakeMember.setMember(member);
+			teamFakeMember.setTeam(team);
+			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
+			model.addAttribute("teamMemberDetail", teamFakeMember);
+		}
+		
 		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
 		model.addAttribute("member", member);
