@@ -67,8 +67,9 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" th:href="@{/admin/teamList}">Team</a></li>
+                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'Recruiting')}">예정 팀</a></li>
                     <li><a href="#" th:href="@{/admin/teamList(orderBy = 'Proceeding')}">진행 팀</a></li>
-                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'end')}">종료 팀</a></li>
+                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'End')}">종료 팀</a></li>
                 </ul>
             </li>
             <li>
@@ -77,9 +78,12 @@
                         <i class='bx bx-clipboard'></i>
                         <span class="link_name">AskBoard</span>
                     </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
-                <ul class="sub-menu blank">
+                <ul class="sub-menu">
                     <li><a class="link_name" th:href="@{/admin/adminAskBoards}">AskBoard</a></li>
+                    <li><a href="#" th:href="@{/admin/adminAskBoards(orderBy = 'completion')}">답변 완료</a></li>
+                    <li><a href="#" th:href="@{/admin/adminAskBoards(orderBy = 'incomplete')}">답변 미완료</a></li>
                 </ul>
             </li>
             <li>

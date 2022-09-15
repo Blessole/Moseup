@@ -17,4 +17,6 @@ public interface AdminTeamRepository extends JpaRepository<Team, Long> {
     Page<Team> findByEndDateIsBefore(LocalDate now, Pageable pageable);
 
     Page<Team> findByEndDateIsAfter(LocalDate now, Pageable pageable);
+
+    Page<Team> findByStartDateIsAfter(LocalDate now, Pageable pageable);
 }

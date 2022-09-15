@@ -1,12 +1,14 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-
-import lombok.*;
-import org.springframework.util.Assert;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -50,5 +52,12 @@ public class AskBoardReply {
 		this.askReplyContent = askReplyContent;
 		this.askReplyDate = askReplyDate;
 		this.askReplyDelete = askReplyDelete;
+	}
+
+	public void replyDelete(){
+		this.askReplyDelete = DeleteStatus.TRUE;
+	}
+	public void replyRecover(){
+		this.askReplyDelete = DeleteStatus.FALSE;
 	}
 }

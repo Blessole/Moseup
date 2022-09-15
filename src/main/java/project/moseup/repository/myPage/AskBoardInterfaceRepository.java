@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
-import project.moseup.dto.AskBoardRespDto;
 
 import java.util.List;
 
@@ -18,4 +17,10 @@ public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Lon
     Page<AskBoard>  findByMemberAndAskDeleteOrderByAnoDesc(Member member, DeleteStatus deleteStatus, Pageable pageable);
 
     Page<AskBoard> findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(String keyword, String keyword1, String keyword2, Pageable pageable);
+
+    Page<AskBoard> findDistinctByAskBoardRepliesIsNotNull(Pageable pageable);
+
+    Page<AskBoard> findDistinctByAskBoardRepliesIsNull(Pageable pageable);
+
+
 }

@@ -48,9 +48,11 @@ public class AdminTeamService {
         Page<Team> teams;
 
         switch (searchDto.getOrderBy()){
+            case "Recruiting": teams = adminTeamRepository.findByStartDateIsAfter(LocalDate.now(), pageable);
+                break;
             case "Proceeding": teams = adminTeamRepository.findByEndDateIsAfter(LocalDate.now(), pageable);
                 break;
-            case "end": teams = adminTeamRepository.findByEndDateIsBefore(LocalDate.now(), pageable);
+            case "End": teams = adminTeamRepository.findByEndDateIsBefore(LocalDate.now(), pageable);
                 break;
             default: teams = adminTeamRepository.
                     findByTeamNameContainingOrMemberNicknameContaining

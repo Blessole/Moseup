@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.*;
+import project.moseup.dto.searchDto.AskBoardSearchDto;
 import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
@@ -265,10 +266,10 @@ public class AdminMemberController {
     }
 
     @GetMapping("/adminAskBoards")
-    public String adminAskBoards(@RequestParam(required = false, defaultValue = "") String keyword,
+    public String adminAskBoards(@ModelAttribute AskBoardSearchDto searchDto,
                                  @PageableDefault(size = 15, sort = "ano", direction = Sort.Direction.DESC) Pageable pageable,
                                  Model model){
-        Page<AskBoard> askBoards = askBoardService.askBoards(keyword, pageable);
+        Page<AskBoard> askBoards = askBoardService.askBoards(searchDto, pageable);
 
         int startPage = Math.max(1, askBoards.getPageable().getPageNumber() - 5);
         int endPage = Math.min(askBoards.getTotalPages(), askBoards.getPageable().getPageNumber() + 5);
@@ -311,22 +312,35 @@ public class AdminMemberController {
     @GetMapping("/adminAskReplyList")
     public String adminAskReplyList(@RequestParam(required = false) Long ano, Model model){
 
-        AskBoardRespDto askBoard = askBoardService.getAskBoard(ano);
-        model.addAttribute("askBoard", askBoard);
+        Map<String, Object> askBoardAndReply = askBoardService.getAskBoardReplyDesc(ano);
+        model.addAttribute("askBoardMap", askBoardAndReply);
 
         return "admin/adminAskReplyList";
     }
 
     @GetMapping("/askBoardListDetail")
-    public String askBoardListDetail(@RequestParam Long arno, Model model){
+    public String askBoardListDetail(@RequestParam Long arno, Principal principal,Model model){
         if(arno == null){
             return "admin/adminAskReplyList";
         }
+        Member member = memberService.getPrincipal(principal);
+        if(member == null){
+            return "members/loginForm";
+        }
 
         AskBoardReplyRespDto askBoardReplyRespDto = askBoardReplyService.getAskBoardReply(arno);
+        model.addAttribute("member", member);
         model.addAttribute("reply", askBoardReplyRespDto);
+        model.addAttribute("deleteTrue", DeleteStatus.TRUE);
 
         return "admin/askBoardListDetail";
+    }
+
+    // 관리자 문의글 댓글 삭제 & 복구
+    @GetMapping("/adminAskReplyDeleteAndRecover")
+    public String adminAskReplyDelete(@ModelAttribute AdminAskReplyDeleteAndRecoverDto dto){
+        askBoardReplyService.replyDeleteAndRecover(dto);
+        return "redirect:/admin/adminAskReplyList?ano=" + dto.getAno();
     }
 
     @GetMapping("/freeBoards")
