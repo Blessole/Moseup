@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr th:if="${members.totalElements} == 0">
-            <th colspan="7" style="text-align: center;">가입된 회원이 없습니다</th>
+            <th colspan="7" style="text-align: center;">회원이 없습니다</th>
           </tr>
           <tr th:each="member : ${members}">
             <th th:text="${member.mno}">번호</th>

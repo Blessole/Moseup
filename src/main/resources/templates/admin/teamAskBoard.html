@@ -36,7 +36,7 @@
                 <tr class="no-data" th:if="${team.teamAskBoards.size} == 0">
                   <th colspan="6">작성된 게시글이 없습니다</th>
                 </tr>
-                <tr th:if="${team.teamAskBoards.size} != 0" th:each="AskBoard : ${team.teamAskBoards}">
+                <tr th:if="${team.teamAskBoards.size} != 0" th:each="AskBoard : ${askBoardMap.teamAskBoards}">
                   <th th:text="${AskBoard.tano}">번호</th>
                   <td>
                     <a class="member-link" th:text="${AskBoard.member.nickname}" th:href="@{/admin/memberDetail(mno=${AskBoard.member.mno})}">작성자</a>

@@ -5,17 +5,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.moseup.domain.CheckBoard;
-import project.moseup.domain.Team;
-import project.moseup.domain.TeamBankbook;
-import project.moseup.domain.TeamBankbookDetail;
+import project.moseup.domain.*;
+import project.moseup.dto.searchDto.TeamSearchDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.repository.admin.AdminTeamRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
 import project.moseup.repository.teampage.CheckBoardPageRepository;
+import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 import project.moseup.repository.teampage.TeamBankbookDetailRepository;
 import project.moseup.repository.teampage.TeamBankbookRepository;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +31,7 @@ public class AdminTeamService {
     private final TeamBankbookRepository teamBankbookRepository;
     private final CheckBoardPageRepository checkBoardPageRepository;
     private final TeamInterfaceRepository teamInterfaceRepository;
+    private final TeamAskBoardPageRepository teamAskBoardPageRepository;
 
 
     public TeamDetailDto teamDetail(Long id) {
@@ -43,8 +44,31 @@ public class AdminTeamService {
         }
     }
 
-    public Page<Team> teams(String keyword, Pageable pageable) {
-        return adminTeamRepository.findByTeamNameContainingOrMemberNicknameContaining(keyword, keyword, pageable);
+    public Page<Team> teams(TeamSearchDto searchDto, Pageable pageable) {
+        Page<Team> teams;
+
+        switch (searchDto.getOrderBy()){
+            case "Proceeding": teams = adminTeamRepository.findByEndDateIsAfter(LocalDate.now(), pageable);
+                break;
+            case "end": teams = adminTeamRepository.findByEndDateIsBefore(LocalDate.now(), pageable);
+                break;
+            default: teams = adminTeamRepository.
+                    findByTeamNameContainingOrMemberNicknameContaining
+                            (searchDto.getKeyword(), searchDto.getKeyword(), pageable);
+                break;
+        }
+        if(searchDto.getStartDate() != null && searchDto.getEndDate() != null){
+            LocalDate startDate = null;
+            LocalDate endDate = null;
+            try {
+                startDate = LocalDate.parse(searchDto.getStartDate());
+                endDate = LocalDate.parse(searchDto.getEndDate());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            teams = adminTeamRepository.findByTeamDateBetween(startDate, endDate, pageable);
+        }
+        return teams;
     }
 
     public List<TeamBankbookDetail> teamBankbookDetails(Long tno) {
@@ -57,6 +81,7 @@ public class AdminTeamService {
         }
     }
 
+    // 팀 통장 정보 가져오기
     public Map<String, Object> getTeamBankbook(Long tno) {
         Map<String, Object> resultMap = new HashMap<>();
         TeamBankbook teamBankbook = null;
@@ -77,7 +102,7 @@ public class AdminTeamService {
         return resultMap;
     }
 
-
+    // 인증글 역순 가져오기
     public Map<String, Object> getCheckBoard(Long tno) {
         Map<String, Object> resultMap = new HashMap<>();
         Optional<Team> teamOP = teamInterfaceRepository.findById(tno);
@@ -90,6 +115,21 @@ public class AdminTeamService {
             throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
         }
 
+
+    }
+
+    // 문의글 역순 가져오기
+    public Map<String, Object> getAskBoard(Long tno) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Optional<Team> teamOP = teamInterfaceRepository.findById(tno);
+        if(teamOP.isPresent()){
+            List<TeamAskBoard> teamAskBoards = teamAskBoardPageRepository.findByTeamOrderByTanoDesc(teamOP.get());
+            resultMap.put("teamAskBoards", teamAskBoards);
+            return resultMap;
+
+        }else{
+            throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
+        }
 
     }
 }

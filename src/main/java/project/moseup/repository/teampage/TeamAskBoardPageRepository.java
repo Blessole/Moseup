@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 
+import java.util.List;
+
 public interface TeamAskBoardPageRepository extends JpaRepository<TeamAskBoard, Long>{
 	
 	// 조회수 증가 로직
@@ -19,5 +21,5 @@ public interface TeamAskBoardPageRepository extends JpaRepository<TeamAskBoard, 
 	// 팀 번호로 조회(tno는 TeamAskBoard에 없다는 오류가 나서 Team team을 넣어서 해결)
 	Page<TeamAskBoard> findByTeam(Team team, Pageable pageable);
 
-
+    List<TeamAskBoard> findByTeamOrderByTanoDesc(Team team);
 }

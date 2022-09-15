@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.searchDto.TeamSearchDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.admin.AdminMemberService;
@@ -48,10 +49,11 @@ public class AdminTeamController {
     }
 
     @GetMapping("/teamList")
-    public String teamList(@RequestParam(required = false, defaultValue = "")String keyword, Model model,
-                           @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable){
+    public String teamList(@ModelAttribute TeamSearchDto searchDto,
+                           @PageableDefault(size = 15, sort = "tno", direction = Sort.Direction.DESC) Pageable pageable,
+                           Model model){
 
-        Page<Team> teams = adminTeamService.teams(keyword, pageable);
+        Page<Team> teams = adminTeamService.teams(searchDto, pageable);
 
         int startPage = Math.max(1, teams.getPageable().getPageNumber() - 5);
         int endPage = Math.min(teams.getTotalPages(), teams.getPageable().getPageNumber() + 5);
@@ -107,8 +109,10 @@ public class AdminTeamController {
     @GetMapping("/teamAskBoard")
     public String teamAskBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){
         TeamDetailDto team = adminTeamService.teamDetail(tno);
+        Map<String, Object> askBoardDesc = adminTeamService.getAskBoard(tno);
 
         model.addAttribute("team", team);
+        model.addAttribute("askBoardMap", askBoardDesc);
         model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 
