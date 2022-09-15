@@ -128,6 +128,7 @@ public class TeamPageController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("p", SecretStatus.PUBLIC);
+		model.addAttribute("t", DeleteStatus.TRUE);
 		model.addAttribute("teamAsks", teamAsks);
 
 		return "teams/teamAskBoard";

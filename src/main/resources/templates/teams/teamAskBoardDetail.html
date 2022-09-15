@@ -50,8 +50,8 @@
 			</table>
 			<div>
 				<a th:href="@{/teams/teamAskBoard(tno=${team.tno})}" class="btn btn-success">게시글 목록</a>
-				<a th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
-				<a th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>
+				<a th:if="${loginMember.nickname} == ${teamAskOne.member.nickname}" th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
+				<a th:if="${loginMember.nickname} == ${teamAskOne.member.nickname}" th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>
 				
 			</div>	
 			<div>

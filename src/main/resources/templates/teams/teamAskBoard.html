@@ -65,7 +65,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="teamaskboard : ${teamAsks}">											
+							<tr th:each="teamaskboard : ${teamAsks}">
+							<div th:if="${teamaskboard.teamAskDelete != t}">											
 								<th th:text="${teamaskboard.tano}"></th>							
 								<th th:if="${teamaskboard.secret != p}"><span class="glyphicon">&#xe033</span>
 									<a href="#" th:text="${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|"></a></th>							
@@ -73,7 +74,11 @@
 									th:text="${teamaskboard.teamAskSubject}"></a></th>																
 								<th th:id="writer+${teamaskboard.tano}" th:text="${teamaskboard.member.nickname}"></th>
 								<th th:text="${teamaskboard.teamAskDate}"></th>
-								<th th:text="${teamaskboard.teamAskReadCount}"></th>						
+								<th th:text="${teamaskboard.teamAskReadCount}"></th>	
+							</div>
+							<div th:if="${teamaskboard.teamAskDelete == t}">
+								<th colspan="5">삭제된 게시글입니다.</th>
+							</div>					
 							</tr>						
 						</tbody>
 					</table>
