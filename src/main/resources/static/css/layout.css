@@ -1,3 +1,8 @@
+:root{
+    --point-color : #5c75bb;
+    --point-light : #95abe6;
+}
+
 /* fab */
 .fab-container {
     position: fixed;
@@ -80,6 +85,7 @@
 	top: 0;
 	background: white;
 	z-index: 999999;
+    padding : 13px;
 }
 .nav-width{
 	margin: 0 auto;
@@ -91,6 +97,7 @@
     display: flex;
 }
 .nav-item a {
+    color: var(--point-color);
     margin-left: 15px;
 }
 
@@ -98,33 +105,91 @@
     color: #000000;
 }
 
-/* 네비바 검색창 인풋 및 이미지 감싸는 태그 */
+/* 검색창 by 솔 */
+.nav-search {
+    position: relative;
+    height: 50px;
+}
+
+.nav-search .input{
+    background-color: #FFFFFF;
+    border: 0;
+    font-size: 16px;
+    margin-left: 6px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.searchBtn {
+    background-color: #FFFFFF;
+    border: 0;
+    cursor: pointer;
+    font-size: 27px;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.searchBtn:focus, .input:focus {
+    outline: none;
+}
+
+.nav-search.active .input {
+    width: 200px;
+    position: relative;
+    top: 1px;
+}
+
+.nav-search.active {
+    border-bottom: 1px solid var(--point-color);
+}
+
+.nav-search.active .searchBtn{
+    color: var(--point-color);
+}
+
+i.bx.bx-search {
+    position: relative;
+    top: 8px;
+}
+
+.verticalLine{
+    color: var(--point-color);
+    padding: 0 0 0 20px;
+}
+
+.verticalLine2{
+    color: var(--point-color);
+    padding: 0 20px 0 20px;
+}
+
+/* 검색 화면 인풋 및 이미지 감싸는 태그 */
 .search {
-  position: relative;
+    position: relative;
 }
 
-/* 네비바 검색창 인풋 */
-#search {
-  width: 100%;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
+/*!* 네비바 검색창 인풋 *!*/
+/*#search {*/
+/*  width: 100%;*/
+/*  border: 1px solid #bbb;*/
+/*  border-radius: 8px;*/
+/*  padding: 10px 12px;*/
+/*  font-size: 14px;*/
+/*}*/
 
-/* 네비바 돋보기 이미지 */
-.searchImg{
-	position : absolute;
-	width: 25px;
-	top: 12px;
-	right: 12px;
-	margin: 0;
-	background-image: url('/images/search.png');
-    background-repeat : no-repeat;
-    background-size: 20px;
-    background-color: transparent;/* 돋보기 뒤에 배경 투명 */
-    border : 0;	
-}
+/*!* 네비바 돋보기 이미지 *!*/
+/*.searchImg{*/
+/*	position : absolute;*/
+/*    width: 25px;*/
+/*    height: 25px;*/
+/*    top: 9px;*/
+/*    right: 6px;*/
+/*    margin: 0;*/
+/*    background-image: url('/images/search.svg');*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: 25px;*/
+/*    background-color: transparent;*/
+/*    border: 0;*/
+/*}*/
 
 /* 네비바 인풋 텍스트 x표 없애기 */
 input::-webkit-search-decoration,
@@ -160,7 +225,9 @@ input::-webkit-search-results-decoration{
 	width: 80%
 }
 
-
+#footerLogo{
+    padding: 16px 0;
+}
 
 /* */
 .dropdown .show {

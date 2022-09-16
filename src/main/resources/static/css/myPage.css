@@ -461,6 +461,17 @@ input#askPhoto {
 
 .myTeamTable tr{
     height: 43px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.myTeamTable i {
+    font-size: 25px;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.myTeamTable i:hover{
+    color: var(--point-color);
 }
 
 .sort-btn-box {
@@ -718,6 +729,10 @@ input#askPhoto {
     background: #fff;
 }
 
+.card_bx {
+    text-align: left;
+}
+
 .card{
     display: inline-block;
     position: relative;
@@ -816,6 +831,7 @@ input#askPhoto {
     color: #777;
     line-height: 1.5em;
     text-align: left;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
 .image_container {
@@ -1000,4 +1016,9 @@ input#askPhoto {
     color: var(--point-color);
     font-weight: 500;
     text-decoration: underline;
+}
+
+/* 페이징 */
+.myTeam.page-num {
+    text-align: center;
 }

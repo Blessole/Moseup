@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <!-- favicon -->
+    <link rel="icon" href="/images/favicon.svg">
 <!-- header -->
 <th:block th:replace="/layouts/fragments/header :: header"></th:block>
 <!-- layout CSS -->
 <link href="/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/css/font.css" rel="stylesheet" type="text/css" />
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
-    <!-- layout script -->
-<script type="text/javascript" src="/js/layout.js"></script>
 </head>
 <body>
 <!-- navbar -->
@@ -18,6 +19,8 @@
 <!-- floatingActionButton -->
 <th:block th:replace="/layouts/fragments/floatingActionButton :: floatingActionButton"></th:block>
 </body>
+<!-- layout script -->
+<script type="text/javascript" src="/js/layout.js"></script>
 <!-- footer -->
 <th:block th:replace="/layouts/fragments/footer :: footer"></th:block>
 </html>

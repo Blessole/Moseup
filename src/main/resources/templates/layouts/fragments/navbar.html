@@ -1,11 +1,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link href="/css/layout.css" rel="stylesheet" type="text/css" />
 
-<nav class="p-3 mb-3 border-bottom" th:fragment="navbar" id="navbar">
+<nav class="mb-3 border-bottom" th:fragment="navbar" id="navbar">
 	<div class="nav-container">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start nav-width">
 			<!-- 로고 이미지 -->
 			<a href="#" th:href="@{/}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none nav-left">
-				<img class="bi me-2" width="45" height="35" alt="moseup" src="/images/logo.png">
+				<img class="bi me-2" width="130" alt="moseup" src="/images/MOSEUP_logo.svg">
 			</a>
 			
 			<!-- 메뉴 리스트 -->
@@ -17,14 +18,27 @@
 			</ul>
 
 			<!-- 검색 폼 -->
-			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return chk()">
-				<div class="search">
-					<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">
-					<input type="hidden" id="filter1" name="filter1" th:value="${filter1}">
-					<input type="search" class="form-control" id="search" placeholder="Search..." aria-label="Search" name="keyword">
-					<input type="submit" class="searchImg" name="submit" value="">
+			<form class="searchFrm" action="/search" role="search" method="get" id="frm" onsubmit="return navChk()">
+				<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">
+				<input type="hidden" id="filter1" name="filter1" th:value="${filter1}">
+				<div class="nav-search">
+					<input type="text" class="input" id="search" name="keyword" placeholder="취향대로 검색해보세요!">
+					<button class="searchBtn">
+						<i class='bx bx-search' ></i>
+					</button>
 				</div>
 			</form>
+			<span class="verticalLine" sec:authorize="isAnonymous()">|</span>
+			<span class="verticalLine2" sec:authorize="isAuthenticated()">|</span>
+
+<!--			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" id="frm">-->
+<!--				<div class="search">-->
+<!--					<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">-->
+<!--					<input type="hidden" id="filter1" name="filter1" th:value="${filter1}">-->
+<!--					<input type="search" class="form-control" id="search" placeholder="취향대로 검색해보세요!" aria-label="Search" name="keyword">-->
+<!--					<input type="submit" class="searchImg" name="submit" value="">-->
+<!--				</div>-->
+<!--			</form>-->
 			
 			<div class="dropdown text-end">
 				<!-- 비로그인(로그인/회원가입) -->

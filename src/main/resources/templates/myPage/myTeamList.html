@@ -33,7 +33,8 @@
           <td th:text="${list.startDate}"></td>
           <td th:text="${list.endDate}"></td>
           <td th:text="${list.teamDeposit}+'0,000원'"></td>
-          <td><a onclick="deleteChk(this)" th:id="${list.tno}"><img src="/images/delete.svg" width="25"></a></td>
+          <td><a onclick="deleteChk(this)" th:id="${list.tno}"><i class='bx bx-message-alt-x'></i></a></td>
+<!--        <img src="/images/delete.svg" width="25">-->
         </tr>
     </table>
 

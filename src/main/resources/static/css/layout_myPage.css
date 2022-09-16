@@ -87,3 +87,11 @@ a {
     font-weight: bold;
     font-size: 18px;
 }
+
+.nav-search .input {
+    top: 6px;
+}
+
+i.bx.bx-search {
+    top: 15px;
+}
