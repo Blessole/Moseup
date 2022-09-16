@@ -1,5 +1,7 @@
 package project.moseup.service.teampage;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,5 +43,10 @@ public class CheckBoardService {
 	@Transactional
 	public int increaseReadCount(Long cno) {
 		return checkBoardPageRepository.updateReadCount(cno);
+	}
+	
+	// 팀 별 인증글 찾기
+	public List<CheckBoard> findByTeam(Team team) {
+		return checkBoardRepository.findByTeam(team);
 	}
 }

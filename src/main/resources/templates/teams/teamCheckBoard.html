@@ -39,7 +39,7 @@
 			<!-- features -->
 			<section id="features">
 				<div class="container">
-					<h2 class="text-primary" align="center">인증글 목록</h2>
+<!-- 					<h2 class="text-primary" align="center">인증글 목록</h2>
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -60,7 +60,40 @@
 								<th th:text="${checkBoards.checkReadCount}"></th>
 							</tr>
 						</tbody>
-					</table>					
+					</table> -->					 
+					<div class="card" th:each="checkBoards : ${checkBoards}">
+						<div class="top">
+							<div class="userDetails">
+								<div class="profile_img">
+									<img src="/images/logo.png" class="cover">
+								</div>
+								<div class="checkInfo">
+									<h3 th:text="${team.teamName}"></h3>
+									<h5 th:text="${checkBoards.member.nickname}"></h5>
+									<h3 th:text="${#temporals.format(checkBoards.checkDate, 'yyyy-MM-dd hh:mm')}" class="span"></h3>
+								</div>
+							</div>
+							<div>
+								<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"><img src="/images/go.png" class="dot"></a>
+							</div>
+						</div>
+						<span>
+							<div class="imgBx">
+								<img th:src="'images/check/'+${checkBoards.member.nickname}+'/'+${studyTopList.teamPhoto}" class="cover">
+						</div>
+						</span>
+						<div class="actionBtns">
+							<div class="left">
+								<img src="/images/heart_red.png" class="heart">
+								<h4 class="likes"></h4>
+							</div>
+							<div class="right">
+								<span th:text="'조회수 : '+${checkBoards.checkReadCount}"></span>
+							</div>
+						</div>
+						<h4 class="message" th:text="${checkBoards.checkContent}"></h4>
+					</div>
+
 					
 					<div th:if="${checkBoards.totalElements != 0}">
 					<nav aria-label="Page navigation example">

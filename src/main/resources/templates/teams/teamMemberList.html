@@ -44,13 +44,15 @@
 							<tr>
 								<th>회원사진</th>
 								<th>회원이름</th>
-								<th>직책</th>								
+								<th>인증횟수</th>
+								<th>직책</th>						
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="teamMember : ${team.teamMember}">
 								<th><img th:src="'images/'+${teamMember.member.email}+'/'+${teamMember.member.photo}" th:alt="프로필사진"></th>							
 								<th th:text="${teamMember.member.nickname}"></th>
+								<th></th>
 								<th th:if="${team.teamLeader} == ${teamMember.member.nickname}" th:text="스터디장"></th>
 								<th th:if="${team.teamLeader} != ${teamMember.member.nickname}" th:text="일반회원"></th>
 							</tr>

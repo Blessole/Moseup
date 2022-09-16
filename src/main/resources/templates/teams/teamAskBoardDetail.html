@@ -68,7 +68,7 @@
 							<th th:text="${replys.member.nickname}"></th>
 							<th th:text="${replys.teamAskReplyContent}"></th>
 							<th th:text="${#temporals.format(replys.teamAskReplyDate,'yyyy-MM-dd HH:mm')}"></th>
-							<th th:if="${loginMember.nickname} == ${replys.member.nickname}"><a class="btn btn-primary">수정</a><a class="btn btn-primary">삭제</a></th>												
+							<th th:if="${loginMember.nickname} == ${replys.member.nickname}"><a href="#">수정</a>&nbsp;&nbsp;<a href="#">삭제</a></th>												
 							<th th:if="${loginMember.nickname} != ${replys.member.nickname}"></th>
 						</tr>
 					</tbody>

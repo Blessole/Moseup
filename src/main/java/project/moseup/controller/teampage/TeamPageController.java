@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -100,10 +101,11 @@ public class TeamPageController {
 	@GetMapping("/teamMemberList")
 	public String teamMemberList(@RequestParam Long tno, Model model) {
 		
+		// 팀 정보
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
-		teamDetail.getTeamMember();
+		// 인증 횟수 정보
 		
 		model.addAttribute("team", teamDetail);
 		
@@ -256,6 +258,8 @@ public class TeamPageController {
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
+		
+		List<CheckBoard> checkBoardList = checkBoardService.findByTeam(team);
 		
 		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
