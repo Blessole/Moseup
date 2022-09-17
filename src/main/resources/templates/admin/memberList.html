@@ -49,7 +49,7 @@
           </tr>
           <tr th:each="member : ${members}">
             <th th:text="${member.mno}">번호</th>
-            <td th:text="${member.role}">권한</td>
+            <td th:text="${member.role}" th:classappend="${member.role.toString == 'ADMIN'} ? 'adminColor'">권한</td>
             <td th:text="${member.name}">이름</td>
             <td th:text="${member.email}">이메일</a></td>
             <td th:text="${member.nickname}">닉네임</td>
