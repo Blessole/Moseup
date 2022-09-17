@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
+import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
@@ -27,6 +28,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,7 +50,7 @@ public class TeamPageController {
 	@ModelAttribute
 	public void loginMember(Principal principal, Model model){
 		if(principal == null){
-//            throw new NoLoginException();
+//				throw new NoLoginException();
 		}else{
 			Member member = memberService.getPrincipal(principal);
 			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
@@ -57,19 +60,38 @@ public class TeamPageController {
 	}
 
 	// 파일 업로드 경로
-    @Value("${moseup.upload.path}") //application.properties의 변수
+    @Value("${moseup.upload.path}/check") //application.properties의 변수
     private String uploadPath;
 
 	// 팀 페이지 메인
 	@GetMapping("/teamPage")
-	public String teamMainPage(@RequestParam Long tno, Model model) {
-
+	public String teamMainPage(@RequestParam Long tno, Model model, Principal principal) {
 
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
-		
+		Member member = this.memberService.getMember(principal.getName());
+
+		// 팀 회원 정보 가져오기
+		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+
+		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
+		if(!teamMember.isEmpty()) {
+			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
+			TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
+			model.addAttribute("teamMemberDetail", teamMemberDetail);
+		} else if(teamMember.isEmpty()) {
+			TeamMemberDto teamFakeMember = new TeamMemberDto();
+			teamFakeMember.setMember(member);
+			teamFakeMember.setTeam(team);
+			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
+			model.addAttribute("teamMemberDetail", teamFakeMember);
+		}
+
+		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
-		
+		model.addAttribute("member", member);
+		model.addAttribute("t", DeleteStatus.TRUE);
+
 		return "teams/teamMain";
 	}
 	
@@ -80,7 +102,9 @@ public class TeamPageController {
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamCreateService.findOne(tno);
 		
-		TeamMemberDto teamMemberDto = new TeamMemberDto();		
+		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
+
+		TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
 		teamMemberDto.setTeam(team);
 
@@ -93,19 +117,24 @@ public class TeamPageController {
 	@GetMapping("/teamMemberList")
 	public String teamMemberList(@RequestParam Long tno, Model model) {
 		
+		// 팀 정보
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
-		teamDetail.getTeamMember();
+		// 인증 횟수 정보
+		List<CheckBoardDetailDto> checkBoard = checkBoardService.findByTeam(team);
 		
 		model.addAttribute("team", teamDetail);
-		
+		model.addAttribute("checkBoard", checkBoard);
+
 		return "teams/teamMemberList";
 	}
 
 	// 팀 페이지 문의게시판(페이징)
 	@GetMapping("/teamAskBoard")
-	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable) {
+	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable, Principal principal) {
+
+		Member member = this.memberService.getMember(principal.getName());
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
@@ -114,10 +143,12 @@ public class TeamPageController {
 		int startPage = Math.max(1, teamAsks.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(teamAsks.getTotalPages(), teamAsks.getPageable().getPageNumber() + 5);
 		
-		
+		model.addAttribute("member", member);
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
+		model.addAttribute("p", SecretStatus.PUBLIC);
+		model.addAttribute("t", DeleteStatus.TRUE);
 		model.addAttribute("teamAsks", teamAsks);
 
 		return "teams/teamAskBoard";
@@ -164,12 +195,7 @@ public class TeamPageController {
 		// 상세 보기 부분
 		TeamAskBoard teamAskOne = teamAskBoardService.findOne(tano);
 		TeamAskBoardDetailDto teamAskOneDetail = new TeamAskBoardDetailDto().toDto(teamAskOne);
-
-		SecretStatus o = teamAskOneDetail.getSecret();
-		if (o == SecretStatus.SECRET){
-		}
-		System.out.println("비밀글이다!2");
-
+		
 		Team team = teamCreateService.findOne(tno);
 		
 		// 조회수 올리는 부분
@@ -178,7 +204,8 @@ public class TeamPageController {
 		// 댓글 부분
 		Member loginMember = this.memberService.getMember(principal.getName());		
 			
-		model.addAttribute("team", team);  
+		model.addAttribute("team", team);
+		model.addAttribute("p", SecretStatus.PUBLIC);
 		model.addAttribute("teamAskOne", teamAskOneDetail);
 		model.addAttribute("loginMember", loginMember);	
 		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());
@@ -203,7 +230,11 @@ public class TeamPageController {
 		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano + "&tno=" + tno;
 	}
 	
-	
+	// 댓글 수정
+
+	// 댓글 삭제
+
+
 	// 문의글 수정 폼
 	@GetMapping("/teamAskBoard/updateForm")
 	public String teamAskBoardUpdateForm(@RequestParam Long tano, Model model, @RequestParam Long tno) {
@@ -246,7 +277,7 @@ public class TeamPageController {
 
 	// 팀 페이지 인증 게시판(페이징)
 	@GetMapping("/teamCheckBoard")
-	public String teamCheckBoardPage(Model model, @PageableDefault(size = 10, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
+	public String teamCheckBoardPage(Model model, @PageableDefault(size = 6, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
@@ -255,6 +286,7 @@ public class TeamPageController {
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
 		
+		model.addAttribute("photoList", checkBoardService.findByTeam(team));
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
@@ -299,7 +331,7 @@ public class TeamPageController {
 			 String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 			 
 			 // 이미지 저장할 폴더 생성
-			 String folderPath = teamCheck.getMember().getNickname();
+			 String folderPath = teamCheck.getMember().getEmail();
 			 File uploadPathFolder = new File(uploadPath, folderPath);
 			 
 			 if(uploadPathFolder.exists() == false) {
@@ -348,9 +380,5 @@ public class TeamPageController {
 		
 		return "teams/teamCheckBoardDetail";
 	}
-	
-	// 인증 게시판 수정
-	
-	// 인증 게시판 삭제
 
 }

@@ -1,16 +1,15 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -63,6 +62,11 @@ public class CheckBoard {
     	this.checkPhoto = checkPhoto;
     	this.checkLike = checkLike;
     	this.checkReadCount = checkReadCount;
+    }
+
+    public String getPhotoViewPath(){
+        int index = this.checkPhoto.indexOf("images");
+        return this.checkPhoto.substring(index - 1);
     }
 
 }

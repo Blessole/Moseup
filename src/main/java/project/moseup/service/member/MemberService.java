@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
+import project.moseup.domain.Team;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.repository.member.MemberInterfaceRepository;

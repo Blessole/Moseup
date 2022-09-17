@@ -35,7 +35,7 @@ public class TeamCreateController {
 	@ModelAttribute
 	public void loginMember(Principal principal, Model model){
 		if(principal == null){
-//            throw new NoLoginException();
+//				throw new NoLoginException();
 		}else{
 			Member member = memberService.getPrincipal(principal);
 			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
@@ -65,7 +65,6 @@ public class TeamCreateController {
 		
 		teamCreateReqDto.setMember(member);
 		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
-
 		
 		Long newTeam = teamCreateService.create(teamCreateReqDto, file);	//팀 생성
 		

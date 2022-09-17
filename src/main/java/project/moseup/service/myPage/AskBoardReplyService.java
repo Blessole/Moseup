@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.DeleteStatus;
+import project.moseup.dto.AdminAskReplyDeleteAndRecoverDto;
 import project.moseup.dto.AskBoardReplyRespDto;
 import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.repository.admin.AdminAskBoardReplyRepository;
@@ -72,6 +73,31 @@ public class AskBoardReplyService {
             return new AskBoardReplyRespDto().toDto(askBoardReplyPS);
         }else{
             throw new IllegalStateException("찾는 댓글이 없습니다");
+        }
+
+    }
+
+    // 댓글 삭제 & 복구
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void replyDeleteAndRecover(AdminAskReplyDeleteAndRecoverDto dto) {
+        AskBoardReply askBoardReplyPS = null;
+        Optional<AskBoardReply> askBoardReplyOP = adminAskBoardReplyRepository.findById(dto.getArno());
+
+        if(askBoardReplyOP.isPresent()){
+            askBoardReplyPS = askBoardReplyOP.get();
+
+            switch (dto.getChoice()){
+                case "delete" :
+                    askBoardReplyPS.replyDelete();
+                    break;
+                case "recover" :
+                    askBoardReplyPS.replyRecover();
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            throw new NullPointerException("삭제 댓글 데이터가 없습니다 id = " + dto.getArno());
         }
 
     }

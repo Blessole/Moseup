@@ -33,21 +33,21 @@ public class MainService {
 		return topList;
 	}
 	
-	//카테고리1 공부 인기순
+	//카테고리1 공부 최신순
 	public List<Team> studyTopList() {
 		return mainInterfaceRepository.studyTopList();
 	}
-	//카테고리1 운동 인기순
+	//카테고리1 운동 최신순
 	public List<Team> exerciseTopList() {
 		List<Team> exerciseTopList = mainInterfaceRepository.exerciseTopList();
 	return exerciseTopList;
 	}
-	//카테고리1 습관 인기순
+	//카테고리1 습관 최신순
 	public List<Team> habitTopList() {
 		List<Team> habitTopList = mainInterfaceRepository.habitTopList();
 	return habitTopList;
 	}
-	//카테고리1 기타 인기순
+	//카테고리1 기타 최신순
 	public List<Team> etcTopList() {
 		List<Team> etcTopList = mainInterfaceRepository.etcTopList();
 	return etcTopList;

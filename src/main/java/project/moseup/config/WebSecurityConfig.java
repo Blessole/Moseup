@@ -60,6 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true);   //세션 날리기
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/error");
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true) // 중복 세션 체크 true = 새로운 사용자 인증실패 false = 이전 사용자 세션만료
+                .expiredUrl("/members/login"); //세션 만료되었을 경우 리다이렉트 할 페이지
     }
 
     @Bean

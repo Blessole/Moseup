@@ -38,7 +38,22 @@ btn.addEventListener("click", () => {
 	input.focus();
 });
 
+/* fab이미지 마우스 이벤트 */
+$(function() {
+	let fab = $('.fab');
+	let teamImg = $('.teamImg');
+	let createImg = $('.createImg');
 
+	fab.mouseover(function(){
+		teamImg.addClass('displayNone');
+		createImg.removeClass('displayNone');
+	});
+
+	fab.mouseout(function(){
+		teamImg.removeClass('displayNone');
+		createImg.addClass('displayNone');
+	});
+});
 
 
 

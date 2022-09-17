@@ -17,7 +17,16 @@
           <input type="text" placeholder="Search..." aria-label="검색" name="keyword" id="keyword" th:value="${param.keyword}">
         </form>
         <i class='bx bx-search' ></i>
+        <div class="search-date-box">
+          <form action="#" th:action="@{/admin/teamList}" method="GET">
+            <input type="date" id="startDate" name="startDate" th:value="${param.startDate}">
+            <input type="date" id="endDate" name="endDate" th:value="${param.endDate}">
+            <input type="submit" value="검색">
+          </form>
+        </div>
       </div>
+
+
         <table class="table caption table-hover">
             <caption>총 스터디 수 : <span th:text="${teams.totalElements}">스터디 수</span></caption>
             <thead>
@@ -40,7 +49,7 @@
                 <td th:text="${team.member.nickname}">팀장</td>
                 <td th:text="${team.teamDeposit}">예치금</td>
                 <td th:text="${team.teamName}">스터디명</td>    
-                <td th:text="${team.teamVolume}">모집인원</td>
+                <td th:text="|${team.teamVolume} / ${team.teamMembers.size}|">모집인원</td>
                 <td th:text="${team.teamDate}">생성날짜</td>
                 <td><a th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${teams.pageable.pageNumber})}">보기</a></td>    
               </tr>

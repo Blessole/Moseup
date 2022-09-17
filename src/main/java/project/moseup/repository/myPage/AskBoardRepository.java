@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.Member;
-import project.moseup.dto.AskBoardSaveReqDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -33,4 +32,5 @@ public class AskBoardRepository {
             em.persist(askBoard);
         }
     }
+
 }

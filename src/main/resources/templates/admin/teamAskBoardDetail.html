@@ -1,0 +1,134 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('팀문의게시판')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('팀 문의게시판')"> </section>
+
+
+    <div class="main-section">
+        <div class="main-info-content">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>문의번호</label>
+                    <span th:text="${teamAskBoardMap.teamAskBoard.tano}">문의번호</span>
+                </div>
+                <div class="info-data">
+                    <label>작성자</label>
+                    <span th:text="${teamAskBoardMap.teamAskBoard.member.nickname}">작성자</span>
+                </div>
+                <div class="info-data">
+                    <label>이메일</label>
+                    <span th:text="${teamAskBoardMap.teamAskBoard.member.email}">이메일</span>
+                </div>
+                <div class="info-data">
+                    <label>회원번호</label>
+                    <span th:text="${teamAskBoardMap.teamAskBoard.member.mno}">회원번호</span>
+                </div>
+                <div class="info-data">
+                    <label>전화번호</label>
+                    <span th:text="${teamAskBoardMap.teamAskBoard.member.phone}">번호</span>
+                </div>
+            </div>
+            <div class="btn-over">
+                <a th:href="@{/admin/memberDetail(mno=${teamAskBoardMap.teamAskBoard.member.mno})}" class="btn btn-outline-danger">회원정보</a>
+                <a th:href="@{/admin/teamAskBoard?tno=} + ${teamAskBoardMap.teamAskBoard.team.tno}" class="btn btn-outline-success">목록</a>
+            </div>
+        </div> <!-- 메인 인포 콘텐츠 end-->
+
+        <div class="freeBoardMain">
+
+            <div class="freeBoard">
+                <h4 class="mb-3">조회수&nbsp;<span th:text="${teamAskBoardMap.teamAskBoard.teamAskReadCount}"></span></h4>
+                <div class="row">
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="ano" class="form-label">번호</label>
+                        <input type="text" readonly class="form-control" id="tano" value="" th:value="${teamAskBoardMap.teamAskBoard.tano}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askDate" class="form-label">작성일</label>
+                        <input type="text" readonly class="form-control" id="askDate" value=""
+                            th:value="${#temporals.format(teamAskBoardMap.teamAskBoard.teamAskDate, 'yyyy-MM-dd')}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="askSubject" class="form-label">제목</label>
+                        <input type="text" readonly class="form-control" id="askSubject" value=""
+                            th:value="${teamAskBoardMap.teamAskBoard.teamAskSubject}">
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <label for="member" class="form-label">작성자</label>
+                        <input type="text" readonly class="form-control" id="member" value=""
+                            th:value="${teamAskBoardMap.teamAskBoard.member.nickname}">
+                    </div>
+
+                    <div class="col-sm-12 mb-3">
+                        <label for="askContent" class="form-label">내용</label>
+                        <pre><textarea readonly class="form-control" id="askContent" rows="20" value=""
+                            th:text="${teamAskBoardMap.teamAskBoard.teamAskContent}"></textarea></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="freeBoard">
+                <h4 class="mb-3">댓글&nbsp;<span th:text="${teamAskBoardMap.replies.size}"></span></h4>
+
+                <form action="#" th:action="@{/admin/teamAskBoardDetail}" method="POST">
+                    <input type="hidden" th:value="${memberMap.member.mno}" name="mno">
+                    <input type="hidden" th:value="${teamAskBoardMap.teamAskBoard.tano}" name="tano">
+                    <input type="text" class="form-control mb-3" name="reply" placeholder="댓글 입력" >
+                </form>
+
+                <div class="Replies-Row">
+                    <div class="Replies-data" th:each="teamAskBoardReplies : ${teamAskBoardMap.replies}">
+                        <div class="replyTitle">
+                            <img th:src="${teamAskBoardReplies.member.getPhotoViewPath}" class="replyImg">
+                            <label>
+                                <a th:text="${teamAskBoardReplies.member.nickname}" th:href="@{/admin/memberDetail(mno=${teamAskBoardReplies.member.mno})}">댓글작성자</a>
+                            </label>
+                        </div>
+                        <span th:if="${teamAskBoardReplies.teamAskReplyDelete} != ${teamAskBoardMap.deleteTrue}" th:text="${teamAskBoardReplies.teamAskReplyContent}">댓글내용</span>
+                        <span th:if="${teamAskBoardReplies.teamAskReplyDelete} == ${teamAskBoardMap.deleteTrue}" class="delete">[관리자에 의해 삭제된 댓글입니다]</span>
+                        <span th:text="${#temporals.format(teamAskBoardReplies.teamAskReplyDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+                        <span th:if="${teamAskBoardReplies.teamAskReplyDelete} != ${teamAskBoardMap.deleteTrue}">
+                            <a th:href="@{/admin/deleteTeamReplyRecover(tarno=${teamAskBoardReplies.tarno}, tano=${teamAskBoardReplies.teamAskBoard.tano}, choice='delete')}">삭제</a>
+                            <span class="frno" th:text="ID + ${teamAskBoardReplies.tarno}" style="font-size: 12px;"></span>
+                        </span>
+                        <span th:if="${teamAskBoardReplies.teamAskReplyDelete} == ${teamAskBoardMap.deleteTrue}">
+                            <a th:href="@{/admin/deleteTeamReplyRecover(tarno=${teamAskBoardReplies.tarno}, tano=${teamAskBoardReplies.teamAskBoard.tano}, choice='recover')}">복구</a>
+                            <span class="frno" th:text="ID + ${teamAskBoardReplies.tarno}" style="font-size: 12px;"></span>
+                        </span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- 게시판 댓글 끝 -->
+
+
+
+        </div>
+
+
+
+
+
+
+    </div> <!-- 메인 세션  end-->
+
+
+
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

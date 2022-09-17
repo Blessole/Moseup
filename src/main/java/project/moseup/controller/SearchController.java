@@ -1,6 +1,11 @@
 package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import java.security.Principal;
+import java.time.LocalDate;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -10,14 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.service.SearchService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
-
-import java.security.Principal;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class SearchController {
 	@ModelAttribute
 	public void loginMember(Principal principal, Model model){
 		if(principal == null){
-//            throw new NoLoginException();
+//				throw new NoLoginException();
 		}else{
 			Member member = memberService.getPrincipal(principal);
 			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
@@ -55,6 +58,8 @@ public class SearchController {
 		int startPage = Math.max(1, searchedTeamList.getPageable().getPageNumber() - 5);
 		int endPage = Math.min(searchedTeamList.getTotalPages(), searchedTeamList.getPageable().getPageNumber() + 5);
 
+		LocalDate today = LocalDate.now();
+		model.addAttribute("today", today);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("searchedTeamList", searchedTeamList);
@@ -64,5 +69,4 @@ public class SearchController {
 
 		return "search/searchPage";
 	}
-
 }

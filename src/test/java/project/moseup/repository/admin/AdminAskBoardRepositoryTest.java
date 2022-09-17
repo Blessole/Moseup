@@ -27,7 +27,7 @@ public class AdminAskBoardRepositoryTest {
 
     @Test
     public void 문의글생성(){
-        Member member = adminMemberRepository.findById(45L).orElse(null);
+        Member member = adminMemberRepository.findById(1L).orElse(null);
         AskBoardSaveReqDto saveReqDto = AskBoardSaveReqDto.askBoardSave()
                 .member(member)
                 .askContent("테스트")
@@ -41,14 +41,14 @@ public class AdminAskBoardRepositoryTest {
 
     @Test
     public void 댓글작성(){
-        Member member = adminMemberRepository.findById(45L).orElse(null);
+        Member member = adminMemberRepository.findById(2L).orElse(null);
 
-        AskBoard askBoard = adminAskBoardRepository.findById(52L).orElse(null);
+        AskBoard askBoard = adminAskBoardRepository.findById(1L).orElse(null);
 
         AskBoardReply askBoardReply = AskBoardReply.builder()
                 .askBoard(askBoard)
                 .member(member)
-                .askReplyContent("안녕하세요 통장테스트맨님")
+                .askReplyContent("안녕하세요")
                 .askReplyDate(LocalDateTime.now())
                 .askReplyDelete(DeleteStatus.FALSE)
                 .build();
