@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.CheckBoard;
+import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 
 @Repository

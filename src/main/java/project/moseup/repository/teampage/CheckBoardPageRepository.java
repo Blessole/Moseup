@@ -23,6 +23,6 @@ public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long
 	@Query("update CheckBoard c set c.checkReadCount = c.checkReadCount + 1 where c.cno = :cno") 
 	int updateReadCount(@Param("cno") Long cno);
 	
-	 List<CheckBoard> findByTeam(Team team);
+	List<CheckBoard> findByTeam(Team team);
 	
 }

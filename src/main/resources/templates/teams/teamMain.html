@@ -43,7 +43,7 @@
 				<div>
 					<div>
 						<section>
-							<img th:src="'/'+'images/teamPhotos/'+${team.teamName}+'/'+${team.teamPhoto}" th:alt="팀사진" />
+							<img th:src="'/'+'images/teamPhotos/'+${team.teamName}+'/'+${team.teamPhoto}" th:alt="팀사진" style="margin-bottom: 30px;"/>
 							<div id="team_name">🚩팀명 :&nbsp;<p th:text="${team.teamName}"></p></div>
 							<div id="team_date">⏰팀 생성일 :&nbsp;<p th:text="${team.teamDate}"></p></div>
 							<div id="team_volume">‍👨‍👩‍👧‍👧가입 인원 :&nbsp;<p th:text="${team.teamMembers.size}"></p>/<p th:text="${team.teamVolume}"></p></div>

@@ -106,8 +106,10 @@ public class TeamPageController {
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
 		// 인증 횟수 정보
+		List<CheckBoardDetailDto> checkBoard = checkBoardService.findByTeam(team);
 		
 		model.addAttribute("team", teamDetail);
+		model.addAttribute("checkBoard", checkBoard);
 		
 		return "teams/teamMemberList";
 	}
@@ -186,7 +188,8 @@ public class TeamPageController {
 		// 댓글 부분
 		Member loginMember = this.memberService.getMember(principal.getName());		
 			
-		model.addAttribute("team", team);  
+		model.addAttribute("team", team);
+		model.addAttribute("p", SecretStatus.PUBLIC);
 		model.addAttribute("teamAskOne", teamAskOneDetail);
 		model.addAttribute("loginMember", loginMember);	
 		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());
@@ -210,6 +213,10 @@ public class TeamPageController {
 		
 		return "redirect:/teams/teamAskBoard/teamAskBoardDetail?tano=" + tano + "&tno=" + tno;
 	}
+	
+	// 댓글 수정
+	
+	// 댓글 삭제
 	
 	
 	// 문의글 수정 폼
@@ -254,7 +261,7 @@ public class TeamPageController {
 
 	// 팀 페이지 인증 게시판(페이징)
 	@GetMapping("/teamCheckBoard")
-	public String teamCheckBoardPage(Model model, @PageableDefault(size = 10, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
+	public String teamCheckBoardPage(Model model, @PageableDefault(size = 6, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
@@ -308,7 +315,7 @@ public class TeamPageController {
 			 String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 			 
 			 // 이미지 저장할 폴더 생성
-			 String folderPath = teamCheck.getMember().getNickname();
+			 String folderPath = teamCheck.getMember().getEmail();
 			 File uploadPathFolder = new File(uploadPath, folderPath);
 			 
 			 if(uploadPathFolder.exists() == false) {
@@ -357,9 +364,5 @@ public class TeamPageController {
 		
 		return "teams/teamCheckBoardDetail";
 	}
-	
-	// 인증 게시판 수정
-	
-	// 인증 게시판 삭제
 
 }
