@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/teamDetail :: teamInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/teamDetail :: teamInfoNav('teamInMember')"></div>
+        <!-- 탭 -->
+        <div class="title-section">
+            <span th:text="|가입된 멤버 수 ${team.teamVolume} / ${team.teamMembers.size}|">가입된 멤버 수</span>
+        </div>
+        <div class="main-content likes">
+            <div class="card" style="width: 18rem;" th:each="teamMembers : ${team.teamMembers}" th:if="${team.teamMembers.size} != 0">
+                <img src="..." class="card-img-top" alt="..." th:src="${teamMembers.member.getPhotoViewPath}">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${teamMembers.member.nickname}" style="font-size: 18px; color:black;">회원닉네임</li>
+                        <a class="list-group-item" th:href="@{/admin/memberDetail(mno=${teamMembers.member.mno})}">
+                            <span>상세보기</span>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- 콘텐츠 영역 end-->
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

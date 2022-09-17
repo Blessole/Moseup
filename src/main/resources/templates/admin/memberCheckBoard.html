@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('memberList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('회원정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/memberDetail :: memberInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/memberDetail :: memberInfoNav('checkBoard')"></div>
+        <!-- 탭 -->
+        
+        <div class="title-section">
+            <span>인증글 목록</span>&nbsp;<span th:text="${checkBoards.size}">인증글 수</span>
+        </div>
+        <div class="main-content checkBoard">
+            <div class="card" style="width: 18rem;" th:each="checkBoard : ${checkBoards}" th:if="${checkBoards.size} != 0">
+                <img src="..." class="card-img-top" alt="teamImg" th:src="${checkBoard.getPhotoViewPath}">
+                <div class="card-body">
+                  <div class="checkContent">
+                      <h6 class="card-subtitle mb-2 text-muted" th:text="${checkBoard.checkContent}">인증글내용</h6>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <a class="list-group-item" th:href="@{/admin/teamDetail(tno=${checkBoard.team.tno})}">
+                        <li th:text="${checkBoard.team.teamName}">팀명</li>
+                    </a>
+                    <li class="list-group-item" th:text="${#temporals.format(checkBoard.checkDate, 'yyyy-MM-dd HH:mm:ss')}">인증 날짜</li>
+                  </ul>
+                </div>
+            </div>
+        </div> <!-- 콘텐츠 영역 end-->
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

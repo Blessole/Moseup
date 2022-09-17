@@ -1,20 +1,18 @@
 package project.moseup.domain;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.util.Assert;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.util.Assert;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 //생성자를 따로 안 만들면 자동으로 기본 생성자가 생성됨 하지만 다른 생성자가 있으면 기본 생성자를 만들어 줘야 함
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -79,6 +77,9 @@ public class Team {
 	private DeleteStatus teamDelete; //팀 삭제여부
 	
 	// 연관관계 맵핑
+	@OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
+	private TeamBankbook teamBankbook;
+
 	@OneToMany(mappedBy = "team")
 	private List<Likes> likes = new ArrayList<>(); // 스터디 좋아요
 
@@ -90,6 +91,7 @@ public class Team {
 	
 	@OneToMany(mappedBy = "team")
 	private List<TeamAskBoard> teamAskBoards = new ArrayList<>();
+
 
 	@Builder(builderClassName = "createTeamBuilder", builderMethodName = "createTeamBuilder") //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
 	public Team(Member member, String teamName, int teamVolume, int teamJoiner, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete, String teamLeader) {
@@ -124,6 +126,11 @@ public class Team {
 	public Team(DeleteStatus teamDelete) {
 		
 		this.teamDelete = teamDelete;
+	}
+
+	public String getPhotoViewPath(){
+		int index = this.teamPhoto.indexOf("images");
+		return this.teamPhoto.substring(index - 1);
 	}
 	
 	//정보 수정

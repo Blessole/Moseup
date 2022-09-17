@@ -1,14 +1,13 @@
 package project.moseup.domain;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -47,6 +46,13 @@ public class TeamAskBoardReply {
     	this.teamAskReplyDate = teamAskReplyDate;
     	this.teamAskReplyDelete= teamAskReplyDelete;
     }
-    
+
+    public void replyDelete(){
+        this.teamAskReplyDelete = DeleteStatus.TRUE;
+    }
+
+    public void replyRecover(){
+        this.teamAskReplyDelete = DeleteStatus.FALSE;
+    }
 
 }

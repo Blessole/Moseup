@@ -1,87 +1,149 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layouts/fragments/adminCommonTest2 :: head('스터디정보')"></head>
 
 <body>
-      <!-- 사이드 바 -->
-      <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
 
-      <!-- 헤더  -->
-      <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
 
     <div class="main-section">
-    <div class="main-content">
-         <!-- 기본 회원 정보 start -->
-         <div id="memberinfo">
-            <img class="mb-3 img-thumbnail" style="width: 200px; height: 200px; object-fit: contain;">
-            <div class="memberinfo_start">
-                <div class="memberinfo_Row">
-                    <div class="infoData">
-                        <label for="mno" class="form-label">스터디번호</label>
-                        <p th:text="${team.tno}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="email" class="form-label">스터디명</label>
-                        <p th:text="${team.teamName}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="gender" class="form-label">모집인원</label>
-                        <p th:text="${team.teamVolume}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="gender" class="form-label">예치금</label>
-                        <p th:text="${team.teamDeposit}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="name" class="form-label">카테고리[대]</label>
-                        <p th:text="${team.teamCategory1}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="name" class="form-label">카테고리[중]</label>
-                        <p th:text="${team.teamCategory2}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="name" class="form-label">카테고리[소]</label>
-                        <p th:text="${team.teamCategory3}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="gender" class="form-label">개설날짜</label>
-                        <p th:text="${team.teamDate}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">시작날짜</label>
-                        <p th:text="${team.startDate}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">끝날짜</label>
-                        <p th:text="${team.endDate}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">소개글</label>
-                        <p th:text="${team.teamIntroduce}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">소개사진</label>
-                        <p th:text="${team.teamPhoto}"></p>
-                    </div>
-                    <div class="infoData">
-                        <label for="address" class="form-label">삭제여부</label>
-                        <p th:text="${team.teamDelete}"></p>
+        <div class="main-info-content" th:fragment="teamInfo">
+            <div class="info-Row">
+                <div class="info-data">
+                    <label>팀번호</label>
+                    <span th:text="${team.tno}">팀번호</span>
+                </div>
+
+                <div class="info-data">
+                    <label>팀장번호</label>
+                    <span th:text="${team.member.mno}">팀장번호</span>
+                </div>
+                <div class="info-data">
+                    <label>팀장이메일</label>
+                    <span th:text="${team.member.email}">팀장이메일</span>
+                </div>
+                <div class="info-data">
+                    <label>팀장닉네임</label>
+                    <span th:text="${team.member.nickname}">팀장닉네임</span>
+                </div>
+                <div class="info-data">
+                    <label>팀장이름</label>
+                    <span th:text="${team.member.name}">팀장이름</span>
+                </div>
+            </div>
+            <div class="btn-over">
+                <a th:href="@{/admin/memberDetail(mno=${team.member.mno})}" class="btn btn-primary">회원정보</a>
+                <a th:href="@{/admin/teamList?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
+                <a th:href="@{/admin/teamDelete(tno=${team.tno})}" class="btn btn-outline-danger"
+                    th:if="${team.teamDelete} == ${deleteFalse}">삭제</a>
+                <a th:href="@{/admin/teamRecover(tno=${team.tno})}" class="btn btn-outline-info"
+                    th:if="${team.teamDelete} != ${deleteFalse}">복구</a>
+            </div>
+        </div>
+        <div class="main-info-nav" th:fragment="teamInfoNav(teamInfoNav)">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamDetail(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == null? 'active'">기본</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamBankbook(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == 'bankbook'? 'active'">통장</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamCheckBoard(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == 'checkBoard'? 'active'">인증글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamAskBoard(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == 'askBoard'? 'active'">문의글</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/admin/teamInMember(tno=${team.tno}, pageNum=${pageNum})}"
+                        th:classappend="${teamInfoNav} == 'teamInMember'? 'active'">가입인원</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content teamDetail">
+            <!-- 기본 회원 정보 start -->
+            <div class="imgSize">
+                <img class="mb-3 img-thumbnail" th:src="|\images\teamPhotos\${team.teamName}\${team.teamPhoto}|">
+            </div>
+            <div class="teamNameAndLeader">
+                <div class="dataOutput">
+                    <img th:src="${team.member.getPhotoViewPath}">
+                    <span class="leaderName" th:text="${team.member.name}"></span>
+                    <span class="teamName" th:text="${team.teamName}"></span>
+                </div>
+                <div class="teamCategory">
+                    <span th:text="${team.teamCategory1}"></span>
+                    <span th:text="${team.teamCategory2}"></span>
+                    <span th:text="${team.teamCategory3}"></span>
+                    <span th:text="${team.teamDate}"></span>
+
+                </div>
+            </div>
+            <div class="teamIntroduce">
+                <pre><span th:text="${team.teamIntroduce}"></span></pre>
+
+                <div class="teamInfo">
+                    <span class="teamGuidelines">안내사항</span>
+                    <span class="teamDescription">자세한 정보를 알려드릴게요</span>
+                    <div class="teamInfoStart">
+                        <div class="teamInfoData">
+                            <i class='bx bx-id-card'></i>
+                            <span th:text="|${team.tno}번|"></span>
+                        </div>
+
+                        <div class="teamInfoData">
+                            <i class='bx bx-group'></i>
+                            <span th:text="|${team.teamVolume}명|"></span>
+                        </div>
+
+                        <div class="teamInfoData">
+                            <i class='bx bx-credit-card' ></i>
+                            <span th:text="|${team.teamDeposit}0.000원|"></span>
+                        </div>
+
+                        <div class="teamInfoData">
+                            <i class='bx bx-calendar-alt' ></i>
+                            <span th:text="${team.startDate}"></span>
+                            <i class='bx bx-calendar-check' ></i>
+                            <span th:text="${team.endDate}"></span>
+                        </div>
+                        
+                        <div class="teamInfoData">
+                            <i class='bx bx-heart' ></i>
+                            <span th:text="|${team.likes.size}개|"></span>
+                        </div>
+
+                        <div class="teamInfoData">
+                            <i class='bx bx-folder-minus' ></i>
+                            <span th:text="${team.teamDelete}"></span>
+                        </div>
+
+                        
                     </div>
                 </div>
             </div>
-        </div>  <!-- 기본 회원 정보 end-->
 
-        <div class="text-end">
+
+
+            <!-- <div class="text-end">
             <a type="button" onclick="back()" class="btn btn-sm">돌아가기</a>
             <a type="button" class="btn btn-sm btn-danger" th:href="@{/admin/teamList?page=} + ${pageNum}">목록보기</a>
             <a th:href="@{/admin/teamDelete(tno=${team.tno})}" class="btn btn-sm btn-outline-dark">삭제</a>
+        </div> -->
         </div>
     </div>
-    </div>
 
-       
-    
+
+
 
 
     <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>

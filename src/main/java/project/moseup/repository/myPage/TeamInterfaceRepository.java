@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 
 @Repository
 public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
@@ -21,6 +19,8 @@ public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
     String findByMemberAndEndDateBefore = "select t from Team t where t.endDate < :localDate and t.tno in ( select tm.team.tno from TeamMember tm where tm.member = :member)";
     String findByMemberAndStartDateBeforeAndEndDateAfter = "select t from Team t where t.endDate >= :localDate and t.startDate <= :localDate and t.tno in ( select tm.team.tno from TeamMember tm where tm.member = :member)";
     String findByMemberAndLikes = "select t from Team t where t.tno in (select l.team.tno from Likes l where l.member = :member)";
+
+   
 
     /** 마이페이지용 - 가입 팀 조회 **/
     @Query(findTeamMember)
@@ -43,4 +43,6 @@ public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
 
     @Query(findByMemberAndLikes)
     Page<Team> findMyLikeTeam(@Param("member") Member member, Pageable page);
+
+   
 }

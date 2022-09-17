@@ -1,5 +1,6 @@
 package project.moseup.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import project.moseup.domain.Member;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberSecurityService;
+import project.moseup.service.member.MemberService;
+
+import java.security.Principal;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +56,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                     .logoutSuccessUrl("/members/login")
-                    .invalidateHttpSession(true);
+                    .invalidateHttpSession(true)
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true) // 중복 세션 체크 true = 새로운 사용자 인증실패 false = 이전 사용자 세션만료
+                .expiredUrl("/members/login"); //세션 만료되었을 경우 리다이렉트 할 페이지
     }
 
     @Bean

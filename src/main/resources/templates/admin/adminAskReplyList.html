@@ -16,42 +16,44 @@
             <div class="info-Row">
                 <div class="info-data">
                     <label>문의번호</label>
-                    <span th:text="${askBoard.ano}">회원번호</span>
+                    <span th:text="${askBoardMap.askBoard.ano}">회원번호</span>
                 </div>
                 <div class="info-data">
                     <label>문의글작성자</label>
-                    <span th:text="${askBoard.member.nickname}">작성자</span>
+                    <span th:text="${askBoardMap.askBoard.member.nickname}">작성자</span>
                 </div>
                 <div class="info-data">
                     <label>문의제목</label>
-                    <span th:text="${askBoard.askSubject}">문의제목</span>
+                    <span th:text="${askBoardMap.askBoard.askSubject}">문의제목</span>
                 </div>
                 <div class="info-data">
                     <label>작성일</label>
-                    <span th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+                    <span th:text="${#temporals.format(askBoardMap.askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
                 </div>
             </div>
             <div class="btn-over">
-                <a th:href="@{/admin/askBoardDetail(ano=${askBoard.ano})}" class="btn btn-outline-danger">문의정보</a>
-                <a th:href="@{/admin/adminAskReplyList(ano=${askBoard.ano})}" class="btn btn-outline-success">목록</a>
+                <a th:href="@{/admin/askBoardDetail(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-danger">문의정보</a>
+                <a th:href="@{/admin/adminAskReplyList(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-success">목록</a>
             </div>
         </div> <!-- 메인 인포 콘텐츠 end-->
 
         <table class="table caption table-hover">
-            <caption>총 답변글 수 : <span th:text="${askBoard.askBoardReplies.size}">답변글 수</span></caption>
+            <caption>총 답변글 수 : <span th:text="${askBoardMap.askBoard.askBoardReplies.size}">답변글 수</span></caption>
             <thead>
               <tr class="tableHeader">
                 <th scope="col">번  호</th>
                 <th scope="col">답변작성자</th>
                 <th scope="col">답변날짜</th>
+                <th scope="col">삭제여부</th>
                 <th scope="col">확인</th>
               </tr>
             </thead>
             <tbody>
-              <tr th:each="askBoardReplie : ${askBoard.askBoardReplies}">
+              <tr th:each="askBoardReplie : ${askBoardMap.boardReplyList}">
                 <th th:text="${askBoardReplie.arno}">번호</th>
                 <td th:text="${askBoardReplie.member.nickname}">작성자</td>
                 <td th:text="${#temporals.format(askBoardReplie.askReplyDate, 'yyyy-MM-dd HH:mm:ss')}">답변날짜</td>
+                <td th:text="${askBoardReplie.askReplyDelete}">삭제여부</td>
                 <td><a class="member-link" th:href="@{/admin/askBoardListDetail(arno=${askBoardReplie.arno})}">보기</a></td>
               </tr>
             </tbody>

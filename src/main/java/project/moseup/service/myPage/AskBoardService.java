@@ -2,22 +2,25 @@ package project.moseup.service.myPage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
+import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.dto.AskBoardRespDto;
 import project.moseup.dto.AskBoardSaveReqDto;
+import project.moseup.dto.searchDto.AskBoardSearchDto;
 import project.moseup.repository.myPage.AskBoardInterfaceRepository;
+import project.moseup.repository.myPage.AskBoardReplyInterfaceRepository;
 import project.moseup.repository.myPage.AskBoardRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class AskBoardService {
 
     private final AskBoardRepository askBoardRepository;
     private final AskBoardInterfaceRepository askBoardInterfaceRepository;
+    private final AskBoardReplyInterfaceRepository askBoardReplyInterfaceRepository;
 
 //    /** 문의게시판 리스트 조회 **/
 //    public List<AskBoard> findAskBoards(Member member){
@@ -84,8 +88,21 @@ public class AskBoardService {
     }
 
     // 관리자페이지 문의글 리스트 출력
-    public Page<AskBoard> askBoards(String keyword, Pageable pageable) {
-        return askBoardInterfaceRepository.findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining(keyword, keyword, keyword, pageable);
+    public Page<AskBoard> askBoards(AskBoardSearchDto searchDto, Pageable pageable) {
+        Page<AskBoard> askBoards;
+
+        switch (searchDto.getOrderBy()){
+            case "completion": askBoards = askBoardInterfaceRepository.findDistinctByAskBoardRepliesIsNotNull(pageable);
+                break;
+            case "incomplete": askBoards = askBoardInterfaceRepository.findDistinctByAskBoardRepliesIsNull(pageable);
+                break;
+            default: askBoards = askBoardInterfaceRepository.
+                    findByAskSubjectContainingOrAskContentContainingOrMemberNicknameContaining
+                            (searchDto.getKeyword(), searchDto.getKeyword(), searchDto.getKeyword(), pageable);
+                break;
+        }
+
+        return askBoards;
     }
 
     // 관리자 페이지 문의글 디테일
@@ -94,7 +111,26 @@ public class AskBoardService {
         if(askBoard != null){
             return new AskBoardRespDto().toDto(askBoard);
         }else{
-            throw new RuntimeException("문의글 데이터가 없습니다");
+            throw new NullPointerException("해당 문의글 데이터가 없습니다 id = " + ano);
         }
+    }
+
+    // 문의글 댓글 Desc
+    public Map<String, Object> getAskBoardReplyDesc(Long ano) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Optional<AskBoard> askBoardOP = askBoardInterfaceRepository.findById(ano);
+        if(askBoardOP.isPresent()){
+            AskBoard askBoardPS = askBoardOP.get();
+            List<AskBoardReply> boardReplyList = askBoardReplyInterfaceRepository.findByAskBoardOrderByArnoDesc(askBoardPS);
+
+            resultMap.put("boardReplyList", boardReplyList);
+            resultMap.put("askBoard", new AskBoardRespDto().toDto(askBoardPS));
+
+            return resultMap;
+        } else{
+            throw new NullPointerException("해당 문의글 데이터가 없습니다 id = " + ano);
+        }
+
+
     }
 }
