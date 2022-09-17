@@ -22,6 +22,8 @@ public class CheckBoardDetailDto {
     private String checkContent;
 
     private String checkPhoto;
+    
+    private String realPhoto;
 
     private int checkLike;
 
@@ -36,6 +38,12 @@ public class CheckBoardDetailDto {
     	this.checkPhoto = checkBoard.getCheckPhoto();
     	this.checkLike = checkBoard.getCheckLike();
     	this.checkContent = checkBoard.getCheckContent();
+    	
+    	String originPhoto = checkBoard.getCheckPhoto();
+        int index = originPhoto.indexOf("images");
+        String realName = originPhoto.substring(index - 1);
+        this.realPhoto = realName;
+
     	return this;
     }
 }

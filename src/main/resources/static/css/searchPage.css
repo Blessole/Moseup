@@ -28,13 +28,13 @@
   	font-size: 14px;
   	line-height: 35px;
   	color : white;
-  	background-color: #017ed1;
+  	background-color: var(--point-color);
   	margin: 5px 0px 80px 0px;
 }
 
 /* 메인 검색창 placeholder */
 .mainSearchInput input::placeholder {
-  color: #d4d4d4;
+  color: white;
 }
 /* 메인 돋보기 이미지 */
 .mainSearchImg{
@@ -60,7 +60,7 @@
 }
 @keyframes test{
     from{
-        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+        background-color: #5c75bb; /* 애니메이션 시작 색상 */
     }
     to{
         background-color: white; /* 애니메이션 종료 색상 */
@@ -89,6 +89,18 @@
 	border: 1px solid #cecece;
 }
 
+/* 지난 습관 */
+.pastHabits:hover > p {
+	background:rgba(0,0,0,.8);
+}
+.pastHabits:hover .centered {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: white;
+	padding: 180px 0;
+}
+
 /* card텍스트 */
 .card-text {
 	margin-bottom: 10px;
@@ -99,6 +111,7 @@
 	font-weight: bold;
 	font-size: 1.02em;
 	height: 50px;
+	color: black;
 }
 /* card 팀명안에 a태그 */
 .cardTeamNameA {
@@ -127,33 +140,36 @@
 /* card Date */
 .cardTeamDate {
 	font-size: 0.9em;
+	color: black;
 }
 
 /* card 이미지 */
 .card-img-top {
 	width: 100%;
 	height: 100px;
+	object-fit: cover;
+}
+
+.row a {
+	text-decoration: none;
 }
 
 /* 카테고리1 버튼 */
 .Category1Btn {
 	background-color: #cee7ff;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리2 버튼 */
 .Category2Btn {
 	background-color: #ffdfef;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리3 버튼 */
 .Category3Btn {
 	background-color: #caffe4;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 
@@ -167,7 +183,7 @@
 }
 .page-link:hover {
 	color: white;
-	background-color: #016fb9;
+	background-color: #5c75bb;
 }
 
 /* 필터1 */
@@ -193,7 +209,7 @@
 	border: 2px solid black;
 }
 .filter1label:hover, #filter1submitBtn:hover {
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 }
 
@@ -205,8 +221,8 @@
 
 /* 필터2 */
 #filter2div {
-	float: left; 
-	width: 49%;
+	float: right; 
+	/* width: 49%; */
 	margin-right: 11px;
 }
 /* 필터2 드롭다운 메뉴 */
@@ -219,16 +235,16 @@
 }
 /* 필터2 a태그 */
 .filter2a:active{
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 
 }
 .filter2a:hover {
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 }
 /* .filter2btn:active{
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 } */
 .filter2btn:hover {

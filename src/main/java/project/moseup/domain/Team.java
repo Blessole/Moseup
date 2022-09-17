@@ -37,6 +37,9 @@ public class Team {
 	@NotNull
 	@Column(name = "team_volume") // 팀 모집 인원
 	private int teamVolume;
+	
+	@Column(name = "team_joiner") // 팀 가입 인원
+	private int teamJoiner;
 
 	@NotNull
 	@Column(name = "team_deposit") // 예치금
@@ -91,7 +94,7 @@ public class Team {
 
 
 	@Builder(builderClassName = "createTeamBuilder", builderMethodName = "createTeamBuilder") //빌더 어노테이션을 명시하면 생성자에 독립적으로 사용 가능함 원하는 값만 넣을 수 있고 순서가 중요하지 않음 setter X
-	public Team(Member member, String teamName, int teamVolume, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete, String teamLeader) {
+	public Team(Member member, String teamName, int teamVolume, int teamJoiner, int teamDeposit, String teamCategory1, String teamCategory2, String teamCategory3, LocalDate teamDate, LocalDate startDate, LocalDate endDate, String teamIntroduce, String teamPhoto, DeleteStatus teamDelete, String teamLeader) {
 		// 안전한 객체 생성 패턴 = 필요한 값이 없는 경우에 NULL 예외가 발생해 메시지를 보여주고 흐름 종료
 		Assert.hasText(teamName, "teamName은 [NULL]이 될 수 없습니다");
 		Assert.hasText(String.valueOf(teamVolume), "teamVolume은 [NULL]이 될 수 없습니다");
@@ -105,6 +108,7 @@ public class Team {
 		this.member = member;
 		this.teamName = teamName;
 		this.teamVolume = teamVolume;
+		this.teamJoiner = teamJoiner;
 		this.teamDeposit = teamDeposit;
 		this.teamCategory1 = teamCategory1;
 		this.teamCategory2 = teamCategory2;
@@ -138,6 +142,9 @@ public class Team {
 	}
 	public void updateTeamVolume(int teamVolume) {
 		this.teamVolume = teamVolume;
+	}
+	public void updateTeamJoiner(int teamJoiner) {
+		this.teamJoiner = teamJoiner;
 	}
 	public void updateTeamDeposit(int teamDeposit) {
 		this.teamDeposit = teamDeposit;

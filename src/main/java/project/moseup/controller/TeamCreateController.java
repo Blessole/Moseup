@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,12 +13,14 @@ import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.service.TeamCreateService;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.TeamMemberService;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +29,20 @@ public class TeamCreateController {
 	private final TeamCreateService teamCreateService;
 	private final MemberService memberService;
 	private final TeamMemberService teamMemberService;
+	private final AdminMemberService adminMemberService;
+	
+	// 공용 데이터 (네비바에 들어갈 회원 정보)
+	@ModelAttribute
+	public void loginMember(Principal principal, Model model){
+		if(principal == null){
+//				throw new NoLoginException();
+		}else{
+			Member member = memberService.getPrincipal(principal);
+			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+			model.addAttribute("memberMap", memberMap);
+		}
+	}
 
 	@GetMapping("/teams/createTeam")
 	public String createTeamFrom(Model model) {
@@ -48,7 +65,6 @@ public class TeamCreateController {
 		
 		teamCreateReqDto.setMember(member);
 		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
-
 		
 		Long newTeam = teamCreateService.create(teamCreateReqDto, file);	//팀 생성
 		

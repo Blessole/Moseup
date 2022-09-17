@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- categoryPage css -->
+<link th:href="@{/css/categoryPage.css}" rel="stylesheet" type="text/css" />
+<!-- categoryPage script -->
+<script type="text/javascript" src="/js/categoryPage.js"></script>
+</head>
+<body>
+	<!-- 본문 코드 시작 -->
+	<th:block layout:fragment="content">
+		<!-- 슬라이드 세션 -->
+		<section class="slidesSection">
+			<div th:if="${!topList.isEmpty()}">
+				<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+						<div id="slideTitleTag" align="center">
+							<th:block th:if="${keyword == '습관'}">
+								<div id="slideTitle">습관🔥</div>
+								<div id="slideSubtitle">습관이 바꾸는 미래! 식습관, 생활습관, 수면습관 등 모든 습관!!</div>
+							</th:block>
+							<th:block th:if="${keyword == '공부'}">
+								<div id="slideTitle">공부📖</div>
+								<div id="slideSubtitle">시간이 없다는건 핑계야! 개인, 회사, 시험, 공무원, 자격증 등 모든 공부!!</div>
+							</th:block>
+							<th:block th:if="${keyword == '운동'}">
+								<div id="slideTitle">운동🏃</div>
+								<div id="slideSubtitle">오늘 걷지 않으면 내일 뛰어야 한다! 헬스, 요가, 생활체육, 필라테스 등 모든 운동!!</div>
+							</th:block>
+							<th:block th:if="${keyword == '기타'}">
+								<div id="slideTitle">기타✨</div>
+								<div id="slideSubtitle">시간이 없다는건 핑계야! 개인, 회사, 시험, 공무원, 자격증 등 모든 공부!!</div>
+							</th:block>
+						</div>
+					  <!-- 슬라이드 밑에 버튼 -->
+					  <div class="carousel-indicators">
+					    <th:block th:each="topList, index : ${topList}">
+						    <button th:if="${index.index == 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" class="active" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+						    <button th:if="${index.index != 0}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="@{${index.index}}" aria-current="true" th:aria-label="@{Slide+' '+${index.index}} " id="slideBtn1"></button>
+						  </th:block>
+					  </div>
+				  	  <!-- 슬라이드 이미지 부분 -->
+					  <div class="carousel-inner" id="slideImgDiv">
+	 					  <th:block th:each="topList, index : ${topList}">
+	 					  	<!-- 리스트 첫번째 사진 -->
+						    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000" id="slideImgSubDiv" align="center">
+						    	<a th:href="@{/teams/teamPage(tno=${topList.tno})}">
+						    		<img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block" id="slideImg" alt="top5이미지">
+								    <div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+								    <div class="carousel-caption" id="slideCaption2" th:text="${topList.teamDeposit}+'0,000원'"></div>
+								    <div class="carousel-caption" id="slideCaption3" th:text="${topList.startDate}+' ~ '+${topList.endDate}"></div>
+								    <div class="carousel-caption" id="slideCaption4" th:text="${topList.teamJoiner}+' / '+${topList.teamVolume}+ ' 명'"></div>
+								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️(찜 '+${topList.teamName}+')'"></div>
+							    </a>
+						    </div> 
+						    <!-- 리스트 나머지 사진 -->
+						    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000" id="slideImgSubDiv" align="center">
+						    	<a th:href="@{/teams/teamPage(tno=${topList.tno})}">
+						    		<img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block" id="slideImg" alt="top5이미지">
+								    <div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
+								    <div class="carousel-caption" id="slideCaption2" th:text="${topList.teamDeposit}+'0,000원'"></div>
+								    <div class="carousel-caption" id="slideCaption3" th:text="${topList.startDate}+' ~ '+${topList.endDate}"></div>
+								    <div class="carousel-caption" id="slideCaption4" th:text="${topList.teamJoiner}+' / '+${topList.teamVolume}+ ' 명'"></div>
+								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️(찜 '+${topList.teamName}+')'"></div>
+							    </a>
+						    </div> 
+						  </th:block>
+					  </div>
+					  <!-- 슬라이드 화살표 버튼 -->
+					  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" id="zg">
+					    <i class="bi bi-chevron-left" id="slideBtn2"></i>
+					    <span class="visually-hidden">Previous</span>
+					  </button>
+					  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" id="zg">
+					    <i class="bi bi-chevron-right" id="slideBtn2"></i>
+					    <span class="visually-hidden">Next</span>
+					  </button>
+				  </div>
+			  	  <hr>
+			</div>
+		</section>
+		<div class="mainContainer">
+			<!-- 필터 세션 -->
+			<section class="filterSection">
+				<!-- 필터1 -->
+				<form th:action="@{/category}" role="form" method="get" id="filter1form" onsubmit="return filter1Chk()">
+					<input type="hidden" id="keyword" name="keyword" th:value="${keyword}">
+					<input type="hidden" id="filter2" name="filter2" th:value="${filter2}">
+					<input type="hidden" class="filter1depositCheck" th:value="${depositCheck}">
+					<input type="hidden" class="depositValue" th:value="${deposit}">
+					<input type="hidden" class="filter1volumeCheck" th:value="${volumeCheck}">
+					<input type="hidden" class="volumeValue" th:value="${volume}">
+					<input type="hidden" class="filter1notIncludCheck" th:value="${notInclud}">
+					<div class="dropdown" align="left" id="filter1">
+					  <button class="btn btn-sm dropdown-toggle filter1btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+					    <span><i class="bi bi-sliders"></i> 필터</span>&nbsp&nbsp<span class="filter1btnSpan">예치금 · 모집인원 · 지난습관</span>
+					  </button>
+					  <ul class="dropdown-menu filter1dropMenu">
+					  		<!-- 필터1 예치금 -->
+							<li>
+								<div id="depositCheckDiv">
+									<label class="dropdown-item btn-sm filter1label">
+										<input type="checkbox" class="filter1value" id="depositCheck" name="depositCheck" value="예치금"> 예치금
+									</label>
+								</div>
+								<div id="filter1depositDiv" class="displayNone">
+									<input type="range" min="1" max="10" class="" id="deposit" name="deposit">
+								</div>
+								<div id="showDeposit" class="displayNone" align="center"></div>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<!-- 필터1 모집인원 -->
+							<li>
+								<div id="volumeCheckDiv">
+									<label class="dropdown-item btn-sm filter1label">
+										<input type="checkbox" class="filter1value" id="volumeCheck" name="volumeCheck" value="모집인원"> 모집인원
+									</label>
+								</div>
+								<div id="filter1volumeDiv" class="displayNone">
+									<input type="range" min="10" max="100" step="10" class="" id="volume" name="volume">
+								</div>
+								<div id="showVolume" class="displayNone" align="center"></div>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<!-- 필터1 지난시작일 -->
+							<li>
+								<label class="dropdown-item btn-sm filter1label">
+									<input type="checkbox" class="filter1value" id="notInclud" name="notInclud" value="notInclud"> 시작된 습관 미포함
+								</label>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<li><input type="submit" class="dropdown-item btn-sm text-center" id="filter1submitBtn" value="확인"></li>
+						</ul>
+					</div>
+				</form>
+				<!-- 필터2 -->
+				<div class="dropdown" align="right" id="filter2div">
+				  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+				  		th:if="${filter2 == null} or ${filter2 == 'nothing'} or ${filter2 == ''}">
+				   &nbsp카테고리&nbsp
+				  </button>
+				  <button class="btn btn-sm dropdown-toggle filter2btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+				  		th:if="${filter2 != null}  and ${filter2 != 'nothing'} and ${filter2 != ''}" th:text="${filter2}">
+				  </button>
+				  <ul class="dropdown-menu text-center filter2dropMenu">
+				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=최신순)}">최신순</a></li>
+				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=인기순)}">인기순(미완)</a></li>
+				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=팀원수순)}">팀원수순</a></li>
+				  </ul>
+				</div>
+			</section>
+			<br><br>
+			<div id="hr"><div id="hrText">모습에서 함께 성장하세요!</div>
+			
+			</div>
+			<!-- 카드 팀 리스트 -->
+			<section class="cardSection">
+				<div th:if="${categoryList.isEmpty()}" class="searchedNull text-center">
+					<div class="searchedNull35 text-center">🙊  습관이 없어요! 🙊</div>
+					<div class="searchedNull25 text-center">가장 먼저 습관을 지킬 팀을 만들어 보세요!</div>
+					<button class="btn btn-sm" id="createTeamBtn" onclick="location.href='/teams/createTeam'">팀 생성하기</button>
+				</div>
+				<div th:if="${!categoryList.isEmpty()}">
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="categoryList : ${categoryList}" class="center">
+							<a th:href="@{/teams/teamPage(tno=${categoryList.tno})}">
+								<!-- 시작일이 지난 습관 -->
+								<div class="card pastHabits" th:if="${categoryList.startDate}<${today}">
+									<img th:src="'images/teamPhotos/'+${categoryList.teamName}+'/'+${categoryList.teamPhoto}" class="card-img-top" alt="...">
+									<p class="centered displayNone" id="studyCentered">시작된 습관입니다❕</p>
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${categoryList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${categoryList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${categoryList.teamJoiner+'/'+categoryList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+categoryList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+categoryList.startDate+' ~ '+categoryList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${categoryList.teamCategory1}">teamCategory1</p>
+										<p th:if="${categoryList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${categoryList.teamCategory2}">teamCategory2</p>
+										<p th:if="${categoryList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${categoryList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+								<!-- 시작일이 지나지 않은 습관 -->
+								<div class="card" th:if="${categoryList.startDate}>=${today}">
+									<img th:src="'images/teamPhotos/'+${categoryList.teamName}+'/'+${categoryList.teamPhoto}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${categoryList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${categoryList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${categoryList.teamJoiner+'/'+categoryList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+categoryList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+categoryList.startDate+' ~ '+categoryList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${categoryList.teamCategory1}">teamCategory1</p>
+										<p th:if="${categoryList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${categoryList.teamCategory2}">teamCategory2</p>
+										<p th:if="${categoryList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${categoryList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+		</section>
+	</div>
+	<!-- 페이징 -->
+	<div th:if="${!categoryList.isEmpty()}">
+	    <nav aria-label="Page navigation example">
+	      <ul class="pagination justify-content-center">
+	        <li class="page-item" th:classappend="${1 == categoryList.pageable.pageNumber + 1} ? 'disabled'">
+	          <a class="page-link btn-sm" href="#" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=${filter2},page=${categoryList.pageable.pageNumber - 1})}">이전</a>
+	        </li>
+	        <li class="page-item" th:classappend="${i == categoryList.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+	          <a class="page-link btn-sm" href="#" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=${filter2},page=${i - 1})}" th:text="${i}">1</a>
+	        </li>
+	        <li class="page-item" th:classappend="${categoryList.totalPages == categoryList.pageable.pageNumber + 1} ? 'disabled'">
+	          <a class="page-link btn-sm" href="#" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=${filter2},page=${categoryList.pageable.pageNumber + 1})}">다음</a>
+	        </li>
+	      </ul>
+	    </nav>
+    </div>
+	</th:block>
+</body>
+</html>

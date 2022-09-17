@@ -24,8 +24,7 @@ public class SearchService {
 			Page<Team> filter2NewList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTnoDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2NewList;
 		} else if (filter2.equals("팀원수순") && filter1.equals("nothing")) {	//필터2 팀원수순만 검색
-//			Page<Team> filter2MemberList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword, keyword, keyword, pageable);
-			Page<Team> filter2MemberList = searchInterfaceRepository.filter2SearchByTeamMember(keyword,pageable);
+			Page<Team> filter2MemberList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamJoinerDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter2MemberList;
 		} else if (filter2.equals("예치금순") && filter1.equals("nothing")) {	//필터2 예치금순만 검색
 			Page<Team> filter2depositList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword, keyword, keyword, pageable);
@@ -64,7 +63,7 @@ public class SearchService {
 			Page<Team> filter1TeamNameFilter2DateList = searchInterfaceRepository.findByTeamNameContainingOrderByStartDateAsc(keyword, pageable);
 			return filter1TeamNameFilter2DateList;
 		} else if (filter1.equals("팀명") && filter2.equals("팀원수순")) {		//필터1 팀명, 필터2 팀원수순 검색
-			Page<Team> filter1TeamNameFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrderByTeamVolumeDesc(keyword, pageable);
+			Page<Team> filter1TeamNameFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrderByTeamJoinerDesc(keyword, pageable);
 			return filter1TeamNameFilter2TeamVolumeList;
 		} else if (filter1.equals("팀명") && filter2.equals("예치금순")) {		//필터1 팀명, 필터2 예치금순 검색
 			Page<Team> filter1TeamNameFilter2TeamDepositList = searchInterfaceRepository.findByTeamNameContainingOrderByTeamDepositAsc(keyword, pageable);
@@ -78,7 +77,7 @@ public class SearchService {
 			Page<Team> filter1TeamLeaderFilter2DateList = searchInterfaceRepository.findByTeamLeaderContainingOrderByStartDateAsc(keyword, pageable);
 			return filter1TeamLeaderFilter2DateList;
 		} else if (filter1.equals("팀장명") && filter2.equals("팀원수순")) {		//필터1 팀장명, 필터2 팀원수순 검색
-			Page<Team> filter1TeamLeaderFilter2TeamVolumeList = searchInterfaceRepository.findByTeamLeaderContainingOrderByTeamVolumeDesc(keyword, pageable);
+			Page<Team> filter1TeamLeaderFilter2TeamVolumeList = searchInterfaceRepository.findByTeamLeaderContainingOrderByTeamJoinerDesc(keyword, pageable);
 			return filter1TeamLeaderFilter2TeamVolumeList;
 		} else if (filter1.equals("팀장명") && filter2.equals("예치금순")) {		//필터1 팀장명, 필터2 예치금순 검색
 			Page<Team> filter1TeamLeaderFilter2TeamDepositList = searchInterfaceRepository.findByTeamLeaderContainingOrderByTeamDepositAsc(keyword, pageable);
@@ -92,7 +91,7 @@ public class SearchService {
 			Page<Team> filter1CategoryFilter2DatetList = searchInterfaceRepository.findByTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(keyword, keyword, keyword ,pageable);
 			return filter1CategoryFilter2DatetList;
 		} else if (filter1.equals("태그") && filter2.equals("팀원수순")) {		//필터1 태그, 필터2 팀원수순 검색
-			Page<Team> filter1CategoryFilter2VolumetList = searchInterfaceRepository.findByTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword ,pageable);
+			Page<Team> filter1CategoryFilter2VolumetList = searchInterfaceRepository.findByTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamJoinerDesc(keyword, keyword, keyword ,pageable);
 			return filter1CategoryFilter2VolumetList;
 		} else if (filter1.equals("태그") && filter2.equals("예치금순")) {		//필터1 태그, 필터2 예치금순 검색
 			Page<Team> filter1CategoryFilter2TeamDepositList = searchInterfaceRepository.findByTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword ,pageable);
@@ -105,7 +104,7 @@ public class SearchService {
 			Page<Team> filter1CategoryOrTeamLeaderFilter2DateList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrderByStartDateAsc(keyword, keyword ,pageable);
 			return filter1CategoryOrTeamLeaderFilter2DateList;
 		}  else if (filter1.equals("팀명,팀장명") && filter2.equals("팀원수순")) {		//필터1 팀명/팀장명, 필터2 팀원수순 검색
-			Page<Team> filter1CategoryOrTeamLeaderFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrderByTeamVolumeDesc(keyword, keyword ,pageable);
+			Page<Team> filter1CategoryOrTeamLeaderFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrderByTeamJoinerDesc(keyword, keyword ,pageable);
 			return filter1CategoryOrTeamLeaderFilter2TeamVolumeList;
 		} else if (filter1.equals("팀명,팀장명") && filter2.equals("예치금순")) {		//필터1 팀명/팀장명, 필터2 예치금순 검색
 			Page<Team> filter1CategoryOrTeamLeaderFilter2TeamDepositList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrderByTeamDepositAsc(keyword, keyword ,pageable);
@@ -118,7 +117,7 @@ public class SearchService {
 			Page<Team> filter1CategoryOrCategoryFilter2DateList = searchInterfaceRepository.findByTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(keyword, keyword, keyword, keyword, pageable);
 			return filter1CategoryOrCategoryFilter2DateList;
 		} else if (filter1.equals("팀명,태그") && filter2.equals("팀원수순")) {		//필터1 팀명/태그, 필터2 팀원수순 검색
-			Page<Team> filter1CategoryOrCategoryFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword, keyword, pageable);
+			Page<Team> filter1CategoryOrCategoryFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamJoinerDesc(keyword, keyword, keyword, keyword, pageable);
 			return filter1CategoryOrCategoryFilter2TeamVolumeList;
 		} else if (filter1.equals("팀명,태그") && filter2.equals("예치금순")) {		//필터1 팀명/태그, 필터2 예치금순 검색
 			Page<Team> filter1CategoryOrCategoryFilter2TeamDepositList = searchInterfaceRepository.findByTeamNameContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword, keyword, pageable);
@@ -131,7 +130,7 @@ public class SearchService {
 			Page<Team> filter1TeamLeaderOrCategoryFilter2DateList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(keyword, keyword, keyword, keyword, pageable);
 			return filter1TeamLeaderOrCategoryFilter2DateList;
 		} else if (filter1.equals("팀장명,태그") && filter2.equals("팀원수순")) {		//필터1 팀장명/태그, 필터2 팀원수순 검색
-			Page<Team> filter1TeamLeaderOrCategoryFilter2VolumeList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword, keyword, pageable);
+			Page<Team> filter1TeamLeaderOrCategoryFilter2VolumeList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamJoinerDesc(keyword, keyword, keyword, keyword, pageable);
 			return filter1TeamLeaderOrCategoryFilter2VolumeList;
 		} else if (filter1.equals("팀장명,태그") && filter2.equals("예치금순")) {		//필터1 팀장명/태그, 필터2 예치금순 검색
 			Page<Team> filter1TeamLeaderOrCategoryFilter2DepositList = searchInterfaceRepository.findByTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword, keyword, pageable);
@@ -144,7 +143,7 @@ public class SearchService {
 			Page<Team> filter1TeamNameOrTeamLeaderOrCategoryFilter2DateList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByStartDateAsc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter1TeamNameOrTeamLeaderOrCategoryFilter2DateList;
 		} else if (filter1.equals("팀명,팀장명,태그") && filter2.equals("팀원수순")) {		//필터1 팀장/팀장명/태그, 필터2 팀원수순 검색
-			Page<Team> filter1TeamNameOrTeamLeaderOrCategoryFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamVolumeDesc(keyword, keyword, keyword, keyword, keyword, pageable);
+			Page<Team> filter1TeamNameOrTeamLeaderOrCategoryFilter2TeamVolumeList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamJoinerDesc(keyword, keyword, keyword, keyword, keyword, pageable);
 			return filter1TeamNameOrTeamLeaderOrCategoryFilter2TeamVolumeList;
 		} else if (filter1.equals("팀명,팀장명,태그") && filter2.equals("예치금순")) {		//필터1 팀장/팀장명/태그, 필터2 예치금순 검색
 			Page<Team> filter1TeamNameOrTeamLeaderOrCategoryFilter2TeamDepositList = searchInterfaceRepository.findByTeamNameContainingOrTeamLeaderContainingOrTeamCategory1ContainingOrTeamCategory2ContainingOrTeamCategory3ContainingOrderByTeamDepositAsc(keyword, keyword, keyword, keyword, keyword, pageable);
@@ -154,13 +153,13 @@ public class SearchService {
 		//메인페이지 카테고리1별 인기순
 		if (filter1.equals("") && filter2.equals("팀원수순")) {
 			if (keyword.equals("공부")) {
-				Page<Team> studyTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamVolumeDesc(keyword, pageable);
+				Page<Team> studyTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamJoinerDesc(keyword, pageable);
 				return studyTopList;
 			} else if (keyword.equals("운동")) {
-				Page<Team> exerciseTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamVolumeDesc(keyword, pageable);
+				Page<Team> exerciseTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamJoinerDesc(keyword, pageable);
 				return exerciseTopList;
 			} else if (keyword.equals("습관")) {
-				Page<Team> habitTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamVolumeDesc(keyword, pageable);
+				Page<Team> habitTopList = searchInterfaceRepository.findByTeamCategory1OrderByTeamJoinerDesc(keyword, pageable);
 				return habitTopList;
 			}
 		}

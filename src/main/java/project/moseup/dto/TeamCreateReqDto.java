@@ -22,6 +22,7 @@ public class TeamCreateReqDto {
 	
 	private Member member;					//팀장
 	private int teamVolume;						//모집 인원
+	private int teamJoiner;						//가입 인원
 	private int teamDeposit;						//예치금
 	private String teamCategory1;			//카테고리 대분류
 	private String teamCategory2;			//카테고리 중분류
@@ -29,7 +30,7 @@ public class TeamCreateReqDto {
 	
 	@NotNull(message = "습관 시작일은 필수 선택사항입니다!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@FutureOrPresent(message = "오늘 이전의 날짜는 선택할 수 없습니다!")		// @FutureOrPresent : Now이거나 미래의 날짜, 시간이어야 한다.
+	@FutureOrPresent(message = "오늘 이전의 날짜는 선택할 수 없습니다!")		//@FutureOrPresent : Now이거나 미래의 날짜, 시간이어야 한다.
 	private LocalDate startDate;				//습관 시작일
 	
 	@NotNull(message = "습관 종료일은 필수 선택사항 입니다!")
@@ -59,6 +60,7 @@ public class TeamCreateReqDto {
 				.member(member)
 				.teamName(teamName)
 				.teamVolume(teamVolume)
+				.teamJoiner(teamJoiner)
 				.teamDeposit(teamDeposit)
 				.teamCategory1(teamCategory1)
 				.teamCategory2(teamCategory2)
@@ -77,6 +79,7 @@ public class TeamCreateReqDto {
 		this.member = team.getMember();
 		this.teamName = team.getTeamName();
 		this.teamVolume = team.getTeamVolume();
+		this.teamJoiner = team.getTeamJoiner();
 		this.teamDeposit = team.getTeamDeposit();
 		this.teamCategory1 = team.getTeamCategory1();
 		this.teamCategory2 = team.getTeamCategory2();

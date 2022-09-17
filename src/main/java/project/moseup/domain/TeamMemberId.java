@@ -8,12 +8,11 @@ import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
-public class TeamMemberId implements Serializable {
+public class TeamMemberId  implements Serializable {
 
-    @Column(name = "member_no")
+    @Column(name="member_no")
     private Long mno;
 
-    @Column(name = "team_no")
+    @Column(name="team_no")
     private Long tno;
-
 }

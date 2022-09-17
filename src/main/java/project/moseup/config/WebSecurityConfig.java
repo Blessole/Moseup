@@ -6,12 +6,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import project.moseup.domain.Member;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.member.MemberSecurityService;
+import project.moseup.service.member.MemberService;
+
+import java.security.Principal;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -26,12 +35,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**", "/admin/**", "/teams/**",
-                            "/myPage/**", "/members/**", "/js/**").permitAll()
-                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
+                    .antMatchers("/myPage/**", "/admin/**", "/teams/**").authenticated()
+                    .antMatchers("/", "/teams/teamPage", "/members/**", "/search/**").permitAll()
+//                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()
                     .loginPage("/members/login")
@@ -41,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/members/login")
                     .invalidateHttpSession(true)
                 .and()
                 .sessionManagement()

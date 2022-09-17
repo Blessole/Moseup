@@ -17,7 +17,7 @@ public class TeamMemberDto {
 	private DeleteStatus teamMemberDelete;
 	
 	// 팀 가입 method
-	public TeamMember toEntity() {
+	public TeamMember createTeamMemberBuilder() {
 		return TeamMember.createTeamMemberBuilder()
 				.member(member)
 				.team(team)
