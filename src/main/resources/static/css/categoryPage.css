@@ -1,0 +1,337 @@
+/* 메인 컨테이너 */
+.mainContainer {
+	width: 80%;
+	margin: 0 auto;
+}
+
+/* 필터 세션 */
+.filterSection {
+	margin-bottom: 20px;
+}
+
+/* 여기서부터 카드 */
+/* card태그 */
+.card {
+	border-radius: 10px;
+	margin: 10px 10px 25px 10px;
+	height: 403px;
+	text-align: center;
+	border: none;
+}
+.card:hover {
+	border: 1px solid #cecece;
+}
+
+/* 지난 습관 */
+.pastHabits:hover > p {
+	background:rgba(0,0,0,.8);
+}
+.pastHabits:hover .centered {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: white;
+	padding: 180px 0;
+}
+
+/* card텍스트 */
+.card-text {
+	margin-bottom: 10px;
+}
+
+/* card 팀명 */
+.cardTeamName {
+	font-weight: bold;
+	font-size: 1.02em;
+	height: 50px;
+	color: black;
+}
+/* card 팀명안에 a태그 */
+.cardTeamNameA {
+	text-decoration: none;
+	color: black;
+}
+.cardTeamNameA:hover {
+	color: black;
+}
+
+/* card 팀장 */
+.cardTeamLeader {
+	font-size: 0.8em;
+	color: gray;
+}
+/* card 팀예치금 */
+.cardTeamDeposit {
+	color: #004f9d;
+}
+
+/* card 팀모집인원 */
+.cardTeamVolume {
+	color: #007500;
+}
+
+/* card Date */
+.cardTeamDate {
+	font-size: 0.9em;
+	color: black;
+}
+
+/* card 이미지 */
+.card-img-top {
+	width: 100%;
+	height: 100px;
+	object-fit: cover;
+}
+
+.row a {
+	text-decoration: none;
+}
+
+/* 카테고리1 버튼 */
+.Category1Btn {
+	background-color: #cee7ff;
+	font-size: 0.75em;
+	margin-bottom: 5px;
+}
+/* 카테고리2 버튼 */
+.Category2Btn {
+	background-color: #ffdfef;
+	font-size: 0.75em;
+	margin-bottom: 5px;
+}
+/* 카테고리3 버튼 */
+.Category3Btn {
+	background-color: #caffe4;
+	font-size: 0.75em;
+	margin-bottom: 5px;
+}
+
+/* 페이징 li태그 */
+.page-item {
+	margin: 0 4px;
+}
+/* 페이징 버튼 */
+.page-link {
+	color: black;
+}
+.page-link:hover {
+	color: white;
+	background-color: #5c75bb;
+}
+
+/* 인풋 색상 변경 */
+input {
+  accent-color: #5c75bb;
+}
+
+/* 필터1 */
+#filter1 {
+	float: left; 
+	width: 49%;
+	margin-left: 11px;
+}
+/* 필터1 버튼 스판 태그 */
+.filter1btnSpan {
+	color: gray;
+	font-size: 0.9em;
+}
+/* 필터1 버튼, 필터1 드롭다운 메뉴 */
+.filter1btn, .filter1dropMenu {
+	width: 232px;
+}
+.filter1btn:hover {
+	border: 2px solid black;
+}
+.filter1label:hover, #filter1submitBtn:hover {
+	background-color: #5c75bb;
+	color: white;
+}
+/* 예치금 값 보여주는 태그 */
+#showDeposit, #showVolume {
+	font-size: 0.8em;
+}
+/* 예치금, 모집인원 range */
+#deposit, #volume {
+	width: 100%;
+}
+
+/* 필터1,2 btn */
+.filter2btn, .filter1btn {
+	border: 1px solid black;
+	font-weight: bold;
+}
+
+/* 필터2 */
+#filter2div {
+	float: right; 
+	/* width: 49%; */
+	margin-right: 11px;
+}
+/* 필터2 드롭다운 메뉴 */
+.filter2dropMenu {
+	min-width: 100px;
+}
+/* 필터2 버튼 */
+.filter2btn {
+	min-width: 100px;
+}
+/* 필터2 a태그 */
+.filter2a:active{
+	background-color: #5c75bb;
+	color: white;
+
+}
+.filter2a:hover {
+	background-color: #5c75bb;
+	color: white;
+}
+/* .filter2btn:active{
+	background-color: #5c75bb;
+	color: white;
+} */
+.filter2btn:hover {
+	border: 2px solid black;
+}
+
+/* 검색결과 없음 */
+.searchedNull35 {
+	font-size: 35px;
+	color: #6c6c6c;
+	font-weight: bold;
+}
+.searchedNull25 {
+	font-size: 25px;
+	color: #6c6c6c;
+}
+
+/* 팀생성 버튼 */
+#createTeamBtn {
+	background-color: #5c75bb;
+	color : white;
+	margin-top: 20px;
+}
+
+/* 모습에서 함께하고, 지키고, 성장하세요! */
+#hr {
+	width: 100%;
+	height: 70px;
+	margin: auto;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	border-radius: 3px;
+	text-align: center;
+	background-color: #5c75bb;
+	/* background: linear-gradient(90deg, rgb(70, 89, 181), #5c75bb); */
+	display: flex;
+}
+#hrText {
+	color: white;
+	font-size: 1.2em;
+	margin: auto;
+}
+
+/* 여기서부터 슬라이드 */
+/* 슬라이드 전체 감싸는 태그 */
+.slide {
+	height: 500px;
+	/* background: linear-gradient(90deg,rgb(63, 87, 152), rgb(88, 103, 190)); */
+	/* background: linear-gradient(90deg, rgb(67, 92, 160), #5c75bb); */
+	background: linear-gradient(90deg, #5c75bb, rgb(70, 89, 181));
+}
+
+/* 슬라이드 이미지 전체 감싸는 태그 */
+#slideImgDiv {
+	/* border: 1px solid yellow; */
+	height: 400px;
+}
+#slideImgSubDiv {
+	margin-top: 20px;
+	/* border: 1px solid green; */
+	width: 70%;
+	height: 350px;
+	position : absolute;
+	left:15%;
+	border-radius: 10px;
+	/* background: linear-gradient(90deg, #5c75bb, rgb(70, 89, 181)); */
+	background-color: #ffffff;
+	/* background-color: rgba( 230, 230, 230, 0.4); */
+}
+
+/* 슬라이드 이미지 */
+#slideImg {
+/* 	border: 1px solid red; */
+	width: 60%;
+	height: 300px;
+	object-fit: cover;
+	margin-right: 30%;
+	margin-top: 2.4%;
+}
+
+
+/* 모든 슬라이드 캡션 */
+.carousel-caption {
+	color: #000000;
+	width: 28%;
+	left: 70% !important;
+	text-align: left;
+}
+/* 슬라이드 캡션 위치 */
+.item #slideCaption {		/* 팀명 */
+	font-size: 23px;
+	bottom: 78% !important;
+	font-weight: bold;
+}
+.item #slideCaption2 {	/* 예치금 */
+	bottom: 70% !important;
+}
+.item #slideCaption3 {	/* 시작일~종료일 */
+	bottom: 62% !important;
+}
+.item #slideCaption4 {	/* 가입인원/모집인원 */
+	bottom: 54% !important;
+}
+.item #slideCaption5 {	/* 찜 수 */
+	bottom: 2% !important;
+}
+
+/* 슬라이드 화살표버튼 (레이아웃 테스트용) */
+#zg {
+	/* border: 1px solid blue; */
+}
+
+/* 슬라이드 밑에 버튼 */
+#slideBtn1 {
+	border: 1px solid black;
+}
+
+/* 슬라이드 이미지안에 버튼 */
+#slideBtn2 {
+	color: black;
+	font-size: 1.7em;
+}
+
+/* 슬라이드 타이틀 감싸는태그 */
+#slideTitleTag {
+	width: 70%;
+	margin: 0 auto;
+}
+
+/* 슬라이드 제목 */
+#slideTitle {
+	color: white;
+	font-size: 2em;
+	font-weight: bold;
+	padding-top:  15px;
+}
+
+/* 슬라이드 부제목 */
+#slideSubtitle {
+	color: white;
+	/* font-weight: bold; */
+	padding-top: 15px;
+}
+
+/* displayNone */
+.displayNone {
+	display: none;
+}

@@ -12,17 +12,17 @@ public interface MainInterfaceRepository extends JpaRepository<Team, Long>{
 
 	List<Team> findTop5ByOrderByTeamVolumeDesc();
 
-	//카테고리1 공부 인기순
-	@Query(value = "select * from teams where team_category1 = '공부' order by team_volume Desc limit 4", nativeQuery = true)
+	//카테고리1 공부 최신순
+	@Query(value = "select * from teams where team_category1 = '공부' order by team_no Desc limit 4", nativeQuery = true)
 	List<Team> studyTopList();
-	//카테고리1 운동 인기순
-	@Query(value = "select * from teams where team_category1 = '운동' order by team_volume Desc limit 4", nativeQuery = true)
+	//카테고리1 운동 최신순
+	@Query(value = "select * from teams where team_category1 = '운동' order by team_no Desc limit 4", nativeQuery = true)
 	List<Team> exerciseTopList();
-	//카테고리1 습관 인기순
-	@Query(value = "select * from teams where team_category1 = '습관' order by team_volume Desc limit 4", nativeQuery = true)
+	//카테고리1 습관 최신순
+	@Query(value = "select * from teams where team_category1 = '습관' order by team_no Desc limit 4", nativeQuery = true)
 	List<Team> habitTopList();
-	//카테고리1 기타 인기순
-	@Query(value = "select * from teams where team_category1 = 'ETC' order by team_volume Desc limit 4", nativeQuery = true)
+	//카테고리1 기타 최신순
+	@Query(value = "select * from teams where team_category1 = 'ETC' order by team_no Desc limit 4", nativeQuery = true)
 	List<Team> etcTopList();
 	//최근 생성 4개팀
 	List<Team> findTop4ByOrderByTnoDesc();

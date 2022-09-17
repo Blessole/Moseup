@@ -10,13 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
+import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.TeamCreateService;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.teampage.CheckBoardService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
@@ -31,6 +34,7 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -44,6 +48,20 @@ public class TeamPageController {
 	private final CheckBoardService checkBoardService;
 	private final TeamCreateService teamCreateService;
 	private final TeamMemberService teamMemberService;
+	private final AdminMemberService adminMemberService;
+	
+	// 공용 데이터 (네비바에 들어갈 회원 정보)
+	@ModelAttribute
+	public void loginMember(Principal principal, Model model){
+		if(principal == null){
+//				throw new NoLoginException();
+		}else{
+			Member member = memberService.getPrincipal(principal);
+			Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+			model.addAttribute("memberMap", memberMap);
+		}
+	}
 	
 	// 파일 업로드 경로
     @Value("${moseup.upload.path}/check") //application.properties의 변수
@@ -87,6 +105,8 @@ public class TeamPageController {
 		
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamCreateService.findOne(tno);
+		
+		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
 		
 		TeamMemberDto teamMemberDto = new TeamMemberDto();		
 		teamMemberDto.setMember(member);
