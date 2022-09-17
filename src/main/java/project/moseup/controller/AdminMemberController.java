@@ -28,6 +28,7 @@ import project.moseup.validator.CheckEmailValidator;
 import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.security.Principal;
@@ -79,10 +80,9 @@ public class AdminMemberController {
 
     // 대시보드(시작 페이지)
     @GetMapping("")
-    public String index(@RequestParam(name="name", required = false, defaultValue = "JeongChanWoo")String name,
-                        Model model){
-        //Member member = memberService.getPrincipal(principal);
-        //model.addAttribute("member", member);
+    public String index(HttpSession session){
+        log.info("session id = {}", session.getId());
+        log.info("session = {}", session);
 
         return "admin/adminIndex";
     }

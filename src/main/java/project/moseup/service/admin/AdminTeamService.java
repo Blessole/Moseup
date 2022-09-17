@@ -10,10 +10,7 @@ import project.moseup.dto.searchDto.TeamSearchDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.repository.admin.AdminTeamRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
-import project.moseup.repository.teampage.CheckBoardPageRepository;
-import project.moseup.repository.teampage.TeamAskBoardPageRepository;
-import project.moseup.repository.teampage.TeamBankbookDetailRepository;
-import project.moseup.repository.teampage.TeamBankbookRepository;
+import project.moseup.repository.teampage.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -33,6 +30,7 @@ public class AdminTeamService {
     private final TeamInterfaceRepository teamInterfaceRepository;
     private final TeamAskBoardPageRepository teamAskBoardPageRepository;
 
+    private final TeamAskBoardReplyInterfaceRepository teamAskBoardReplyInterfaceRepository;
 
     public TeamDetailDto teamDetail(Long id) {
         Optional<Team> teamOP = adminTeamRepository.findById(id);
@@ -116,8 +114,6 @@ public class AdminTeamService {
         }else{
             throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
         }
-
-
     }
 
     // 문의글 역순 가져오기
@@ -132,6 +128,23 @@ public class AdminTeamService {
         }else{
             throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
         }
+    }
 
+    // 문의글 정보 & 댓글 역순 가져오기
+    public Map<String, Object> getAskBoardReply(Long tano) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Optional<TeamAskBoard> teamAskBoardOP = teamAskBoardPageRepository.findById(tano);
+        if(teamAskBoardOP.isPresent()){
+            List<TeamAskBoardReply> teamAskBoardReplies =
+                    teamAskBoardReplyInterfaceRepository.findByTeamAskBoardOrderByTarnoDesc(teamAskBoardOP.get());
+
+            resultMap.put("teamAskBoard", teamAskBoardOP.get());
+            resultMap.put("replies",teamAskBoardReplies);
+            resultMap.put("deleteTrue", DeleteStatus.TRUE);
+
+            return resultMap;
+        }else{
+            throw new NullPointerException("팀 문의글 데이터가 없습니다 id = " + tano);
+        }
     }
 }

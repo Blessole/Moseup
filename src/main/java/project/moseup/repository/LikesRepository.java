@@ -5,4 +5,5 @@ import project.moseup.domain.Likes;
 import project.moseup.domain.LikesId;
 
 public interface LikesRepository extends JpaRepository<Likes, LikesId> {
+
 }

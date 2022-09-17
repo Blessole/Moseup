@@ -11,6 +11,7 @@ import project.moseup.dto.LikeSaveReqDto;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +52,12 @@ public class LikesRepositoryTest {
     }
 
     @Test
-    public void 찜목록삭제(){
+    public void 찜목록가져오기(){
+
+
+        List<Team> likes = teamInterfaceRepository.findAll();
+
+        log.info(likes);
 
     }
 

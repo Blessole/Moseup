@@ -8,19 +8,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.TeamAskBoardReplySaveReqDto;
+import project.moseup.dto.TeamAskReplyDeleteAndRecoverDto;
 import project.moseup.dto.searchDto.TeamSearchDto;
 import project.moseup.dto.teamPage.TeamDetailDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AdminTeamService;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.teampage.TeamAskBoardReplyService;
 
 import java.security.Principal;
 import java.util.Map;
@@ -34,6 +34,8 @@ public class AdminTeamController {
     private final AdminTeamService adminTeamService;
     private final MemberService memberService;
     private final AdminMemberService adminMemberService;
+
+    private final TeamAskBoardReplyService teamAskBoardReplyService;
 
     // 공용 데이터
     @ModelAttribute
@@ -107,7 +109,7 @@ public class AdminTeamController {
 
     // 팀 문의글
     @GetMapping("/teamAskBoard")
-    public String teamAskBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){
+    public String teamAskBoard(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
         TeamDetailDto team = adminTeamService.teamDetail(tno);
         Map<String, Object> askBoardDesc = adminTeamService.getAskBoard(tno);
 
@@ -130,6 +132,34 @@ public class AdminTeamController {
 
         return "admin/teamInMember";
     }
+
+    // 팀 문의글 정보
+    @GetMapping("/teamAskBoardDetail")
+    public String teamAskBoardDetail(@RequestParam Long tano, Model model){
+        Map<String, Object> teamAskBoardAndReplyDesc = adminTeamService.getAskBoardReply(tano);
+
+        model.addAttribute("teamAskBoardMap", teamAskBoardAndReplyDesc);
+
+        return "admin/teamAskBoardDetail";
+    }
+
+    // 팀 문의글 댓글 작성
+    @PostMapping("/teamAskBoardDetail")
+    public String teamAskBoardDetailReply(@ModelAttribute TeamAskBoardReplySaveReqDto saveReqDto){
+
+        teamAskBoardReplyService.replyAdd(saveReqDto);
+
+        return "redirect:/admin/teamAskBoardDetail?tano=" + saveReqDto.getTano();
+    }
+
+    @GetMapping("/deleteTeamReplyRecover")
+    public String deleteTeamReplyRecover(@ModelAttribute TeamAskReplyDeleteAndRecoverDto dto){
+        teamAskBoardReplyService.deleteAndRecover(dto);
+
+        return "redirect:/admin/teamAskBoardDetail?tano=" + dto.getTano();
+    }
+
+
 
 
 }

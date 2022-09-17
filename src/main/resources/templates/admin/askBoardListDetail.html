@@ -102,7 +102,6 @@
                         <a type="button" id="edit" class="btn btn-outline-danger" 
                         th:if="${member.mno} == ${reply.member.mno} and ${reply.askReplyDelete} == ${deleteTrue}" 
                         th:href="@{/admin/adminAskReplyDeleteAndRecover(arno=${reply.arno}, ano=${reply.askBoard.ano}, choice='recover')}">복구</a>
-
                     </div>
                 </div>
             </div>
