@@ -8,19 +8,18 @@ import project.moseup.domain.Team;
 import project.moseup.domain.TeamMember;
 
 @Getter @Setter
-public class TeamMemberDto {
-	
+public class TeamMemberDetailDto {
+
 	private Member member;
 	
 	private Team team;
 	
 	private DeleteStatus teamMemberDelete;
 	
-	// 팀 가입 method
-	public TeamMember createTeamMemberBuilder() {
-		return TeamMember.createTeamMemberBuilder()
-				.member(member)
-				.team(team)
-				.teamMemberDelete(DeleteStatus.FALSE).build();
+	public TeamMemberDetailDto toDto(TeamMember teamMember) {
+		this.member = teamMember.getMember();
+		this.team = teamMember.getTeam();
+		this.teamMemberDelete = teamMember.getTeamMemberDelete();
+		return this;
 	}
 }
