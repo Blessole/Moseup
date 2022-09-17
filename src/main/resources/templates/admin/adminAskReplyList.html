@@ -49,7 +49,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="askBoardReplie : ${askBoardMap.boardReplyList}">
+              <tr th:if="${askBoardMap.boardReplyList.size} == 0">
+                <th colspan="5" style="text-align: center;">등록된 답변이 없습니다.</th>
+              </tr>
+              <tr th:if="${askBoardMap.boardReplyList.size} != 0" th:each="askBoardReplie : ${askBoardMap.boardReplyList}">
                 <th th:text="${askBoardReplie.arno}">번호</th>
                 <td th:text="${askBoardReplie.member.nickname}">작성자</td>
                 <td th:text="${#temporals.format(askBoardReplie.askReplyDate, 'yyyy-MM-dd HH:mm:ss')}">답변날짜</td>

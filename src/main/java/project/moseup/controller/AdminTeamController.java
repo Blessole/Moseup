@@ -15,7 +15,7 @@ import project.moseup.domain.Team;
 import project.moseup.dto.TeamAskBoardReplySaveReqDto;
 import project.moseup.dto.TeamAskReplyDeleteAndRecoverDto;
 import project.moseup.dto.searchDto.TeamSearchDto;
-import project.moseup.dto.teamPage.TeamDetailDto;
+import project.moseup.dto.teamPage.TeamDetailRespDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.AdminTeamService;
@@ -70,7 +70,7 @@ public class AdminTeamController {
     // 팀 정보 상세보기
     @GetMapping("/teamDetail")
     public String memberDetail(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
-            TeamDetailDto team = adminTeamService.teamDetail(tno);
+            TeamDetailRespDto team = adminTeamService.teamDetail(tno);
 
             model.addAttribute("team", team);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
@@ -82,7 +82,7 @@ public class AdminTeamController {
     // 팀 통장 정보
     @GetMapping("/teamBankbook")
     public String teamBankbook(@RequestParam Long tno, @RequestParam int pageNum, Model model){
-        TeamDetailDto team = adminTeamService.teamDetail(tno);
+        TeamDetailRespDto team = adminTeamService.teamDetail(tno);
         Map<String, Object> teamAndDetailsDESC = adminTeamService.getTeamBankbook(tno);
 
         model.addAttribute("team", team);
@@ -96,7 +96,7 @@ public class AdminTeamController {
     // 팀 인증글
     @GetMapping("/teamCheckBoard")
     public String teamCheckBoard(@RequestParam Long tno, @RequestParam int pageNum, Model model){
-        TeamDetailDto team = adminTeamService.teamDetail(tno);
+        TeamDetailRespDto team = adminTeamService.teamDetail(tno);
         Map<String, Object> checkBoardsDesc = adminTeamService.getCheckBoard(tno);
 
         model.addAttribute("team", team);
@@ -110,7 +110,7 @@ public class AdminTeamController {
     // 팀 문의글
     @GetMapping("/teamAskBoard")
     public String teamAskBoard(@RequestParam Long tno, @RequestParam(required = false, defaultValue = "0") int pageNum, Model model){
-        TeamDetailDto team = adminTeamService.teamDetail(tno);
+        TeamDetailRespDto team = adminTeamService.teamDetail(tno);
         Map<String, Object> askBoardDesc = adminTeamService.getAskBoard(tno);
 
         model.addAttribute("team", team);
@@ -124,7 +124,7 @@ public class AdminTeamController {
     // 팀 가입 멤버
     @GetMapping("/teamInMember")
     public String teamInMember(@RequestParam Long tno, @RequestParam int pageNum, Model model){
-        TeamDetailDto team = adminTeamService.teamDetail(tno);
+        TeamDetailRespDto team = adminTeamService.teamDetail(tno);
 
         model.addAttribute("team", team);
         model.addAttribute("deleteFalse", DeleteStatus.FALSE);
