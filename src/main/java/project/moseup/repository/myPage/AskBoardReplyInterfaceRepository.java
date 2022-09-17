@@ -20,4 +20,6 @@ public interface AskBoardReplyInterfaceRepository extends JpaRepository<AskBoard
     List<AskBoardReply> findAllByAskBoardAndAskReplyDelete(AskBoard askBoard, DeleteStatus aFalse);
 
     boolean findAskBoardReplyByAskBoardAndAndAskReplyDelete(AskBoard askBoard, DeleteStatus aFalse);
+
+    List<AskBoardReply> findByAskBoardOrderByArnoDesc(AskBoard askBoardPS);
 }

@@ -37,14 +37,14 @@
 							    	<a th:href="@{/teams/teamPage(tno=${topList.tno})}">
 							    		<img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block" id="slideImg" alt="top5이미지">
 							    	</a>
-							    </div>
+							    </div> 
 							    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
 							    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
 							    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
 							    	<a th:href="@{/teams/teamPage(tno=${topList.tno})}">
 							    		<img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block" id="slideImg" alt="top5이미지">
 							    	</a>
-							    </div>
+							    </div> 
 							  </th:block>
 						  </div>
 						  <!-- 슬라이드 화살표 버튼 -->
@@ -57,35 +57,8 @@
 						    <span class="visually-hidden">Next</span>
 						  </button>
 					  </div>
-				  </div>
-				  <!-- 슬라이드 이미지 부분 -->
-				  <div th:if="${!topList.isEmpty()}">
-					  <div class="carousel-inner">
-	 					  <th:block th:each="topList, index : ${topList}">
-						    <div th:if="${index.index == 0}" class="carousel-item active item" data-bs-interval="3000">
-						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
-						    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-						    	<a href="#" th:href="@{/teams/teamPage(tno=${topList.tno})}"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" th:alt="top5이미지"></a>
-						    </div> 
-						    <div th:if="${index.index != 0}" class="carousel-item item" data-bs-interval="3000">
-						    	<div class="carousel-caption" id="slideCaption" th:text="${topList.teamName}"></div>
-						    	<div class="carousel-caption" id="slideCaption2" th:text="${topList.teamCategory1}"></div>
-						    	<a href="#"><img th:src="'images/teamPhotos/'+${topList.teamName}+'/'+${topList.teamPhoto}" class="d-block w-100" id="slideImg" alt="top5이미지"></a>
-						    </div> 
-						  </th:block>
-					  </div>
-				  </div>
-				  <!-- 슬라이드 화살표 버튼 -->
-				  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				    <span class="visually-hidden">Previous</span>
-				  </button>
-				  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				    <span class="visually-hidden">Next</span>
-				  </button>
+				  	  <hr>
 				</div>
-			  	<hr>
 			</section>
 			<!-- 검색 세션 -->
 			<section class="searchSection">
@@ -213,31 +186,6 @@
 										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
 									</div>
 								</div>
-<<<<<<< HEAD
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- 습관순 -->
-				<div><a th:href="@{/search(keyword=습관,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">습관이 바꾸는 미래! ✨<span id="teamListSpan"> ></span></a></div>
-				<div id="teamListSubtitle">식습관, 생활습관, 수면습관 등 모든 습관!!</div>
-				<div th:if="${!habitTopList.isEmpty()}">
-					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
-						<div th:each="habitTopList : ${habitTopList}" class="center">
-							<div class="card">
-								<a href="#"><img th:if="${habitTopList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${habitTopList.teamName}+'/'+${habitTopList.teamPhoto}" class="card-img-top" alt="..."></a>
-								<a href="#"><img th:if="${habitTopList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
-								<div class="card-body">
-									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${habitTopList.teamName}">teamName
-										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
-									<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
-									<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
-									<p class="card-text cardTeamDeposit" th:text="${'₩'+habitTopList.teamDeposit}+'0,000'">teamDeposit</p>
-									<p class="card-text cardTeamDate" th:text="${'⭐'+habitTopList.startDate+' ~ '+habitTopList.endDate+'⭐'}">teamDate</p>
-									<p class="btn btn-sm Category1Btn" th:text="${habitTopList.teamCategory1}">teamCategory1</p>
-									<p th:if="${habitTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${habitTopList.teamCategory2}">teamCategory2</p>
-									<p th:if="${habitTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${habitTopList.teamCategory3}">teamCategory3</p>
-=======
 								<!-- 시작일이 지나지 않은 습관 -->
 								<div class="card" th:if="${exerciseTopList.startDate}>=${today}">
 									<img th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="...">
@@ -251,7 +199,6 @@
 										<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
 										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
 									</div>
->>>>>>> branch 'v.2.0.1-develop' of https://github.com/Blessole/Moseup.git
 								</div>
 							</a>
 						</div>
@@ -264,21 +211,6 @@
 					<div id="teamListSubtitle">따끈따끈, 신규 팀 추천!!</div>
 					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
 						<div th:each="newTeamList : ${newTeamList}" class="center">
-<<<<<<< HEAD
-							<div class="card">
-								<a th:href="@{teams/teamPage(tno=${newTeamList.tno})}"><img th:if="${newTeamList.teamPhoto != ''}" th:src="'images/teamPhotos/'+${newTeamList.teamName}+'/'+${newTeamList.teamPhoto}" class="card-img-top" alt="..."></a>
-								<a th:href="@{teams/teamPage(tno=${newTeamList.tno})}"><img th:if="${newTeamList.teamPhoto == ''}" th:src="@{/images/teamNullImg.png}" class="card-img-top" alt="..."></a>
-								<div class="card-body">
-									<p class="card-title cardTeamName"><a class="cardTeamNameA" href="#" th:text="${newTeamList.teamName}">teamName
-										<span th:value="${keyword}"></span><span th:value="${filter2}"></span></a></p>
-									<p class="card-text cardTeamLeader" th:text="${newTeamList.member.nickname}">teamLeader</p>
-									<p class="card-text cardTeamVolume" th:text="${newTeamList.teamDeposit+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
-									<p class="card-text cardTeamDeposit" th:text="${'₩'+newTeamList.teamDeposit}+'0,000'">teamDeposit</p>
-									<p class="card-text cardTeamDate" th:text="${'⭐'+newTeamList.startDate+' ~ '+newTeamList.endDate+'⭐'}">teamDate</p>
-									<p class="btn btn-sm Category1Btn" th:text="${newTeamList.teamCategory1}">teamCategory1</p>
-									<p th:if="${newTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${newTeamList.teamCategory2}">teamCategory2</p>
-									<p th:if="${newTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${newTeamList.teamCategory3}">teamCategory3</p>
-=======
 							<a th:href="@{/teams/teamPage(tno=${newTeamList.tno})}">
 								<!-- 시작일이 지난 습관 -->
 								<div class="card pastHabits" th:if="${newTeamList.startDate}<${today}">
@@ -294,7 +226,6 @@
 										<p th:if="${newTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${newTeamList.teamCategory2}">teamCategory2</p>
 										<p th:if="${newTeamList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${newTeamList.teamCategory3}">teamCategory3</p>
 									</div>
->>>>>>> branch 'v.2.0.1-develop' of https://github.com/Blessole/Moseup.git
 								</div>
 								<!-- 시작일이 지나지 않은 습관 -->
 								<div class="card" th:if="${newTeamList.startDate}>=${today}">
