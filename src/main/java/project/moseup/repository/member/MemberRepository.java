@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
+import project.moseup.domain.Team;
 
 import java.util.List;
 import java.util.Optional;

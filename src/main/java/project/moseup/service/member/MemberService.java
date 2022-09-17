@@ -7,12 +7,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.dto.MemberSaveReqDto;
-import project.moseup.exception.NoLoginException;
 import project.moseup.repository.member.MemberInterfaceRepository;
 import project.moseup.repository.member.MemberRepository;
 
@@ -38,7 +36,7 @@ public class MemberService {
 	@Value("${moseup.upload.path}") //application.properties의 변수
 	private String uploadPath;
 
-	/** principal 조회 **/
+		/** principal 조회 **/
 	public Member getPrincipal(Principal principal) {
 		return this.getMember(principal.getName());
 	}
@@ -55,7 +53,7 @@ public class MemberService {
 
 	/** 회원가입 **/
 	@Transactional // 값을 넣어야하는 곳에는 읽기만 하면 안되니 따로 @Transactional를 사용
-	public void join(MemberSaveReqDto joinForm) {
+	public Long join(MemberSaveReqDto joinForm) {
 
 		Member member = joinForm.toEntity();
 
@@ -63,7 +61,7 @@ public class MemberService {
 		member.encodePassword(passwordEncoder);
 
 		// DB 저장
-		memberRepository.save(member);
+		return memberInterfaceRepository.save(member).getMno();
 	}
 
 	/** 회원 전체 조회 **/
@@ -147,29 +145,6 @@ public class MemberService {
 		return passwordEncoder.matches(password, member.getPassword());
 	}
 
-	public Map<String, Object> getPhotoAndNicknameForNavBar(String email) {
-		Map<String, Object> map = new HashMap<>();
-		Member member = this.getMember(email);
-		map.put("member", member);
-		System.out.println("service member : " + member);
-
-		String realPhoto = "";
-		if (member.getPhoto()==null || member.getPhoto().equals("")){
-			realPhoto = "/images/profile.png";
-			map.put("realPhoto", realPhoto);
-		} else {
-			// 사진 경로 local에서 project용으로 변경
-			String photo = member.getPhoto();
-			int index = photo.indexOf("images");
-			realPhoto = photo.substring(index - 1);
-			map.put("realPhoto", realPhoto);
-		}
-		System.out.println("service realPhoto : " + realPhoto);
-		System.out.println("service map : " + map);
-
-		return map;
-	}
-
 	/** 마이페이지 사진, 닉네임 불러오기 메소드 **/
 	public Map<String, Object> getPhotoAndNickname(Principal principal) {
 		Map<String, Object> map = new HashMap<>();
@@ -195,7 +170,7 @@ public class MemberService {
 	}
 
 	/** 파일 등록 시 폴더 생성  및 파일 경로 저장 **/
-	public String makeFolderAndFileName(MultipartFile file, String folderPath){
+	public String makeFolderAndFileName(MultipartFile file, String folderPath, String personalPath){
 		// 사용 브라우저에 따라 파일이름/경로 다름
 		String originalName = file.getOriginalFilename();
 		String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
@@ -208,9 +183,18 @@ public class MemberService {
 				e.getStackTrace(); // 에러 발생
 			}
 		}
+		String newPath = uploadPath+File.separator+folderPath;
+		File personalUploadPathFolder = new File(newPath, personalPath);
+		if(!personalUploadPathFolder.exists()){
+			try{
+				personalUploadPathFolder.mkdirs();
+			}catch (Exception e){
+				e.getStackTrace(); // 에러 발생
+			}
+		}
 		// 파일 경로 저장하기
 		String uuid = UUID.randomUUID().toString();
-		String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
+		String saveName =newPath + File.separator + personalPath + File.separator + uuid + "_" + fileName; // 경로 + 폴더명
 		Path savePath = Paths.get(saveName);
 		try{
 			file.transferTo(savePath);

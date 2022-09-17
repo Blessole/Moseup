@@ -1,30 +1,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="floatingActionButton">
 	<div class="fab-container">
-	<div class="fab fab-icon-holder">
-		<img alt="team.." src="/images/team.png" width="100" height="50">
-	</div>
-	
-	<ul class="fab-options">
-		<li>
-			<span class="fab-label">좋아하는 팀</span>
-			<div class="fab-icon-holder">
-				<i class="bi bi-suit-heart-fill"></i>
-			</div>
-		</li>
-		<li>
-			<span class="fab-label">가입한 팀</span>
-			<div class="fab-icon-holder">
-				<i class="bi bi-person-lines-fill"></i>
-			</div>
-		</li>
-		<li>
-			<span class="fab-label">팀 생성</span>
-			<div class="fab-icon-holder">
-				<a th:href="@{/teams/createTeam}"><i class="bi bi-plus-lg"></i></a>
-			</div>
-		</li>
-	</ul>
+		<div class="fab fab-icon-holder">
+			<a th:href="@{/teams/createTeam}">
+				<!-- <img class="teamImg" alt="team.." src="/images/team.png" width="100" height="50">
+				<img class="createImg displayNone" alt="team.." src="/images/createImg.png" width="100" height="50"> -->
+				<img class="teamImg" alt="team.." src="/images/1.png" width="100" height="50">
+				<img class="createImg displayNone" alt="team.." src="/images/2.png" width="100" height="50">
+			</a>
+		</div>
 	</div>
 </div>
 </html>

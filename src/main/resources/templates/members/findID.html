@@ -13,17 +13,19 @@
 <th:block layout:fragment="content">
     <form th:action="@{/members/findID}" th:object="${memberDto}" method="post">
         <div class="middle-container">
-            <h1 class="title">아이디 찾기</h1>
+            <h1 class="title find">아이디 찾기</h1>
             <div class="findBox">
-                <label>이름</label>
-                <input type="text" th:field="*{name}">
+                <div class="form-group findMargin">
+                    <input type="text" th:field="*{name}"  class="form-control text-center" placeholder="이름" required autofocus>
+                </div>
             </div>
             <div class="findBox">
-                <label>전화번호</label>
-                <input type="text" th:field="*{phone}">
+                <div class="form-group findMargin">
+                    <input type="text" th:field="*{phone}" class="form-control text-center" placeholder="전화번호" required>
+                </div>
             </div>
-            <div class="bankBookButton">
-                <input type="submit" value="확인">
+            <div class="findID-button-box">
+                <button type="submit" class="btn-sol form-control">확인</button>
             </div>
         </div>
     </form>

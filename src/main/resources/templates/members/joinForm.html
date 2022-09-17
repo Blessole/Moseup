@@ -6,64 +6,95 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
     <form th:action="@{/members/join}" th:object="${joinForm}" onsubmit="return makeAdd()" method="post" name="frm" enctype="multipart/form-data">
 <!--        <div th:replace="form_errors :: formErrorsFragment"></div>-->
-        <div class="middle-container">
+        <div class="narrow-middle-container">
             <h1>회원가입</h1>
-            <div class="form-group">
-                <div class="image_container" id="image_container"></div>
-                <label th:for="photo">프로필사진</label>
-                <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:30%;" name="file" id="photo" accept="/image/*">
-                <span id="photoErr" class="text-err"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="email" class="form-label font-bold">이메일<span class="essential">*</span></label>
-                <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력하세요">
-                <span class="text-err" id="emailChk"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="password">비밀번호<span class="essential">*</span></label>
-                <input type="password"  th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요.">
-                <span class="text-err" id="password1Chk"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="password">비밀번호 확인<span class="essential">*</span></label>
-                <input type="password"  th:field="*{password2}" class="form-control" placeholder="비밀번호를 입력하세요.">
-                <span class="text-err" id="password2Chk"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="name">이름<span class="essential">*</span></label>
-                <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요.">
-            </div>
-            <div class="form-group">
-                <label th:for="nickname">닉네임<span class="essential">*</span></label>
-                <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요.">
-                <span class="text-err" id="nicknameChk"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="phone">전화번호<span class="essential">*</span></label>
-                <input type="text" th:field="*{phone}" class="form-control" placeholder="예 : 01012345678">
-                <span class="text-err" id="phoneChk"></span>
-            </div>
-            <div class="form-group">
-                <label th:for="gender">성별<span class="essential">*</span></label>
-                <div th:each="type : ${genders}" class="form-check form-check-inline">
-                    <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
-                    <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+            <div class="flex_group">
+                <div class="form-group myInfo">
+                    <div class="image_container" id="image_container"></div>
+                    <div class="take_container">
+                        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+                        <label class="photoLabel" th:for="photo">프로필사진</label>
+                    </div>
+                    <input type="file" class="form-control form-control-sm" onchange="setImage(event);" style="margin:0 auto; width:30%;" name="file" id="photo" accept="/image/*">
+                    <span id="photoErr" class="photo-text-err"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label th:for="address">주소<span class="essential">*</span></label>
-                <input type="text" th:field="*{address}" id="searchAddress" onclick="findAdd()" placeholder="클릭해서 주소 검색하기" readonly>
-                <input type="text" th:field="*{address2}" id="detailAddress" placeholder="상세주소 입력해주세요">
-                <span class="text-err" id="addressChk"></span>
-            </div>
-            <div class="button-box">
-                <input type="submit" value="가입하기">
+
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="email">이메일<span class="essential">*</span></label>
+                    </div>
+                    <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력하세요"><br>
+                    <span class="text-err" id="emailChk"></span>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="password">비밀번호<span class="essential">*</span></label>
+                    </div>
+                    <input type="password"  th:field="*{password}" class="form-control" placeholder="비밀번호를 입력하세요."><br>
+                    <span class="text-err" id="password1Chk"></span>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="password">비밀번호 확인<span class="essential">*</span></label>
+                    </div>
+                    <input type="password"  th:field="*{password2}" class="form-control" placeholder="비밀번호를 한번 더 입력하세요."><br>
+                    <span class="text-err" id="password2Chk"></span>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="name">이름<span class="essential">*</span></label>
+                    </div>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요."><br>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="nickname">닉네임<span class="essential">*</span></label>
+                    </div>
+                    <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요."><br>
+                    <span class="text-err" id="nicknameChk"></span>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="labelBox">
+                        <label class="label" th:for="phone">전화번호<span class="essential">*</span></label>
+                    </div>
+                    <input type="text" th:field="*{phone}" class="form-control" placeholder="예 : 01012345678"><br>
+                    <span class="text-err" id="phoneChk"></span>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="take_container">
+                        <div class="labelBox">
+                            <label class="label" th:for="gender">성별<span class="essential">*</span></label>
+                        </div>
+                        <div class="genderBox">
+                            <div th:each="type : ${genders}" class="form-check form-check-inline">
+                            <input type="radio" th:field="*{gender}" th:value="${type.name()}" class="form-check-input">
+                            <label th:for="${#ids.prev('gender')}" th:text="${type.description}" class="form-check-label">남자</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group myInfo">
+                    <div class="take_container">
+                        <div class="labelBox">
+                            <label class="label" th:for="address">주소<span class="essential">*</span></label>
+                        </div>
+                        <div class="join_addressBox">
+                            <input type="text" th:field="*{address}" id="searchAddress" onclick="findAdd()" placeholder="클릭해서 주소검색" readonly>
+                            <input type="text" th:field="*{address2}" id="detailAddress" placeholder="상세주소 입력">
+                        </div><br>
+                        <span class="text-err" id="addressChk"></span>
+                    </div>
+                </div>
+                <div class="myInfo-button-box">
+                    <input type="submit" id="joinButton" value="가입하기">
+                </div>
             </div>
         </div>
     </form>
@@ -192,20 +223,17 @@
             let photoVal = fileVal.slice(fileVal.indexOf(".")+1).toLowerCase();
             let imgTag = $("#imgTag");
 
-            function del(){
-                $('#photo').val("");
-                $('#image_container').css("display", "none");
-            }
-
-            if ( fileVal == null || fileVal == ""){
+            if ( fileVal == null || fileVal == "" ){
                 imgTag.remove();
-                photoErr.html("사진을 선택해주세요");
-                del()
+                // photoErr.innerText="사진을 선택해주세요!";
+                $('#photo').val("");
+                $('.upload-name').val("");
             } else if (photoVal != "jpg" && photoVal != "png" && photoVal != "jpeg" && photoVal != "gif") {
-                photoErr.html("확장자가 jpg, png, jpeg, gif 파일만 가능합니다");
+                photoErr.innerText="확장자가 jpg, png, jpeg, gif 파일만 가능합니다";
                 profilePhoto.focus();
                 imgTag.remove();
-                del()
+                $('#photo').val("");
+                $('.upload-name').val("");
             } else {
                 $('#image_container').css("display", "block");
                 let img = document.createElement("img");
@@ -218,6 +246,7 @@
                         img.setAttribute("height", "200");
                         img.setAttribute("id", "imgTag");
                         photoErr.innerText="";
+                        $('.upload-name').val(fileVal);
                         document.querySelector("div#image_container").appendChild(img);
                     };
                     reader.readAsDataURL(event.target.files[0]);
@@ -231,6 +260,11 @@
                 }
             }
         };
+
+        // function del(){
+        //     $('#photo').val("");
+        //     $('.upload-name').remove();
+        // }
 
         /* 주소 작성 여부 검사 */
         function makeAdd(){

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<div th:if="${result == 0}">
+    <script type="text/javascript">
+        alert("팀 탈퇴 실패했습니다. ㅠㅠ");
+        history.go(-1);
+    </script>
+</div>
+<div th:if="${result == 1}">
+    <script type="text/javascript">
+        alert("팀 탈퇴 완료되었습니다.");
+        location.href="/myPage/myTeamList";
+    </script>
+</div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.AskBoard;
 import project.moseup.domain.AskBoardReply;
 import project.moseup.domain.DeleteStatus;
+import project.moseup.dto.AdminAskReplyDeleteAndRecoverDto;
 import project.moseup.dto.AskBoardReplyRespDto;
 import project.moseup.dto.AskBoardReplySaveReqDto;
 import project.moseup.repository.admin.AdminAskBoardReplyRepository;
@@ -16,6 +17,7 @@ import project.moseup.repository.myPage.AskBoardInterfaceRepository;
 import project.moseup.repository.myPage.AskBoardReplyInterfaceRepository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,21 @@ public class AskBoardReplyService {
         Pageable pageable = PageRequest.of(startAt, 5);
         return askBoardReplyInterfaceRepository.findByAskBoardAndAskReplyDelete(askBoard, DeleteStatus.FALSE, pageable);
     }
+
+    /** 문의게시판 댓글 리스트 조회 **/
+    public List<AskBoardReply> findAll(AskBoard askBoard) {
+        return askBoardReplyInterfaceRepository.findAllByAskBoardAndAskReplyDelete(askBoard, DeleteStatus.FALSE);
+    }
+
+//    public boolean getAskBoardReply(AskBoard askBoard){
+//        askBoardReplyInterfaceRepository.findAskBoardReplyByAskBoardAndAndAskReplyDelete(askBoard, DeleteStatus.FALSE);
+//        if () {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
 
     /** 문의게시판 댓글 작성 **/
     @Transactional
@@ -56,6 +73,31 @@ public class AskBoardReplyService {
             return new AskBoardReplyRespDto().toDto(askBoardReplyPS);
         }else{
             throw new IllegalStateException("찾는 댓글이 없습니다");
+        }
+
+    }
+
+    // 댓글 삭제 & 복구
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void replyDeleteAndRecover(AdminAskReplyDeleteAndRecoverDto dto) {
+        AskBoardReply askBoardReplyPS = null;
+        Optional<AskBoardReply> askBoardReplyOP = adminAskBoardReplyRepository.findById(dto.getArno());
+
+        if(askBoardReplyOP.isPresent()){
+            askBoardReplyPS = askBoardReplyOP.get();
+
+            switch (dto.getChoice()){
+                case "delete" :
+                    askBoardReplyPS.replyDelete();
+                    break;
+                case "recover" :
+                    askBoardReplyPS.replyRecover();
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            throw new NullPointerException("삭제 댓글 데이터가 없습니다 id = " + dto.getArno());
         }
 
     }

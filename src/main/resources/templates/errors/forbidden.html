@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link th:href="@{/css/layout.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<img width="100%" src="/images/errorPage/error_403_forbidden.png" onclick="goHome()">
+<script type="text/javascript">
+    function goHome(){
+        location.href="/";
+    }
+</script>
+</body>
+</html>

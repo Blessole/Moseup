@@ -6,12 +6,13 @@
   <meta charset="UTF-8">
   <title>아이디찾기</title>
   <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
     <div class="middle-container">
-      <h1 class="title">아이디 찾기 결과</h1>
+      <h1 class="title find">아이디 찾기 결과</h1>
         <div th:if="${result == 1}">
             회원님의 아이디는 <span th:text="${member.email}"></span> 입니다.
         </div>
@@ -21,9 +22,9 @@
                 history.go(-1);
             </script>
         </div>
-        <div class="bankBookButton">
-            <a href="" th:href="@{/members/login}">로그인</a>
-            <a href="" th:href="@{/members/findPW}">비밀번호 찾기</a>
+        <div class="findAction-button-box">
+            <a href=""  class="btn-sol"  th:href="@{/members/login}">로그인</a>
+            <a href=""  class="btn-sol"  th:href="@{/members/findPW}">비밀번호 찾기</a>
         </div>
     </div>
 </th:block>

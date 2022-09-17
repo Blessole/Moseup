@@ -11,7 +11,7 @@ import java.util.List;
 public interface BankbookInterfaceRepository extends JpaRepository<Bankbook, Long> {
 
 //    String findTotal = "select b.bankbookTotal from Bankbook b where b.member = :member Order by rowId Desc Limit 1";
-    Page<Bankbook> findByMember(Member member, Pageable pageable);
+    Page<Bankbook> findByMemberOrderByDnoDesc(Member member, Pageable pageable);
 
     Bankbook findByMember(Member member);
 

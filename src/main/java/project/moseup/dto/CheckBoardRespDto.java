@@ -39,4 +39,11 @@ public class CheckBoardRespDto {
 
         return this;
     }
+
+    public String getPhotoViewPath(){
+        int index = this.checkPhoto.indexOf("images");
+        return this.checkPhoto.substring(index - 1);
+    }
+
+
 }

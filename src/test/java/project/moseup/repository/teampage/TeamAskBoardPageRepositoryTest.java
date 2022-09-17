@@ -3,26 +3,25 @@ package project.moseup.repository.teampage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.SecretStatus;
-import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.*;
 import project.moseup.dto.teamPage.TeamAskBoardDto;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.repository.myPage.TeamInterfaceRepository;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
 public class TeamAskBoardPageRepositoryTest {
 
     @Autowired
     TeamAskBoardPageRepository teamAskBoardPageRepository;
     @Autowired
     AdminMemberRepository adminMemberRepository;
+
+    @Autowired
+    TeamInterfaceRepository teamInterfaceRepository;
 
 
 
@@ -40,9 +39,11 @@ public class TeamAskBoardPageRepositoryTest {
 
     @Test
     public void 삭제데이터준비_test(){
-        Member member = adminMemberRepository.findById(47L).orElse(null);
+        Member member = adminMemberRepository.findById(1L).orElse(null);
+        Team team = teamInterfaceRepository.findById(12L).orElse(null);
 
         TeamAskBoardDto teamAskBoardDto = new TeamAskBoardDto();
+        teamAskBoardDto.setTeam(team);
         teamAskBoardDto.setTeamAskDate(LocalDate.now());
         teamAskBoardDto.setTeamAskContent("test");
         teamAskBoardDto.setTeamAskDelete(DeleteStatus.FALSE);

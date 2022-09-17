@@ -1,5 +1,8 @@
 package project.moseup.service.teampage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -7,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.CheckBoard;
+import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.dto.teamPage.CheckBoardDetailDto;
 import project.moseup.dto.teamPage.CheckBoardDto;
 import project.moseup.repository.teampage.CheckBoardPageRepository;
 import project.moseup.repository.teampage.CheckBoardRepository;
@@ -41,5 +46,19 @@ public class CheckBoardService {
 	@Transactional
 	public int increaseReadCount(Long cno) {
 		return checkBoardPageRepository.updateReadCount(cno);
+	}
+	
+	// 팀 별 인증글 찾기
+	public List<CheckBoardDetailDto> findByTeam(Team team) {
+		List<CheckBoard> checkBoardList = checkBoardPageRepository.findByTeam(team);
+		List<CheckBoardDetailDto> dtoList = new ArrayList<CheckBoardDetailDto>();
+		
+		for(CheckBoard c : checkBoardList) {
+			CheckBoardDetailDto dto = new CheckBoardDetailDto();
+			dto = dto.toDto(c);
+			dtoList.add(dto);
+		}
+		
+		return dtoList;
 	}
 }

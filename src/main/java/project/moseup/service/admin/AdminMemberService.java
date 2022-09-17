@@ -7,22 +7,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.moseup.domain.Bankbook;
-import project.moseup.domain.DeleteStatus;
-import project.moseup.domain.Member;
-import project.moseup.domain.Role;
+import project.moseup.domain.*;
 import project.moseup.dto.BankbookRespDto;
+import project.moseup.dto.CheckBoardRespDto;
 import project.moseup.dto.MemberRespDto;
 import project.moseup.dto.MemberSaveReqDto;
 import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.MemberNotFoundException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.repository.myPage.BankbookInterfaceRepository;
+import project.moseup.repository.teampage.CheckBoardPageRepository;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -33,6 +33,7 @@ public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
     private final BankbookInterfaceRepository bankbookInterfaceRepository;
+    private final CheckBoardPageRepository checkBoardPageRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 회원 등록
@@ -150,4 +151,18 @@ public class AdminMemberService {
 
         return map;
     }
+
+    public List<CheckBoardRespDto> getCheckBoards(Long id) {
+        Optional<Member> memberOP = adminMemberRepository.findById(id);
+        if(memberOP.isPresent()){
+            Member memberPS = memberOP.get();
+            List<CheckBoard> checkBoards = checkBoardPageRepository.findByMemberOrderByCnoDesc(memberPS);
+
+            return checkBoards.stream().map(checkBoard -> new CheckBoardRespDto().toDto(checkBoard)).collect(Collectors.toList());
+        }else{
+            throw new MemberNotFoundException(id);
+        }
+    }
+
+
 }

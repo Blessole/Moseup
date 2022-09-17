@@ -1,3 +1,8 @@
+@charset "UTF-8";
+
+body{
+    font-family: 'LG Regular';
+}
 
 * {
     margin: 0;
@@ -13,6 +18,14 @@
     text-align: center;
 }
 
+.narrow-middle-container{
+    padding-top : 100px;
+    padding-bottom: 100px;
+    width: 60%;
+    margin: auto;
+    text-align: center;
+}
+
 .topless-middle-container{
     padding-top : 65px;
     padding-bottom: 100px;
@@ -22,7 +35,7 @@
 }
 
 .topless2-middle-container{
-    padding-top : 122px;
+    padding-top: 69px;
     padding-bottom: 100px;
     width: 100%;
     margin: auto;
@@ -33,6 +46,7 @@
     margin-bottom: 40px;
     padding-bottom: 30px;
     border-bottom: #2b542c dashed 1px;
+    font-family: 'Gyeonggi';
 }
 
 /* 문의게시판 리스트 시작 */
@@ -78,14 +92,15 @@ th {
 }
 
 .askButton {
+    background-color: var(--point-color);
     border:  var(--point-color) solid 1px;
     padding: 10px;
-    color:  var(--point-color);
+    color : white;
 }
 
 .askButton:hover {
-    background-color: var(--point-color);
-    color : white;
+    background-color: #fff;
+    color:  var(--point-color);
 }
 
 .myAsk{
@@ -121,9 +136,14 @@ th {
 .content-box {
     text-align: left;
     width: 60%;
-    height: 200px;
+    height: auto;
+    overflow: hidden;
     margin: auto;
     border: 1px solid #e6e6e6;
+}
+
+.contentBox{
+    padding : 10px 10px 30px 10px;
 }
 
 .subTitle {
@@ -143,8 +163,18 @@ th {
     padding: 10px 0;
 }
 
-.image_container .askBoardPhoto{
-    width: 400px;
+.ask_image_container {
+    width: 60%;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    margin: 10px auto 20px;
+}
+
+.ask_image_container .askBoardPhoto {
+    width: 100%;
+    padding: 10px;
+    object-fit: cover;
 }
 
 .askDetail-button-box{
@@ -172,6 +202,83 @@ th {
     color : white;
 }
 
+/* askBoardUpdateForm 문의글 수정 */
+.ask_up_image_container {
+    width: 69%;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    margin: 10px auto -1px;
+}
+
+.ask_up_image_container .askBoardPhoto {
+    width: 100%;
+    padding: 10px;
+    object-fit: cover;
+}
+
+.ask_up_image_container .small{
+    width: 5%;
+    padding: 10px;
+    object-fit: cover;
+}
+
+.ask_up_take_container{
+    border: 1px solid #e6e6e6;
+    width: 69%;
+    margin: 0 auto 20px;
+    background-color: var(--point-light);
+    color: #fff;
+}
+
+.ask_up_take_container label{
+    width: 100%;
+    height: 100%;
+    padding:10px;
+    cursor: pointer;
+}
+
+.ask_up_button_box {
+    width: 69%;
+    margin: 16px auto 4px;
+    height: 70px;
+}
+
+.ask_up_button_box .askButton2 {
+    width: 30%;
+    height: 85%;
+    border: var(--point-color) solid 1px;
+    padding: 10px;
+    color: #FFFFFF;
+    background-color: var(--point-color);
+    font-weight: 500;
+}
+
+.ask_up_button_box .askButton2:hover {
+    border: var(--point-color) solid 1px;
+    color: var(--point-color);
+    background: none;
+}
+
+.ask_up_button_box .askButton3 {
+    width: 30%;
+    height: 85%;
+    border: var(--point-color) solid 1px;
+    background-color: var(--point-color);
+    font-weight: 500;
+    padding: 20px;
+    color: #FFFFFF;
+    display: inline-block;
+}
+
+.ask_up_button_box .askButton3:hover {
+    border: var(--point-color) solid 1px;
+    color: var(--point-color);
+    background: none;
+}
+/* 문의게시판 수정 폼 끝 */
+
+
 /*- 댓글 목록 -*/
 .reply-box{
     height: auto;
@@ -191,10 +298,13 @@ th {
 
 .oneReply {
     width: 97%;
-    height: 60px;
     margin: auto auto 5px;
     border: 1px solid #e6e6e6;
     padding: 7px 0 7px 0;
+
+    /* 자동 높이 조절 */
+    height: auto;
+    overflow: hidden;
 }
 
 .replyInfo {
@@ -217,7 +327,7 @@ th {
 }
 
 .oneReply .content{
-    width: 100%;
+    width: 96%;
     float: left;
     text-align: left;
     margin: 5px 10px;
@@ -225,6 +335,10 @@ th {
     font-size: 17px;
 }
 
+.oneReply .content p {
+    word-break: break-all;
+    margin-bottom: 0;
+}
 /*- 댓글 쓰기 -*/
 .replyWrite {
     width: 60%;
@@ -338,11 +452,30 @@ input#askPhoto {
 
 .teamTitle {
     margin-bottom: 20px;
+    font-family: 'Gyeonggi';
+}
+
+.myTeamTable  .teamTableH{
+    border-bottom: 3px double gray;
+}
+
+.myTeamTable tr{
+    height: 43px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.myTeamTable i {
+    font-size: 25px;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.myTeamTable i:hover{
+    color: var(--point-color);
 }
 
 .sort-btn-box {
     display: block;
-    font-weight: 600;
     color: var(--point-color);
     font-size: 17px;
 }
@@ -357,7 +490,7 @@ input#askPhoto {
     display: flex;
     float: right;
     padding: 10px 0 20px 0;
-    margin: 0 75px 6px 50px;
+    margin: 0 71px 6px 43px;
 }
 
 .sort-btn-box .line {
@@ -369,6 +502,12 @@ input#askPhoto {
     color: white;
     background-color: var(--point-color);
 }
+
+.sort-btn-box .active {
+    background-color: #95abe6;
+    color: white;
+}
+
 /* 가입 팀 리스트 끝 */
 
 .button-box {
@@ -394,24 +533,192 @@ input#askPhoto {
 }
 
 #check_password_email{
-    width: 40%;
+    width: 100%;
     margin: auto;
 }
 
 .checkPw {
-    margin-top:103px;
+    margin: 80px 0 23px 0;
+    display: inline-flex;
 }
 
+.checkPw #checkPassword{
+    margin-left: 10px;
+    width: 78px;
+    background: var(--point-color);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.checkPw #checkPassword:hover{
+    color : var(--point-color);
+    background-color: #fff;
+    border: 1px solid var(--point-color);
+}
+
+/* 내 정보 수정 폼 -- myInfo */
+.flex_group{
+    flex-direction: column;
+}
+.myInfo {
+    vertical-align: middle;
+}
 .myInfo>label, .myInfo>input {
     display: inline;
 }
 
+.myInfo .text-err {
+    margin-left: 128px;
+}
+
+.labelBox{
+    display: inline-flex;
+    width: 116px;
+    height: 39px;
+    margin-left: 10px;
+}
+.myInfo .label {
+    position: relative;
+    margin-top: 10px;
+}
+
+.myInfo input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    display: none;
+}
+
+.myInfo .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #e6e6e6;
+    width: 47%;
+    color: #999999;
+}
+
+.myInfo .photoLabel {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #95abe6;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.myInfo>input {
+    border: none;
+    border-radius: unset;
+    border-bottom : 1px solid grey;
+}
+
 .myInfo .form-control {
-    width: 30%;
+    position: relative;
+    width: 48%;
+    right: 7px;
+}
+
+.email_disabled {
+    margin-left: 123px;
+}
+
+.myInfo .genderBox {
+    display: inline-flex;
+    width: 48%;
+}
+
+.form-check-inline {
+    margin-right: 3rem;
+}
+
+.labelBox_ad{
+    display: inline-flex;
+    width: 109px;
+    height: 39px;
+    margin-left: 5px;
+}
+
+.myInfo .addressBox {
+    display: inline;
+}
+
+#searchAddress, #detailAddress {
+    padding: 0.375rem 0.75rem;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.make_right {
+    width: 82%;
+    text-align: right;
+}
+
+#searchAddress {
+    width: 48%;
+}
+
+#detailAddress {
+    width: 58%;
+}
+
+#changeMyInfo{
+    margin-left: 10px;
+    width: 55%;
+    height: 47px;
+    background: var(--point-color);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+}
+
+/*#changeMyInfo:hover {*/
+/*    background-color: #fff;*/
+/*    border: 1px solid var(--point-color);*/
+/*    color: var(--point-color);*/
+/*}*/
+
+.myInfo-button-box .a{
+    width: 52px;
+    height: 47px;
+    padding: 12px;
+    background-color: #fff;
+    border: 1px solid var(--point-color);
+    border-radius: 10px;
+    color: var(--point-color);
+}
+
+.myInfo-button-box .a:hover {
+    background: var(--point-color);
+    color: #fff;
+}
+
+.myInfo-button-box a{
+    margin-left: 10px;
+    width: 74px;
+    height: 47px;
+    padding: 12px;
+    background-color: #fff;
+    border: 1px solid var(--point-color);
+    border-radius: 10px;
+    color: var(--point-color);
+}
+
+.myInfo-button-box a:hover {
+    background: var(--point-color);
+    color: #fff;
 }
 
 /*인증글 목록 시작 */
 .checkTitle {
+    font-family: 'Gyeonggi';
     margin-bottom: 20px;
 }
 .my_body{
@@ -420,6 +727,10 @@ input#askPhoto {
     align-items: center;
     /*min-height: 100vh;*/
     background: #fff;
+}
+
+.card_bx {
+    text-align: left;
 }
 
 .card{
@@ -436,6 +747,7 @@ input#askPhoto {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .card .top .userDetails{
@@ -451,6 +763,7 @@ input#askPhoto {
     overflow: hidden;
     margin-right: 8px;
 }
+
 .cover{
     position: absolute;
     top: 0;
@@ -475,7 +788,7 @@ input#askPhoto {
 .dot {
     transform: scale(0.6);
     cursor: pointer;
-    width: 80px;
+    width: 50px;
 }
 
 .imgBx{
@@ -518,10 +831,26 @@ input#askPhoto {
     color: #777;
     line-height: 1.5em;
     text-align: left;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
-.image_container img{
-    width: 100px;
+.image_container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid #e6e6e6;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 10px;
+}
+
+.image_container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .select_bx{
@@ -563,14 +892,16 @@ input#askPhoto {
 }
 
 .bankBookButton {
+    background-color: var(--point-color);
     border:  var(--point-color) solid 1px;
     padding: 10px;
-    color:  var(--point-color);
+    color : white;
+
 }
 
 .bankBookButton:hover {
-    background-color: var(--point-color);
-    color : white;
+    background-color: white;
+    color:  var(--point-color);
 }
 
 /* 머니 충전 페이지 */
@@ -642,7 +973,7 @@ input#askPhoto {
     margin-bottom: 18px;
 }
 
-/* 찜한 팀 리스트 목록*/
+/* 찜한 팀 리스트 목록 - myLikeList*/
 .oneTeam {
     position: relative;
     width: 210px;
@@ -669,4 +1000,25 @@ input#askPhoto {
     width: 28px;
     margin: 5px 5px;
     cursor: pointer;
+}
+
+.noList{
+    margin-top: 130px;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.oneTeam .teamName {
+    font-family: 'LG SemiBold';
+}
+
+.nowPage{
+    color: var(--point-color);
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+/* 페이징 */
+.myTeam.page-num {
+    text-align: center;
 }

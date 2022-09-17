@@ -3,9 +3,6 @@ package project.moseup.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,15 +14,16 @@ import project.moseup.domain.MemberGender;
 import project.moseup.dto.KakaoLoginForm;
 import project.moseup.dto.Mail;
 import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MailService;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +34,20 @@ public class MemberController {
     private final MemberService memberService;
     private final CheckRealize checkRealize;
     private final MailService mailService;
+    private final AdminMemberService adminMemberService;
+
+    // 공용 데이터 (네비바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+//            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
+
+            model.addAttribute("memberMap", memberMap);
+        }
+    }
 
     // 회원가입
     @GetMapping("/joinForm")
@@ -63,7 +75,6 @@ public class MemberController {
 
         // 파일 업로드 시작
         // 이미지 파일만 업로드 가능하도록 제한하기
-        System.out.println("컨텐트 타입2 : "+ file.getContentType());
         if (file.isEmpty()) { // 프로필사진이 등록되지 않은 경우
             joinForm.setPhoto("C:\\DevSpace\\Project\\Moseup\\src\\main\\resources\\static\\images\\profile.png");
         } else if (!file.isEmpty()){  // 프로필사진이 등록된 경우
@@ -74,14 +85,16 @@ public class MemberController {
             }
 
             // 이메일 폴더 생성 - 해당 위치에 폴더가 없을 경우 생성하는 코드
-            String folderPath = joinForm.getEmail();
-            String saveName = memberService.makeFolderAndFileName(file, folderPath);
+            String folderPath = "memberPhotos";
+            String personalPath = joinForm.getEmail();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
             //form에 저장
             joinForm.setPhoto(saveName);
         }
 
         try {
             memberService.join(joinForm);
+            return "members/joinMember";
         } catch (DataIntegrityViolationException e){
             e.printStackTrace();
             bindingResult.reject("joinFailed", "이미 등록된 사용자입니다.");
@@ -91,7 +104,6 @@ public class MemberController {
             bindingResult.reject("joinFailed", e.getMessage());
             return "members/joinForm";
         }
-        return "redirect:/";
     }
 
     /** 중복체크 **/
@@ -130,19 +142,6 @@ public class MemberController {
         if (savedMember != null){
 
         }
-        return "redirect:/";
-    }
-
-    /** 회원 탈퇴 **/
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/delete")
-    public String memberDelete(SecurityContextLogoutHandler handler, HttpServletRequest req, HttpServletResponse res, Authentication authentication){
-        // LogoutHandler가 Authentication을 파라미터로 요구함(굳이 principal을 또 받아오지 않아도 됨)
-        memberService.delete(authentication.getName());
-
-        //탈퇴 후 로그아웃
-        handler.logout(req, res, authentication);
-        log.info("회원 탈퇴 완료");
         return "redirect:/";
     }
 

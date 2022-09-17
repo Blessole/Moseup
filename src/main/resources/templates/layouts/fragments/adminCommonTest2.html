@@ -14,8 +14,7 @@
     <!-- css -->
     <link rel="stylesheet" href="/static/css/adminCommonTest2.css" th:href="@{/css/adminCommonTest2.css}">
     <link rel="stylesheet" href="/static/css/adminTypeSelector.css" th:href="@{/css/adminTypeSelector.css}">
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    
+        
     <!-- icon -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
@@ -27,7 +26,7 @@
     <div class="sidebar sideBarClose" th:fragment="sidebar(sidebar)">
         <div class="logo-details">
             <a th:href="@{/}">
-                <i class='bx bxl-c-plus-plus'></i>
+                <i class='bx bxl-medium'></i>
             </a>
             <span class="logo_name">Moseup</span>
         </div>
@@ -46,7 +45,7 @@
             <li>
                 <div class="iocn-link" th:classappend="${sidebar} == 'memberList'? 'active'">
                     <a th:href="@{/admin/memberList}">
-                        <i class='bx bx-collection'></i>
+                        <i class='bx bx-user'></i>
                         <span class="link_name">User</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
@@ -60,60 +59,41 @@
             <li>
                 <div class="iocn-link" th:classappend="${sidebar} == 'teamList'? 'active'">
                     <a th:href="@{/admin/teamList}">
-                        <i class='bx bx-book-alt'></i>
+                        <i class='bx bx-flag'></i>
                         <span class="link_name">Team</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" th:href="@{/admin/teamList}">Team</a></li>
-                    <li><a href="#">팀 문의글</a></li>
+                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'Recruiting')}">예정 팀</a></li>
+                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'Proceeding')}">진행 팀</a></li>
+                    <li><a href="#" th:href="@{/admin/teamList(orderBy = 'End')}">종료 팀</a></li>
                 </ul>
             </li>
             <li>
                 <div class="iocn-link" th:classappend="${sidebar} == 'adminAskBoard'? 'active'">
                     <a th:href="@{/admin/adminAskBoards}">
-                        <i class='bx bx-pie-chart-alt-2'></i>
+                        <i class='bx bx-clipboard'></i>
                         <span class="link_name">AskBoard</span>
                     </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
                 </div>
-                <ul class="sub-menu blank">
+                <ul class="sub-menu">
                     <li><a class="link_name" th:href="@{/admin/adminAskBoards}">AskBoard</a></li>
+                    <li><a href="#" th:href="@{/admin/adminAskBoards(orderBy = 'completion')}">답변 완료</a></li>
+                    <li><a href="#" th:href="@{/admin/adminAskBoards(orderBy = 'incomplete')}">답변 미완료</a></li>
                 </ul>
             </li>
             <li>
                 <div class="iocn-link" th:classappend="${sidebar} == 'freeBoard'? 'active'">
                 <a th:href="@{/admin/freeBoards}">
-                    <i class='bx bx-line-chart'></i>
+                    <i class='bx bx-book-alt' ></i>
                     <span class="link_name">FreeBoard</span>
                 </a>
                 </div>
                 <ul class="sub-menu blank">
                     <li><a class="link_name" th:href="@{/admin/freeBoards}">FreeBoard</a></li>
-                </ul>
-            </li>
-            <li>
-                <div class="iocn-link">
-                    <a href="#">
-                        <i class='bx bx-plug'></i>
-                        <span class="link_name">Plugins</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Plugins</a></li>
-                    <li><a href="#">뭐적지</a></li>
-                    <li><a href="#">뭐적지</a></li>
-                    <li><a href="#">뭐적지</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span class="link_name">Setting</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Setting</a></li>
                 </ul>
             </li>
             <li>

@@ -13,7 +13,8 @@
         <h2 class="title">머니 충전</h2>
         <div class="myBox">
             <div class="total">내 머니 : </div>
-            <div class="money" th:text="${myTotal}+' 원'"></div>
+            <div class="money" th:if="${myTotal == 0 }">- 원</div>
+            <div class="money" th:if="${myTotal != 0 }" th:text="${#numbers.formatInteger(myTotal, 3, 'COMMA')}+' 원'"></div>
         </div>
         <div class="chargeBox">
             <form th:action="@{/myPage/moneyChargeAction}" th:object="${chargeDto}" method="post">

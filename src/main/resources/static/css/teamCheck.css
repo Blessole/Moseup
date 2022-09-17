@@ -1,0 +1,181 @@
+#page-wrapper{
+	display: block;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 70vh;
+}
+
+#nav ul {
+	display:inline-block;
+    list-style:none;
+    margin:20px;
+    padding:0;
+}
+
+#nav ul li {
+    margin: 0 40px 1px 40px;
+    padding: 0;
+    border : 0;
+    float: left;
+    text-align: center;
+}
+
+#nav ul li a span{
+	font: message-box;
+}
+
+#features .container {
+	margin-top: 50px;
+}
+
+.container h1{
+	font-style : oblique;
+	color: #ed786a;
+}
+
+.container p {
+	color: gray;
+}
+
+.container section div {
+	color: black;
+}
+
+.container section div p {
+	color: black;
+}
+
+#header {
+	text-align: center;
+	border-bottom-style: double;
+}
+
+#features{
+	text-align: center;
+}
+
+.checkTitle {
+    margin-bottom: 20px;
+}
+.my_body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*min-height: 100vh;*/
+    background: #fff;
+}
+
+.card{
+    display: inline-block;
+    position: relative;
+    width: 290px;
+    min-height: 400px;
+    background: #fff;
+    box-shadow: 15px 15px 60px rgb(0 0 0 / 15%);
+    padding: 18px;
+    margin: 10px;
+}
+
+.card .top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card .top .userDetails{
+    display: flex;
+    align-items: center;
+}
+
+.card .top .userDetails .profile_img{
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+}
+.cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .top .userDetails h3{
+    text-align: left;
+    font-size: 16px;
+    color: #4d4d4f;
+    font-weight: 500;
+    line-height: 1em;
+}
+
+.card .top .userDetails .span{
+    font-size: 0.75em;
+}
+
+.dot {
+    transform: scale(0.6);
+    cursor: pointer;
+    width: 80px;
+}
+
+.imgBx{
+    position: relative;
+    width: 100%;
+    height: 260px;
+    margin: 0 0 15px;
+}
+
+.actionBtns{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actionBtns img{
+    max-width: 24px;
+}
+
+.actionBtns .left img{
+    margin-right: 8px;
+}
+
+.actionBtns h4{
+    display: inline;
+}
+
+.likes {
+    text-align: left;
+    font-weight: 500;
+    margin-top: 5px;
+    font-size: 16px;
+    color: #4d4d4f;
+}
+
+.message {
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 5px;
+    color: #777;
+    line-height: 1.5em;
+    text-align: left;
+}
+
+.image_container img{
+    width: 100px;
+}
+
+.select_bx{
+    display: flow-root;
+    padding-bottom: 8px;
+    padding-left: 15px;
+}
+
+.form-select{
+    width: 30%;
+    float: left;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/fragments/adminCommonTest2 :: head('회원정보')"></head>
+
+<body>
+    <!-- 사이드 바 -->
+    <div th:replace="layouts/fragments/adminCommonTest2 :: sidebar('teamList')"></div>
+
+    <!-- 헤더  -->
+    <section th:replace="layouts/fragments/adminCommonTest2 :: header('스터디정보')"> </section>
+
+
+    <div class="main-section">
+        <!-- 회원 정보 -->
+        <div th:replace="admin/teamDetail :: teamInfo"></div>
+        <!-- 내비바 -->
+        <div th:replace="admin/teamDetail :: teamInfoNav('askBoard')"></div>
+        <!-- 탭 -->
+        
+        <div class="title-section">
+            <span>문의글 수</span>&nbsp;<span th:text="${team.teamAskBoards.size}">문의글 수</span>
+        </div>
+          <table class="table table-hover">
+              <thead>
+                <tr class="tableHeader">
+                  <th scope="col">번  호</th>
+                  <th scope="col">작성자</th>
+                  <th scope="col">제  목</th>
+                  <th scope="col">작성일</th>
+                  <th scope="col">공개범위</th>
+                  <th scope="col">보기</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="no-data" th:if="${team.teamAskBoards.size} == 0">
+                  <th colspan="6">작성된 게시글이 없습니다</th>
+                </tr>
+                <tr th:if="${team.teamAskBoards.size} != 0" th:each="AskBoard : ${askBoardMap.teamAskBoards}">
+                  <th th:text="${AskBoard.tano}">번호</th>
+                  <td>
+                    <a class="member-link" th:text="${AskBoard.member.nickname}" th:href="@{/admin/memberDetail(mno=${AskBoard.member.mno})}">작성자</a>
+                  </td>
+                  <td th:text="${AskBoard.teamAskSubject}">제목</td>
+                  <td th:text="${#temporals.format(AskBoard.teamAskDate, 'yyyy-MM-dd')}">작성일</td>
+                  <td th:text="${AskBoard.secret}">비밀글여부</td>
+                  <td><a class="member-link" th:href="@{/admin/teamAskBoardDetail(tano=${AskBoard.tano})}">확인</a></td>
+                </tr>
+              </tbody>
+            </table>
+          
+    </div>
+
+    <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+</body>
+
+</html>

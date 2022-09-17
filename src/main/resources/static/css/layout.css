@@ -1,3 +1,11 @@
+body {
+	font-family : 'LG Regular';
+}
+
+/* 포인트 컬러 */
+:root{
+    --point-color : #5c75bb;
+}
 /* fab */
 .fab-container {
     position: fixed;
@@ -7,25 +15,9 @@
     cursor: pointer;
 }
 
-.fab-icon-holder {	/* 위에 뜨는 아이콘들 */
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    background: #016fb9;
+.fab-icon-holder {
+    border-radius: 70%;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-}
-
-.fab-icon-holder:hover{	/* 위에 뜨는 아이콘 투명도 */
-    opacity: 0.8;
-}
-
-.fab-icon-holder i {		/* i 태그 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-size: 25px;
-    color: #ffffff;
 }
 
 .fab {
@@ -33,44 +25,14 @@
     height: 50px;
     background: white;
 }
-
-.fab-options {
-    list-style-type: none;
-    margin: 0;
-
-    position: absolute;
-    bottom: 70px;
-    right: 0;
-
-    opacity: 0;
-
-	transition: all 0.3s ease;
-	transform: scale(0);
-	transform-origin: 85% bottom;
+/* fab이미지 */
+.teamImg, .createImg {
+	/* background-color: #5c75bb; */
+	border-radius: 60px;
 }
 
-.fab:hover + .fab-options, .fab-options:hover {
-	opacity: 1;
-	transform: scale(1);
-}
-
-.fab-options li {
-	display: flex;
-	justify-content: flex-end;
-	padding: 5px;
-}
-
-.fab-label {	/* span태그 */
-	padding: 2px 5px;
-	align-self: center;
-	user-select: none;
-	white-space: nowrap;
-	border-radius: 10px;
-	font-size: 16px;
-	background: #016fb9;
-	color: #ffffff;
-	box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-	margin-right: 10px;
+.displayNone {
+	display: none;
 }
 /* 여기까지 fab*/
 
@@ -80,6 +42,7 @@
 	top: 0;
 	background: white;
 	z-index: 999999;
+    padding : 13px;
 }
 .nav-width{
 	margin: 0 auto;
@@ -91,6 +54,7 @@
     display: flex;
 }
 .nav-item a {
+    color: var(--point-color);
     margin-left: 15px;
 }
 
@@ -98,33 +62,91 @@
     color: #000000;
 }
 
-/* 네비바 검색창 인풋 및 이미지 감싸는 태그 */
+/* 검색창 by 솔 */
+.nav-search {
+    position: relative;
+    height: 50px;
+}
+
+.nav-search .input{
+    background-color: #FFFFFF;
+    border: 0;
+    font-size: 16px;
+    margin-left: 6px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.searchBtn {
+    background-color: #FFFFFF;
+    border: 0;
+    cursor: pointer;
+    font-size: 27px;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.searchBtn:focus, .input:focus {
+    outline: none;
+}
+
+.nav-search.active .input {
+    width: 200px;
+    position: relative;
+    top: 1px;
+}
+
+.nav-search.active {
+    border-bottom: 1px solid var(--point-color);
+}
+
+.nav-search.active .searchBtn{
+    color: var(--point-color);
+}
+
+i.bx.bx-search {
+    position: relative;
+    top: 8px;
+}
+
+.verticalLine{
+    color: var(--point-color);
+    padding: 0 0 0 20px;
+}
+
+.verticalLine2{
+    color: var(--point-color);
+    padding: 0 20px 0 20px;
+}
+
+/* 검색 화면 인풋 및 이미지 감싸는 태그 */
 .search {
-  position: relative;
+    position: relative;
 }
 
-/* 네비바 검색창 인풋 */
-#search {
-  width: 100%;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
-}
+/*!* 네비바 검색창 인풋 *!*/
+/*#search {*/
+/*  width: 100%;*/
+/*  border: 1px solid #bbb;*/
+/*  border-radius: 8px;*/
+/*  padding: 10px 12px;*/
+/*  font-size: 14px;*/
+/*}*/
 
-/* 네비바 돋보기 이미지 */
-.searchImg{
-	position : absolute;
-	width: 25px;
-	top: 12px;
-	right: 12px;
-	margin: 0;
-	background-image: url('/images/search.png');
-    background-repeat : no-repeat;
-    background-size: 20px;
-    background-color: transparent;/* 돋보기 뒤에 배경 투명 */
-    border : 0;	
-}
+/*!* 네비바 돋보기 이미지 *!*/
+/*.searchImg{*/
+/*	position : absolute;*/
+/*    width: 25px;*/
+/*    height: 25px;*/
+/*    top: 9px;*/
+/*    right: 6px;*/
+/*    margin: 0;*/
+/*    background-image: url('/images/search.svg');*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: 25px;*/
+/*    background-color: transparent;*/
+/*    border: 0;*/
+/*}*/
 
 /* 네비바 인풋 텍스트 x표 없애기 */
 input::-webkit-search-decoration,
@@ -134,8 +156,45 @@ input::-webkit-search-results-decoration{
     display:none;
 }
 
+.dropCategory {
+    min-width: 100px;
+}
+
+/* 네비바 회원 사진 (by. 솔) */
+.inlineBox{
+    display: inline-flex;
+}
+.nav-nickBox{
+    margin: auto 10px;
+}
+.nav-myImgBox{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.nav-myImg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* footer */
 .footer-width{
 	margin: 0 auto;
 	width: 80%
+}
+
+#footerLogo{
+    padding: 16px 0;
+}
+
+/* */
+.dropdown .show {
+    top: 14px;
+}
+
+.pointColor {
+	color : #5c75bb;
 }

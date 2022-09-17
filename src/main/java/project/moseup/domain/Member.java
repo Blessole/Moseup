@@ -5,6 +5,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 import project.moseup.dto.MemberRespDto;
@@ -12,15 +16,15 @@ import project.moseup.dto.MemberRespDto;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 //생성자를 따로 안 만들면 자동으로 기본 생성자가 생성됨 하지만 다른 생성자가 있으면 기본 생성자를 만들어 줘야 함
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
+@Slf4j
 @Table(name = "members")
-public class Member {
+public class Member implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -229,7 +233,65 @@ public class Member {
 	@OneToMany(mappedBy = "member")
 	private List<CheckBoard> checkBoards = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "member")
+	private List<TeamBankbookDetail> teamBankbookDetails = new ArrayList<>();
+
 	public MemberRespDto toDto() {
 		return new MemberRespDto().toDto(this);
+	}
+
+
+	/** Spring security 구현용 시작 **/
+
+	/** 해당 유저의 권한 목록 **/
+	// 사용자의 권한을 콜렉션 형태로 반환
+	// 단, 클래스 자료형은 GrantedAuthority를 구현해야 함
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> roles = new HashSet<>();
+		roles.add(new SimpleGrantedAuthority(role.getValue()));
+		log.info("role.getValue() : " + role.getValue());
+		return roles;
+	}
+
+	/** 사용자의 unique 한 값 **/
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	/** 계정 만료 여부 **/
+	// true : 만료 X, false : 만료
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	/** 계정 잠김 여부 **/
+	// true : 잠기지 X, false : 잠김
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	/** 비밀번호 만료 여부 **/
+	// true : 만료 X, false : 만료
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	/** 사용자 활성 여부 **/
+	// true : 활성 O, false : 비활성화
+	@Override
+	public boolean isEnabled() {
+		boolean locked = false;
+		if (memberDelete == DeleteStatus.FALSE){
+			locked = true;
+		} else if (memberDelete == DeleteStatus.TRUE){
+			locked = false;
+		}
+		return locked;
 	}
 }
