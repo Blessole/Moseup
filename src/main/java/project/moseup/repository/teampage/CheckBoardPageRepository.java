@@ -1,17 +1,16 @@
 package project.moseup.repository.teampage;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import project.moseup.domain.CheckBoard;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+
+import java.util.List;
 
 public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long> {
 	
@@ -24,5 +23,8 @@ public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long
 	int updateReadCount(@Param("cno") Long cno);
 	
 	List<CheckBoard> findByTeam(Team team);
-	
+
+	List<CheckBoard> findByMemberOrderByCnoDesc(Member memberPS);
+
+	List<CheckBoard> findByTeamOrderByCnoDesc(Team team);
 }
