@@ -9,11 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.TeamCreateReqDto;
@@ -49,7 +45,7 @@ public class TeamPageController {
 	private final TeamCreateService teamCreateService;
 	private final TeamMemberService teamMemberService;
 	private final AdminMemberService adminMemberService;
-	
+
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
 	public void loginMember(Principal principal, Model model){
@@ -62,7 +58,7 @@ public class TeamPageController {
 			model.addAttribute("memberMap", memberMap);
 		}
 	}
-	
+
 	// 파일 업로드 경로
     @Value("${moseup.upload.path}/check") //application.properties의 변수
     private String uploadPath;
@@ -74,10 +70,10 @@ public class TeamPageController {
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
 		Member member = this.memberService.getMember(principal.getName());
-		
-		// 팀 회원 정보 가져오기			
+
+		// 팀 회원 정보 가져오기
 		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
-		
+
 		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
 		if(!teamMember.isEmpty()) {
 			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
@@ -90,12 +86,12 @@ public class TeamPageController {
 			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
 			model.addAttribute("teamMemberDetail", teamFakeMember);
 		}
-		
+
 		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
 		model.addAttribute("member", member);
 		model.addAttribute("t", DeleteStatus.TRUE);
-		
+
 		return "teams/teamMain";
 	}
 	
@@ -107,8 +103,8 @@ public class TeamPageController {
 		Team team = teamCreateService.findOne(tno);
 		
 		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
-		
-		TeamMemberDto teamMemberDto = new TeamMemberDto();		
+
+		TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
 		teamMemberDto.setTeam(team);
 
@@ -130,14 +126,14 @@ public class TeamPageController {
 		
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("checkBoard", checkBoard);
-		
+
 		return "teams/teamMemberList";
 	}
 
 	// 팀 페이지 문의게시판(페이징)
 	@GetMapping("/teamAskBoard")
 	public String teamAskBoardPage(@RequestParam Long tno, Model model, @PageableDefault(size = 10, sort = "tano", direction = Sort.Direction.DESC) Pageable pagable, Principal principal) {
-		
+
 		Member member = this.memberService.getMember(principal.getName());
 		
 		Team team = teamCreateService.findOne(tno);
@@ -235,10 +231,10 @@ public class TeamPageController {
 	}
 	
 	// 댓글 수정
-	
+
 	// 댓글 삭제
-	
-	
+
+
 	// 문의글 수정 폼
 	@GetMapping("/teamAskBoard/updateForm")
 	public String teamAskBoardUpdateForm(@RequestParam Long tano, Model model, @RequestParam Long tno) {

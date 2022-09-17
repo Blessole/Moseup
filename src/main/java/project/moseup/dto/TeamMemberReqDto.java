@@ -22,4 +22,11 @@ public class TeamMemberReqDto {
 		.build();
 	}
 
+	// 팀 멤버 삭제
+	public TeamMember teamMemberDelete(){
+		return TeamMember.deleteTeamMember()
+				.member(member)
+				.teamMemberDelete(DeleteStatus.TRUE)
+				.build();
+	}
 }

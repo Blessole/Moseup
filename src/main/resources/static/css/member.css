@@ -3,8 +3,8 @@
     padding-top : 100px;
     padding-bottom: 100px;
     width: 80%;
-    margin: auto;
     text-align: center;
+    margin: 64px auto;
 }
 
 a {
@@ -12,19 +12,25 @@ a {
     color : inherit;               /* 글자 색상 제거 */
 }
 
+body {
+    font-family: 'LG Regular';
+}
+
 .fieldError{
     border-color: #bd2130;
 }
 
 /* 로그인 폼 */
-.title {
+.title, .find {
     margin-top: 10px;
     margin-bottom: 25px;
     padding-bottom: 30px;
+    border: none;
+    font-family: 'Gyeonggi';
 }
 
 .formBx {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 .formBx .form-group{
     margin-bottom: 15px;
@@ -36,7 +42,29 @@ a {
     margin-right: 50px;
 }
 
+.aButtonBox{
+    width: 300px;
+    margin: auto;
+    padding: 10px;
+}
+
+.aButtonBox .right{
+    float: right;
+    color: var(--point-color);
+}
+
+.aButtonBox .left{
+    float: left;
+    margin-right: 10px;
+    color: var(--point-color);
+}
+
 /* 회원가입 폼 */
+.narrow-middle-container h1 {
+    font-family: 'Gyeonggi';
+    margin-bottom: 23px;
+}
+
 .button-box{
     width: 400px;
     text-align: center;
@@ -45,27 +73,62 @@ a {
 
 .btn-sol{
     margin-top: 50px;
-    background-color: lightskyblue;
+    background-color: #5c75bb;
+    color: #fff;
+
+    /* findID/findPW action */
+    padding: 13px;
+    border-radius: 10px;
+}
+
+.btn-sol:hover{
+    background-color: #fff;
+    color: #5c75bb;
+    border: 1px solid #5c75bb;
 }
 
 .button-box a{
-    color: darkblue;
+    color: #5c75bb;
 }
 
 .form-control{
-    text-align: center;
     width: 300px;
     margin: auto;
 }
 
-.email_already{
-    color: red;
-    display:none;
+/*.email_already{*/
+/*    color: red;*/
+/*    display:none;*/
+/*}*/
+
+/*.email_ok{*/
+/*    color: black;*/
+/*    display: none;*/
+/*}*/
+
+#joinButton{
+    width: 62%;
+    height: 62px;
+    background: #5c75bb;
+    border-radius: 10px;
+    border:none;
+    color: #fff;
 }
 
-.email_ok{
-    color: black;
-    display: none;
+#joinButton:hover{
+    background: #fff;
+    color: #5c75bb;
+    border: 1px solid #5c75bb;
+}
+
+.join_addressBox {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 48%;
+}
+
+.join_addressBox #searchAddress, .join_addressBox #detailAddress{
+    width: 49%;
 }
 
 .fieldError{
@@ -76,20 +139,43 @@ a {
     color: red;
 }
 
+.photo-text-err {
+    color: red;
+}
+
+.text-center {
+    text-align: center;
+}
+
 .essential {
     font-weight: bold;
     color : #ac2925;
 }
 
-/* 아이디 찾기 */
+/* 아이디/비밀번호 찾기 - findID/findPW */
 .findBox{
-    margin-bottom: 25px;
+    margin-bottom: 8px;
 }
 
+.findBox .findMargin {
+    margin-bottom: 13px;
+}
 .findBox label {
     font-size: 18px;
     font-weight: 500;
     width: 100%;
+}
+
+.findID-button-box{
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.findAction-button-box{
+    width: 100%;
+    text-align: center;
+    margin: 50px auto;
 }
 
 .bankBookButton input {

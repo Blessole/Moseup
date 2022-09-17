@@ -6,12 +6,13 @@
   <meta charset="UTF-8">
   <title>비밀번호 찾기</title>
   <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
     <div class="middle-container">
-      <h1 class="title">비밀번호 찾기 결과</h1>
+      <h1 class="title find">비밀번호 찾기 결과</h1>
         <div th:if="${result == 1}">
             입력한 이메일로 임시 비밀번호가 전송되었습니다.
         </div>
@@ -21,8 +22,8 @@
                 history.go(-1);
             </script>
         </div>
-        <div class="bankBookButton">
-            <a href="" th:href="@{/members/login}">로그인</a>
+        <div class="findAction-button-box">
+            <a href="" class="btn-sol" th:href="@{/members/login}">로그인</a>
         </div>
     </div>
 </th:block>

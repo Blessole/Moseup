@@ -2,8 +2,12 @@ package project.moseup.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,18 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.moseup.domain.*;
-import project.moseup.dto.BankbookRespDto;
-import project.moseup.dto.BankbookSaveReqDto;
-import project.moseup.dto.CheckBoardRespDto;
-import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.dto.*;
 import project.moseup.exception.NoLoginException;
+import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
+import project.moseup.service.teampage.TeamMemberService;
 import project.moseup.validator.CheckEmailValidator;
 import project.moseup.validator.CheckNicknameValidator;
 import project.moseup.validator.CheckPasswordValidator;
 import project.moseup.validator.CheckRealize;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -42,39 +47,42 @@ public class MyPageController {
 
     private final MemberService memberService;
     private final MyPageService myPageService;
+    private final AdminMemberService adminMemberService;
 
     // 유효성 검사
-//    private final CheckNicknameValidator checkNicknameValidator;
-//    private final CheckEmailValidator checkEmailValidator;
-//    private final CheckPasswordValidator checkPasswordValidator;
     private final CheckRealize checkRealize;
 
+    // 공용 데이터 (사이드바에 들어갈 회원 정보)
+    @ModelAttribute
+    public void loginMember(Principal principal, Model model){
+        if(principal == null){
+            throw new NoLoginException();
+        }else{
+            Member member = memberService.getPrincipal(principal);
+            Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
 
-    // Spring Validator 사용 시
-    // @Valid annotation으로 검증이 필요한 객체를 가져오기 전에 수행할 method를 지정
-//    @InitBinder
-//    public void validatorBinder(WebDataBinder webDataBinder) {
-//        webDataBinder.addValidators(checkNicknameValidator);
-//        webDataBinder.addValidators(checkEmailValidator);
-//        webDataBinder.addValidators(checkPasswordValidator);
-//    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/myPage")
-    public String myPage(Model model, Principal principal) {
-        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
-        model.addAttribute("map", map);
-        return "myPage/myPage";
+            model.addAttribute("memberMap", memberMap);
+        }
     }
 
     /** 가입 스터디 목록 **/
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/myTeamList")
     public String myTeamList(Model model, Principal principal, @RequestParam(value="page", defaultValue = "0") int page, @RequestParam(value="sort", defaultValue = "none", required = false) String sort){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
+        Page<Team> teamList = myPageService.findTeamPaging((Member) map.get("member"), sort, page);
+        // 팀 번호 매기기
+        int rowNum = teamList.getNumberOfElements();
+        int[] rowList = new int[rowNum];
+        for (int row = 0; row<rowNum; row++){
+            rowList[row] = row+1;
+        }
+
         model.addAttribute("maxPage", 5);
-        model.addAttribute("teamList", myPageService.findTeamPaging((Member) map.get("member"), sort, page));
+        model.addAttribute("teamList", teamList);
         model.addAttribute("map", map);
+        model.addAttribute("rowNum", rowList);
         return "myPage/myTeamList";
     }
 
@@ -137,7 +145,7 @@ public class MyPageController {
     /** 내 정보 수정 액션 **/
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/myInfo")
-    public String myInfoUpdate(@ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam(required = false, name="file") MultipartFile file, @RequestParam(name = "mno") Long mno, Model model, Principal principal){
+    public String myInfo(@ModelAttribute("myInfoDto") MemberSaveReqDto memberDto, BindingResult bindingResult, @RequestParam(required = false, name="file") MultipartFile file, @RequestParam(name = "mno") Long mno, Model model, Principal principal){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
 
         // 유효성 검사
@@ -169,8 +177,9 @@ public class MyPageController {
                    }
             }
             // 새로운 사진 저장 (폴더 없으면 폴더 생성)
-            String folderPath = ((Member)map.get("member")).getEmail();
-            String saveName = memberService.makeFolderAndFileName(file, folderPath);
+            String folderPath = "memberPhotos";
+            String personalPath = ((Member)map.get("member")).getEmail();
+            String saveName = memberService.makeFolderAndFileName(file, folderPath, personalPath);
             // form에 저장
             memberDto.setPhoto(saveName);
         } else if (file.isEmpty()){
@@ -178,10 +187,16 @@ public class MyPageController {
                 memberDto.setPhoto(originPath);
             }
         }
-
-        memberService.update(memberDto, mno);
+        try{
+            memberService.update(memberDto, mno);
+            model.addAttribute("result", "1");
+            model.addAttribute("mno", mno);
+        } catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("result", "0");
+        }
         model.addAttribute("map", map);
-        return "redirect:/myPage/myInfo?mno="+mno;
+        return "myPage/updateMember";
     }
 
     /** MemberSaveReqDto 중복코드 합침*/  // 서비스단으로 빼야겠다 이거
@@ -232,7 +247,7 @@ public class MyPageController {
         return "myPage/myBankbook";
     }
 
-    @GetMapping("/moneyCharge")
+    @GetMapping("/myBankbook/moneyCharge")
     public String moneyCharge(@ModelAttribute("chargeDto") BankbookSaveReqDto bankbookDto, Principal principal, Model model){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         List<Bankbook> myBankbook = myPageService.findBankbook((Member) map.get("member"));
@@ -249,7 +264,7 @@ public class MyPageController {
     public String moneyChargeAction(BankbookSaveReqDto bankbookDto, BindingResult bindingResult, Principal principal, Model model){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         Member member = (Member) map.get("member");
-
+        int result = 0;
         // 유효성 검사
         if(bindingResult.hasErrors()){
             List<ObjectError> list = bindingResult.getAllErrors();
@@ -260,11 +275,11 @@ public class MyPageController {
             model.addAttribute("map", map);
             if (myBankbook.isEmpty()){
                 model.addAttribute("myTotal", 0);
-            } else model.addAttribute("myTotal", myBankbook);
-            return "myPage/moneyCharge";
+            } else {model.addAttribute("myTotal", myBankbook);}
+            result = 0;
         }
 
-        model.addAttribute("member", member);
+//        model.addAttribute("member", member);
 
         List<Bankbook> myBankbook = myPageService.findBankbook(member);
         int originMoney;
@@ -282,12 +297,24 @@ public class MyPageController {
         bankbookDto.setBankbookDeposit(bankbookDto.getBankbookDeposit());
         bankbookDto.setBankbookTotal(newTotal);
 
-        myPageService.charge(bankbookDto);
+        try {
+            myPageService.charge(bankbookDto);
+            result = 1;
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("moneyChargeFailed", "아쉽게도 충전 실패다!");
+            result=0;
+        } catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("moneyChargeFailed", "아쉽게도 충전 실패다!");
+            result = 0;
+        }
         model.addAttribute("map", map);
-
-        return "redirect:/myPage/myBankbook";
+        model.addAttribute("result", result);
+        return "myPage/moneyChargeAction";
     }
 
+    /** 찜 목록 불러오기 **/
     @GetMapping("/myLikeList")
     public String myLikeList(Principal principal, Model model, @RequestParam(value="page", defaultValue = "0") int page){
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
@@ -297,5 +324,70 @@ public class MyPageController {
         model.addAttribute("likeList", myPageService.getMyLikeList(member, page));
         model.addAttribute("maxPage", 10);
         return "myPage/myLikeList";
+    }
+
+    /** 찜 기능 **/
+    @GetMapping(value = "/likeUnlike", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String likeUnlike(Long tno, String name, LikeSaveReqDto likesDto, Model model, Principal principal){
+
+        System.out.println("team : "+ tno);
+        String result="";
+        Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+        model.addAttribute("map", map);
+
+        likesDto.setTeam(myPageService.getTeam(tno).get());
+        likesDto.setMember((Member) map.get("member"));
+        Likes likes = likesDto.toEntity();
+        if (name.equals("unLike")) {
+            myPageService.likeUnlike(name, likes);
+            result = "0";
+        } else {
+            myPageService.likeUnlike(name, likes);
+            result = "1";
+        }
+        System.out.println("result : " + result);
+        return result;
+    }
+
+
+    /** 회원 탈퇴 **/
+    @GetMapping("/deleteMember")
+    public String deleteMember(Model model, Principal principal, SecurityContextLogoutHandler handler, HttpServletRequest req, HttpServletResponse res, Authentication authentication){
+        int result;
+
+        // 진행중인 팀 여부 확인하기
+        List<Team> ing = myPageService.beforeDelete(memberService.getMember(principal.getName()));
+        System.out.println("ing : " + ing);
+        if (ing.isEmpty()){
+            // LogoutHandler가 Authentication을 파라미터로 요구함(굳이 principal을 또 받아오지 않아도 됨)
+            memberService.delete(authentication.getName());
+            myPageService.updateTeamMember(memberService.getMember(principal.getName()));
+
+            //탈퇴 후 로그아웃
+            handler.logout(req, res, authentication);
+            log.info("회원 탈퇴 완료");
+            result = 1;
+        } else {
+            Map<String, Object> map = memberService.getPhotoAndNickname(principal);
+            model.addAttribute("map", map);
+            log.info("회원 탈퇴 실패");
+            result = 0;
+        }
+        model.addAttribute("result", result);
+        return "myPage/deleteMember";
+    }
+
+    /** 팀 탈퇴 기능 **/
+    @GetMapping("/teamMemberDelete")
+    public String teamMemberDelete(@Param("tno") Long tno, Principal principal, Model model){
+        log.info("과연 : " + tno);
+
+        Member member = memberService.getMember(principal.getName());
+        int result = myPageService.deleteTeamMember(tno, member);
+
+        System.out.println("result : " + result);
+        model.addAttribute("result", result);
+        return "myPage/teamMemberDelete";
     }
 }

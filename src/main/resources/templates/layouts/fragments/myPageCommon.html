@@ -1,21 +1,35 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!--MyPage용 SideBar-->
 <th:block th:fragment="myPageCommon">
-    <div class="inlinebox">
-        <img th:src="${map.realPhoto}">
-        <span th:text="${map.member.nickname}" class="mNick"></span> 님, 환영합니다.
+    <div class="inline_Box">
+        <div class="myImgBox">
+            <img th:src="${map.realPhoto}">
+        </div>
+        <div class="nickBox">
+            <span th:text="${map.member.nickname}" class="mNick"></span> 님, 환영합니다.
+        </div>
     </div>
-    <ul class="sideList" id="accordionSidebar">
-        <li class="non-Active"><a th:href="@{/myPage/myTeamList(sort='none')}">가입 스터디 목록</a></li>
-        <li class="non-Active"><a th:href="@{/myPage/myLikeList}">찜한 스터디 목록</a></li>
-        <li class="non-Active"><a th:href="@{/myPage/myCheckList}">내 인증글 목록</a></li>
-        <li class="non-Active"><a th:href="@{/myPage/myInfoMain}">회원정보 수정</a></li>
-        <li class="non-Active"><a th:href="@{/myPage/myBankbook}">내 통장</a></li>
-        <li class="non-Active"><a th:href="@{/askBoard/askBoardList}">1:1 문의게시판</a></li>
-    </ul>
+    <div class="sidebar">
+        <ul class="sideList" id="accordionSidebar">
+            <li><a id="myTeamList" th:href="@{/myPage/myTeamList(sort='none')}">가입 스터디 목록</a></li>
+            <li><a id="myLikeList" th:href="@{/myPage/myLikeList}">찜한 스터디 목록</a></li>
+            <li><a id="myCheckList" th:href="@{/myPage/myCheckList}">내 인증글 목록</a></li>
+            <li><a id="myInfo" th:href="@{/myPage/myInfoMain}">회원정보 수정</a></li>
+            <li><a id="myBankbook" th:href="@{/myPage/myBankbook}">내 통장</a></li>
+            <li><a id="askBoard" th:href="@{/askBoard/askBoardList}">1:1 문의게시판</a></li>
+        </ul>
+    </div>
     <script type="text/javascript">
-        $(function(){
+        window.onload = function (){
+            // 현재 url 가져오기
+            let url = window.location.href;
 
-        });
+            $(".sideList a").each(function (){
+                // url이랑 비교 체크하기
+                if (url.includes(this.id)){
+                    $(this).closest("li").addClass("active");
+                }
+            });
+        };
     </script>
 </th:block>

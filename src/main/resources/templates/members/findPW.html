@@ -5,25 +5,27 @@
 <head>
   <meta charset="UTF-8">
   <title>비밀번호 찾기</title>
-  <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/member.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
   <form th:action="@{/members/findPW}" th:object="${memberDto}" method="post">
     <div class="middle-container">
-      <h1 class="title">비밀번호 찾기</h1>
+      <h1 class="title find">비밀번호 찾기</h1>
       <div class="findBox">
-        <label>아이디</label>
-        <input type="text" th:field="*{email}">
+        <div class="form-group findMargin">
+          <input type="text" th:field="*{email}"  class="form-control text-center" placeholder="아이디" required autofocus>
+        </div>
       </div>
       <div class="findBox">
-        <label>이름</label>
-        <input type="text" th:field="*{name}">
+        <div class="form-group findMargin">
+          <input type="text" th:field="*{name}"  class="form-control text-center" placeholder="이름" required autofocus>
+        </div>
       </div>
-      <div class="bankBookButton">
-        <input type="submit" value="확인">
+      <div class="findID-button-box">
+        <button type="submit" class="btn-sol form-control">확인</button>
       </div>
     </div>
   </form>

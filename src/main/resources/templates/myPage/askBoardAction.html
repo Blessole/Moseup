@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<div th:if="${result == 0}">
+    <script type="text/javascript">
+        alert("문의글 등록에 실패했습니다. ㅠㅠ");
+        history.go(-1);
+    </script>
+</div>
+<div th:if="${result == 1}">
+    <script type="text/javascript">
+        alert("문의글이 등록되었습니다.");
+        location.href="/askBoard/askBoardList";
+    </script>
+</div>
+</body>
+</html>

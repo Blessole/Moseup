@@ -9,8 +9,8 @@ import project.moseup.domain.Team;
 @Getter
 @Setter
 public class LikeSaveReqDto {
-    Member member;
-    Team team;
+    private Member member;
+    private Team team;
 
     public Likes toEntity(){
         return Likes.builder()
@@ -19,4 +19,3 @@ public class LikeSaveReqDto {
                 .build();
     }
 }
-

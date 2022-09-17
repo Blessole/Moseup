@@ -37,9 +37,9 @@ public class Team {
 	@NotNull
 	@Column(name = "team_volume") // 팀 모집 인원
 	private int teamVolume;
-	
+
 	@Column(name = "team_joiner") // 팀 가입 인원
-	private int teamJoiner;
+	private Integer teamJoiner;
 
 	@NotNull
 	@Column(name = "team_deposit") // 예치금
@@ -75,7 +75,7 @@ public class Team {
 
 	@Enumerated(EnumType.STRING)
 	private DeleteStatus teamDelete; //팀 삭제여부
-	
+
 	// 연관관계 맵핑
 	@OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
 	private TeamBankbook teamBankbook;

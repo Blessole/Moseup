@@ -3,6 +3,7 @@ package project.moseup.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Likes {
 
+	@MapsId("mno")
 	@EmbeddedId
 	private LikesId likesId = new LikesId();
 
@@ -28,6 +30,9 @@ public class Likes {
 
 	@Builder
 	public Likes(Member member, Team team) {
+		Assert.hasText(String.valueOf(member), "멤버는 [NULL]이 될 수 없습니다");
+		Assert.hasText(String.valueOf(team), "멤버는 [NULL]이 될 수 없습니다");
+
 		this.member = member;
 		this.team = team;
 	}

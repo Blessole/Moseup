@@ -13,39 +13,18 @@
     <form th:action="@{/myPage/myInfoMain}" id="check_password_form" method="post">
         <div class="topless2-middle-container">
             <h2 class="title">비밀번호 확인</h2>
-            <div class="form-group checkPw">
-<!--                <label for="check_password_email">비밀번호</label>-->
+            <div class="checkPw">
                 <input type="password" id="check_password_email" name="password" class="form-control">
-<!--                <span class="text-err" id="passwordChk"></span>-->
+                <input type="submit" id="checkPassword" value="확인">
             </div>
-            <input type="submit" id="checkPassword" value="확인"></input><br>
         </div>
     </form>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
     <script th:inline="javascript">
         $(document).ready(function (){
            const queryString = location.search.substr(1);
            if (queryString == "error")
                alert("비밀번호를 다시 확인하세요.");
         });
-        // function pw_Chk() {
-        //     let scan = $('#scan').val();
-        //     $.ajax({
-        //         url:'/myPage/pwChk',
-        //         type: 'get',
-        //         data: {"scan": scan},
-        //         success: function(data){
-        //             if (scan == ""){
-        //                 $('#passwordChk').text("비밀번호를 입력해주세요.");
-        //             } else if (data.includes("않습니다")){
-        //                 $('#passwordChk').html(data);
-        //             } else {
-        //                 document.frm.submit();
-        //             }
-        //         }
-        //     })
-        // };
     </script>
 </th:block>
 </body>

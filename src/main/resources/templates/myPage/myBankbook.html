@@ -12,18 +12,23 @@
     <div class="topless-middle-container">
         <h2 class="title">작고 귀여운 내 통장</h2>
         <div class="bankBookButton-box">
-            <span>현재 총액 : <span th:text="${myTotal}"></span> 원 </span>
-            <a th:href="@{/myPage/moneyCharge}" class="bankBookButton">충전하기</a>
+            <span>현재 총액 :
+                <span th:if="${myTotal != 0 }" th:text="${#numbers.formatInteger(myTotal, 3, 'COMMA')}+'원'"></span>
+                <span th:if="${myTotal == 0 }">- 원</span>
+            </span>
+            <a th:href="@{/myPage/myBankbook/moneyCharge}" class="bankBookButton">충전하기</a>
         </div>
         <table class="bankBookTable">
             <tr><th class="col-1">순서</th><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
-            <tr th:each="list, stat : ${bankbookDto}">
-                <td th:text="|${stat.count}|"></td>
+            <tr th:each="list : ${bankbookDto}">
+                <td th:text="${list.dno}"></td>
                 <td th:text="${#temporals.format(list.bankbookDate, 'yyyy.MM.dd HH:mm')}"></td>
                 <td th:text="${list.dealList}"></td>
-                <td th:text="${list.bankbookDeposit}" class="fontColor"></td>
-                <td th:text="${list.bankbookWithdraw}" class="fontColor1"></td>
-                <td th:text="${list.bankbookTotal}"></td>
+                <td th:if="${list.bankbookDeposit != 0}" th:text="${#numbers.formatInteger(list.bankbookDeposit, 3, 'COMMA')}"></td>
+                <td th:if="${list.bankbookDeposit == 0}">-</td>
+                <td th:if="${list.bankbookWithdraw != 0}" th:text="${#numbers.formatInteger(list.bankbookWithdraw, 3, 'COMMA')}"></td>
+                <td th:if="${list.bankbookWithdraw == 0}">-</td>
+                <td th:text="${#numbers.formatInteger(list.bankbookTotal, 3, 'COMMA')}"></td>
             </tr>
         </table>
         <!-- paging -->
@@ -38,7 +43,7 @@
                 <li th:if="${start > 1}">
                     <a th:href="@{/myPage/myBankbook(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
                 </li>
-                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
+                <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == bankbookDto.pageable.pageNumber + 1} ? 'nowPage'">
                     <a th:href="@{/myPage/myBankbook(page=${page - 1})}" th:text="${page}"></a>
                 </li>
                 <li th:if="${end < bankbookDto.totalPages}">

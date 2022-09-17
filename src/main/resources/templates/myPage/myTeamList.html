@@ -24,44 +24,83 @@
       </div>
     </div>
     <table class="myTeamTable">
-      <tr><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>자세히</th></tr>
-      <tr th:each="list, stat : ${teamList}">
-        <td th:text="|${stat.count}|"></td>
-        <td th:text="${list.teamName}"></td>
-        <td th:text="${list.member.nickname}"></td>
-        <td th:text="${list.startDate}"></td>
-        <td th:text="${list.endDate}"></td>
-        <td th:text="${list.teamDeposit}+'0,000원'"></td>
-        <td><a th:href="@{/teams/teamPage(tno=${list.tno})}"><img src="/images/go.png" width="40"></a> </td>
-      </tr>
+      <tr class="teamTableH"><th class="col-1">번호</th><th>팀명</th><th>팀장</th><th>시작날짜</th><th>완료날짜</th><th>예치금</th><th>팀 탈퇴</th></tr>
+      <tr th:if="${teamList.isEmpty()}"><td colspan="7">가입한 팀이 없습니다.</td></tr>
+      <tr th:if="${!teamList.isEmpty()}" th:each="list : ${teamList}">
+          <td th:text="${list.tno}"></td>
+          <td><a th:href="@{/teams/teamPage(tno=${list.tno})}" th:text="${list.teamName}" style="font-weight: 500"></a></td>
+          <td th:text="${list.member.nickname}"></td>
+          <td th:text="${list.startDate}"></td>
+          <td th:text="${list.endDate}"></td>
+          <td th:text="${list.teamDeposit}+'0,000원'"></td>
+          <td><a onclick="deleteChk(this)" th:id="${list.tno}"><i class='bx bx-message-alt-x'></i></a></td>
+<!--        <img src="/images/delete.svg" width="25">-->
+        </tr>
     </table>
 
-    <!-- paging -->
-    <div class="myTeam page-num"
-         th:with="start=${(teamList.number/maxPage)*maxPage + 1},
-                       end=(${(teamList.totalPages == 0) ? 1
-                       : (start +(maxPage - 1) < teamList.totalPages ? start + (maxPage - 1) : teamList.totalPages)})">
-      <ul>
-        <li th:if="${start > 1}">
-          <a th:href="@{/myPage/myTeamList(page=0)}"><img th:src="@{/images/left2.png}"></a>
-        </li>
-        <li th:if="${start > 1}">
-          <a th:href="@{/myPage/myTeamList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
-        </li>
-        <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}">
-          <a th:href="@{/myPage/myTeamList(page=${page - 1})}" th:text="${page}"></a>
-        </li>
-        <li th:if="${end < teamList.totalPages}">
-          <a th:href="@{/myPage/myTeamList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
-        </li>
-        <li th:if="${end < teamList.totalPages}">
-          <a th:href="@{/myPage/myTeamList(page=${teamList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
-        </li>
-      </ul>
+    <div th:if="${!teamList.isEmpty()}">
+      <!-- paging -->
+      <div class="myTeam page-num"
+           th:with="start=${(teamList.number/maxPage)*maxPage + 1},
+                         end=(${(teamList.totalPages == 0) ? 1
+                         : (start +(maxPage - 1) < teamList.totalPages ? start + (maxPage - 1) : teamList.totalPages)})">
+        <ul>
+          <li th:if="${start > 1}">
+            <a th:href="@{/myPage/myTeamList(page=0)}"><img th:src="@{/images/left2.png}"></a>
+          </li>
+          <li th:if="${start > 1}">
+            <a th:href="@{/myPage/myTeamList(page=${start - maxPage})}"><img th:src="@{/images/left.png}"></a>
+          </li>
+          <li class="listNumber" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page == teamList.pageable.pageNumber + 1} ? 'nowPage'">
+            <a th:href="@{/myPage/myTeamList(page=${page - 1})}" th:text="${page}"></a>
+          </li>
+          <li th:if="${end < teamList.totalPages}">
+            <a th:href="@{/myPage/myTeamList(page=${start + maxPage})}"><img th:src="@{/images/right.png}"></a>
+          </li>
+          <li th:if="${end < teamList.totalPages}">
+            <a th:href="@{/myPage/myTeamList(page=${teamList.totalPages - 1})}"><img th:src="@{/images/right2.png}"></a>
+          </li>
+        </ul>
+      </div>
+     <!-- paging end -->
     </div>
-    <!-- paging end -->
-
   </div>
+  <script type="text/javascript">
+    $(function (){
+      // 현재 url 가져오기
+      let url = window.location.href;
+
+      $(".sort-btn-box a").each(function (){
+        // url이랑 비교 체크하기
+        if (url.includes(this.href)){
+          $(this).addClass("active");
+        }
+      });
+    })
+    function deleteChk(value){
+      let tno = value.getAttribute('id');
+      const check = confirm("팀 탈퇴하면 *예치금*을 돌려받지 못합니다.\r\n그래도 탈퇴하시겠습니까?");
+      if(check == false){
+        alert("탈퇴가 취소되었습니다.");
+        return false;
+      } else if (check == true) {
+        const doubleCheck = confirm("팀 탈퇴하면 *재가입 불가*합니다.\r\n그래도 탈퇴하시겠습니까?");
+        if (doubleCheck == false) {
+          alert("탈퇴가 취소되었습니다.");
+          return false;
+        } else if (doubleCheck == true) {
+          const tripleCheck = prompt("탈퇴를 위해 '에휴 내가 그럼 그렇지 뭐'라고 입력해주세요.\r\n* 띄어쓰기 주의 *");
+          if (tripleCheck == "에휴 내가 그럼 그렇지 뭐") {
+            location.href = "/myPage/teamMemberDelete?tno=" + tno;
+          } else {
+            alert("탈퇴가 취소되었습니다.");
+            return false;
+          }
+          // $.get('/myPage/teamMemberDelete', {"tno": tno});
+        }
+      }
+    }
+  </script>
 </th:block>
 </body>
 </html>

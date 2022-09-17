@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
+import project.moseup.exception.NoLoginException;
 import project.moseup.service.MainService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
@@ -62,7 +63,7 @@ public class MainController {
 		model.addAttribute("habitTopList", habitTopList);
 		model.addAttribute("etcTopList", etcTopList);
 		model.addAttribute("newTeamList", newTeamList);
-		
+
 		return "main";
 	}
 }
