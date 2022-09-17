@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
-import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
@@ -29,8 +28,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -69,27 +68,33 @@ public class TeamPageController {
 
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
-		Member member = this.memberService.getMember(principal.getName());
 
-		// 팀 회원 정보 가져오기
-		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+		if (principal == null ){
+			model.addAttribute("principal", null);
+		} else {
+			Member member = this.memberService.getMember(principal.getName());
 
-		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
-		if(!teamMember.isEmpty()) {
-			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
-			TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
-			model.addAttribute("teamMemberDetail", teamMemberDetail);
-		} else if(teamMember.isEmpty()) {
-			TeamMemberDto teamFakeMember = new TeamMemberDto();
-			teamFakeMember.setMember(member);
-			teamFakeMember.setTeam(team);
-			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
-			model.addAttribute("teamMemberDetail", teamFakeMember);
+			// 팀 회원 정보 가져오기
+			Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+
+			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
+			if(!teamMember.isEmpty()) {
+				TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
+				TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
+				model.addAttribute("teamMemberDetail", teamMemberDetail);
+			} else if(teamMember.isEmpty()) {
+				TeamMemberDto teamFakeMember = new TeamMemberDto();
+				teamFakeMember.setMember(member);
+				teamFakeMember.setTeam(team);
+				teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
+				model.addAttribute("teamMemberDetail", teamFakeMember);
+			}
+			model.addAttribute("member", member);
+			model.addAttribute("teamMember",teamMember);
+			model.addAttribute("principal", 1);
 		}
 
-		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
-		model.addAttribute("member", member);
 		model.addAttribute("t", DeleteStatus.TRUE);
 
 		return "teams/teamMain";
