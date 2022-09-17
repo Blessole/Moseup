@@ -40,12 +40,12 @@
   	font-size: 14px;
   	line-height: 35px;
   	color : white;
-  	background-color: #017ed1;
+  	background-color: var(--point-color);
 }
 
 /* 메인 검색창 placeholder */
 .mainSearchInput input::placeholder {
-  color: #d4d4d4;
+  color: white;
   font-size: 17px;
 }
 /* 메인 돋보기 이미지 */
@@ -72,7 +72,7 @@
 }
 @keyframes test{
     from{
-        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+        background-color: #5c75bb; /* 애니메이션 시작 색상 */
     }
     to{
         background-color: white; /* 애니메이션 종료 색상 */
@@ -85,7 +85,14 @@
 /* 메인 검색창 타이틀 */
 .mainSearchTitle {
 	margin: 5px;
-	font-size: 1.6em;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+/* mainSearchTitle중에서 "모"와 "습" */
+.mainSearchTitlePoint {
+	font-size: 30px;
+	color: #5c75bb;
 }
 
 /* 검색창 밑 tag */
@@ -107,31 +114,35 @@
 
 /* 습관 BEST 5 타이틀 */
 #slideTitle {
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	width: 150px;
 	margin: 0 auto;
 	text-align: center;
-	color: white;
-	background-color: black;
+	color: black;
+	/* background-color: black; */
 	margin-bottom: 5px;
 }
 
 /* 슬라이드 이미지 */
 #slideImg {
-	width: 100%;
+	width: 60%;
 	height: 300px;
+	object-fit: cover;
+	margin: auto;
 }
 
 /* 슬라이드 캡션1 */
 #slideCaption {
-	font-size: 20px; 
-	text-shadow: 1px 1px 1px black;
+	font-size: 20px;
+	color: black;
+	/* text-shadow: 1px 1px 1px black; */
 }
 
 /* 슬라이드 캡션2 */
 #slideCaption2 {
-	font-size: 17px; 
-	text-shadow: 1px 1px 1px black;
+	font-size: 15px;
+	color: black;
+	/* text-shadow: 1px 1px 1px black; */
 }
 
 /* 슬라이드 캡션 위치 */
@@ -157,6 +168,12 @@
 	border: 1px solid black;
 }
 
+/* 슬라이드 이미지안에 버튼 */
+#slideBtn2 {
+	color: black;
+	font-size: 1.7em;
+}
+
 /* card태그 */
 .card {
 	border-radius: 10px;
@@ -169,6 +186,18 @@
 	border: 1px solid #cecece;
 }
 
+/* 지난 습관 */
+.pastHabits:hover > p {
+	background:rgba(0,0,0,.8);
+}
+.pastHabits:hover .centered {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: white;
+	padding: 180px 0;
+}
+
 /* card텍스트 */
 .card-text {
 	margin-bottom: 10px;
@@ -179,6 +208,7 @@
 	font-weight: bold;
 	font-size: 1.02em;
 	height: 50px;
+	color: black;
 }
 /* card 팀명안에 a태그 */
 .cardTeamNameA {
@@ -207,33 +237,36 @@
 /* card Date */
 .cardTeamDate {
 	font-size: 0.9em;
+	color: black;
 }
 
 /* card 이미지 */
 .card-img-top {
 	width: 100%;
 	height: 100px;
+	object-fit: cover;
+}
+
+.row a {
+	text-decoration: none;
 }
 
 /* 카테고리1 버튼 */
 .Category1Btn {
 	background-color: #cee7ff;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리2 버튼 */
 .Category2Btn {
 	background-color: #ffdfef;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 /* 카테고리3 버튼 */
 .Category3Btn {
 	background-color: #caffe4;
 	font-size: 0.75em;
-	cursor: Default;
 	margin-bottom: 5px;
 }
 
@@ -254,4 +287,14 @@
 	color: #808080;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+/* 등록된 습관 없을 떄 태그 */
+#nullMoseup {
+	color: gray;
+	font-weight: bold;
+	margin: 20px 0;
+}
+
+.displayNone {
+	display: none;
 }
