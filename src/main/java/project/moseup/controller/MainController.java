@@ -43,13 +43,13 @@ public class MainController {
 
 		//best5 습관
 		List<Team> topList = mainService.topList();
-		//카테고리1 공부 인기순
+		//카테고리1 공부 최신순
 		List<Team> studyTopList = mainService.studyTopList();
-		//카테고리1 운동 인기순
+		//카테고리1 운동 최신순
 		List<Team> exerciseTopList = mainService.exerciseTopList();
-		//카테고리1 습관 인기순
+		//카테고리1 습관 최신순
 		List<Team> habitTopList = mainService.habitTopList();
-		//카테고리1 ETC 인기순
+		//카테고리1 ETC 최신순
 		List<Team> etcTopList = mainService.etcTopList();
 		//신규팀 24개
 		List<Team> newTeamList = mainService.newTeamList();

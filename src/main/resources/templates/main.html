@@ -19,7 +19,7 @@
 			<!-- 슬라이드 세션 -->
 			<section class="slidesSection">
 				<div th:if="${!topList.isEmpty()}">
-					<h5 id="slideTitle">습관 BEST 5</h5>
+					<h5 id="slideTitle">모습 BEST 5</h5>
 					<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 						  <!-- 슬라이드 밑에 버튼 -->
 						  <div class="carousel-indicators">
@@ -63,7 +63,7 @@
 			<!-- 검색 세션 -->
 			<section class="searchSection">
 				<div class="mainSearch">
-					<div class="mainSearchTitle" align="center">모두의 습관</div>
+					<div class="mainSearchTitle" align="center"><span class="mainSearchTitlePoint">모</span>두의 <span class="mainSearchTitlePoint">습</span>관</div>
 					<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/search" method="get" onsubmit="return searchChk()">
 						<div class="mainSearchInput">
 							<input type="hidden" id="filter2main" name="filter2" th:value="${filter2}"> <input type="hidden" id="filter1main" name="filter1" th:value="${filter1}"> 
@@ -73,98 +73,16 @@
 					</form>
 					<!-- 태그 -->
 					<div align="center" id="searchTag">
+						<a th:href="@{/search(keyword=습관,filter1=nothing,filter2=nothing)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#습관 &nbsp;&nbsp;</a>
 						<a th:href="@{/search(keyword=공부,filter1=nothing,filter2=nothing)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#공부 &nbsp;&nbsp;</a>
 						<a th:href="@{/search(keyword=운동,filter1=nothing,filter2=nothing)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#운동 &nbsp;&nbsp;</a>
-						<a th:href="@{/search(keyword=습관,filter1=nothing,filter2=nothing)}" id="searchTagALink">&nbsp;&nbsp;&nbsp;#습관 &nbsp;&nbsp;</a>
 					</div>
 				</div>
 			</section>
 			<!-- 추천 팀 세션 -->
 			<section class="teamListSection">
-				<!-- 공부순 -->
-				<div><a th:href="@{/search(keyword=공부,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">시간이 없다는건 핑계야! 📚<span id="teamListSpan"> ></span></a></div>
-				<div th:if="${studyTopList.isEmpty()}" align="center" id="nullMoseup">등록된 습관이 없어요! 🙈 새로운 습관을 시작해 보세요 🙉</div>
-				<div th:if="${!studyTopList.isEmpty()}">
-					<div id="teamListSubtitle">개인, 회사, 시험, 공무원, 자격증 등 모든 공부!!</div>
-					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
-						<div th:each="studyTopList : ${studyTopList}" class="center">
-							<a th:href="@{/teams/teamPage(tno=${studyTopList.tno})}">
-								<!-- 시작일이 지난 습관 -->
-								<div class="card pastHabits" th:if="${studyTopList.startDate}<${today}">
-									<img th:src="'images/teamPhotos/'+${studyTopList.teamName}+'/'+${studyTopList.teamPhoto}" class="card-img-top" alt="...">
-									<p class="centered displayNone" id="studyCentered">시작된 습관입니다❕</p>
-									<div class="card-body">
-										<p class="card-title cardTeamName" th:text="${studyTopList.teamName}">teamName</p>
-										<p class="card-text cardTeamLeader" th:text="${studyTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${studyTopList.teamDeposit+'/'+studyTopList.teamVolume+'명'}">teamVolume</p>
-										<p class="card-text cardTeamDeposit" th:text="${'₩'+studyTopList.teamDeposit}+'0,000'">teamDeposit</p>
-										<p class="card-text cardTeamDate" th:text="${'⭐'+studyTopList.startDate+' ~ '+studyTopList.endDate+'⭐'}">teamDate</p>
-										<p class="btn btn-sm Category1Btn" th:text="${studyTopList.teamCategory1}">teamCategory1</p>
-										<p th:if="${studyTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${studyTopList.teamCategory2}">teamCategory2</p>
-										<p th:if="${studyTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${studyTopList.teamCategory3}">teamCategory3</p>
-									</div>
-								</div>
-								<!-- 시작일이 지나지 않은 습관 -->
-								<div class="card" th:if="${studyTopList.startDate}>=${today}">
-									<img th:src="'images/teamPhotos/'+${studyTopList.teamName}+'/'+${studyTopList.teamPhoto}" class="card-img-top" alt="...">
-									<div class="card-body">
-										<p class="card-title cardTeamName" th:text="${studyTopList.teamName}">teamName</p>
-										<p class="card-text cardTeamLeader" th:text="${studyTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${studyTopList.teamDeposit+'/'+studyTopList.teamVolume+'명'}">teamVolume</p>
-										<p class="card-text cardTeamDeposit" th:text="${'₩'+studyTopList.teamDeposit}+'0,000'">teamDeposit</p>
-										<p class="card-text cardTeamDate" th:text="${'⭐'+studyTopList.startDate+' ~ '+studyTopList.endDate+'⭐'}">teamDate</p>
-										<p class="btn btn-sm Category1Btn" th:text="${studyTopList.teamCategory1}">teamCategory1</p>
-										<p th:if="${studyTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${studyTopList.teamCategory2}">teamCategory2</p>
-										<p th:if="${studyTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${studyTopList.teamCategory3}">teamCategory3</p>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- 운동순 -->
-				<div><a th:href="@{/search(keyword=운동,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">오늘 걷지 않으면 내일 뛰어야 한다! 💪<span id="teamListSpan"> ></span></a></div>
-				<div th:if="${exerciseTopList.isEmpty()}" align="center" id="nullMoseup">등록된 습관이 없어요! 🙈 새로운 습관을 시작해 보세요 🙉</div>
-				<div th:if="${!exerciseTopList.isEmpty()}">
-					<div id="teamListSubtitle">헬스, 요가, 생활체육, 필라테스 등 모든 운동!!</div>
-					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
-						<div th:each="exerciseTopList : ${exerciseTopList}" class="center">
-							<a th:href="@{/teams/teamPage(tno=${exerciseTopList.tno})}">
-								<!-- 시작일이 지난 습관 -->
-								<div class="card pastHabits" th:if="${exerciseTopList.startDate}<${today}">
-									<img th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="...">
-									<p class="centered displayNone">시작된 습관입니다❕</p>
-									<div class="card-body">
-										<p class="card-title cardTeamName" th:text="${exerciseTopList.teamName}">teamName</p>
-										<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamDeposit+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
-										<p class="card-text cardTeamDeposit" th:text="${'₩'+exerciseTopList.teamDeposit}+'0,000'">teamDeposit</p>
-										<p class="card-text cardTeamDate" th:text="${'⭐'+exerciseTopList.startDate+' ~ '+exerciseTopList.endDate+'⭐'}">teamDate</p>
-										<p class="btn btn-sm Category1Btn" th:text="${exerciseTopList.teamCategory1}">teamCategory1</p>
-										<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
-										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
-									</div>
-								</div>
-								<!-- 시작일이 지나지 않은 습관 -->
-								<div class="card" th:if="${exerciseTopList.startDate}>=${today}">
-									<img th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="...">
-									<div class="card-body">
-										<p class="card-title cardTeamName" th:text="${exerciseTopList.teamName}">teamName</p>
-										<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamDeposit+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
-										<p class="card-text cardTeamDeposit" th:text="${'₩'+exerciseTopList.teamDeposit}+'0,000'">teamDeposit</p>
-										<p class="card-text cardTeamDate" th:text="${'⭐'+exerciseTopList.startDate+' ~ '+exerciseTopList.endDate+'⭐'}">teamDate</p>
-										<p class="btn btn-sm Category1Btn" th:text="${exerciseTopList.teamCategory1}">teamCategory1</p>
-										<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
-										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-				</div>
 				<!-- 습관순 -->
-				<div><a th:href="@{/search(keyword=습관,filter1='',filter2=팀원수순)}" id="teamListAlinkTitle">습관이 바꾸는 미래! ✨<span id="teamListSpan"> ></span></a></div>
+				<div><a th:href="@{/category(keyword=습관)}" id="teamListAlinkTitle">습관이 바꾸는 미래! ✨<span id="teamListSpan"> ></span></a></div>
 				<div th:if="${habitTopList.isEmpty()}" align="center" id="nullMoseup">등록된 습관이 없어요! 🙈 새로운 습관을 시작해 보세요 🙉</div>
 				<div th:if="${!habitTopList.isEmpty()}">
 					<div id="teamListSubtitle">식습관, 생활습관, 수면습관 등 모든 습관!!</div>
@@ -178,7 +96,7 @@
 									<div class="card-body">
 										<p class="card-title cardTeamName" th:text="${habitTopList.teamName}">teamName</p>
 										<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamVolume" th:text="${habitTopList.teamJoiner+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
 										<p class="card-text cardTeamDeposit" th:text="${'₩'+habitTopList.teamDeposit}+'0,000'">teamDeposit</p>
 										<p class="card-text cardTeamDate" th:text="${'⭐'+habitTopList.startDate+' ~ '+habitTopList.endDate+'⭐'}">teamDate</p>
 										<p class="btn btn-sm Category1Btn" th:text="${habitTopList.teamCategory1}">teamCategory1</p>
@@ -192,12 +110,94 @@
 									<div class="card-body">
 										<p class="card-title cardTeamName" th:text="${habitTopList.teamName}">teamName</p>
 										<p class="card-text cardTeamLeader" th:text="${habitTopList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${habitTopList.teamDeposit+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamVolume" th:text="${habitTopList.teamJoiner+'/'+habitTopList.teamVolume+'명'}">teamVolume</p>
 										<p class="card-text cardTeamDeposit" th:text="${'₩'+habitTopList.teamDeposit}+'0,000'">teamDeposit</p>
 										<p class="card-text cardTeamDate" th:text="${'⭐'+habitTopList.startDate+' ~ '+habitTopList.endDate+'⭐'}">teamDate</p>
 										<p class="btn btn-sm Category1Btn" th:text="${habitTopList.teamCategory1}">teamCategory1</p>
 										<p th:if="${habitTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${habitTopList.teamCategory2}">teamCategory2</p>
 										<p th:if="${habitTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${habitTopList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- 공부순 -->
+				<div><a th:href="@{/category(keyword=공부)}" id="teamListAlinkTitle">시간이 없다는건 핑계야! 📚<span id="teamListSpan"> ></span></a></div>
+				<div th:if="${studyTopList.isEmpty()}" align="center" id="nullMoseup">등록된 습관이 없어요! 🙈 새로운 습관을 시작해 보세요 🙉</div>
+				<div th:if="${!studyTopList.isEmpty()}">
+					<div id="teamListSubtitle">개인, 회사, 시험, 공무원, 자격증 등 모든 공부!!</div>
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="studyTopList : ${studyTopList}" class="center">
+							<a th:href="@{/teams/teamPage(tno=${studyTopList.tno})}">
+								<!-- 시작일이 지난 습관 -->
+								<div class="card pastHabits" th:if="${studyTopList.startDate}<${today}">
+									<img th:src="'images/teamPhotos/'+${studyTopList.teamName}+'/'+${studyTopList.teamPhoto}" class="card-img-top" alt="...">
+									<p class="centered displayNone" id="studyCentered">시작된 습관입니다❕</p>
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${studyTopList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${studyTopList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${studyTopList.teamJoiner+'/'+studyTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+studyTopList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+studyTopList.startDate+' ~ '+studyTopList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${studyTopList.teamCategory1}">teamCategory1</p>
+										<p th:if="${studyTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${studyTopList.teamCategory2}">teamCategory2</p>
+										<p th:if="${studyTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${studyTopList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+								<!-- 시작일이 지나지 않은 습관 -->
+								<div class="card" th:if="${studyTopList.startDate}>=${today}">
+									<img th:src="'images/teamPhotos/'+${studyTopList.teamName}+'/'+${studyTopList.teamPhoto}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${studyTopList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${studyTopList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${studyTopList.teamJoiner+'/'+studyTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+studyTopList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+studyTopList.startDate+' ~ '+studyTopList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${studyTopList.teamCategory1}">teamCategory1</p>
+										<p th:if="${studyTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${studyTopList.teamCategory2}">teamCategory2</p>
+										<p th:if="${studyTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${studyTopList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- 운동순 -->
+				<div><a th:href="@{/category(keyword=운동)}" id="teamListAlinkTitle">오늘 걷지 않으면 내일 뛰어야 한다! 💪<span id="teamListSpan"> ></span></a></div>
+				<div th:if="${exerciseTopList.isEmpty()}" align="center" id="nullMoseup">등록된 습관이 없어요! 🙈 새로운 습관을 시작해 보세요 🙉</div>
+				<div th:if="${!exerciseTopList.isEmpty()}">
+					<div id="teamListSubtitle">헬스, 요가, 생활체육, 필라테스 등 모든 운동!!</div>
+					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
+						<div th:each="exerciseTopList : ${exerciseTopList}" class="center">
+							<a th:href="@{/teams/teamPage(tno=${exerciseTopList.tno})}">
+								<!-- 시작일이 지난 습관 -->
+								<div class="card pastHabits" th:if="${exerciseTopList.startDate}<${today}">
+									<img th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="...">
+									<p class="centered displayNone">시작된 습관입니다❕</p>
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${exerciseTopList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamJoiner+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+exerciseTopList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+exerciseTopList.startDate+' ~ '+exerciseTopList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${exerciseTopList.teamCategory1}">teamCategory1</p>
+										<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
+										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
+									</div>
+								</div>
+								<!-- 시작일이 지나지 않은 습관 -->
+								<div class="card" th:if="${exerciseTopList.startDate}>=${today}">
+									<img th:src="'images/teamPhotos/'+${exerciseTopList.teamName}+'/'+${exerciseTopList.teamPhoto}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<p class="card-title cardTeamName" th:text="${exerciseTopList.teamName}">teamName</p>
+										<p class="card-text cardTeamLeader" th:text="${exerciseTopList.member.nickname}">teamLeader</p>
+										<p class="card-text cardTeamVolume" th:text="${exerciseTopList.teamJoiner+'/'+exerciseTopList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamDeposit" th:text="${'₩'+exerciseTopList.teamDeposit}+'0,000'">teamDeposit</p>
+										<p class="card-text cardTeamDate" th:text="${'⭐'+exerciseTopList.startDate+' ~ '+exerciseTopList.endDate+'⭐'}">teamDate</p>
+										<p class="btn btn-sm Category1Btn" th:text="${exerciseTopList.teamCategory1}">teamCategory1</p>
+										<p th:if="${exerciseTopList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${exerciseTopList.teamCategory2}">teamCategory2</p>
+										<p th:if="${exerciseTopList.teamCategory3 != null}" class="btn btn-sm Category3Btn" th:text="${exerciseTopList.teamCategory3}">teamCategory3</p>
 									</div>
 								</div>
 							</a>
@@ -219,7 +219,7 @@
 									<div class="card-body">
 										<p class="card-title cardTeamName" th:text="${newTeamList.teamName}">teamName</p>
 										<p class="card-text cardTeamLeader" th:text="${newTeamList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${newTeamList.teamDeposit+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamVolume" th:text="${newTeamList.teamJoiner+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
 										<p class="card-text cardTeamDeposit" th:text="${'₩'+newTeamList.teamDeposit}+'0,000'">teamDeposit</p>
 										<p class="card-text cardTeamDate" th:text="${'⭐'+newTeamList.startDate+' ~ '+newTeamList.endDate+'⭐'}">teamDate</p>
 										<p class="btn btn-sm Category1Btn" th:text="${newTeamList.teamCategory1}">teamCategory1</p>
@@ -233,7 +233,7 @@
 									<div class="card-body">
 										<p class="card-title cardTeamName" th:text="${newTeamList.teamName}">teamName</p>
 										<p class="card-text cardTeamLeader" th:text="${newTeamList.member.nickname}">teamLeader</p>
-										<p class="card-text cardTeamVolume" th:text="${newTeamList.teamDeposit+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
+										<p class="card-text cardTeamVolume" th:text="${newTeamList.teamJoiner+'/'+newTeamList.teamVolume+'명'}">teamVolume</p>
 										<p class="card-text cardTeamDeposit" th:text="${'₩'+newTeamList.teamDeposit}+'0,000'">teamDeposit</p>
 										<p class="card-text cardTeamDate" th:text="${'⭐'+newTeamList.startDate+' ~ '+newTeamList.endDate+'⭐'}">teamDate</p>
 										<p class="btn btn-sm Category1Btn" th:text="${newTeamList.teamCategory1}">teamCategory1</p>

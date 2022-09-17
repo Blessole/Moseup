@@ -40,12 +40,12 @@
   	font-size: 14px;
   	line-height: 35px;
   	color : white;
-  	background-color: #017ed1;
+  	background-color: var(--point-color);
 }
 
 /* 메인 검색창 placeholder */
 .mainSearchInput input::placeholder {
-  color: #d4d4d4;
+  color: white;
   font-size: 17px;
 }
 /* 메인 돋보기 이미지 */
@@ -72,7 +72,7 @@
 }
 @keyframes test{
     from{
-        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+        background-color: #5c75bb; /* 애니메이션 시작 색상 */
     }
     to{
         background-color: white; /* 애니메이션 종료 색상 */
@@ -85,7 +85,14 @@
 /* 메인 검색창 타이틀 */
 .mainSearchTitle {
 	margin: 5px;
-	font-size: 1.6em;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+/* mainSearchTitle중에서 "모"와 "습" */
+.mainSearchTitlePoint {
+	font-size: 30px;
+	color: #5c75bb;
 }
 
 /* 검색창 밑 tag */
@@ -107,12 +114,12 @@
 
 /* 습관 BEST 5 타이틀 */
 #slideTitle {
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	width: 150px;
 	margin: 0 auto;
 	text-align: center;
-	color: white;
-	background-color: black;
+	color: black;
+	/* background-color: black; */
 	margin-bottom: 5px;
 }
 
@@ -126,14 +133,16 @@
 
 /* 슬라이드 캡션1 */
 #slideCaption {
-	font-size: 20px; 
-	text-shadow: 1px 1px 1px black;
+	font-size: 20px;
+	color: black;
+	/* text-shadow: 1px 1px 1px black; */
 }
 
 /* 슬라이드 캡션2 */
 #slideCaption2 {
-	font-size: 17px; 
-	text-shadow: 1px 1px 1px black;
+	font-size: 15px;
+	color: black;
+	/* text-shadow: 1px 1px 1px black; */
 }
 
 /* 슬라이드 캡션 위치 */

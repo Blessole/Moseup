@@ -28,13 +28,13 @@
   	font-size: 14px;
   	line-height: 35px;
   	color : white;
-  	background-color: #017ed1;
+  	background-color: var(--point-color);
   	margin: 5px 0px 80px 0px;
 }
 
 /* 메인 검색창 placeholder */
 .mainSearchInput input::placeholder {
-  color: #d4d4d4;
+  color: white;
 }
 /* 메인 돋보기 이미지 */
 .mainSearchImg{
@@ -60,7 +60,7 @@
 }
 @keyframes test{
     from{
-        background-color: #aac8ff; /* 애니메이션 시작 색상 */
+        background-color: #5c75bb; /* 애니메이션 시작 색상 */
     }
     to{
         background-color: white; /* 애니메이션 종료 색상 */
@@ -183,7 +183,7 @@
 }
 .page-link:hover {
 	color: white;
-	background-color: #016fb9;
+	background-color: #5c75bb;
 }
 
 /* 필터1 */
@@ -209,7 +209,7 @@
 	border: 2px solid black;
 }
 .filter1label:hover, #filter1submitBtn:hover {
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 }
 
@@ -235,16 +235,16 @@
 }
 /* 필터2 a태그 */
 .filter2a:active{
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 
 }
 .filter2a:hover {
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 }
 /* .filter2btn:active{
-	background-color: #016fb9;
+	background-color: #5c75bb;
 	color: white;
 } */
 .filter2btn:hover {

@@ -1,12 +1,23 @@
 /* 메인 컨테이너 */
 .mainContainer {
-	width: 80%;
+	width: 60%;
 	margin: 0 auto;
 }
 
 /* 메인 컨테이너 밑 form감싸는 태그 */
 .formContainer{
 	margin: 0 auto;
+}
+
+/* 인풋 색상 변경 */
+input {
+  accent-color: #5c75bb;
+}
+
+/* 팀생성 제목 */
+#teamCreateTitle {
+	font-size: 2em;
+	font-weight: bold;
 }
 
 /* 모집 인원 값 태그 */
@@ -68,4 +79,10 @@
 
 .essential {
 	color: red;
+}
+
+/* 팀 생성버튼 */
+#teamCreateBtn {
+	background-color: var(--point-color);
+	color : white;
 }

@@ -1,3 +1,11 @@
+body {
+	font-family : 'LG Regular';
+}
+
+/* 포인트 컬러 */
+:root{
+    --point-color : #5c75bb;
+}
 /* fab */
 .fab-container {
     position: fixed;
@@ -7,71 +15,21 @@
     cursor: pointer;
 }
 
-.fab-icon-holder {	/* 위에 뜨는 아이콘들 */
-/*     width: 50px;
-    height: 50px; */
+.fab-icon-holder {
     border-radius: 70%;
-/*     background: #016fb9; */
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
-
-/* .fab-icon-holder:hover{	위에 뜨는 아이콘 투명도
-    opacity: 0.7;
-} */
-
-/* .fab-icon-holder i {		i 태그
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-size: 25px;
-    color: #ffffff;
-} */
 
 .fab {
     width: 100px;
     height: 50px;
     background: white;
 }
-
-/* .fab-options {
-    list-style-type: none;
-    margin: 0;
-
-    position: absolute;
-    bottom: 70px;
-    right: 0;
-
-    opacity: 0;
-
-	transition: all 0.3s ease;
-	transform: scale(0);
-	transform-origin: 85% bottom;
-} */
-
-/* .fab:hover + .fab-options, .fab-options:hover {
-	opacity: 1;
-	transform: scale(1);
-} */
-
-/* .fab-options li {
-	display: flex;
-	justify-content: flex-end;
-	padding: 5px;
-} */
-
-/* .fab-label {	span태그
-	padding: 2px 5px;
-	align-self: center;
-	user-select: none;
-	white-space: nowrap;
-	border-radius: 10px;
-	font-size: 16px;
-	background: #016fb9;
-	color: #ffffff;
-	box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-	margin-right: 10px;
-} */
+/* fab이미지 */
+.teamImg, .createImg {
+	/* background-color: #5c75bb; */
+	border-radius: 60px;
+}
 
 .displayNone {
 	display: none;
@@ -138,6 +96,10 @@ input::-webkit-search-results-decoration{
     display:none;
 }
 
+.dropCategory {
+	min-width: 100px;
+}
+
 /* 네비바 회원 사진 (by. 솔) */
 .inlineBox{
     display: inline-flex;
@@ -162,4 +124,8 @@ input::-webkit-search-results-decoration{
 .footer-width{
 	margin: 0 auto;
 	width: 80%
+}
+
+.pointColor {
+	color : #5c75bb;
 }

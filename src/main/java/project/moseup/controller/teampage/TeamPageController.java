@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
+import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
@@ -83,6 +84,8 @@ public class TeamPageController {
 		
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamCreateService.findOne(tno);
+		
+		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
 		
 		TeamMemberDto teamMemberDto = new TeamMemberDto();		
 		teamMemberDto.setMember(member);

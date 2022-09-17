@@ -14,7 +14,7 @@
 <th:block layout:fragment="content">
 	<div class="mainContainer">
 		<div class="col-md-7 col-lg-8 formContainer">
-			<h4 class="mb-3 text-center">팀 생성하기</h4>
+			<div class="text-center" id="teamCreateTitle">팀 생성하기</div>
 			<form class="needs-validation" role="form" th:action="@{/teams/createTeam}" th:object="${TeamCreateReqDto}"
 				  method="post" name="frm" enctype="multipart/form-data" onsubmit="return submitChk()">
 				<div class="row g-3">
@@ -38,9 +38,9 @@
 						<span id="teamCategoryErr" class="text-err"></span>
 						<select class="form-select text-center" th:field="*{teamCategory1}">
 							<option value="0" class="text-gray" selected>====카테고리 선택====</option>
+							<option value="습관">습관</option>
 							<option value="공부">공부</option>
 							<option value="운동">운동</option>
-							<option value="습관">습관</option>
 							<option value="ETC">기타 등등</option>
 						</select>
 					</div>
@@ -132,7 +132,7 @@
 					</div>
 				</div>
 				<hr class="my-4">
-				<button class="w-100 btn btn-primary btn-lg" type="submit">팀 생성하기</button>
+				<button class="w-100 btn btn-lg" type="submit" id="teamCreateBtn">팀 생성하기</button>
 			</form>
 		</div>
 	</div>

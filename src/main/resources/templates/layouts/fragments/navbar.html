@@ -9,10 +9,22 @@
 			
 			<!-- 메뉴 리스트 -->
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="#" class="nav-link px-2 link-secondary">menu1</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">menu2</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">menu3</a></li>
-				<li><a href="#" class="nav-link px-2 link-dark">menu4</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle link-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">카테고리</a>
+					<ul class="dropdown-menu text-small dropCategory">
+						<li><a class="nav-link px-2 link-secondary" th:href="@{/category(keyword=습관)}">▪ 습관</a></li>
+						<li><a class="nav-link px-2 link-secondary" th:href="@{/category(keyword=공부)}">▪ 공부</a></li>
+						<li><a class="nav-link px-2 link-secondary" th:href="@{/category(keyword=운동)}">▪ 운동</a></li>
+						<li><a class="nav-link px-2 link-secondary" th:href="@{/category(keyword=기타)}">▪ 기타</a>
+						</li>
+					</ul>
+					<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+						<li><a href="#" class="nav-link px-2 link-secondary">menu1</a></li>
+						<li><a href="#" class="nav-link px-2 link-secondary">menu2</a></li>
+						<li><a href="#" class="nav-link px-2 link-secondary">menu3</a></li>
+						<li><a href="#" class="nav-link px-2 link-secondary">menu4</a></li>
+					</ul>
+				</li>
 			</ul>
 
 			<!-- 검색 폼 -->
@@ -29,8 +41,8 @@
 				<!-- 비로그인(로그인/회원가입) -->
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/login}">로그인</a>
-						<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/joinForm}">회원가입</a>
+						<a class="nav-link pointColor" sec:authorize="isAnonymous()" th:href="@{/members/login}">로그인</a>
+						<a class="nav-link pointColor" sec:authorize="isAnonymous()" th:href="@{/members/joinForm}">회원가입</a>
 					</li>
 				</ul>
 				<!-- 로그인(마이페이지) -->

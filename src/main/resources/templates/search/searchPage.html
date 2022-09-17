@@ -82,7 +82,7 @@
 									<p class="card-title cardTeamName" th:text="${searchedTeamList.teamName}">teamName</p>
 									<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
 									<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
-									<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
+									<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamJoiner}+'0,000'">teamDeposit</p>
 									<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
 									<p class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</p>
 									<p th:if="${searchedTeamList.teamCategory2 != null}" class="btn btn-sm Category2Btn" th:text="${searchedTeamList.teamCategory2}">teamCategory2</p>
@@ -95,7 +95,7 @@
 								<div class="card-body">
 									<p class="card-title cardTeamName" th:text="${searchedTeamList.teamName}">teamName</p>
 									<p class="card-text cardTeamLeader" th:text="${searchedTeamList.member.nickname}">teamLeader</p>
-									<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamDeposit+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
+									<p class="card-text cardTeamVolume" th:text="${searchedTeamList.teamJoiner+'/'+searchedTeamList.teamVolume+'명'}">teamVolume</p>
 									<p class="card-text cardTeamDeposit" th:text="${'₩'+searchedTeamList.teamDeposit}+'0,000'">teamDeposit</p>
 									<p class="card-text cardTeamDate" th:text="${'⭐'+searchedTeamList.startDate+' ~ '+searchedTeamList.endDate+'⭐'}">teamDate</p>
 									<p class="btn btn-sm Category1Btn" th:text="${searchedTeamList.teamCategory1}">teamCategory1</p>

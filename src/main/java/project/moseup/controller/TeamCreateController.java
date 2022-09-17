@@ -65,7 +65,6 @@ public class TeamCreateController {
 		
 		teamCreateReqDto.setMember(member);
 		teamCreateReqDto.setTeamLeader(findNickname.getNickname());
-
 		
 		Long newTeam = teamCreateService.create(teamCreateReqDto, file);	//팀 생성
 		
