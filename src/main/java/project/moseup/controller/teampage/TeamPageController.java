@@ -259,12 +259,11 @@ public class TeamPageController {
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
-		List<CheckBoard> checkBoardList = checkBoardService.findByTeam(team);
-		
 		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
 		
+		model.addAttribute("photoList", checkBoardService.findByTeam(team));
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);

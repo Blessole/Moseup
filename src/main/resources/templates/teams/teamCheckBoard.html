@@ -77,11 +77,11 @@
 								<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"><img src="/images/go.png" class="dot"></a>
 							</div>
 						</div>
-						<span>
+						<span th:each="photo : ${photoList}" th:if="${checkBoards.cno == photo.cno}">
 							<div class="imgBx">
-								<img th:src="'images/check/'+${checkBoards.member.nickname}+'/'+${studyTopList.teamPhoto}" class="cover">
-						</div>
-						</span>
+								<img th:src="${photo.realPhoto}" class="cover">
+							</div>
+							</span>
 						<div class="actionBtns">
 							<div class="left">
 								<img src="/images/heart_red.png" class="heart">
