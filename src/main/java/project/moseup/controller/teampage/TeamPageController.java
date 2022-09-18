@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.BankbookRespDto;
+import project.moseup.dto.BankbookSaveReqDto;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.BankbookService;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.myPage.MyPageService;
 import project.moseup.service.teampage.CheckBoardService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
 import project.moseup.service.teampage.TeamAskBoardService;
@@ -48,6 +50,7 @@ public class TeamPageController {
 	private final TeamMemberService teamMemberService;
 	private final AdminMemberService adminMemberService;
 	private final BankbookService bankbookService;
+	private final MyPageService myPageService;
 
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
@@ -80,7 +83,22 @@ public class TeamPageController {
 
 			// 팀 회원 정보 가져오기
 			Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+			
+			// 통장에 돈이 있는지 조회
+			List<Bankbook> myBankbook = myPageService.findBankbook(member);	// 통장 조회
 
+			int deposit = team.getTeamDeposit()*10000;	//팀 예치금액
+			
+			int result = 0;
+			
+			if ((myBankbook.get(0).getBankbookTotal() < deposit) || (myBankbook.isEmpty())) {
+				result = -1;	// 현재 가진 금액보다 팀 예치금이 큼
+			} else if (myBankbook.get(0).getBankbookTotal() >= deposit) {
+				result = 1;
+			}
+			
+			model.addAttribute("result", result);
+			
 			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
 			if(!teamMember.isEmpty()) {
 				TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
@@ -110,17 +128,17 @@ public class TeamPageController {
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamCreateService.findOne(tno);
 		
-		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
-
-		//팀장 개인통장 예치금 출금
+		team.updateTeamJoiner(team.getTeamJoiner() + 1);	// 팀 가입인원+1
+		
+		// 개인통장 예치금 출금
 	    bankbookService.withdraw(member, team);
-
-		TeamMemberDto teamMemberDto = new TeamMemberDto();
+ 	
+	    TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
 		teamMemberDto.setTeam(team);
-
-		teamMemberService.joinTeamMember(teamMemberDto);		
-		
+			
+		teamMemberService.joinTeamMember(teamMemberDto);
+	  		
 		return "redirect:/teams/teamPage?tno=" + tno;
 	}
 	
