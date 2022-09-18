@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<div th:if="${result == 1}">
+    <script th:inline="javascript">
+    	let tno = "[[${tno}]]";
+    	alert("팀 생성 완료 :)");
+		location.href="/teams/teamPage?tno="+tno;
+    </script>
+</div>
+</body>
+</html>
