@@ -43,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/myPage/**", "/teams/**").authenticated()
                     .antMatchers("/", "/teams/teamPage", "/members/**", "/search/**").permitAll()
+                    .antMatchers("/myPage/**", "/teams/**").authenticated()
                     .antMatchers("/admin/**").hasRole("ADMIN")
 //                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()

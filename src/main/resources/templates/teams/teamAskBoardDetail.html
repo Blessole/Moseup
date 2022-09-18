@@ -7,8 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
 <style type="text/css">
+
+	.input-group {
+		display: table-footer-group;
+	}
+	.replybox {
+	display: flex;
+	}
 	
-	.replybox {display: flex;}
+	#click{
+	 margin-bottom: 10px;
+	}
 </style>
 </head>
 <body>
@@ -29,11 +38,11 @@
 					<th>조회수</th>
 					<td th:text="${teamAskOne.teamAskReadCount}"></td>
 				</tr>
-				<tr th:if="${teamAskOne.secret == p}">
+				<tr th:if="${teamAskOne.secret.toString == 'PUBLIC'}">
 					<th>제목</th>
 					<td colspan="3" th:text="${teamAskOne.teamAskSubject}"></td>
 				</tr>
-				<tr th:if="${teamAskOne.secret != p}">
+				<tr th:if="${teamAskOne.secret.toString != 'PUBLIC'}">
 					<th>제목</th>
 					<td colspan="3" th:text="'🔒'+${teamAskOne.teamAskSubject}"></td>
 				</tr>
@@ -44,7 +53,7 @@
 						</pre></td>
 				</tr>
 			</table>
-			<div>
+			<div id="click">
 				<a th:href="@{/teams/teamAskBoard(tno=${team.tno})}" class="btn btn-success">게시글 목록</a>
 				<a th:if="${loginMember.nickname} == ${teamAskOne.member.nickname}" th:href="@{/teams/teamAskBoard/updateForm(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-primary">수정</a>
 				<a th:if="${loginMember.nickname} == ${teamAskOne.member.nickname}" th:href="@{/teams/teamAskBoard/delete(tano=${teamAskOne.tano}, tno=${team.tno})}" class="btn btn-warning">삭제</a>
@@ -65,14 +74,14 @@
 							<th th:text="${replys.teamAskReplyContent}" style="width: 550px;  text-align: left;"></th>
 							<th th:text="${#temporals.format(replys.teamAskReplyDate,'yyyy-MM-dd HH:mm')}" style="width: 200px;"></th>
 							<th th:if="${loginMember.nickname} == ${replys.member.nickname}" style="width: 100px;">
-								<a th:href="@{/teams/teamAskBoard/teamAskBoardDetail/updateTeamAskReply}">수정</a>&nbsp;&nbsp;
-								<a th:href="@{/teams/teamAskBoard/teamAskBoardDetail/deleteTeamAskReply}">삭제</a></th>												
+								<a th:href="@{/teams/teamAskBoard/teamAskBoardDetail/updateTeamAskReply}" style="text-decoration: none;">수정</a>&nbsp;&nbsp;
+								<a th:href="@{/teams/teamAskBoard/teamAskBoardDetail/deleteTeamAskReply}" style="text-decoration: none;">삭제</a></th>												
 							<th th:if="${loginMember.nickname} != ${replys.member.nickname}"></th>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="input-group mb-3">
+			<div class="input-group">
 				<form th:action="@{/teams/teamAskBoard/teamAskBoardDetail/createTeamAskReply(tno=${team.tno})}" th:object="${teamAskReply}" method="post">
 				<input type="hidden" id="tano" name="tano" th:value="${teamAskOne.tano}">
 				<div class="replybox">

@@ -2,12 +2,14 @@ package project.moseup.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import project.moseup.domain.Bankbook;
 import project.moseup.domain.Member;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class BankbookRespDto {
 

@@ -12,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
+import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
+import project.moseup.service.BankbookService;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
@@ -45,6 +47,7 @@ public class TeamPageController {
 	private final TeamCreateService teamCreateService;
 	private final TeamMemberService teamMemberService;
 	private final AdminMemberService adminMemberService;
+	private final BankbookService bankbookService;
 
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
@@ -69,28 +72,33 @@ public class TeamPageController {
 
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
-		Member member = this.memberService.getMember(principal.getName());
 
-		// 팀 회원 정보 가져오기
-		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+		if (principal == null ){
+			model.addAttribute("principal", null);
+		} else {
+			Member member = this.memberService.getMember(principal.getName());
 
-		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
-		if(!teamMember.isEmpty()) {
-			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
-			TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
-			model.addAttribute("teamMemberDetail", teamMemberDetail);
-		} else if(teamMember.isEmpty()) {
-			TeamMemberDto teamFakeMember = new TeamMemberDto();
-			teamFakeMember.setMember(member);
-			teamFakeMember.setTeam(team);
-			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
-			model.addAttribute("teamMemberDetail", teamFakeMember);
+			// 팀 회원 정보 가져오기
+			Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+
+			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
+			if(!teamMember.isEmpty()) {
+				TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
+				TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
+				model.addAttribute("teamMemberDetail", teamMemberDetail);
+			} else if(teamMember.isEmpty()) {
+				TeamMemberDto teamFakeMember = new TeamMemberDto();
+				teamFakeMember.setMember(member);
+				teamFakeMember.setTeam(team);
+				teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
+				model.addAttribute("teamMemberDetail", teamFakeMember);
+			}
+			model.addAttribute("member", member);
+			model.addAttribute("teamMember",teamMember);
+			model.addAttribute("principal", 1);
 		}
 
-		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
-		model.addAttribute("member", member);
-		model.addAttribute("t", DeleteStatus.TRUE);
 
 		return "teams/teamMain";
 	}
@@ -103,6 +111,9 @@ public class TeamPageController {
 		Team team = teamCreateService.findOne(tno);
 		
 		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
+
+		//팀장 개인통장 예치금 출금
+	    bankbookService.withdraw(member, team);
 
 		TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
@@ -147,8 +158,6 @@ public class TeamPageController {
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("p", SecretStatus.PUBLIC);
-		model.addAttribute("t", DeleteStatus.TRUE);
 		model.addAttribute("teamAsks", teamAsks);
 
 		return "teams/teamAskBoard";
@@ -205,7 +214,6 @@ public class TeamPageController {
 		Member loginMember = this.memberService.getMember(principal.getName());		
 			
 		model.addAttribute("team", team);
-		model.addAttribute("p", SecretStatus.PUBLIC);
 		model.addAttribute("teamAskOne", teamAskOneDetail);
 		model.addAttribute("loginMember", loginMember);	
 		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());

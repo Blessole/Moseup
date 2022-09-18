@@ -95,15 +95,18 @@
                             <input type="text" readonly class="form-control" id="ano"
                                 th:value="${askBoard.member.nickname + ' 님의 문의글 답변입니다.'}">
                         </div>
-
+                        
                         <div class="col-sm-12 mb-3">
                             <label for="askContent" class="form-label">답변글</label>
-                            <pre><textarea readonly class="form-control" id="askReplyContent" name="askReplyContent" rows="20" th:text="${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].askReplyContent}"></textarea></pre>
+                            <!-- 답변이 있는 경우 -->
+                            <pre th:if="${askBoard.askBoardReplies.size} != 0"><textarea readonly class="form-control" id="askReplyContent" name="askReplyContent" rows="20" th:text="${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].askReplyContent}"></textarea></pre>
+                            <!-- 답변이 없는 경우 -->
+                            <pre th:if="${askBoard.askBoardReplies.size} == 0"><textarea class="form-control" id="askReplyContent" name="askReplyContent" rows="20" placeholder="답변을 등록해주세요"></textarea></pre>
                         </div>
-
+                        
                         <div class="text-end">
                             <a th:href="@{/admin/adminAskReplyList(ano=${askBoard.ano})}" id="askReplyList" class="btn btn-outline-primary">답변목록</a>
-                            <a type="button" id="edit" class="btn btn-outline-primary" th:if="${member.mno} == ${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].member.mno}">수정</a>
+                            <a type="button" id="edit" class="btn btn-outline-primary" th:if="${askBoard.askBoardReplies.size} != 0 and ${member.mno} == ${askBoard.askBoardReplies[askBoard.askBoardReplies.size - 1].member.mno}">수정</a>
                             <input type="submit" id="save" class="btn btn-primary" value="저장">
                         </div>
                     </form>
