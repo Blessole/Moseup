@@ -22,5 +22,7 @@ public interface AskBoardInterfaceRepository extends JpaRepository<AskBoard, Lon
 
     Page<AskBoard> findDistinctByAskBoardRepliesIsNull(Pageable pageable);
 
+    List<AskBoard> findDistinctByAskBoardRepliesIsNull();
 
+    List<AskBoard> findDistinctByAskBoardRepliesIsNullOrderByAno();
 }

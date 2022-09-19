@@ -2,12 +2,14 @@ package project.moseup.repository.admin;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface AdminMemberRepository extends JpaRepository<Member, Long> {
 
@@ -24,4 +26,6 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByRole(Role admin, Pageable pageable);
 
     Page<Member> findByMemberDateBetween(LocalDate start, LocalDate end, Pageable pageable);
+
+    List<Member> findAllByMemberDate(Sort mno, LocalDate now);
 }

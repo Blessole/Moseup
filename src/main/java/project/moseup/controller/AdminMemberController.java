@@ -19,6 +19,7 @@ import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminFreeBoardService;
+import project.moseup.service.admin.AdminIndexService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.FreeBoardReplyService;
 import project.moseup.service.member.MemberService;
@@ -49,6 +50,7 @@ public class AdminMemberController {
     private final AskBoardReplyService askBoardReplyService;
     private final AdminFreeBoardService adminFreeBoardService;
     private final FreeBoardReplyService freeBoardReplyService;
+    private final AdminIndexService adminIndexService;
 
 
     // 유효성 검사
@@ -80,9 +82,12 @@ public class AdminMemberController {
 
     // 대시보드(시작 페이지)
     @GetMapping("")
-    public String index(HttpSession session){
+    public String index(HttpSession session, Model model){
+        Map<String, Object> memberAndTeam = adminIndexService.getMemberAndTeamAndCount();
         log.info("session id = {}", session.getId());
         log.info("session = {}", session);
+
+        model.addAttribute("indexMap", memberAndTeam);
 
         return "admin/adminIndex";
     }

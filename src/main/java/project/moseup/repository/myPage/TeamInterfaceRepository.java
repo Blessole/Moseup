@@ -10,7 +10,6 @@ import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -61,5 +60,7 @@ public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
     /** 마이페이지용 - 탈퇴 전 진행 예정 팀 조회 **/
     @Query(findByMemberAndStartDateAfter)
     List<Team> findByMemberAndStartDateAfter(@Param("member") Member member, @Param("localDate") LocalDate localDate);
+
+    int countByTeamCategory1(String name);
 
 }

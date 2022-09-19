@@ -29,7 +29,7 @@
                       <h6 class="card-subtitle mb-2 text-muted" th:text="${checkBoard.checkContent}">인증글내용</h6>
                   </div>
                   <ul class="list-group list-group-flush">
-                    <a class="list-group-item" th:href="@{/admin/memberDetail(tno=${checkBoard.member.mno})}">
+                    <a class="list-group-item" th:href="@{/admin/memberDetail(mno=${checkBoard.member.mno})}">
                         <li th:text="${checkBoard.member.nickname}">회원닉네임</li>
                     </a>
                     <li class="list-group-item" th:text="${#temporals.format(checkBoard.checkDate, 'yyyy-MM-dd HH:mm:ss')}">인증 날짜</li>
