@@ -52,7 +52,7 @@
 								    <div class="carousel-caption" id="slideCaption2" th:text="${topList.teamDeposit}+'0,000원'"></div>
 								    <div class="carousel-caption" id="slideCaption3" th:text="${topList.startDate}+' ~ '+${topList.endDate}"></div>
 								    <div class="carousel-caption" id="slideCaption4" th:text="${topList.teamJoiner}+' / '+${topList.teamVolume}+ ' 명'"></div>
-								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️(찜 '+${topList.teamName}+')'"></div>
+								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️ '+${topList.likes.size}"></div>
 							    </a>
 						    </div> 
 						    <!-- 리스트 나머지 사진 -->
@@ -63,7 +63,7 @@
 								    <div class="carousel-caption" id="slideCaption2" th:text="${topList.teamDeposit}+'0,000원'"></div>
 								    <div class="carousel-caption" id="slideCaption3" th:text="${topList.startDate}+' ~ '+${topList.endDate}"></div>
 								    <div class="carousel-caption" id="slideCaption4" th:text="${topList.teamJoiner}+' / '+${topList.teamVolume}+ ' 명'"></div>
-								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️(찜 '+${topList.teamName}+')'"></div>
+								    <div class="carousel-caption" id="slideCaption5" th:text="'❤️ '+${topList.likes.size}"></div>
 							    </a>
 						    </div> 
 						  </th:block>
@@ -146,7 +146,7 @@
 				  </button>
 				  <ul class="dropdown-menu text-center filter2dropMenu">
 				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=최신순)}">최신순</a></li>
-				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=인기순)}">인기순(미완)</a></li>
+				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=찜순)}">찜순</a></li>
 				    <li><a class="dropdown-item btn-sm filter2a" th:href="@{/category(keyword=${keyword},deposit=${deposit},volume=${volume},notInclud=${notInclud},depositCheck=${depositCheck},volumeCheck=${volumeCheck},filter2=팀원수순)}">팀원수순</a></li>
 				  </ul>
 				</div>
@@ -158,9 +158,9 @@
 			<!-- 카드 팀 리스트 -->
 			<section class="cardSection">
 				<div th:if="${categoryList.isEmpty()}" class="searchedNull text-center">
-					<div class="searchedNull35 text-center">🙊  습관이 없어요! 🙊</div>
-					<div class="searchedNull25 text-center">가장 먼저 습관을 지킬 팀을 만들어 보세요!</div>
-					<button class="btn btn-sm" id="createTeamBtn" onclick="location.href='/teams/createTeam'">팀 생성하기</button>
+					<div class="listEmptyTitle text-center">🙊  습관이 없어요! 🙊</div>
+					<div class="listEmptySub text-center">가장 먼저 습관을 지킬 팀을 만들어 보세요!</div>
+					<button class="btn btn-sm" id="createTeamBtn" onclick="location.href='/teams/checkMyWithdraw'">팀 생성하기</button>
 				</div>
 				<div th:if="${!categoryList.isEmpty()}">
 					<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->

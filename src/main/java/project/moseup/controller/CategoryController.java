@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import lombok.RequiredArgsConstructor;
+import project.moseup.domain.Likes;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.service.CategoryService;
@@ -52,8 +53,7 @@ public class CategoryController {
 		
 		Page<Team> categoryList = categoryService.searchedFilterList(keyword, deposit, volume, notInclud, filter2, pageable);
 		
-		//best3 습관(찜 많은 순으로 바꿔야함)
-		List<Team> topList = categoryService.topList(keyword);
+		List<Team> topList = categoryService.topList(keyword);	//best3 습관
 		
 		
 		int startPage = Math.max(1, categoryList.getPageable().getPageNumber() - 5);
