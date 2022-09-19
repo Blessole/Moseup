@@ -23,4 +23,9 @@ public class BankbookRepository {
 		em.persist(bankbook);
 	}
 	
+	// 입금하기
+	public void deposit(Bankbook bankbook) {
+		em.persist(bankbook);
+	}
+	
 }

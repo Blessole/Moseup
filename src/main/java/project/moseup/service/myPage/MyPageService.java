@@ -105,7 +105,7 @@ public class MyPageService {
     }
 
     /** 머니 충전하기 **/
-    @Transactional
+    @Transactional	
     public void charge(BankbookSaveReqDto bankbookDto){
         Bankbook bankbook = bankbookDto.toEntity();
         bankbookInterfaceRepository.save(bankbook);

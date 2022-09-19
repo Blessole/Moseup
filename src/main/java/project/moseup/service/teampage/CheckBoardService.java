@@ -61,4 +61,9 @@ public class CheckBoardService {
 		
 		return dtoList;
 	}
+	
+	public int countByTeamAndMember(Team team, Member member) {
+		return checkBoardPageRepository.countByTeamAndMember(team, member);
+	}
+
 }

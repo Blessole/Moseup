@@ -19,11 +19,14 @@ public class TeamBankbookDetailClassRepository {
 	public void save(TeamBankbookDetail teamBankbookDetail) {
 		em.persist(teamBankbookDetail);
 	}
+	
+	public void withDraw(TeamBankbookDetail teamBankbookDetail) {
+		em.persist(teamBankbookDetail);
+	}
 
 	public List<TeamBankbookDetail> findAll(TeamBankbook teamBankbook) {
 		return em.createQuery("select tbd from TeamBankbookDetail tbd where teamBankbook =: teamBankbook",TeamBankbookDetail.class)
 				.setParameter("teamBankbook", teamBankbook)
 				.getResultList();
 	}
-    
 }

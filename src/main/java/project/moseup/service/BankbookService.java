@@ -28,6 +28,28 @@ public class BankbookService {
 		return bankbookRepository.findByMember(mno);
 	}
 	
+	// 입금하기
+	@Transactional
+	public void deposit(Member member, Team team) {
+		List<Bankbook> bankbook = myPageService.findBankbook(member);	// 통장 조회
+		
+		BankbookSaveReqDto bankbookDto = new BankbookSaveReqDto();
+		
+		int deposit = team.getTeamDeposit()*10000;
+		
+		int totalMoney = bankbook.get(bankbook.size()-1).getBankbookTotal();
+		
+		bankbookDto.setMember(member); // 회원 번호
+		bankbookDto.setDealList(team.getTeamName()+" 인증 완료 입금"); // 거래 리스트
+		bankbookDto.setBankbookDeposit(deposit); // 입금액
+		bankbookDto.setBankbookWithdraw(0); // 출금액
+		bankbookDto.setBankbookTotal(totalMoney+deposit); // 총액(내 통장 총액 - 팀예치금)
+		bankbookDto.setBankbookDate(LocalDateTime.now()); // 거래(입출금) 일자
+		
+		Bankbook myBankbook = bankbookDto.toEntity();
+		bankbookRepository.deposit(myBankbook);
+	}
+	
 	/** 출금하기 **/
 	@Transactional
 	public int withdraw(Member member, Team team) {
