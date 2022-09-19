@@ -3,6 +3,8 @@ package project.moseup.domain;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class TeamBankbook {
     @OneToMany(mappedBy = "teamBankbook")
     private List<TeamBankbookDetail> teamBankbookDetails = new ArrayList<>();
 
+    @Builder
     public TeamBankbook(Team team) {
         this.team = team;
     }

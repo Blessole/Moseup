@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="/css/teamBankbook.css" />
+</head>
+<body>
+<!-- 본문 코드 시작 -->
+<th:block layout:fragment="content">
+
+	<section id="header">
+				<div class="container">
+				
+					<!-- Logo -->
+					<h1 th:text="${team.teamName}"></h1>
+					<p>for the sake of everyone's habits.</p>
+				
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li id="introduce"><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+							<li id="ask"><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+							<li id="check"><a th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
+							<li id="list"><a th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
+						</ul>
+					</nav>						
+				</div>
+	</section>
+	<br>
+	<section id="features">
+		<div class="container">
+		    <div class="topless-middle-container">
+		        <h2 class="title">크고 멋진 팀 통장</h2>
+		        <div class="bankBookButton-box">
+		            <span>현재 총액 :
+		                <span th:text="${#numbers.formatInteger(totalMoney, 3, 'COMMA')}+'원'"></span>
+		            </span>
+		        </div>
+			        <table class="bankBookTable">
+			            <tr>
+			            	<th class="col-1">순서</th>
+			            	<th class="col-2">거래일자</th>
+			            	<th>거래 내용</th>
+			            	<th>입금액</th>
+			            	<th>출금액</th>
+			            	
+			            </tr>
+			            <tr th:each="list : ${teamBankbookDetail}">
+			                <td th:text="${list.tdno}"></td>
+			                <td th:text="${#temporals.format(list.teamBankbookDate, 'yyyy.MM.dd HH:mm')}"></td>
+			                <td th:text="${list.dealList}"></td>
+			                <td th:text="${#numbers.formatInteger(list.teamBankbookDeposit, 3, 'COMMA')}"></td>
+			                <td th:text="${#numbers.formatInteger(list.teamBankbookWithdraw, 3, 'COMMA')}"></td>
+			            </tr>
+			        </table>
+		     </div>
+	    </div>
+	 </section>
+</th:block>
+</body>
+</html>

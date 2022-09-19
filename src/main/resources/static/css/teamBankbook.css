@@ -1,0 +1,101 @@
+#page-wrapper{
+	display: block;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 70vh;
+}
+
+#nav ul {
+	display:inline-block;
+    list-style:none;
+    margin:20px;
+    padding:0;
+}
+
+#nav ul li {
+    margin: 0 40px 1px 40px;
+    padding: 0;
+    border : 0;
+    float: left;
+    text-align: center;
+}
+
+#nav ul li a{
+	text-decoration: none;
+	color : #5c75bb;
+}
+
+#nav ul li a:hover{
+	font-size : 10px;
+	color: #ed786a;;
+}
+
+#nav ul li a span{
+	font: message-box;
+}
+
+.container h1{
+	font-style : oblique;
+	color: #ed786a;
+}
+
+.container p {
+	color: gray;
+}
+
+.container section div {
+	color: black;
+}
+
+.container section div p {
+	color: black;
+}
+
+#header {
+	text-align: center;
+	border-bottom-style: double;
+}
+
+#features{
+	text-align: center;
+}
+
+.bankBookTable{
+    width: 100%;
+    height: fit-content;
+    margin-top: 10px;
+}
+
+.bankBookTable th {
+    height: 20px;
+    padding-bottom: 17px;
+    border-bottom: 3px double #e6e6e6;
+}
+
+.bankBookTable td {
+    height: 33px;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.bankBookButton-box{
+    width: 100%;
+    margin: -7px 0 41px 30px;
+    float: right;
+    text-align: right;
+}
+
+.bankBookButton {
+    background-color: var(--point-color);
+    border:  var(--point-color) solid 1px;
+    padding: 10px;
+    color : white;
+
+}
+
+.bankBookButton:hover {
+    background-color: white;
+    color:  var(--point-color);
+}
+

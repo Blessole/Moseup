@@ -14,9 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.BankbookRespDto;
 import project.moseup.dto.BankbookSaveReqDto;
+import project.moseup.dto.TeamBankBookReqDto;
 import project.moseup.dto.TeamCreateReqDto;
 import project.moseup.dto.teamPage.*;
 import project.moseup.service.BankbookService;
+import project.moseup.service.TeamBankbookDetailService;
+import project.moseup.service.TeamBankbookService;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
@@ -51,6 +54,8 @@ public class TeamPageController {
 	private final AdminMemberService adminMemberService;
 	private final BankbookService bankbookService;
 	private final MyPageService myPageService;
+	private final TeamBankbookService teamBankbookService;
+	private final TeamBankbookDetailService teamBankbookDetailService;
 
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
@@ -91,10 +96,14 @@ public class TeamPageController {
 			
 			int result = 0;
 			
-			if ((myBankbook.get(0).getBankbookTotal() < deposit) || (myBankbook.isEmpty())) {
-				result = -1;	// 현재 가진 금액보다 팀 예치금이 큼
-			} else if (myBankbook.get(0).getBankbookTotal() >= deposit) {
-				result = 1;
+			if (myBankbook.isEmpty()) {
+				result = -1;
+			} else if (!myBankbook.isEmpty()) {
+				if (myBankbook.get(0).getBankbookTotal() < deposit) {
+					result = -1;
+				} else if (myBankbook.get(0).getBankbookTotal() >= deposit) {
+					result = 1;
+				}
 			}
 			
 			model.addAttribute("result", result);
@@ -115,10 +124,29 @@ public class TeamPageController {
 			model.addAttribute("teamMember",teamMember);
 			model.addAttribute("principal", 1);
 		}
-
+		
 		model.addAttribute("team", team);
 
 		return "teams/teamMain";
+	}
+	
+	// 팀 통장 페이지
+	@GetMapping("/teamBankBook")
+	public String teamBankBook(@RequestParam Long tno, Model model) {
+		
+		Team team = teamCreateService.findOne(tno);
+		
+		TeamBankbook teamBankbook = teamBankbookService.findByTeam(team);
+		
+		// 팀 통장 자세히 찾기
+		List<TeamBankbookDetail> teamBankbookDetail = teamBankbookDetailService.findTeamBankbookDetailListByTeamBankbook(teamBankbook);
+		int totalMoney = teamBankbookDetail.get(teamBankbookDetail.size()-1).getTeamBankbookTotal();
+		
+		model.addAttribute("teamBankbookDetail", teamBankbookDetail);
+		model.addAttribute("totalMoney", totalMoney);
+		model.addAttribute("team", team);
+		
+		return "teams/teamBankbook";
 	}
 	
 	// 팀 가입
@@ -132,6 +160,10 @@ public class TeamPageController {
 		
 		// 개인통장 예치금 출금
 	    bankbookService.withdraw(member, team);
+	    
+	    // 팀통장 조회 후 예치금 입력
+	    TeamBankbook teamBankbook = teamBankbookService.findByTeam(team);	    
+	    teamBankbookDetailService.create(teamBankbook, team, member);
  	
 	    TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
