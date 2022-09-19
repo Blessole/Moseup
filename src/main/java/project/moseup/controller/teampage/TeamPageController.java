@@ -39,6 +39,7 @@ import project.moseup.domain.TeamAskBoard;
 import project.moseup.domain.TeamBankbook;
 import project.moseup.domain.TeamBankbookDetail;
 import project.moseup.domain.TeamMember;
+import project.moseup.dto.LikeSaveReqDto;
 import project.moseup.dto.teamPage.CheckBoardDetailDto;
 import project.moseup.dto.teamPage.CheckBoardDto;
 import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
@@ -57,6 +58,7 @@ import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.MyPageService;
 import project.moseup.service.teampage.CheckBoardService;
+import project.moseup.service.teampage.LikesService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
 import project.moseup.service.teampage.TeamAskBoardService;
 import project.moseup.service.teampage.TeamMemberService;
@@ -77,6 +79,7 @@ public class TeamPageController {
 	private final MyPageService myPageService;
 	private final TeamBankbookService teamBankbookService;
 	private final TeamBankbookDetailService teamBankbookDetailService;
+	private final LikesService likesService;
 
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
@@ -192,6 +195,21 @@ public class TeamPageController {
 			
 		teamMemberService.joinTeamMember(teamMemberDto);
 	  		
+		return "redirect:/teams/teamPage?tno=" + tno;
+	}
+	
+	// 좋아요 등록
+	@GetMapping("/likes")
+	public String likes(@RequestParam Long tno, Model model, Principal principal) {
+		
+		Team team = teamCreateService.findOne(tno);
+		Member member = this.memberService.getMember(principal.getName());
+		
+		LikeSaveReqDto likesdto = new LikeSaveReqDto();
+		likesdto.setMember(member);
+		likesdto.setTeam(team);
+		
+		likesService.insert(likesdto);
 		return "redirect:/teams/teamPage?tno=" + tno;
 	}
 	
