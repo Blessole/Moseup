@@ -16,28 +16,28 @@
     <div class="main-section">
             <div class="home-content">
                 <div class="overview-boxes">
-                    <div class="box">
+                    <div class="box backOne">
                         <i class='bx bx-time-five cart'></i>
                         <span class="box-topic">습관</span>
                         <div class="right-side">
                             <div class="number" th:text="|${indexMap.category1}|">40,876</div>
                         </div>
                     </div>
-                    <div class="box">
+                    <div class="box backTwo">
                         <i class='bx bx-book-alt cart two'></i>
                         <div class="box-topic">공부</div>
                         <div class="right-side">
                             <div class="number" th:text="|${indexMap.category2}|">38,876</div>
                         </div>
                     </div>
-                    <div class="box">
+                    <div class="box backThree">
                         <i class='bx bx-run cart three'></i>
                         <div class="box-topic">운동</div>
                         <div class="right-side">
                             <div class="number" th:text="|${indexMap.category3}|">12,876</div>
                         </div>
                     </div>
-                    <div class="box">
+                    <div class="box backFour">
                         <i class='bx bx-layer cart four'></i>
                         <div class="box-topic">기타</div>
                         <div class="right-side">
@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="top-sales box">
-                        <div class="title">활동</div>
+                        <div class="title">게시글 활동</div>
                         <ul class="top-sales-details">
                             <li th:each="freeBoard : ${indexMap.freeBoardList}">
                                 <a href="#" th:href="@{/admin/freeBoardDetail(fno=${freeBoard.fno})}">
@@ -94,7 +94,9 @@
 
                 <div class="ask-boxes">
                     <div class="recent-sales box">
-                        <div class="title">미답변 문의글</div>
+                        <div class="title">미답변 문의글
+                            <span class="askBoardSize" th:if="${indexMap.askBoardList.size} != 0" th:text="${indexMap.askBoardList.size}">1</span>
+                        </div>
                         <table class="table table-hover">
                             <thead>
                               <tr>

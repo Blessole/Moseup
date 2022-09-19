@@ -28,4 +28,8 @@ public interface AdminMemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByMemberDateBetween(LocalDate start, LocalDate end, Pageable pageable);
 
     List<Member> findAllByMemberDate(Sort mno, LocalDate now);
+
+    List<Member> findAllByMemberDateOrderByMnoDesc(LocalDate now);
+
+    List<Member> findTop5ByMemberDateOrderByMnoDesc(LocalDate now);
 }

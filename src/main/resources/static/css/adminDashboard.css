@@ -56,7 +56,6 @@ nav .profile-details i{
 }
 .overview-boxes .box{
   display: flex;
-    align-items: flex-start;
     justify-content: space-between;
     width: calc(100% / 4 - 15px);
     background: #fff;
@@ -64,6 +63,19 @@ nav .profile-details i{
     border-radius: 12px;
     box-shadow: 0 5px 10px rgb(0 0 0 / 6%);
     flex-direction: column;
+    align-items: center;
+}
+.overview-boxes .box.backOne{
+  background: #cce5ff;
+}
+.overview-boxes .box.backTwo{
+  background: #C0F2D8;
+}
+.overview-boxes .box.backThree{
+  background: #ffe8b3;
+}
+.overview-boxes .box.backFour{
+  background: #f7d4d7;
 }
 .overview-boxes .box-topic{
   font-size: 20px;
@@ -98,15 +110,13 @@ nav .profile-details i{
 }
 .home-content .box .cart{
   display: inline-block;
-    font-size: 40px;
-    height: 60px;
-    width: 60px;
-    background: #cce5ff;
-    line-height: 60px;
-    text-align: center;
-    color: #66b0ff;
-    border-radius: 12px;
-    margin: 0 0 10px 0;
+  font-size: 40px;
+  height: 60px;
+  background: #cce5ff;
+  line-height: 60px;
+  text-align: center;
+  color: #66b0ff;
+  border-radius: 12px;
 }
 .main-section{
   position: relative;
@@ -149,6 +159,7 @@ tbody, td, tfoot, th, thead, tr {
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px 0 0;
+  max-height: fit-content;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
 }
@@ -160,6 +171,12 @@ tbody, td, tfoot, th, thead, tr {
   border-radius: 12px;
   box-shadow: 0 5px 10px rgb(0 0 0 / 6%);
   margin-top: 26px;
+}
+.table>:not(caption)>*>* {
+  padding: 0.5rem 0rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 .home-content .sales-boxes .sales-details{
   display: flex;
@@ -179,6 +196,17 @@ tbody, td, tfoot, th, thead, tr {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+}
+.ask-boxes .box .title .askBoardSize{
+  display: block;
+  font-size: 15px;
+  width: 30px;
+  line-height: 30px;
+  background: tomato;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  margin: 0 0 0 12px;
 }
 .top-sales-details div{
   display: flex;
@@ -227,7 +255,7 @@ tbody, td, tfoot, th, thead, tr {
   width: 35%;
   background: #fff;
   padding: 20px 30px;
-  /* margin: 0 20px 0 0; */
+  max-height: fit-content;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
 }

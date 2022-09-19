@@ -44,19 +44,27 @@ public class AdminIndexService {
         double categoryPercentage3 = getCategoryPercentage(category3, teamSize);
         double categoryPercentage4 = getCategoryPercentage(category4, teamSize);
 
-        List<MemberRespDto> memberRespDtoList = adminMemberRepository.findAllByMemberDate(Sort.by("mno"), LocalDate.now()).stream()
+        List<MemberRespDto> memberRespDtoList = adminMemberRepository
+                .findTop5ByMemberDateOrderByMnoDesc(LocalDate.now())
+                .stream()
                 .map(memberPS -> new MemberRespDto().toDto(memberPS))
                 .collect(Collectors.toList());
 
-        List<TeamDetailRespDto> teamDetailRespDtoList = teamInterfaceRepository.findAll(Sort.by("tno")).stream()
+        List<TeamDetailRespDto> teamDetailRespDtoList = teamInterfaceRepository
+                .findAll(Sort.by("tno"))
+                .stream()
                 .map(teamPS -> new TeamDetailRespDto().toDto(teamPS))
                 .collect(Collectors.toList());
 
-        List<FreeBoardRespDto> freeBoardRespDtoList = adminFreeBoardRepository.findAll(Sort.by("fno")).stream()
+        List<FreeBoardRespDto> freeBoardRespDtoList = adminFreeBoardRepository
+                .findTop5ByOrderByFnoDesc()
+                .stream()
                 .map(freeBoardPS -> new FreeBoardRespDto().toDto(freeBoardPS))
                 .collect(Collectors.toList());
 
-        List<AskBoardRespDto> askBoardRespDtoList = askBoardInterfaceRepository.findDistinctByAskBoardRepliesIsNullOrderByAno().stream()
+        List<AskBoardRespDto> askBoardRespDtoList = askBoardInterfaceRepository
+                .findDistinctByAskBoardRepliesIsNullOrderByAno()
+                .stream()
                 .map(askBoardPS -> new AskBoardRespDto().toDto(askBoardPS))
                 .collect(Collectors.toList());
 
