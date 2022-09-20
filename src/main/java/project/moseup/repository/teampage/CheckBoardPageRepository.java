@@ -23,11 +23,12 @@ public interface CheckBoardPageRepository extends JpaRepository<CheckBoard, Long
 	int updateReadCount(@Param("cno") Long cno);
 	
 	List<CheckBoard> findByTeam(Team team);
-	
+
+	// 팀페이지 회원 리스트 - 인증 횟수 (by 솔)
 	int countByTeamAndMember(Team team, Member member);
 
 	List<CheckBoard> findByMemberOrderByCnoDesc(Member memberPS);
 
 	List<CheckBoard> findByTeamOrderByCnoDesc(Team team);
-	
+
 }

@@ -1,75 +1,128 @@
-#page-wrapper{
-	display: block;
-	flex-direction: column;
-	justify-content: center;
+.team_ask_container {
+	margin: auto;
+	text-align: center;
+	width: 70%;
+}
+
+.team_ask_container_narrow {
+	margin: 30px auto 120px;
+	width: 50%;
+}
+
+/* 문의글 리스트 시작 */
+.teamAskBoardTable{
+	/*vertical-align: top;*/
+	border-color: #dee2e6;
+	width: 95%;
+	border-bottom : 1px solid #e6e6e6;
+	margin: auto;
+}
+
+.teamAskBoardTable thead{
+	border-bottom : 3px double #e6e6e6;
+	height: 40px;
+}
+
+.teamAskBoardTable td{
+	height: 40px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.askNarrow{
+	width: 90px;
+}
+
+.askWide{
+	width: 400px;
+}
+
+.teamAskBoardTable tbody{
+	border-bottom : 2px solid #e6e6e6;
+	height: 30px;
+}
+
+.bottom {
+	display: flex;
 	align-items: center;
-	min-height: 70vh;
 }
 
-#nav ul {
-	display:inline-block;
-    list-style:none;
-    margin:20px;
-    padding:0;
+.bottom.floatRight {
+	float: right;
+	margin: 26px;
 }
 
-#nav ul li {
-    margin: 0 40px 1px 40px;
-    padding: 0;
-    border : 0;
-    float: left;
-    text-align: center;
+.button-box a {
+	float: right;
 }
 
-#nav ul li a{
-	text-decoration: none;
+.btn-sol{
+	background-color: var(--point-color);
+	color: #fff;
+	padding: 13px;
+	border-radius: 10px;
 }
 
-#nav ul li a:hover{
-	font-size : 10px;
-	color: #ed786a;;
-}
-	
-#nav ul #ask a:visited{
-	font-size : 10px;
-	color: #ed786a;;
+.btn-sol:hover{
+	background-color: #fff;
+	color: #5c75bb;
+	border: 1px solid #5c75bb;
 }
 
-#nav ul li a span{
-	font: message-box;
+.page-num {
+	margin-left: 10px;
+	margin-top: 17px;
+	width: 90%;
 }
 
-.container h1{
-	font-style : oblique;
-	color: #ed786a;
+.page-num ul{
+	padding-left: 90px;
+}
+/* 문의글 리스트 끝 */
+
+/* 문의글 작성 폼 시작 */
+.askForm label {
+	padding: 5px 11px;
+	font-size: 18px;
+	font-weight: 500;
 }
 
-.container p {
-	color: gray;
+.askForm .form-group {
+	margin-bottom: 20px;
 }
 
-.container section div {
-	color: black;
+.askForm .bottom {
+	float: right;
 }
 
-.container section div p {
-	color: black;
+.askForm .bottom .secret_box{
+	margin-right: 20px;
 }
 
-#header {
-	text-align: center;
-	border-bottom-style: double;
+.askForm .bottom .secret_box input{
+	margin: 0 10px;
+}
+.askForm .btn-sol{
+	padding: 10px;
+	border-radius: 10px;
 }
 
-#features{
-	text-align: center;
+.askForm .btn-sol:hover{
+	background-color: var(--point-light);
+	color: #fff;
+	border: 1px solid var(--point-light);
 }
 
-.btn{
-	border-color: black;
+.askForm .floatRight a{
+	padding: 12px;
+	border: 1px solid var(--point-light);
+	border-radius: 10px;
+	background: var(--point-light);
+	color: #fff;
 }
 
-.btn:hover{
-	color: white;
-	background-color: #5c75bb;
+.askForm .floatRight a:hover{
+	border: 1px solid var(--point-color);
+	background: var(--point-color);
+	color: #fff;
 }
+/* 문의글 작성 폼 끝 */

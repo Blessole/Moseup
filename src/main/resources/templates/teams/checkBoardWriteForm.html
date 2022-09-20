@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_teamPage}">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<title>Insert title here</title>
-	<style type="text/css">
-		.form-group{
-			margin-bottom: 10px;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/teamCheck.css" />
 </head>
 <body>
 <!-- 본문 코드 시작 -->
 <th:block layout:fragment="content">
 	<section id="feature">
-		<div class="container">
-			<h2 class="text-primary" align="center">인증 하기</h2>
+		<div class="team_check_container_narrow checkForm">
+<!--			<h2 class="text-primary" align="center">인증 하기</h2>-->
 			<form th:action="@{/teams/teamCheckBoard/checkBoardWriteForm/createTeamCheck(tno=${team.tno})}" th:object="${teamCheck}" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label th:for="team">인증팀</label>

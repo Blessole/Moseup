@@ -28,6 +28,7 @@ import java.io.IOException;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberSecurityService memberSecurityService;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -46,12 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/teams/teamPage", "/members/**", "/search/**").permitAll()
                     .antMatchers("/myPage/**", "/teams/**").authenticated()
                     .antMatchers("/admin/**").hasRole("ADMIN")
-//                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
+                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()
                     .loginPage("/members/login")
-                    .defaultSuccessUrl("/")
+//                    .defaultSuccessUrl("/")
                     .usernameParameter("email")
+                    .successHandler(authenticationSuccessHandler) // 로그인 성공 시!
                     .permitAll()        // 로그인 하지 않은 사용자도 로그인 페이지에 접근할 수 있도록
                 .and()
                     .logout()

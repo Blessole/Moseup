@@ -1,0 +1,78 @@
+a {
+    text-decoration: none;  /* 링크 밑줄 제거 */
+    color : inherit;               /* 글자 색상 제거 */
+}
+
+body{
+    font-family: 'LG Regular';
+}
+
+#page-wrapper{
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    margin-top : 20px;
+}
+
+#nav {
+    height: 60px;
+}
+
+#nav ul {
+    display: inline-block;
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+#nav ul li {
+    padding: 7px;
+    float: left;
+    text-align: center;
+    width: 192px;
+    height: 50px;
+}
+
+#nav ul li:hover{
+    color: #fff;
+    background-color: var(--point-color);
+}
+
+#nav ul li.active{
+    background-color: var(--point-light);
+    color: #fff;
+}
+
+#nav ul li a{
+    font-family: 'LG Bold';
+    line-height: 37px;
+}
+
+#nav ul li a:hover{
+    color: #fff;
+}
+
+#header {
+    text-align: center;
+}
+
+.team_container {
+    margin: 60px auto 0;
+    text-align: center;
+    width: 70%;
+    border-bottom : 1px solid #e6e6e6;
+}
+
+.team_container h1{
+    font-family: 'SBAggroB';
+    color: var(--point-color);
+    font-size: 50px;
+}
+
+.team_container p {
+    color: gray;
+    font-size: 16px;
+}
+
