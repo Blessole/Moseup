@@ -1,5 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="layouts/fragments/adminCommonTest2 :: head('관리자페이지')"></head>
 
 <body>
@@ -8,15 +9,132 @@
 
     <!-- 헤더  -->
     <section th:replace="layouts/fragments/adminCommonTest2 :: header('대시보드')"> </section>
+    <link rel="stylesheet" href="/static/css/adminTypeSelector.css" th:href="@{/css/adminDashboard.css}">
 
     <!-- 내용 -->
     <!-- dashboard start -->
     <div class="main-section">
-    <div class="main-content">
+            <div class="home-content">
+                <div class="overview-boxes">
+                    <div class="box backOne">
+                        <i class='bx bx-time-five cart'></i>
+                        <span class="box-topic">습관</span>
+                        <div class="right-side">
+                            <div class="number" th:text="|${indexMap.category1}|">40%</div>
+                        </div>
+                    </div>
+                    <div class="box backTwo">
+                        <i class='bx bx-book-alt cart two'></i>
+                        <div class="box-topic">공부</div>
+                        <div class="right-side">
+                            <div class="number" th:text="|${indexMap.category2}|">38%</div>
+                        </div>
+                    </div>
+                    <div class="box backThree">
+                        <i class='bx bx-run cart three'></i>
+                        <div class="box-topic">운동</div>
+                        <div class="right-side">
+                            <div class="number" th:text="|${indexMap.category3}|">12%</div>
+                        </div>
+                    </div>
+                    <div class="box backFour">
+                        <i class='bx bx-layer cart four'></i>
+                        <div class="box-topic">기타</div>
+                        <div class="right-side">
+                            <div class="number" th:text="|${indexMap.category4}|">11%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title">오늘 가입한 회원</div>
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">날짜</th>
+                                <th scope="col">이메일</th>
+                                <th scope="col">이름</th>
+                                <th scope="col">ID</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:if="${indexMap.memberList.size} == 0">
+                                <th colspan="4" style="text-align: center;">오늘 가입한 회원이 없습니다.</th>
+                              </tr>
+                              <tr th:each="member : ${indexMap.memberList}">
+                                <th th:text="${member.memberDate}">날짜</th>
+                                <td th:text="${member.email}">이메일</td>
+                                <td th:text="${member.name}">이름</td>
+                                <td th:text="${member.mno}">ID</td>     
+                              </tr>
+                            </tbody>
+                          </table>
+                        <div class="button">
+                            <a href="#" th:href="@{/admin/memberList(startDate=${now}, endDate=${now})}">더 보기</a>
+                        </div>
+                    </div>
+
+                    <div class="top-sales box">
+                        <div class="title">게시글 활동</div>
+                        <ul class="top-sales-details">
+                            <li th:each="freeBoard : ${indexMap.freeBoardList}">
+                                <a href="#" th:href="@{/admin/freeBoardDetail(fno=${freeBoard.fno})}">
+                                    <img src="images/sunglasses.jpg" th:src="${freeBoard.member.getPhotoViewPath}">
+                                    <div>
+                                        <span><span class="product" th:text="${freeBoard.member.nickname}"></span><span>님이 게시글을 작성했습니다.</span></span>
+                                        <span class="freeBoardDate"th:text="${#temporals.format(freeBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+                                        
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="ask-boxes">
+                    <div class="recent-sales box">
+                        <div class="title">미답변 문의글
+                            <span class="askBoardSize" th:if="${indexMap.askBoardList.size} != 0" th:text="${indexMap.askBoardList.size}">1</span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">날짜</th>
+                                <th scope="col">문의번호</th>
+                                <th scope="col">문의제목</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">회원번호</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:if="${indexMap.askBoardList.size} == 0">
+                                <th colspan="5" style="text-align: center;">미답변 문의글이 없습니다.</th>
+                              </tr>
+                              <tr th:each="askBoard : ${indexMap.askBoardList}">
+                                <th th:text="${#temporals.format(askBoard.askDate, 'yyyy-MM-dd HH:mm:ss')}">날짜</th>
+                                <td th:text="${askBoard.ano}">문의번호</td>     
+                                <td>
+                                    <a th:text="${askBoard.askSubject}" th:href="@{/admin/askBoardDetail(ano=${askBoard.ano})}">문의제목</a>
+                                </td>
+                                <td>
+                                    <a th:text="${askBoard.member.nickname}" th:href="@{/admin/memberDetail(mno=${askBoard.member.nickname})}">작성자</a>
+                                </td>
+                                <td th:text="${askBoard.member.mno}">회원번호</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+
+
+
+
+            </div>
+
+
+
+
         
-       
-          
-    </div>
     </div>
     <!-- section end tag 있어야 함  -->
     <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>

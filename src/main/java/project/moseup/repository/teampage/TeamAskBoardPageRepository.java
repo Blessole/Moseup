@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.domain.TeamAskBoard;
 
@@ -22,4 +23,6 @@ public interface TeamAskBoardPageRepository extends JpaRepository<TeamAskBoard, 
 	Page<TeamAskBoard> findByTeam(Team team, Pageable pageable);
 
     List<TeamAskBoard> findByTeamOrderByTanoDesc(Team team);
+
+	List<TeamAskBoard> findByMemberOrderByTanoDesc(Member member);
 }

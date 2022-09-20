@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.*;
 import project.moseup.dto.searchDto.TeamSearchDto;
-import project.moseup.dto.teamPage.TeamDetailDto;
+import project.moseup.dto.teamPage.TeamDetailRespDto;
 import project.moseup.repository.admin.AdminTeamRepository;
 import project.moseup.repository.myPage.TeamInterfaceRepository;
 import project.moseup.repository.teampage.*;
@@ -32,11 +32,11 @@ public class AdminTeamService {
 
     private final TeamAskBoardReplyInterfaceRepository teamAskBoardReplyInterfaceRepository;
 
-    public TeamDetailDto teamDetail(Long id) {
+    public TeamDetailRespDto teamDetail(Long id) {
         Optional<Team> teamOP = adminTeamRepository.findById(id);
         if (teamOP.isPresent()){
             Team teamPS = teamOP.get();
-            return new TeamDetailDto().toDto(teamPS);
+            return new TeamDetailRespDto().toDto(teamPS);
         }else{
             throw new NullPointerException("팀 정보가 없습니다 id = " + id);
         }
