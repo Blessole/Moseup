@@ -8,15 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.moseup.domain.*;
-import project.moseup.dto.BankbookRespDto;
-import project.moseup.dto.CheckBoardRespDto;
-import project.moseup.dto.MemberRespDto;
-import project.moseup.dto.MemberSaveReqDto;
+import project.moseup.dto.*;
 import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.MemberNotFoundException;
 import project.moseup.repository.admin.AdminMemberRepository;
+import project.moseup.repository.myPage.AskBoardInterfaceRepository;
 import project.moseup.repository.myPage.BankbookInterfaceRepository;
 import project.moseup.repository.teampage.CheckBoardPageRepository;
+import project.moseup.repository.teampage.TeamAskBoardPageRepository;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,6 +34,9 @@ public class AdminMemberService {
     private final BankbookInterfaceRepository bankbookInterfaceRepository;
     private final CheckBoardPageRepository checkBoardPageRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AskBoardInterfaceRepository askBoardInterfaceRepository;
+
+    private final TeamAskBoardPageRepository teamAskBoardPageRepository;
 
     // 회원 등록
     @Transactional(rollbackFor = RuntimeException.class) //런타임 예외가 발생하면 롤백
@@ -164,5 +166,44 @@ public class AdminMemberService {
         }
     }
 
+    public Map<String, Object> getAskBoard(Long mno) {
+        Map<String, Object> isResult = new HashMap<>();
+        Optional<Member> memberOP = adminMemberRepository.findById(mno);
 
+        if(memberOP.isPresent()){
+            List<AskBoardRespDto> askBoardRespDtoList = askBoardInterfaceRepository
+                    .findByMemberOrderByAnoDesc(memberOP.get())
+                    .stream()
+                    .map(askBoard -> new AskBoardRespDto().toDto(askBoard))
+                    .collect(Collectors.toList());
+
+        isResult.put("askBoard", askBoardRespDtoList);
+        isResult.put("member", memberOP.get());
+
+        return isResult;
+        }else{
+            throw new NullPointerException("회원 정보가 없습니다 ID = " + mno);
+        }
+    }
+
+    public Map<String, Object> getTeamAskBoard(Long mno) {
+        Map<String, Object> isResult = new HashMap<>();
+        Optional<Member> memberOP = adminMemberRepository.findById(mno);
+
+        if(memberOP.isPresent()){
+            List<TeamAskBoardRespDto> askBoardRespDtoList = teamAskBoardPageRepository
+                    .findByMemberOrderByTanoDesc(memberOP.get())
+                    .stream()
+                    .map(teamAskBoard -> new TeamAskBoardRespDto().toDto(teamAskBoard))
+                    .collect(Collectors.toList());
+
+            isResult.put("teamAskBoards", askBoardRespDtoList);
+            isResult.put("member", memberOP.get());
+
+            return isResult;
+        }else{
+            throw new NullPointerException("회원 정보가 없습니다 ID = " + mno);
+        }
+
+    }
 }

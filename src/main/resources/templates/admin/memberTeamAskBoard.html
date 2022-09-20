@@ -19,30 +19,35 @@
           <span>스터디 문의글</span>
         </div>
         <table class="table caption table-hover">
-            <caption>총 문의글 수 : <span th:text="${memberMap.member.teamAskBoards.size}">게시글 수</span></caption>
+            <caption>총 문의글 수 : <span th:text="${memberMap.teamAskBoards.size}">게시글 수</span></caption>
             <thead>
               <tr class="tableHeader">
+                <th scope="col">공개범위</th>
                 <th scope="col">번  호</th>
-                <th scope="col">스터디번호</th>
-                <th scope="col">스터디명</th>
-                <th scope="col">내  용</th>
                 <th scope="col">작성일</th>
+                <th scope="col">제목</th>
+                <th scope="col">스터디번호</th>
                 <th scope="col">답변여부</th>
                 <th scope="col">보기</th>
               </tr>
             </thead>
             <tbody>
-                <tr class="no-data" th:if="${memberMap.member.teamAskBoards.size} == 0">
+                <tr class="no-data" th:if="${memberMap.teamAskBoards.size} == 0">
                     <th colspan="7">작성된 스터디 문의글이 없습니다</th>
                 </tr>
-              <tr th:each="teamAskBoard : ${memberMap.member.teamAskBoards}">
-                <th th:text="${teamAskBoard.fno}">번호</th>
-                <th th:text="${teamAskBoard.fno}">스터디번호</th>
-                <td th:text="${teamAskBoard.freeTitle}">제목</td>
-                <td th:text="${teamAskBoard.freeContent}">내용</td>
-                <td th:text="${#temporals.format(teamAskBoard.freeDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</td>
-                <td th:text="${teamAskBoard.freeReadCount}">답변여부</td>
-                <td><a class="member-link" th:text="${teamAskBoard.freeReadCount}" th:href="@{/admin/memberDetail(mno=${memberMap.member.mno})}">확인</a></td>
+              <tr th:each="teamAskBoard : ${memberMap.teamAskBoards}">
+                <th th:text="${teamAskBoard.secret}" th:classappend="${teamAskBoard.secret.toString == 'SECRET'} ? 'adminColor'">번호</th>
+                <th th:text="${teamAskBoard.tano}">번호</th>
+                <td th:text="${#temporals.format(teamAskBoard.teamAskDate, 'yyyy-MM-dd')}">작성일</td>
+                <td th:text="${teamAskBoard.teamAskSubject}">제목</td>
+                <th>
+                  <a class="member-link" th:text="${teamAskBoard.team.tno}" th:href="@{/admin/teamDetail(tno=${teamAskBoard.team.tno})}">스터디번호</a>
+                </th>
+                <td th:if="${teamAskBoard.teamAskBoardReplies.size} == 0">미완료</td>
+                <td th:if="${teamAskBoard.teamAskBoardReplies.size} != 0">완료</td>
+                <td>
+                  <a class="member-link" th:href="@{/admin/teamAskBoardDetail(tano=${teamAskBoard.tano})}">확인</a>
+                </td>
               </tr>
             </tbody>
           </table>

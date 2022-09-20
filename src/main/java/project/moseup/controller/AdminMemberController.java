@@ -248,7 +248,7 @@ public class AdminMemberController {
 
     @GetMapping("/memberAskBoard")
     public String memberAskBoard(@RequestParam Long mno, Model model){
-        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        Map<String, Object> map = adminMemberService.getAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
@@ -260,7 +260,7 @@ public class AdminMemberController {
 
     @GetMapping("/memberTeamAskBoard")
     public String memberTeamAskBoard(@RequestParam Long mno, Model model){
-        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        Map<String, Object> map = adminMemberService.getTeamAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
@@ -315,10 +315,14 @@ public class AdminMemberController {
     }
 
     @GetMapping("/adminAskReplyList")
-    public String adminAskReplyList(@RequestParam(required = false) Long ano, Model model){
+    public String adminAskReplyList(@RequestParam(required = false) Long ano,
+                                    @RequestParam(required = false, defaultValue = "0") int pageNum,
+                                    Model model){
 
         Map<String, Object> askBoardAndReply = askBoardService.getAskBoardReplyDesc(ano);
+
         model.addAttribute("askBoardMap", askBoardAndReply);
+        model.addAttribute("pageNum", pageNum);
 
         return "admin/adminAskReplyList";
     }

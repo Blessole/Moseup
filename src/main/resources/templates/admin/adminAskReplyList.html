@@ -33,7 +33,7 @@
             </div>
             <div class="btn-over">
                 <a th:href="@{/admin/askBoardDetail(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-danger">문의정보</a>
-                <a th:href="@{/admin/adminAskReplyList(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-success">목록</a>
+                <a th:href="@{/admin/adminAskBoards(ano=${askBoardMap.askBoard.ano}, pageNum=${pageNum})}" class="btn btn-outline-success">목록</a>
             </div>
         </div> <!-- 메인 인포 콘텐츠 end-->
 
