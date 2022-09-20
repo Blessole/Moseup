@@ -168,9 +168,6 @@ public class SearchService {
 		if (keyword.equals("") && filter1.equals("") && filter2.equals("최신순")) {
 			Page<Team> newTeamList = searchInterfaceRepository.queryFirst24ByOrderByTnoDesc(pageable);
 			return newTeamList;
-			
-//			Page<Team> newTeamList = searchInterfaceRepository.newTeamList(pageable);
-//			return newTeamList;		
 		}
 		return null;
 	}

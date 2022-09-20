@@ -57,12 +57,17 @@
 					</div>				
 				</div>
 			</div>
-			<div id="jointeam" th:if="${teamMember.isEmpty()}">
-				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
+			<div th:if="${principal} == null">
+				<a th:href="@{/members/login}" class="btn btn-success">가입하기</a>
 			</div>
-			<div id="jointeam" th:if="${!teamMember.isEmpty()}">
-				<p th:if="${teamMemberDetail.teamMemberDelete} != t">이미 가입한 스터디 입니다.</p>
-				<p th:if="${teamMemberDetail.teamMemberDelete} == t">재가입 불가합니다. 수고링!</p>
+			<div th:if="${principal == 1}">
+				<div id="jointeam" th:if="${teamMember.isEmpty()}">
+					<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
+				</div>
+				<div id="jointeam" th:if="${!teamMember.isEmpty()}">
+					<p th:if="${teamMemberDetail.teamMemberDelete} != t">이미 가입한 스터디 입니다.</p>
+					<p th:if="${teamMemberDetail.teamMemberDelete} == t">재가입 불가합니다. 수고링!</p>
+				</div>
 			</div>
 		</section>
 		
