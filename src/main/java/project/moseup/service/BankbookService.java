@@ -12,7 +12,6 @@ import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.BankbookSaveReqDto;
 import project.moseup.repository.BankbookRepository;
-import project.moseup.repository.myPage.BankbookInterfaceRepository;
 import project.moseup.service.myPage.MyPageService;
 
 @Service

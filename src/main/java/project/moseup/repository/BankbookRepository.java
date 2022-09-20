@@ -23,9 +23,12 @@ public class BankbookRepository {
 		em.persist(bankbook);
 	}
 	
+<<<<<<< HEAD
 	// 입금하기
 	public void deposit(Bankbook bankbook) {
 		em.persist(bankbook);
 	}
 	
+=======
+>>>>>>> branch 'v.2.0.2-develop' of https://github.com/Blessole/Moseup.git
 }

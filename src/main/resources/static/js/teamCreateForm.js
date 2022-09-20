@@ -51,28 +51,28 @@ function submitChk() {
    let teamCategory = document.getElementById("teamCategory1");
    let teamCategoryErr = document.getElementById("teamCategoryErr");
 
-   if (teamCategory.value == "0") {
-      teamCategoryErr.innerText="습관 대분류는 필수 선택사항입니다!";
-      teamCategory.focus();
-      return false;
-   }
-   
-   //예치금 체크
-   let teamDeposit = document.getElementById("teamDeposit");
-   let teamDepositErr = document.getElementById("teamDepositErr");
-   let result = document.getElementById("result");
+	if (teamCategory.value == "0") {
+		teamCategoryErr.innerText="습관 대분류는 필수 선택사항입니다!";
+		teamCategory.focus();
+		return false;
+	}
+	
+	//예치금 체크
+	let teamDeposit = document.getElementById("teamDeposit");
+	let teamDepositErr = document.getElementById("teamDepositErr");
+	let result = document.getElementById("result");
 
-   if(teamDeposit.value > result.value/10000) {
-      teamDepositErr.innerText="충전 금액이 부족합니다! (현재 금액 = "+ result.value/10000+"0,000원)";
-      teamDeposit.focus();
-      return false;
-   }
-   
-   if (teamDeposit.value == "0") {
-      teamDepositErr.innerText="예치금은 필수 선택사항입니다!";
-      teamDeposit.focus();
-      return false;
-   }
+	if(teamDeposit.value > result.value/10000) {
+		teamDepositErr.innerText="충전 금액이 부족합니다! (현재 금액 = "+ result.value/10000+"0,000원)";
+		teamDeposit.focus();
+		return false;
+	}
+	
+	if (teamDeposit.value == "0") {
+		teamDepositErr.innerText="예치금은 필수 선택사항입니다!";
+		teamDeposit.focus();
+		return false;
+	}
 
    //습관 시작or종료일 체크
    let startDate = document.getElementById("startDate");

@@ -22,6 +22,7 @@ public class TeamBankbookClassRepository {
 		return em.createQuery("select tb from TeamBankbook tb where team =: team", TeamBankbook.class)
 				.setParameter("team", team)
 				.getSingleResult();
+
 	}
 	
 }

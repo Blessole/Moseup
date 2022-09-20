@@ -1,5 +1,6 @@
 package project.moseup.repository;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,4 +30,5 @@ public class TeamBankbookDetailClassRepository {
 				.setParameter("teamBankbook", teamBankbook)
 				.getResultList();
 	}
+
 }

@@ -132,6 +132,8 @@ public class TeamPageController {
 			
 			model.addAttribute("result", result);
 			
+
+
 			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
 			if(!teamMember.isEmpty()) {
 				TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
@@ -148,7 +150,7 @@ public class TeamPageController {
 			model.addAttribute("teamMember",teamMember);
 			model.addAttribute("principal", 1);
 		}
-		
+
 		model.addAttribute("team", team);
 
 		return "teams/teamMain";

@@ -31,5 +31,6 @@ public class TeamBankbookService {
 	public TeamBankbook findByTeam(Team team) {
 		return teamBankbookClassRepository.findByTeam(team);
 	}
+
 	
 }
