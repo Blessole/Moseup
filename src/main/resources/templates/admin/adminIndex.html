@@ -20,28 +20,28 @@
                         <i class='bx bx-time-five cart'></i>
                         <span class="box-topic">습관</span>
                         <div class="right-side">
-                            <div class="number" th:text="|${indexMap.category1}|">40,876</div>
+                            <div class="number" th:text="|${indexMap.category1}|">40%</div>
                         </div>
                     </div>
                     <div class="box backTwo">
                         <i class='bx bx-book-alt cart two'></i>
                         <div class="box-topic">공부</div>
                         <div class="right-side">
-                            <div class="number" th:text="|${indexMap.category2}|">38,876</div>
+                            <div class="number" th:text="|${indexMap.category2}|">38%</div>
                         </div>
                     </div>
                     <div class="box backThree">
                         <i class='bx bx-run cart three'></i>
                         <div class="box-topic">운동</div>
                         <div class="right-side">
-                            <div class="number" th:text="|${indexMap.category3}|">12,876</div>
+                            <div class="number" th:text="|${indexMap.category3}|">12%</div>
                         </div>
                     </div>
                     <div class="box backFour">
                         <i class='bx bx-layer cart four'></i>
                         <div class="box-topic">기타</div>
                         <div class="right-side">
-                            <div class="number" th:text="|${indexMap.category4}|">11,086</div>
+                            <div class="number" th:text="|${indexMap.category4}|">11%</div>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             </tbody>
                           </table>
                         <div class="button">
-                            <a href="#" th:href="@{/admin/memberList}">더 보기</a>
+                            <a href="#" th:href="@{/admin/memberList(startDate=${now}, endDate=${now})}">더 보기</a>
                         </div>
                     </div>
 

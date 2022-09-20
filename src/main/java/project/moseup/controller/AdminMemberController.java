@@ -33,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,7 @@ public class AdminMemberController {
         log.info("session = {}", session);
 
         model.addAttribute("indexMap", memberAndTeam);
+        model.addAttribute("now", LocalDate.now());
 
         return "admin/adminIndex";
     }
