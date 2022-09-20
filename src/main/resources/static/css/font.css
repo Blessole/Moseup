@@ -45,24 +45,36 @@
 
 @font-face {
     font-family: 'LG Bold';
-    src : url('../font/LG_Smart_UI-Bold.ttf');
+    src : url('../font/LG_Smart_UI-Bold.ttf'); /* IE9 Compat Modes */
+    src: url('../font/LG_Smart_UI-Bold.ttf') format('ttf'), /* IE6-IE8 */
+    url('../font/LG_Smart_UI-Bold.ttf') format('ttf'), /* Super Modern Browsers */
+    url('../font/LG_Smart_UI-Bold.ttf') format('ttf'); /* Pretty Modern Browsers */
     font-style: normal;
 }
 
 @font-face {
     font-family: 'LG Light';
-    src : url('../font/LG_Smart_UI-Light.ttf');
+    src : url('../font/LG_Smart_UI-Light.ttf'); /* IE9 Compat Modes */
+    src: url('../font/LG_Smart_UI-Light.ttf') format('ttf'), /* IE6-IE8 */
+    url('../font/LG_Smart_UI-Light.ttf') format('ttf'), /* Super Modern Browsers */
+    url('../font/LG_Smart_UI-Light.ttf') format('ttf'); /* Pretty Modern Browsers */
     font-style: normal;
 }
 
 @font-face {
     font-family: 'LG Regular';
-    src : url('../font/LG_Smart_UI-Regular.ttf');
+    src : url('../font/LG_Smart_UI-Regular.ttf'); /* IE9 Compat Modes */
+    src: url('../font/LG_Smart_UI-Regular.ttf') format('ttf'), /* IE6-IE8 */
+    url('../font/LG_Smart_UI-Regular.ttf') format('ttf'), /* Super Modern Browsers */
+    url('../font/LG_Smart_UI-Regular.ttf') format('ttf'); /* Pretty Modern Browsers */
     font-style: normal;
 }
 
 @font-face {
     font-family: 'LG SemiBold';
-    src : url('../font/LG_Smart_UI-SemiBold.ttf');
+    src : url('../font/LG_Smart_UI-SemiBold.ttf'); /* IE9 Compat Modes */
+    src: url('../font/LG_Smart_UI-SemiBold.ttf') format('ttf'), /* IE6-IE8 */
+    url('../font/LG_Smart_UI-SemiBold.ttf') format('ttf'), /* Super Modern Browsers */
+    url('../font/LG_Smart_UI-SemiBold.ttf') format('ttf'); /* Pretty Modern Browsers */
     font-style: normal;
 }

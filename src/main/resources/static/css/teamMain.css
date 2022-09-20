@@ -1,50 +1,9 @@
-#page-wrapper{
-	display: block;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 70vh;
-}
-
-#nav ul {
-	display:inline-block;
-    list-style:none;
-    margin:20px;
-    padding:0;
-}
-
-#nav ul li {
-    margin: 0 40px 1px 40px;
-    padding: 0;
-    border : 0;
-    float: left;
-    text-align: center;
-}
-
-#nav ul li a span{
-	font: message-box;
-}
-
-.container h1{
-	font-style : oblique;
-	color: #ed786a;
-}
-
-.container p {
-	color: gray;
-}
-
 .container section div {
 	color: black;
 }
 
 .container section div p {
 	color: black;
-}
-
-#header {
-	text-align: center;
-	border-bottom-style: double;
 }
 
 #features{
@@ -79,6 +38,88 @@
 	margin: 50px;
 }
 
-#jointeam{
-	margin: 50px;
+#features .teamPhoto {
+	width: 60%;
+}
+
+#features .teamInfo {
+	border: 2px solid #e6e6e6;
+	border-radius: 20px;
+	width: 60%;
+	margin: auto;
+	padding: 30px;
+	text-align: left;
+}
+
+.infoTitle{
+	font-size: 22px;
+	font-weight: 400;
+	font-family: 'SBAggroB';
+	padding: 15px 0 20px 0;
+}
+
+.infoTitle i{
+	font-size: 26px;
+	margin: auto;
+}
+
+.infoContent {
+	display : flex;
+	font-size: 18px;
+}
+
+.infoIntroduce {
+	padding: 50px 0 30px 0;
+	text-align: center;
+}
+
+/* 가입하기, 찜 버튼 */
+.button-box {
+	display: inline-flex;
+	align-items: center;
+}
+
+.joinTeam{
+	margin: 50px 0;
+}
+
+.button-box .like-box{
+	width: 51px;
+	margin-left: 10px;
+	background-color: #e6e6e6;
+	border: 3px solid #e6e6e6;
+	border-radius: 0.25rem;
+	height: 47px;
+}
+
+.button-box .like-box i{
+	margin-top: 8px;
+	font-size: 30px;
+}
+
+.joinBlockedBtn {
+	color: #fff;
+	background-color: #6c757d;
+	line-height: 1.5;
+	cursor: pointer;
+	border: 1px solid transparent;
+	padding: 0.375rem 0.75rem;
+	font-size: 20px;
+	border-radius: 0.25rem;
+}
+
+.joinBtn {
+	color: #fff;
+	background-color: var(--point-color);
+	line-height: 4.5;
+	cursor: pointer;
+	border: 1px solid transparent;
+	padding: 0.625rem 1.75rem;
+	font-size: 20px;
+	border-radius: 0.25rem;
+}
+
+.joinBtn:hover {
+	background-color: #5168A6;
+	color: #fff;
 }

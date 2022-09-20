@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_teamPage}">
 <head>
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="/css/teamMain.css" />
 <!--	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 </head>
-<script type="text/javascript">
-	$(function(){
-		
-	});
-</script>
 <body>
 <th:block layout:fragment="content">
 	<div id="page-wrapper">
 
-		<!-- Header -->
-		<section id="header">
-			<div class="backgrond"></div>
-			<div class="container">
-			
-				<!-- Logo -->
-				<h1 th:text="${team.teamName}"></h1>
-				<p>for the sake of everyone's habits.</p>
-			
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
-					</ul>
-				</nav>				
-			</div>
-		</section>
-		<br>
+<!--		&lt;!&ndash; Header &ndash;&gt;-->
+<!--		<section id="header">-->
+<!--			<div class="backgrond"></div>-->
+<!--			<div class="container">-->
+<!--			-->
+<!--				&lt;!&ndash; Logo &ndash;&gt;-->
+<!--				<h1 th:text="${team.teamName}"></h1>-->
+<!--				<p>for the sake of everyone's habits.</p>-->
+<!--			-->
+<!--				&lt;!&ndash; Nav &ndash;&gt;-->
+<!--				<nav id="nav">-->
+<!--					<ul>-->
+<!--						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>-->
+<!--						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>-->
+<!--						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>-->
+<!--						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>-->
+<!--					</ul>-->
+<!--				</nav>				-->
+<!--			</div>-->
+<!--		</section>-->
+<!--		<br>-->
 
 		<!-- Features -->
 		<section id="features">
@@ -43,26 +38,65 @@
 				<div>
 					<div>
 						<section>
-							<img th:src="'/'+'images/teamPhotos/'+${team.teamName}+'/'+${team.teamPhoto}" th:alt="팀사진" style="margin-bottom: 30px;"/>
-							<div id="team_name">🚩팀명 :&nbsp;<p th:text="${team.teamName}"></p></div>
-							<div id="team_date">⏰팀 생성일 :&nbsp;<p th:text="${team.teamDate}"></p></div>
-							<div id="team_volume">‍👨‍👩‍👧‍👧가입 인원 :&nbsp;<p th:text="${team.teamMembers.size}"></p>/<p th:text="${team.teamVolume}"></p></div>
-							<div id="team_period">📅기간 :&nbsp;<p th:text="${team.startDate}"></p>&nbsp;~&nbsp;<p th:text="${team.endDate}"></p></div>
-							<div id="team_category">✅분류 :&nbsp;<p th:text="${team.teamCategory1}"></p>,&nbsp;<p th:text="${team.teamCategory2}"></p>,&nbsp;<p th:text="${team.teamCategory3}"></p></div>
-							<div id="team_deposit">💵예치금 :&nbsp;<p th:text="'￦'+${team.teamDeposit}*10000"></p></div>
+							<img th:src="'/'+'images/teamPhotos/'+${team.teamName}+'/'+${team.teamPhoto}" th:alt="팀사진" style="margin-bottom: 30px;" class="teamPhoto"/>
+							<div class="teamInfo">
+								<div class="infoTitle"><i class='bx bx-id-card'></i>
+									팀 정보</div>
+								<div class="infoContent">
+									<div id="team_name">팀명 :&nbsp;</div>
+										<p th:text="${team.teamName}"></p>
+								</div>
+								<div class="infoContent">
+									<div id="team_date">팀 생성일 :&nbsp;</div>
+									<p th:text="${team.teamDate}"></p>
+								</div>
+								<div class="infoContent">
+									<div id="team_volume">가입 인원 :&nbsp;</div>
+									<p th:text="${team.teamMembers.size}"></p>
+								</div>
+								<div class="infoContent">
+									<div id="team_period">기간 :&nbsp;</div>
+									<i class='bx bx-calendar-alt' ></i>
+									<p th:text="${team.startDate}"></p>&nbsp;~&nbsp;
+									<i class='bx bx-calendar-check' ></i>
+									<p th:text="${team.endDate}"></p>
+								</div>
+								<div class="infoContent">
+									<div id="team_category">분류 :&nbsp;</div>
+									<p th:text="${team.teamCategory1}"></p>
+									<p th:if="${team.teamCategory2 != null}" th:text="', ' + ${team.teamCategory2}"></p>
+									<p th:if="${team.teamCategory3 != null}" th:text="', ' + ${team.teamCategory3}"></p>
+								</div>
+								<div class="infoContent">
+									<div id="team_deposit">예치금 :&nbsp;</div>
+									<p th:text="'￦'+${team.teamDeposit}+'0,000원'"></p>
+								</div>
+								<div class="infoIntroduce">
+									<p th:text="${team.teamIntroduce}"></p>
+								</div>
+							</div>
 						</section>
 					</div>
-					<div id="introduce">
-						<p th:text="${team.teamIntroduce}"></p>
-					</div>				
 				</div>
 			</div>
-			<div id="jointeam" th:if="${teamMember.isEmpty()}">
-				<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="btn btn-success">가입하기</a>
-			</div>
-			<div id="jointeam" th:if="${!teamMember.isEmpty()}">
-				<p th:if="${teamMemberDetail.teamMemberDelete} != t">이미 가입한 스터디 입니다.</p>
-				<p th:if="${teamMemberDetail.teamMemberDelete} == t">재가입 불가합니다. 수고링!</p>
+			<div class="button-box">
+				<div class="join-box">
+					<div th:if="${principal} == null">
+						<a th:href="@{/members/login}" class="joinBtn">가입하기</a>
+					</div>
+					<div th:if="${principal == 1}">
+						<div class="joinTeam" th:if="${teamMember.isEmpty()}">
+							<a th:href="@{/teams/teamPage/joinTeam(tno=${team.tno})}" class="joinBtn">가입하기</a>
+						</div>
+						<div class="joinTeam" th:if="${!teamMember.isEmpty()}">
+							<p th:if="${teamMemberDetail.teamMemberDelete} != t" class="joinBlockedBtn">이미 가입한 스터디 입니다.</p>
+							<p th:if="${teamMemberDetail.teamMemberDelete} == t" class="joinBlockedBtn">재가입 불가합니다. 수고링!</p>
+						</div>
+					</div>
+				</div>
+				<div class="like-box">
+					<i class='bx bx-heart'></i>
+				</div>
 			</div>
 		</section>
 		

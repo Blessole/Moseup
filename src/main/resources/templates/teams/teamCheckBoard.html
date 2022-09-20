@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout_teamPage}">
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -17,68 +17,77 @@
 	<!-- 본문 코드 시작 -->
 	<th:block layout:fragment="content">
 		<div id="page-wrapper">
-			<!-- Header -->
-			<section id="header">
-			<div class="container">
-			
-				<!-- Logo -->
-				<h1 th:text="${team.teamName}"></h1>
-				<p>for the sake of everyone's habits.</p>
-			
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
-					</ul>
-				</nav>				
-			</div>
-		</section>
+<!--			&lt;!&ndash; Header &ndash;&gt;-->
+<!--			<section id="header">-->
+<!--			<div class="container">-->
+<!--			-->
+<!--				&lt;!&ndash; Logo &ndash;&gt;-->
+<!--				<h1 th:text="${team.teamName}"></h1>-->
+<!--				<p>for the sake of everyone's habits.</p>-->
+<!--			-->
+<!--				&lt;!&ndash; Nav &ndash;&gt;-->
+<!--				<nav id="nav">-->
+<!--					<ul>-->
+<!--						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>-->
+<!--						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>-->
+<!--						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>-->
+<!--						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>-->
+<!--					</ul>-->
+<!--				</nav>				-->
+<!--			</div>-->
+<!--		</section>-->
 			<!-- features -->
 			<section id="features">
-				<div class="container">					 
-					<div class="card" th:each="checkBoards : ${checkBoards}">
-						<div class="top">
-							<div class="userDetails">
-								<div class="profile_img">
-									<img src="/images/logo.png" class="cover">
+				<div class="team_check_container">
+					<div class="emptyMsg" th:if="${checkBoards.isEmpty()}">
+						<div class="msg1">인증글이 아직 없습니다😥</div>
+					</div>
+					<div class="button-box">
+						<a th:href="@{/teams/teamCheckBoard/checkBoardWriteForm(tno=${team.tno})}" class="btn btn-sol">오늘도 인증하러 가자구! <i class='bx bxs-hand-left' ></i></a>
+					</div>
+					<div  th:if="${!checkBoards.isEmpty()}">
+						<div class="card" th:each="checkBoards : ${checkBoards}">
+							<div class="top">
+								<div class="userDetails">
+									<div class="profile_img">
+										<span th:each="profile : ${profileList}" th:if="${checkBoards.member.mno == profile.key}">
+											<img th:src="${profile.value}" class="cover">
+										</span>
+									</div>
+									<div class="checkInfo">
+<!--										<h3 th:text="${team.teamName}"></h3>-->
+										<h5 th:text="${checkBoards.member.nickname}"></h5>
+										<h3 th:text="${#temporals.format(checkBoards.checkDate, 'yyyy-MM-dd hh:mm')}" class="span"></h3>
+									</div>
 								</div>
-								<div class="checkInfo">
-									<h3 th:text="${team.teamName}"></h3>
-									<h5 th:text="${checkBoards.member.nickname}"></h5>
-									<h3 th:text="${#temporals.format(checkBoards.checkDate, 'yyyy-MM-dd hh:mm')}" class="span"></h3>
+								<div class="dot">
+									<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"><i class='bx bx-chevron-right'></i></a>
 								</div>
 							</div>
-							<div>
-								<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${checkBoards.cno}, tno=${team.tno})}"><img src="/images/go.png" class="dot"></a>
+							<span th:each="photo : ${photoList}" th:if="${checkBoards.cno == photo.cno}">
+								<div class="imgBx">
+									<img th:src="${photo.realPhoto}" class="cover">
+								</div>
+							</span>
+							<div class="actionBtns">
+								<div class="left">
+									<img src="/images/heart_red.png" class="heart">
+									<h4 class="likes"></h4>
+								</div>
+								<div class="right">
+									<span th:text="'조회수 : '+${checkBoards.checkReadCount}"></span>
+								</div>
 							</div>
+							<h4 class="message" th:text="${checkBoards.checkContent}"></h4>
 						</div>
-						<span th:each="photo : ${photoList}" th:if="${checkBoards.cno == photo.cno}">
-							<div class="imgBx">
-								<img th:src="${photo.realPhoto}" class="cover">
-							</div>
-						</span>
-						<div class="actionBtns">
-							<div class="left">
-								<img src="/images/heart_red.png" class="heart">
-								<h4 class="likes"></h4>
-							</div>
-							<div class="right">
-								<span th:text="'조회수 : '+${checkBoards.checkReadCount}"></span>
-							</div>
-						</div>
-						<h4 class="message" th:text="${checkBoards.checkContent}"></h4>
 					</div>
 
-					
-					<div th:if="${checkBoards.totalElements != 0}">
+					<div th:if="${checkBoards.totalElements != 0}" class="page-num">
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
 							<li class="page-item" th:classappend="${1 == checkBoards.pageable.pageNumber + 1} ? 'disabled'">
 								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${checkBoards.pageable.pageNumber - 1}, tno=${team.tno})}"
-								tabindex="-1" aria-disabled="true">Previous</a>
+								tabindex="-1" aria-disabled="true"><</a>
 							</li>
 							<li class="page-item"
 								th:classappend="${i == checkBoards.pageable.pageNumber + 1} ? 'disabled'"
@@ -86,14 +95,10 @@
 								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${i - 1}, tno=${team.tno})}" th:text="${i}">1</a>
 							</li>
 							<li class="page-item" th:classappend="${checkBoards.totalPages == checkBoards.pageable.pageNumber + 1} ? 'disabled'">
-								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${checkBoards.pageable.pageNumber + 1}, tno=${team.tno})}">Next</a>
+								<a class="page-link" href="#" th:href="@{/teams/teamCheckBoard(page=${checkBoards.pageable.pageNumber + 1}, tno=${team.tno})}">></a>
 							</li>
 						</ul>
 					</nav>					
-					</div>
-					
-					<div align="center">
-						<a th:href="@{/teams/teamCheckBoard/checkBoardWriteForm(tno=${team.tno})}" class="btn btn-info">인증하기</a>
 					</div>
 				</div>
 			</section>

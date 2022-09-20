@@ -1,0 +1,33 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!--teamPage용 Header-->
+<th:block th:fragment="teamPageCommon">
+    <div class="team_container">
+
+        <!-- Logo -->
+        <h1 th:text="${team.teamName}"></h1>
+        <p>과연 내가 100% 환급을 받을 수 있을까?</p>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="teamTabList">
+                <li id="teamPage"><a th:href="@{/teams/teamPage(tno=${team.tno})}">소개</a></li>
+                <li id="teamAskBoard"><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}">문의하기</a></li>
+                <li id="teamCheckBoard"><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}">인증게시판</a></li>
+                <li id="teamMemberList"><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}">가입 회원</a></li>
+            </ul>
+        </nav>
+    </div>
+    <script type="text/javascript">
+        window.onload = function (){
+            // 현재 url 가져오기
+            let url = window.location.href;
+
+            $(".teamTabList li").each(function (){
+                // url이랑 비교 체크하기
+                if (url.includes(this.id)){
+                    $(this).addClass("active");
+                }
+            });
+        };
+    </script>
+</th:block>

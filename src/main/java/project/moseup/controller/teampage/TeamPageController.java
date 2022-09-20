@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -69,27 +66,33 @@ public class TeamPageController {
 
 		// 팀 정보 보여주기
 		Team team = teamCreateService.findOne(tno);
-		Member member = this.memberService.getMember(principal.getName());
 
-		// 팀 회원 정보 가져오기
-		Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+		if (principal == null ){
+			model.addAttribute("principal", null);
+		} else {
+			Member member = this.memberService.getMember(principal.getName());
 
-		// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
-		if(!teamMember.isEmpty()) {
-			TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
-			TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
-			model.addAttribute("teamMemberDetail", teamMemberDetail);
-		} else if(teamMember.isEmpty()) {
-			TeamMemberDto teamFakeMember = new TeamMemberDto();
-			teamFakeMember.setMember(member);
-			teamFakeMember.setTeam(team);
-			teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
-			model.addAttribute("teamMemberDetail", teamFakeMember);
+			// 팀 회원 정보 가져오기
+			Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+
+			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
+			if(!teamMember.isEmpty()) {
+				TeamMember teamRealMember = teamMemberService.findExistMember(team, member);
+				TeamMemberDetailDto teamMemberDetail = new TeamMemberDetailDto().toDto(teamRealMember);
+				model.addAttribute("teamMemberDetail", teamMemberDetail);
+			} else if(teamMember.isEmpty()) {
+				TeamMemberDto teamFakeMember = new TeamMemberDto();
+				teamFakeMember.setMember(member);
+				teamFakeMember.setTeam(team);
+				teamFakeMember.setTeamMemberDelete(DeleteStatus.FALSE);
+				model.addAttribute("teamMemberDetail", teamFakeMember);
+			}
+			model.addAttribute("member", member);
+			model.addAttribute("teamMember",teamMember);
+			model.addAttribute("principal", 1);
 		}
 
-		model.addAttribute("teamMember",teamMember);
 		model.addAttribute("team", team);
-		model.addAttribute("member", member);
 		model.addAttribute("t", DeleteStatus.TRUE);
 
 		return "teams/teamMain";
@@ -119,11 +122,35 @@ public class TeamPageController {
 		
 		// 팀 정보
 		Team team = teamCreateService.findOne(tno);
-		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
+		TeamDetailDto teamDetail = new TeamDetailDto().toDtoSol(team);
 		
 		// 인증 횟수 정보
 		List<CheckBoardDetailDto> checkBoard = checkBoardService.findByTeam(team);
-		
+
+		// 회원 사진 가져오기 (by. 솔)
+		Map<Long, Object> memberPhotoMap = new HashMap<>();
+		Map<Long, Integer> memberCheckMap = new HashMap<>();
+		List<TeamMember> teamMemberList = teamDetail.getTeamMember();
+		String originPhoto = "";
+		String realPhoto = "";
+		for(int i=0; i<teamMemberList.size(); i++){
+			Long oneMno = teamMemberList.get(i).getMember().getMno();
+			if (teamMemberList.get(i).getMember().getPhoto() == null || teamMemberList.get(i).getMember().getPhoto().equals("")){
+				realPhoto = "/images/profile.png";
+			} else {
+				originPhoto = teamMemberList.get(i).getMember().getPhoto();
+				int index = originPhoto.indexOf("images");
+				realPhoto = originPhoto.substring(index - 1);
+			}
+			memberPhotoMap.put(oneMno, realPhoto);
+
+			// 인증횟수
+			int countCheck = checkBoardService.countByTeamAndMember(team, teamMemberList.get(i).getMember());
+			memberCheckMap.put(oneMno, countCheck);
+		}
+		model.addAttribute("photoList", memberPhotoMap);
+		model.addAttribute("checkList", memberCheckMap);
+
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("checkBoard", checkBoard);
 
@@ -285,7 +312,25 @@ public class TeamPageController {
 		Page<CheckBoard> checkBoards = checkBoardService.findCheckBoardPage(team, pagable);
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
-		
+
+		// checkBoard 회원 사진 경로 잘라서 가져오기 (by. 솔)
+		Map<Long, Object> memberPhotoMap = new HashMap<>();
+		List<TeamMember> teamMemberList = teamDetail.getTeamMember();
+		String originPhoto = "";
+		String realPhoto = "";
+		for(int i=0; i<teamMemberList.size(); i++){
+			Long oneMno = teamMemberList.get(i).getMember().getMno();
+			if (teamMemberList.get(i).getMember().getPhoto() == null || teamMemberList.get(i).getMember().getPhoto().equals("")){
+				realPhoto = "/images/profile.png";
+			} else {
+				originPhoto = teamMemberList.get(i).getMember().getPhoto();
+				int index = originPhoto.indexOf("images");
+				realPhoto = originPhoto.substring(index - 1);
+			}
+			memberPhotoMap.put(oneMno, realPhoto);
+		}
+		model.addAttribute("profileList", memberPhotoMap);
+
 		model.addAttribute("photoList", checkBoardService.findByTeam(team));
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
