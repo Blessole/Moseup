@@ -1,11 +1,10 @@
 package project.moseup.repository;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import project.moseup.domain.Bankbook;
+
+import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,12 +22,11 @@ public class BankbookRepository {
 		em.persist(bankbook);
 	}
 	
-<<<<<<< HEAD
+
 	// 입금하기
 	public void deposit(Bankbook bankbook) {
 		em.persist(bankbook);
 	}
 	
-=======
->>>>>>> branch 'v.2.0.2-develop' of https://github.com/Blessole/Moseup.git
+
 }
