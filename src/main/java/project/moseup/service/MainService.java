@@ -1,13 +1,13 @@
 package project.moseup.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
 import project.moseup.domain.Team;
 import project.moseup.repository.MainInterfaceRepository;
-import project.moseup.repository.MainRepository;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -15,19 +15,8 @@ import java.util.List;
 public class MainService {
 
 	private final MainInterfaceRepository mainInterfaceRepository;
-	private final MainRepository mainRepository;
 	
-	//teamVolume 높은순 5개
-//	public List<Team> topList() {
-//		List<Team> topList = mainInterfaceRepository.findTop5ByOrderByTeamVolumeDesc();
-//		return topList;
-//	}
-	
-//	public List<Team> topList() {
-//		List<Team> topList = mainRepository.topList();
-//		return topList;
-//	}
-	
+	//찜목록 많은순 best5
 	public List<Team> topList() {
 		List<Team> topList = mainInterfaceRepository.topList();
 		return topList;

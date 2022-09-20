@@ -61,4 +61,9 @@ public class CheckBoardService {
 		
 		return dtoList;
 	}
+
+	// 팀페이지 회원리스트 인증 횟수 로직 (by 솔)
+	public int countByTeamAndMember(Team team, Member member){
+		return checkBoardPageRepository.countByTeamAndMember(team, member);
+	}
 }

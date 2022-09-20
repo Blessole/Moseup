@@ -205,4 +205,8 @@ public class MemberService {
 		return saveName;
 	}
 
+	// 로그인 성공 시 방문자 카운트 로직
+//    public void countSuccess(String username) {
+//		memberInterfaceRepository.updateSuccessCount(username);
+//	}
 }

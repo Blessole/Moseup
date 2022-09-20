@@ -15,7 +15,9 @@ public class TeamDetailDto {
 	
 	private String teamName;
 	
-	private String teamLeader; 
+	private String teamLeader;
+
+	private Long mno;
 
 	private List<TeamAskBoard> teamAskBoards;
 	
@@ -28,5 +30,14 @@ public class TeamDetailDto {
 		this.teamAskBoards = team.getTeamAskBoards();
 		this.teamMember = team.getTeamMembers();
 		return this;		
+	}
+
+	public TeamDetailDto toDtoSol(Team team){
+		this.tno = team.getTno();
+		this.teamName = team.getTeamName();
+		this.mno = team.getMember().getMno();
+		this.teamAskBoards = team.getTeamAskBoards();
+		this.teamMember = team.getTeamMembers();
+		return this;
 	}
 }

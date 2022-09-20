@@ -35,8 +35,8 @@
 									<h3 th:text="${#temporals.format(list.checkDate, 'yyyy-MM-dd hh:mm')}" class="span"></h3>
 								</div>
 							</div>
-							<div>
-								<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${list.cno},tno=${list.team.tno})}"><img src="/images/go.png" width="20px" class="dot"></a>
+							<div class="dot">
+								<a th:href="@{/teams/teamCheckBoard/teamCheckBoardDetail(cno=${list.cno},tno=${list.team.tno})}"><i class='bx bx-chevron-right'></i></a>
 							</div>
 						</div>
 						<span th:each="photo : ${photoList}" th:if="${list.cno == photo.cno}">

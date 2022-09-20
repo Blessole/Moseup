@@ -73,7 +73,7 @@ body {
 
 .btn-sol{
     margin-top: 50px;
-    background-color: #5c75bb;
+    background-color: var(--point-color);
     color: #fff;
 
     /* findID/findPW action */
