@@ -83,9 +83,10 @@
 					</div>
 					<!-- 예치금 -->
 					<div class="col-12">
+						<input type="hidden" id="result" name="result" th:value="${result}">
 						<label for="teamDeposit" class="form-label font-bold">예치금<span class="essential">*</span></label>
 						<span id="teamDepositErr" class="text-err"></span>
-						<select class="form-select text-center" th:field="*{teamDeposit}" >
+						<select class="form-select text-center" th:field="*{teamDeposit}" onclick="depositChk()">
 							<option value="0" class="text-gray" disabled selected>====인당 예치금 선택====</option>
 							<option value="1">10,000￦</option>
 							<option value="2">20,000￦</option>

@@ -26,11 +26,7 @@ public interface MainInterfaceRepository extends JpaRepository<Team, Long>{
 	List<Team> etcTopList();
 	//최근 생성 4개팀
 	List<Team> findTop4ByOrderByTnoDesc();
-	//가입 인원 많은순 5개팀
-	@Query(value = "select t.* from Teams t join team_Members m where t.team_no= m.team_no group by m.team_no order by count(m.team_no) desc limit 5;", nativeQuery = true)
+	//1.찜목록 2.가입 인원 많은순 5개팀
+	@Query(value = "select t.* from Teams t join likes l where t.team_no= l.team_no group by l.team_no order by count(l.team_no) desc, t.team_joiner desc limit 5", nativeQuery = true)
 	List<Team> topList();
-	
-	//가입 인원 많은순 5개팀
-//	@Query(value = "select * from teams t where t.team_no in (select tm.team_no from (select * from team_members tm group by tm.team_no Order by count(tm.team_no) desc limit 5)as tm)", nativeQuery = true)
-//	List<Team> topListKs();	//솔님이 만들어주신 쿼리
 }

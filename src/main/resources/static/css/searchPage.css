@@ -252,12 +252,16 @@
 }
 
 /* 검색결과 없음 */
-.searchedNull35 {
+.searchedNull {
+	padding-top: 9%;
+	padding-bottom: 9%;
+}
+.listEmptyTitle {
 	font-size: 35px;
 	color: #6c6c6c;
 	font-weight: bold;
 }
-.searchedNull25 {
+.listEmptySub {
 	font-size: 25px;
 	color: #6c6c6c;
 }

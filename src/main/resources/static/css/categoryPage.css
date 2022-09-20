@@ -194,12 +194,16 @@ input {
 }
 
 /* 검색결과 없음 */
-.searchedNull35 {
+.searchedNull {
+	padding-top: 12%;
+	padding-bottom: 12%;
+}
+.listEmptyTitle {
 	font-size: 35px;
 	color: #6c6c6c;
 	font-weight: bold;
 }
-.searchedNull25 {
+.listEmptySub {
 	font-size: 25px;
 	color: #6c6c6c;
 }
@@ -221,7 +225,6 @@ input {
 	border-radius: 3px;
 	text-align: center;
 	background-color: #5c75bb;
-	/* background: linear-gradient(90deg, rgb(70, 89, 181), #5c75bb); */
 	display: flex;
 }
 #hrText {
@@ -234,8 +237,6 @@ input {
 /* 슬라이드 전체 감싸는 태그 */
 .slide {
 	height: 500px;
-	/* background: linear-gradient(90deg,rgb(63, 87, 152), rgb(88, 103, 190)); */
-	/* background: linear-gradient(90deg, rgb(67, 92, 160), #5c75bb); */
 	background: linear-gradient(90deg, #5c75bb, rgb(70, 89, 181));
 }
 
@@ -245,16 +246,14 @@ input {
 	height: 400px;
 }
 #slideImgSubDiv {
-	margin-top: 20px;
 	/* border: 1px solid green; */
+	margin-top: 20px;
 	width: 70%;
 	height: 350px;
 	position : absolute;
 	left:15%;
 	border-radius: 10px;
-	/* background: linear-gradient(90deg, #5c75bb, rgb(70, 89, 181)); */
 	background-color: #ffffff;
-	/* background-color: rgba( 230, 230, 230, 0.4); */
 }
 
 /* 슬라이드 이미지 */
@@ -291,6 +290,7 @@ input {
 	bottom: 54% !important;
 }
 .item #slideCaption5 {	/* 찜 수 */
+	left: 93% !important;
 	bottom: 2% !important;
 }
 
@@ -327,7 +327,6 @@ input {
 /* 슬라이드 부제목 */
 #slideSubtitle {
 	color: white;
-	/* font-weight: bold; */
 	padding-top: 15px;
 }
 

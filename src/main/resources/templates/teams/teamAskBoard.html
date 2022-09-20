@@ -70,18 +70,18 @@
 						</tbody>
 						<tbody th:if="${!teamAsks.isEmpty()}">
 							<tr th:each="teamaskboard : ${teamAsks}">
-							<div th:if="${teamaskboard.teamAskDelete != t}">											
-								<td th:text="${teamaskboard.tano}"></td>
-								<td th:if="${teamaskboard.secret != p}"><i class='bx bx-lock-alt'></i>
-									<a href="#" th:text="${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|"></a></td>
-								<td th:if="${teamaskboard.secret == p}"><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}"
-									th:text="${teamaskboard.teamAskSubject}"></a></td>
-								<td th:id="writer+${teamaskboard.tano}" th:text="${teamaskboard.member.nickname}"></td>
-								<td th:text="${teamaskboard.teamAskDate}"></td>
-								<td th:text="${teamaskboard.teamAskReadCount}"></td>
+							<div th:if="${teamaskboard.teamAskDelete.toString != 'TRUE'}">
+								<th th:text="${teamaskboard.tano}"></th>
+								<th th:if="${teamaskboard.secret.toString != 'PUBLIC'}">
+									<a href="#" th:text="'🔒'+${teamaskboard.teamAskSubject}" th:onclick="|javascript:checkSecret('${team.tno}','${teamaskboard.tano}')|" style="text-decoration: none;"></a></th>
+								<th th:if="${teamaskboard.secret.toString == 'PUBLIC'}"><a th:href="@{/teams/teamAskBoard/teamAskBoardDetail(tano=${teamaskboard.tano}, tno=${team.tno})}" style="text-decoration: none;"
+									th:text="${teamaskboard.teamAskSubject}"></a></th>																
+								<th th:id="writer+${teamaskboard.tano}" th:text="${teamaskboard.member.nickname}"></th>
+								<th th:text="${teamaskboard.teamAskDate}"></th>
+								<th th:text="${teamaskboard.teamAskReadCount}"></th>	
 							</div>
-							<div th:if="${teamaskboard.teamAskDelete == t}">
-								<td colspan="5" style="text-align: center;">삭제된 게시글입니다.</td>
+							<div th:if="${teamaskboard.teamAskDelete.toString == 'TRUE'}">
+								<th colspan="5" style="text-align: center;">삭제된 게시글입니다.</th>
 							</div>					
 							</tr>						
 						</tbody>
@@ -89,19 +89,19 @@
 
 					<div class="bottom" th:classappend="${teamAsks.isEmpty()} ? 'floatRight'">
 						<div th:if="${teamAsks.totalElements != 0}" class="page-num">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination justify-content-center">
-									<li class="page-item" th:classappend="${1 == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
-										<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber - 1}, tno=${team.tno})}" tabindex="-1" aria-disabled="true"><</a>
-									</li>
-									<li class="page-item" th:classappend="${i == teamAsks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-										<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${i - 1}, tno=${team.tno})}" th:text="${i}">1</a>
-									</li>
-									<li class="page-item" th:classappend="${teamAsks.totalPages == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
-										<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber + 1}, tno=${team.tno})}">></a>
-									</li>
-								</ul>
-							</nav>
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<li class="page-item" th:classappend="${1 == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
+									<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber - 1}, tno=${team.tno})}" tabindex="-1" aria-disabled="true"><</a>
+								</li>
+								<li class="page-item" th:classappend="${i == teamAsks.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+									<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${i - 1}, tno=${team.tno})}" th:text="${i}">1</a>
+								</li>
+								<li class="page-item" th:classappend="${teamAsks.totalPages == teamAsks.pageable.pageNumber + 1} ? 'disabled'">
+									<a class="page-link" href="#" th:href="@{/teams/teamAskBoard(page=${teamAsks.pageable.pageNumber + 1}, tno=${team.tno})}">></a>
+								</li>
+							</ul>
+						</nav>
 						</div>
 						<div class="button-box">
 							<a th:href="@{/teams/teamAskBoard/teamAskBoardWriteForm(tno=${team.tno})}" class="btn-sol">문의하기</a>
