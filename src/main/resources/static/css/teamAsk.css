@@ -21,6 +21,20 @@
     text-align: center;
 }
 
+#nav ul li a{
+	text-decoration: none;
+}
+
+#nav ul li a:hover{
+	font-size : 10px;
+	color: #ed786a;;
+}
+	
+#nav ul #ask a:visited{
+	font-size : 10px;
+	color: #ed786a;;
+}
+
 #nav ul li a span{
 	font: message-box;
 }
@@ -49,4 +63,13 @@
 
 #features{
 	text-align: center;
+}
+
+.btn{
+	border-color: black;
+}
+
+.btn:hover{
+	color: white;
+	background-color: #5c75bb;
 }

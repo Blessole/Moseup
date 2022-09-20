@@ -26,5 +26,11 @@ public class TeamBankbookService {
 		teamBankbookClassRepository.save(teamBankbook);
 		return teamBankbook;
 	}
+
+	// 팀으로 팀통장 조회
+	public TeamBankbook findByTeam(Team team) {
+		return teamBankbookClassRepository.findByTeam(team);
+	}
+
 	
 }

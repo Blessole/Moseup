@@ -1,6 +1,18 @@
 package project.moseup.controller.teampage;
 
-import lombok.RequiredArgsConstructor;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,29 +21,47 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import project.moseup.domain.*;
-import project.moseup.dto.TeamCreateReqDto;
-import project.moseup.dto.teamPage.*;
+
+import lombok.RequiredArgsConstructor;
+import project.moseup.domain.Bankbook;
+import project.moseup.domain.CheckBoard;
+import project.moseup.domain.DeleteStatus;
+import project.moseup.domain.Member;
+import project.moseup.domain.SecretStatus;
+import project.moseup.domain.Team;
+import project.moseup.domain.TeamAskBoard;
+import project.moseup.domain.TeamBankbook;
+import project.moseup.domain.TeamBankbookDetail;
+import project.moseup.domain.TeamMember;
+import project.moseup.dto.LikeSaveReqDto;
+import project.moseup.dto.teamPage.CheckBoardDetailDto;
+import project.moseup.dto.teamPage.CheckBoardDto;
+import project.moseup.dto.teamPage.TeamAskBoardDeleteDto;
+import project.moseup.dto.teamPage.TeamAskBoardDetailDto;
+import project.moseup.dto.teamPage.TeamAskBoardDto;
+import project.moseup.dto.teamPage.TeamAskBoardReplyDto;
+import project.moseup.dto.teamPage.TeamAskBoardUpdateDto;
+import project.moseup.dto.teamPage.TeamDetailDto;
+import project.moseup.dto.teamPage.TeamMemberDetailDto;
+import project.moseup.dto.teamPage.TeamMemberDto;
+import project.moseup.service.BankbookService;
+import project.moseup.service.TeamBankbookDetailService;
+import project.moseup.service.TeamBankbookService;
 import project.moseup.service.TeamCreateService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
+import project.moseup.service.myPage.MyPageService;
 import project.moseup.service.teampage.CheckBoardService;
+import project.moseup.service.teampage.LikesService;
 import project.moseup.service.teampage.TeamAskBoardReplyService;
 import project.moseup.service.teampage.TeamAskBoardService;
 import project.moseup.service.teampage.TeamMemberService;
-
-import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,6 +75,11 @@ public class TeamPageController {
 	private final TeamCreateService teamCreateService;
 	private final TeamMemberService teamMemberService;
 	private final AdminMemberService adminMemberService;
+	private final BankbookService bankbookService;
+	private final MyPageService myPageService;
+	private final TeamBankbookService teamBankbookService;
+	private final TeamBankbookDetailService teamBankbookDetailService;
+	private final LikesService likesService;
 
 	// 공용 데이터 (네비바에 들어갈 회원 정보)
 	@ModelAttribute
@@ -77,6 +112,27 @@ public class TeamPageController {
 
 			// 팀 회원 정보 가져오기
 			Optional<TeamMember> teamMember = teamMemberService.findMember(team, member);
+			
+			// 통장에 돈이 있는지 조회
+			List<Bankbook> myBankbook = myPageService.findBankbook(member);	// 통장 조회
+
+			int deposit = team.getTeamDeposit()*10000;	//팀 예치금액
+			
+			int result = 0;
+			
+			if (myBankbook.isEmpty()) {
+				result = -1;
+			} else if (!myBankbook.isEmpty()) {
+				if (myBankbook.get(0).getBankbookTotal() < deposit) {
+					result = -1;
+				} else if (myBankbook.get(0).getBankbookTotal() >= deposit) {
+					result = 1;
+				}
+			}
+			
+			model.addAttribute("result", result);
+			
+
 
 			// 만약 존재 한다면 정보를 조회해서 전달 존재 하지 않으면 가짜정보 전달(안좋은 방법인듯...)
 			if(!teamMember.isEmpty()) {
@@ -96,9 +152,27 @@ public class TeamPageController {
 		}
 
 		model.addAttribute("team", team);
-		model.addAttribute("t", DeleteStatus.TRUE);
 
 		return "teams/teamMain";
+	}
+	
+	// 팀 통장 페이지
+	@GetMapping("/teamBankBook")
+	public String teamBankBook(@RequestParam Long tno, Model model) {
+		
+		Team team = teamCreateService.findOne(tno);
+		
+		TeamBankbook teamBankbook = teamBankbookService.findByTeam(team);
+		
+		// 팀 통장 자세히 찾기
+		List<TeamBankbookDetail> teamBankbookDetail = teamBankbookDetailService.findTeamBankbookDetailListByTeamBankbook(teamBankbook);
+		int totalMoney = teamBankbookDetail.get(teamBankbookDetail.size()-1).getTeamBankbookTotal();
+		
+		model.addAttribute("teamBankbookDetail", teamBankbookDetail);
+		model.addAttribute("totalMoney", totalMoney);
+		model.addAttribute("team", team);
+		
+		return "teams/teamBankbook";
 	}
 	
 	// 팀 가입
@@ -108,14 +182,36 @@ public class TeamPageController {
 		Member member = this.memberService.getMember(principal.getName());
 		Team team = teamCreateService.findOne(tno);
 		
-		team.updateTeamJoiner(team.getTeamJoiner()+1);	// 팀 가입인원+1
-
-		TeamMemberDto teamMemberDto = new TeamMemberDto();
+		team.updateTeamJoiner(team.getTeamJoiner() + 1);	// 팀 가입인원+1
+		
+		// 개인통장 예치금 출금
+	    bankbookService.withdraw(member, team);
+	    
+	    // 팀통장 조회 후 예치금 입력
+	    TeamBankbook teamBankbook = teamBankbookService.findByTeam(team);	    
+	    teamBankbookDetailService.create(teamBankbook, team, member);
+ 	
+	    TeamMemberDto teamMemberDto = new TeamMemberDto();
 		teamMemberDto.setMember(member);
 		teamMemberDto.setTeam(team);
-
-		teamMemberService.joinTeamMember(teamMemberDto);		
+			
+		teamMemberService.joinTeamMember(teamMemberDto);
+	  		
+		return "redirect:/teams/teamPage?tno=" + tno;
+	}
+	
+	// 좋아요 등록
+	@GetMapping("/likes")
+	public String likes(@RequestParam Long tno, Model model, Principal principal) {
 		
+		Team team = teamCreateService.findOne(tno);
+		Member member = this.memberService.getMember(principal.getName());
+		
+		LikeSaveReqDto likesdto = new LikeSaveReqDto();
+		likesdto.setMember(member);
+		likesdto.setTeam(team);
+		
+		likesService.insert(likesdto);
 		return "redirect:/teams/teamPage?tno=" + tno;
 	}
 	
@@ -127,7 +223,7 @@ public class TeamPageController {
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
 		
-		// 인증 횟수 정보
+		// 인증 정보
 		List<CheckBoardDetailDto> checkBoard = checkBoardService.findByTeam(team);
 		
 		model.addAttribute("team", teamDetail);
@@ -153,8 +249,6 @@ public class TeamPageController {
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("p", SecretStatus.PUBLIC);
-		model.addAttribute("t", DeleteStatus.TRUE);
 		model.addAttribute("teamAsks", teamAsks);
 
 		return "teams/teamAskBoard";
@@ -211,7 +305,6 @@ public class TeamPageController {
 		Member loginMember = this.memberService.getMember(principal.getName());		
 			
 		model.addAttribute("team", team);
-		model.addAttribute("p", SecretStatus.PUBLIC);
 		model.addAttribute("teamAskOne", teamAskOneDetail);
 		model.addAttribute("loginMember", loginMember);	
 		model.addAttribute("teamAskReply", new TeamAskBoardReplyDto());
@@ -283,7 +376,7 @@ public class TeamPageController {
 
 	// 팀 페이지 인증 게시판(페이징)
 	@GetMapping("/teamCheckBoard")
-	public String teamCheckBoardPage(Model model, @PageableDefault(size = 6, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
+	public String teamCheckBoardPage(Model model, @PageableDefault(size = 8, sort = "cno", direction = Sort.Direction.DESC) Pageable pagable, @RequestParam Long tno) {
 		
 		Team team = teamCreateService.findOne(tno);
 		TeamDetailDto teamDetail = new TeamDetailDto().toDto(team);
@@ -292,11 +385,22 @@ public class TeamPageController {
 		int startPage = Math.max(1, checkBoards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(checkBoards.getTotalPages(), checkBoards.getPageable().getPageNumber() + 5);
 		
+		// 팀 리스트 정보
+		List<TeamMember> teamMemberList = teamDetail.getTeamMember();
+		Map<Long, Integer> memberCheckMap = new HashMap<>();
+				
+		for(int i=0; i<teamMemberList.size(); i++) {
+			Long oneMno = teamMemberList.get(i).getMember().getMno(); // 회원 정보
+			int countCheck = checkBoardService.countByTeamAndMember(team, teamMemberList.get(i).getMember()); // 인증 횟수
+			memberCheckMap.put(oneMno, countCheck);
+		}
+		
 		model.addAttribute("photoList", checkBoardService.findByTeam(team));
 		model.addAttribute("team", teamDetail);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("checkBoards", checkBoards);
+		model.addAttribute("memberCheckMap", memberCheckMap);
 		
 		return "teams/teamCheckBoard";
 	}
@@ -360,6 +464,23 @@ public class TeamPageController {
 		checkBoardService.saveCheckBoard(teamCheck);
 
 		return "redirect:/teams/teamCheckBoard?tno=" + tno;
+	}
+	
+	// 인증 완료시 로직
+	@GetMapping("/completeCheck")
+	public String completeCheck(@RequestParam Long tno, Model model, Principal principal) {
+		
+		Member member = this.memberService.getMember(principal.getName());
+		Team team = teamCreateService.findOne(tno);
+		TeamBankbook teamBankbook = teamBankbookService.findByTeam(team);
+		
+		// 팀 통장 출금
+		teamBankbookDetailService.withdraw(teamBankbook, team, member);
+		
+		// 개인통장 찾아서 넣기
+		bankbookService.deposit(member, team);
+			
+		return "redirect:/teams/teamPage?tno=" + tno;
 	}
 	
 	// 인증 게시판 상세보기

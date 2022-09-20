@@ -8,7 +8,12 @@
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/teamCheck.css" />
-<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+<script type="text/javascript">
+	function complete(tno){
+		alert("인증하기를 달성하셨습니다 개인 페이지에서 입금 내역을 확인하세요");
+		location.href="/teams/completeCheck?tno=" +tno;
+	}
+</script>
 <style type="text/css">
 	ul {align-items: flex-end;}
 </style>
@@ -28,12 +33,12 @@
 				<!-- Nav -->
 				<nav id="nav">
 					<ul>
-						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
+						<li id="introduce"><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
+						<li id="ask"><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
+						<li id="check"><a th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
+						<li id="list"><a th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
 					</ul>
-				</nav>				
+				</nav>							
 			</div>
 		</section>
 			<!-- features -->
@@ -70,6 +75,12 @@
 							</div>
 						</div>
 						<h4 class="message" th:text="${checkBoards.checkContent}"></h4>
+						<div th:each="memberCheckMap : ${memberCheckMap}" th:if="${checkBoards.member.mno == memberCheckMap.key}">
+							<p th:text="'인증 남은 횟수 : ' + ${memberCheckMap.value} + ' / 10'"></p>
+							<div th:if="${memberCheckMap.value} == 10">
+								<a th:onclick="|javascript:complete('${team.tno}')|" class="btn">인증 완료</a>
+							</div>
+						</div>
 					</div>
 
 					
@@ -93,7 +104,7 @@
 					</div>
 					
 					<div align="center">
-						<a th:href="@{/teams/teamCheckBoard/checkBoardWriteForm(tno=${team.tno})}" class="btn btn-info">인증하기</a>
+						<a th:href="@{/teams/teamCheckBoard/checkBoardWriteForm(tno=${team.tno})}" class="btn">인증하기</a>
 					</div>
 				</div>
 			</section>

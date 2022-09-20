@@ -1,5 +1,6 @@
 package project.moseup.domain;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +37,9 @@ public class TeamBankbook {
     @OneToMany(mappedBy = "teamBankbook")
     private List<TeamBankbookDetail> teamBankbookDetails = new ArrayList<>();
 
-	@Builder
-	private TeamBankbook(Team team) {
-		this.team = team;
-	}
-	
+    @Builder
+    public TeamBankbook(Team team) {
+        this.team = team;
+    }
+
 }

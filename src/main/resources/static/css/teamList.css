@@ -21,8 +21,22 @@
     text-align: center;
 }
 
+#nav ul li a{
+	text-decoration: none;
+}
+
 #nav ul li a span{
 	font: message-box;
+}
+
+#nav ul li a:hover{
+	font-size : 10px;
+	color: #ed786a;;
+}
+	
+#nav ul #list a:visited{
+	font-size : 10px;
+	color: #ed786a;;
 }
 
 .container h1{
