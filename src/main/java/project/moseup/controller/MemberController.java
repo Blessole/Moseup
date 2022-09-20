@@ -19,6 +19,7 @@ import project.moseup.service.member.MailService;
 import project.moseup.service.member.MemberService;
 import project.moseup.validator.CheckRealize;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -128,7 +129,14 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm(HttpServletRequest request){
+
+        // 이전 페이지로 돌아가기 위한 Referer 헤더 값을 세션 prevPage attribute로 저장
+        String uri = request.getHeader("Referer");
+        System.out.println("uri : "+uri);
+        if (uri != null && !uri.contains("/login")){
+            request.getSession().setAttribute("prevPage",uri);
+        }
         return "members/loginForm";
     }
 

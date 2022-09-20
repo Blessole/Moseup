@@ -33,7 +33,7 @@
             </div>
             <div class="btn-over">
                 <a th:href="@{/admin/askBoardDetail(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-danger">문의정보</a>
-                <a th:href="@{/admin/adminAskReplyList(ano=${askBoardMap.askBoard.ano})}" class="btn btn-outline-success">목록</a>
+                <a th:href="@{/admin/adminAskBoards(ano=${askBoardMap.askBoard.ano}, pageNum=${pageNum})}" class="btn btn-outline-success">목록</a>
             </div>
         </div> <!-- 메인 인포 콘텐츠 end-->
 
@@ -49,7 +49,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="askBoardReplie : ${askBoardMap.boardReplyList}">
+              <tr th:if="${askBoardMap.boardReplyList.size} == 0">
+                <th colspan="5" style="text-align: center;">등록된 답변이 없습니다.</th>
+              </tr>
+              <tr th:if="${askBoardMap.boardReplyList.size} != 0" th:each="askBoardReplie : ${askBoardMap.boardReplyList}">
                 <th th:text="${askBoardReplie.arno}">번호</th>
                 <td th:text="${askBoardReplie.member.nickname}">작성자</td>
                 <td th:text="${#temporals.format(askBoardReplie.askReplyDate, 'yyyy-MM-dd HH:mm:ss')}">답변날짜</td>

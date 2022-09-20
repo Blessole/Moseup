@@ -19,6 +19,7 @@ import project.moseup.dto.searchDto.MemberDateSearchDto;
 import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminFreeBoardService;
+import project.moseup.service.admin.AdminIndexService;
 import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.admin.FreeBoardReplyService;
 import project.moseup.service.member.MemberService;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +51,7 @@ public class AdminMemberController {
     private final AskBoardReplyService askBoardReplyService;
     private final AdminFreeBoardService adminFreeBoardService;
     private final FreeBoardReplyService freeBoardReplyService;
+    private final AdminIndexService adminIndexService;
 
 
     // 유효성 검사
@@ -80,9 +83,13 @@ public class AdminMemberController {
 
     // 대시보드(시작 페이지)
     @GetMapping("")
-    public String index(HttpSession session){
+    public String index(HttpSession session, Model model){
+        Map<String, Object> memberAndTeam = adminIndexService.getMemberAndTeamAndCount();
         log.info("session id = {}", session.getId());
         log.info("session = {}", session);
+
+        model.addAttribute("indexMap", memberAndTeam);
+        model.addAttribute("now", LocalDate.now());
 
         return "admin/adminIndex";
     }
@@ -243,7 +250,7 @@ public class AdminMemberController {
 
     @GetMapping("/memberAskBoard")
     public String memberAskBoard(@RequestParam Long mno, Model model){
-        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        Map<String, Object> map = adminMemberService.getAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
@@ -255,7 +262,7 @@ public class AdminMemberController {
 
     @GetMapping("/memberTeamAskBoard")
     public String memberTeamAskBoard(@RequestParam Long mno, Model model){
-        Map<String, Object> map = adminMemberService.getMemberMap(mno);
+        Map<String, Object> map = adminMemberService.getTeamAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
             model.addAttribute("deleteFalse", DeleteStatus.FALSE);
@@ -310,10 +317,14 @@ public class AdminMemberController {
     }
 
     @GetMapping("/adminAskReplyList")
-    public String adminAskReplyList(@RequestParam(required = false) Long ano, Model model){
+    public String adminAskReplyList(@RequestParam(required = false) Long ano,
+                                    @RequestParam(required = false, defaultValue = "0") int pageNum,
+                                    Model model){
 
         Map<String, Object> askBoardAndReply = askBoardService.getAskBoardReplyDesc(ano);
+
         model.addAttribute("askBoardMap", askBoardAndReply);
+        model.addAttribute("pageNum", pageNum);
 
         return "admin/adminAskReplyList";
     }

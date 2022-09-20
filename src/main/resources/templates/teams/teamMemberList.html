@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout_teamPage}">
 <head>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/teamList.css" />
-<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 <style type="text/css">
 	ul {align-items: flex-end;}
 </style>
@@ -15,49 +14,78 @@
 	<!-- 본문 코드 시작 -->
 	<th:block layout:fragment="content">
 		<div id="page-wrapper">
-			<!-- Header -->
-		<section id="header">
-			<div class="container">
-			
-				<!-- Logo -->
-				<h1 th:text="${team.teamName}"></h1>
-				<p>for the sake of everyone's habits.</p>
-			
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>
-						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>
-						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>
-						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>
-					</ul>
-				</nav>				
-			</div>
-		</section>
-		<br>
+<!--			&lt;!&ndash; Header &ndash;&gt;-->
+<!--		<section id="header">-->
+<!--			<div class="container">-->
+<!--			-->
+<!--				&lt;!&ndash; Logo &ndash;&gt;-->
+<!--				<h1 th:text="${team.teamName}"></h1>-->
+<!--				<p>for the sake of everyone's habits.</p>-->
+<!--			-->
+<!--				&lt;!&ndash; Nav &ndash;&gt;-->
+<!--				<nav id="nav">-->
+<!--					<ul>-->
+<!--						<li><a th:href="@{/teams/teamPage(tno=${team.tno})}"><span>소개</span></a></li>-->
+<!--						<li><a th:href="@{/teams/teamAskBoard(tno=${team.tno})}"><span>문의하기</span></a></li>-->
+<!--						<li><a class="icon solid fa-cog" th:href="@{/teams/teamCheckBoard(tno=${team.tno})}"><span>인증게시판</span></a></li>-->
+<!--						<li><a class="icon solid fa-retweet" th:href="@{/teams/teamMemberList(tno=${team.tno})}"><span>가입 회원</span></a></li>-->
+<!--					</ul>-->
+<!--				</nav>				-->
+<!--			</div>-->
+<!--		</section>-->
+<!--		<br>-->
 			<!-- checkBoard -->
 			<section id="features">
-				<div class="container">
-					<h2 class="text-primary" align="center">회원 목록</h2>		
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>회원사진</th>
-								<th>회원이름</th>
-								<th>인증횟수</th>
-								<th>직책</th>						
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="teamMember : ${team.teamMember}">
-								<th><img th:src="'images/'+${teamMember.member.email}+'/'+${teamMember.member.photo}" th:alt="프로필사진"></th>							
-								<th th:text="${teamMember.member.nickname}"></th>
-								<th th:text="${checkBoard.size()}"></th>
-								<th th:if="${team.teamLeader} == ${teamMember.member.nickname}" th:text="스터디장"></th>
-								<th th:if="${team.teamLeader} != ${teamMember.member.nickname}" th:text="일반회원"></th>
-							</tr>
-						</tbody>
-					</table>
+				<div class="middle-container">
+<!--					<h2 class="title teamMemberTitle" align="center">회원 목록</h2>-->
+
+<!--					여기부터 솔 코드-->
+					<div class="memberCard" th:each="list : ${team.teamMember}"  th:if="${teamMember.teamMemberDelete.toString == 'FALSE'}"
+						th:classappend="${team.mno} == ${list.member.mno} ? 'teamLeader'">
+						<div class="mc_left">
+							<div class="userDetails">
+								<div class="profile_img">
+									<span th:each="photo : ${photoList}" th:if="${list.member.mno == photo.key}">
+										<img th:src="${photo.value}" class="cover">
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="mc_right">
+							<div class="userInfo">
+								<div class="nickAuth">
+									<h3 th:text="${list.member.nickname}"></h3>
+									<div class="memberAuth" th:if="${team.mno} == ${list.member.mno}">
+										<i class='bx bxs-crown'></i>
+									</div>
+								</div>
+								<span th:each="check : ${checkList}" th:if="${list.member.mno == check.key}">
+									<h3 th:text="'인증 : '+ ${check.value}+'회'"></h3>
+								</span>
+							</div>
+						</div>
+
+					</div>
+
+<!--					<table class="table table-striped">-->
+<!--						<thead>-->
+<!--							<tr>-->
+<!--								<th>회원사진</th>-->
+<!--								<th>회원이름</th>-->
+<!--								<th>인증횟수</th>-->
+<!--								<th>직책</th>						-->
+<!--							</tr>-->
+<!--						</thead>-->
+<!--						<tbody>-->
+<!--							<tr th:each="teamMember : ${team.teamMember}">-->
+<!--								<th><img th:src="'images/'+${teamMember.member.email}+'/'+${teamMember.member.photo}" th:alt="프로필사진"></th>							-->
+<!--								<th th:text="${teamMember.member.nickname}"></th>-->
+<!--								<th th:text="${checkBoard.size()}"></th>-->
+<!--								<th th:if="${team.teamLeader} == ${teamMember.member.nickname}" th:text="스터디장"></th>-->
+<!--								<th th:if="${team.teamLeader} != ${teamMember.member.nickname}" th:text="일반회원"></th>-->
+<!--							</tr>-->
+<!--						</tbody>-->
+<!--					</table>-->
 				</div>
 			</section>
 		</div>

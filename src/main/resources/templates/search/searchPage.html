@@ -67,8 +67,8 @@
 		<!-- 카드 팀 리스트 -->
 		<section class="cardSection">
 			<div th:if="${searchedTeamList.isEmpty()}" class="searchedNull text-center">
-				<div class="searchedNull35 text-center">🙊 검색 결과가 없어요! 🙊</div>
-				<div class="searchedNull25 text-center">필터를 다시 적용해보시거나 카테고리를 이동해보세요</div>
+				<div class="listEmptyTitle text-center">🙊 검색 결과가 없어요! 🙊</div>
+				<div class="listEmptySub text-center">필터를 다시 적용해보시거나 카테고리를 이동해보세요</div>
 			</div>
 			<div th:if="${!searchedTeamList.isEmpty()}">
 				<div class="row row-cols-4"><!-- 하나의 행에 컬럼 4개 -->
