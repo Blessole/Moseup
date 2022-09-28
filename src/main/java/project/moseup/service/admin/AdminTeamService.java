@@ -112,7 +112,7 @@ public class AdminTeamService {
             return resultMap;
 
         }else{
-            throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
+            throw new NullPointerException("해당 팀이 없습니다 ID = " + tno);
         }
     }
 
@@ -126,7 +126,7 @@ public class AdminTeamService {
             return resultMap;
 
         }else{
-            throw new NullPointerException("해당 팀이 없습니다 id = " + tno);
+            throw new NullPointerException("해당 팀이 없습니다 ID = " + tno);
         }
     }
 
@@ -145,6 +145,24 @@ public class AdminTeamService {
             return resultMap;
         }else{
             throw new NullPointerException("팀 문의글 데이터가 없습니다 id = " + tano);
+        }
+    }
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void teamDeleteAndRecover(String text, Long tno) {
+        Optional<Team> teamOP = adminTeamRepository.findById(tno);
+        if (teamOP.isPresent()){
+            Team teamPS = teamOP.get();
+            switch (text){
+                case "delete" : teamPS.updateTeamDelete(DeleteStatus.TRUE);
+                    break;
+                case "recover" : teamPS.updateTeamDelete(DeleteStatus.FALSE);
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            throw new NullPointerException("해당 팀이 없습니다 ID = " + tno);
         }
     }
 }

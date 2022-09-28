@@ -38,10 +38,10 @@
             <div class="btn-over">
                 <a th:href="@{/admin/memberDetail(mno=${team.member.mno})}" class="btn btn-primary">회원정보</a>
                 <a th:href="@{/admin/teamList?page=} + ${pageNum}" class="btn btn-outline-success">목록</a>
-                <a th:href="@{/admin/teamDelete(tno=${team.tno})}" class="btn btn-outline-danger"
-                    th:if="${team.teamDelete} == ${deleteFalse}">삭제</a>
-                <a th:href="@{/admin/teamRecover(tno=${team.tno})}" class="btn btn-outline-info"
-                    th:if="${team.teamDelete} != ${deleteFalse}">복구</a>
+                <a th:href="@{/admin/teamDeleteAndRecover(tno=${team.tno}, text='delete')}" class="btn btn-outline-danger"
+                    th:if="${team.teamDelete.toString} == 'FALSE'" th:onclick="|deleteTeam(${team.tno})|">삭제</a>
+                <a th:href="@{/admin/teamDeleteAndRecover(tno=${team.tno}, text='recover')}" class="btn btn-outline-info"
+                    th:if="${team.teamDelete.toString} != 'FALSE'" th:onclick="|recoverTeam(${team.tno})|">복구</a>
             </div>
         </div>
         <div class="main-info-nav" th:fragment="teamInfoNav(teamInfoNav)">
@@ -147,6 +147,17 @@
 
 
     <div th:replace="layouts/fragments/adminCommonTest2 :: script"></div>
+
+    <script>
+        function deleteTeam(tno) {
+            alert("ID : "+ tno + "번 팀이 삭제되었습니다");
+        }
+
+        function recoverTeam(tno) {
+            alert("ID : "+ tno + "번 팀이 복구되었습니다");
+        }
+    
+    </script>
 </body>
 
 </html>

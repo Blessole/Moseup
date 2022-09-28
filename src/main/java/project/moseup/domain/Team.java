@@ -170,7 +170,7 @@ public class Team {
 	public void updateTeamPhoto(String teamPhoto) {
 		this.teamPhoto = teamPhoto;
 	}
-	public void updateeamDelete(DeleteStatus teamDelete) {
+	public void updateTeamDelete(DeleteStatus teamDelete) {
 		this.teamDelete = teamDelete;
 	}
 

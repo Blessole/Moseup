@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.moseup.domain.DeleteStatus;
 import project.moseup.domain.Member;
 import project.moseup.domain.Team;
 import project.moseup.dto.TeamAskBoardReplySaveReqDto;
@@ -73,10 +72,17 @@ public class AdminTeamController {
             TeamDetailRespDto team = adminTeamService.teamDetail(tno);
 
             model.addAttribute("team", team);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("pageNum", pageNum);
 
             return "admin/teamDetail";
+    }
+
+    // 팀 삭제 & 복구
+    @GetMapping("/teamDeleteAndRecover")
+    public String teamDeleteAndRecover(@RequestParam Long tno, @RequestParam String text){
+        adminTeamService.teamDeleteAndRecover(text, tno);
+
+        return "redirect:/admin/teamDetail?tno="+tno;
     }
     
     // 팀 통장 정보
@@ -87,7 +93,6 @@ public class AdminTeamController {
 
         model.addAttribute("team", team);
         model.addAttribute("teamMap", teamAndDetailsDESC);
-        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 
         return "admin/teamBankbook";
@@ -101,7 +106,6 @@ public class AdminTeamController {
 
         model.addAttribute("team", team);
         model.addAttribute("checkBoardMap", checkBoardsDesc);
-        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 
         return "admin/teamCheckBoard";
@@ -115,7 +119,6 @@ public class AdminTeamController {
 
         model.addAttribute("team", team);
         model.addAttribute("askBoardMap", askBoardDesc);
-        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 
         return "admin/teamAskBoard";
@@ -127,7 +130,6 @@ public class AdminTeamController {
         TeamDetailRespDto team = adminTeamService.teamDetail(tno);
 
         model.addAttribute("team", team);
-        model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         model.addAttribute("pageNum", pageNum);
 
         return "admin/teamInMember";
