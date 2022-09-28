@@ -97,10 +97,10 @@
                         <a th:href="@{/admin/adminAskReplyList(ano=${reply.askBoard.ano})}" id="askReplyList"
                             class="btn btn-primary">답변목록</a>
                         <a type="button" id="edit" class="btn btn-outline-danger" 
-                        th:if="${member.mno} == ${reply.member.mno} and ${reply.askReplyDelete} != ${deleteTrue}" 
+                        th:if="${member.mno} == ${reply.member.mno} and ${reply.askReplyDelete.toString} != 'FALSE'" 
                         th:href="@{/admin/adminAskReplyDeleteAndRecover(arno=${reply.arno}, ano=${reply.askBoard.ano}, choice='delete')}">삭제</a>
                         <a type="button" id="edit" class="btn btn-outline-danger" 
-                        th:if="${member.mno} == ${reply.member.mno} and ${reply.askReplyDelete} == ${deleteTrue}" 
+                        th:if="${member.mno} == ${reply.member.mno} and ${reply.askReplyDelete.toString} == 'FALSE'" 
                         th:href="@{/admin/adminAskReplyDeleteAndRecover(arno=${reply.arno}, ano=${reply.askBoard.ano}, choice='recover')}">복구</a>
                     </div>
                 </div>

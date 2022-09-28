@@ -167,7 +167,6 @@ public class AdminMemberController {
             if(map.get("member") == null){
                 return "redirect:/admin/memberList";
             }else{
-                model.addAttribute("deleteFalse", DeleteStatus.FALSE);
                 model.addAttribute("pageNum", pageNum);
                 model.addAttribute("memberMap", map);
                 log.info(map.get("realPath"));
@@ -202,7 +201,6 @@ public class AdminMemberController {
         if(bankbookMap != null){
             model.addAttribute("memberMap", memberMap);
             model.addAttribute("bankbookMap", bankbookMap);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
 
@@ -215,7 +213,6 @@ public class AdminMemberController {
         Map<String, Object> map = adminMemberService.getMemberMap(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }
@@ -227,7 +224,6 @@ public class AdminMemberController {
         Map<String, Object> map = adminMemberService.getMemberMap(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }
@@ -240,7 +236,6 @@ public class AdminMemberController {
         List<CheckBoardRespDto> checkBoards = adminMemberService.getCheckBoards(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
             model.addAttribute("checkBoards", checkBoards);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
@@ -253,7 +248,6 @@ public class AdminMemberController {
         Map<String, Object> map = adminMemberService.getAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }
@@ -265,7 +259,6 @@ public class AdminMemberController {
         Map<String, Object> map = adminMemberService.getTeamAskBoard(mno);
         if(map != null){
             model.addAttribute("memberMap", map);
-            model.addAttribute("deleteFalse", DeleteStatus.FALSE);
         }else{
             throw new RuntimeException("회원 정보가 없습니다");
         }
@@ -342,7 +335,6 @@ public class AdminMemberController {
         AskBoardReplyRespDto askBoardReplyRespDto = askBoardReplyService.getAskBoardReply(arno);
         model.addAttribute("member", member);
         model.addAttribute("reply", askBoardReplyRespDto);
-        model.addAttribute("deleteTrue", DeleteStatus.TRUE);
 
         return "admin/askBoardListDetail";
     }

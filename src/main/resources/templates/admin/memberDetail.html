@@ -38,9 +38,9 @@
             <div class="btn-over">
                 <a th:href="@{/admin/memberList?page=} + ${pageNum}" class="btn btn-outline-success">확인</a>
                 <a th:href="@{/admin/memberDelete(mno=${memberMap.member.mno})}" class="btn btn-outline-danger"
-                    th:if="${memberMap.member.memberDelete} == ${deleteFalse}">삭제</a>
+                    th:if="${memberMap.member.memberDelete.toString} == 'FALSE'">삭제</a>
                 <a th:href="@{/admin/memberRecover(mno=${memberMap.member.mno})}" class="btn btn-outline-info"
-                    th:if="${memberMap.member.memberDelete} != ${deleteFalse}">복구</a>
+                    th:if="${memberMap.member.memberDelete.toString} != 'FALSE'">복구</a>
             </div>
         </div> <!-- 메인 인포 콘텐츠 end-->
         <div class="main-info-nav" th:fragment="memberInfoNav(memberInfoNav)">
