@@ -46,7 +46,7 @@ public class AdminTeamController {
             Member member = memberService.getPrincipal(principal);
             Map<String, Object> memberMap = adminMemberService.getMemberMap(member.getMno());
 
-            model.addAttribute("memberMap", memberMap);
+            model.addAttribute("loginMemberMap", memberMap);
         }
     }
 

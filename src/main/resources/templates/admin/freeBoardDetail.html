@@ -82,7 +82,7 @@
                 <h4 class="mb-3">댓글&nbsp;<span th:text="${freeBoardMap.boardReplies.size}"></span></h4>
 
                 <form action="#" th:action="@{/admin/freeBoardDetail}" method="POST">
-                    <input type="hidden" th:value="${memberMap.member.mno}" name="mno">
+                    <input type="hidden" th:value="${loginMemberMap.member.mno}" name="mno">
                     <input type="hidden" th:value="${freeBoardMap.freeBoard.fno}" name="fno">
                     <input type="text" class="form-control mb-3" name="reply" placeholder="댓글 입력" >
                 </form>

@@ -100,11 +100,11 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img src="/static/images/profile.png" th:src="${memberMap.member.getPhotoViewPath}" alt="profileImg">
+                        <img src="/static/images/profile.png" th:src="${loginMemberMap.member.getPhotoViewPath}" alt="profileImg">
                     </div>
                     <div class="name-job">
-                        <div class="profile_name" th:text="${memberMap.member.nickname}"></div>
-                        <div class="job" th:text="${memberMap.member.name}">Admin</div>
+                        <div class="profile_name" th:text="${loginMemberMap.member.nickname}"></div>
+                        <div class="job" th:text="${loginMemberMap.member.name}">Admin</div>
                     </div>
                     <a href="#" th:href="@{/}">
                         <i class='bx bx-log-out'></i>

@@ -36,7 +36,6 @@
           <tr class="tableHeader">
             <th scope="col">번 호</th>
             <th scope="col">권 한</th>
-            <th scope="col">이 름</th>
             <th scope="col">이메일</th>
             <th scope="col">닉네임</th>
             <th scope="col">탈퇴여부</th>
@@ -50,8 +49,7 @@
           <tr th:each="member : ${members}">
             <th th:text="${member.mno}">번호</th>
             <td th:text="${member.role}" th:classappend="${member.role.toString == 'ADMIN'} ? 'adminColor'">권한</td>
-            <td th:text="${member.name}">이름</td>
-            <td th:text="${member.email}">이메일</a></td>
+            <td th:text="${member.email}">이메일</td>
             <td th:text="${member.nickname}">닉네임</td>
             <td th:text="${member.memberDelete}">탈퇴여부</td>
             <td><a class="member-link"
