@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/teams/teamPage", "/members/**", "/search/**").permitAll()
                     .antMatchers("/myPage/**", "/teams/**").authenticated()
                     .antMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
+//                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()
                     .loginPage("/members/login")
@@ -53,14 +53,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                     .logoutSuccessUrl("/members/login")
-                    .invalidateHttpSession(true)   //세션 날리기
+                    .invalidateHttpSession(true);   //세션 날리기
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/error");
-                .and()
-                    .sessionManagement()
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(true) // 중복 세션 체크 true = 새로운 사용자 인증실패 false = 이전 사용자 세션만료
-                    .expiredUrl("/members/login"); //세션 만료되었을 경우 리다이렉트 할 페이지
+//                .and()
+//                    .sessionManagement()
+//                    .maximumSessions(1)
+//                    .maxSessionsPreventsLogin(true) // 중복 세션 체크 true = 새로운 사용자 인증실패 false = 이전 사용자 세션만료
+//                    .expiredUrl("/members/login"); //세션 만료되었을 경우 리다이렉트 할 페이지
     }
 
     @Bean

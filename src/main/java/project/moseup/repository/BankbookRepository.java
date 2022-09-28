@@ -21,12 +21,10 @@ public class BankbookRepository {
 	public void withdrawMerge(Bankbook bankbook) {
 		em.persist(bankbook);
 	}
-	
 
 	// 입금하기
 	public void deposit(Bankbook bankbook) {
 		em.persist(bankbook);
 	}
-	
 
 }

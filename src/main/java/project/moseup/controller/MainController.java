@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import project.moseup.service.admin.AdminMemberService;
 import project.moseup.service.member.MemberService;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class MainController {
 	
@@ -30,6 +32,7 @@ public class MainController {
 	@ModelAttribute
 	public void loginMember(Principal principal, Model model){
 		if(principal == null){
+			log.info("이거 때문에 그러나? principal : "+ principal);
 //			throw new NoLoginException();
 		}else{
 			Member member = memberService.getPrincipal(principal);

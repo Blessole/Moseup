@@ -18,6 +18,13 @@ body{
     text-align: center;
 }
 
+.myInfo-middle-container{
+    padding-bottom: 100px;
+    width: 80%;
+    text-align: center;
+    margin: 64px auto;
+}
+
 .narrow-middle-container{
     padding-top : 100px;
     padding-bottom: 100px;
@@ -941,6 +948,7 @@ input#askPhoto {
 
 .moneyButton:hover{
     background: none;
+    color:  var(--point-color);
 }
 
 .select_bx1 {

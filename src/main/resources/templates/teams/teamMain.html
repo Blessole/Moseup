@@ -4,7 +4,6 @@
 <head>
 	<title>Insert title here</title>
 	<link rel="stylesheet" href="/css/teamMain.css" />
-</head>
 	<script type="text/javascript">
 	function checkMoney(tno, result){
 		if (result == 1) {
@@ -12,6 +11,7 @@
 			location.href="/teams/teamPage/joinTeam?tno="+tno;
 		} else if (result == -1) {
 			alert('예치금이 부족하여 가입할 수 없습니다. 돈 충전 해 와!');
+			location.href="/myPage/myBankbook";
 		}
 	}
 	</script>
