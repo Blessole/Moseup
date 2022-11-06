@@ -19,19 +19,20 @@
             <a th:href="@{/myPage/myBankbook/moneyCharge}" class="bankBookButton">충전하기</a>
         </div>
         <table class="bankBookTable">
-            <tr><th class="col-1">순서</th><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
+            <tr><th class="col-2">거래일자</th><th>거래 내용</th><th>입금액</th><th>출금액</th><th>총액</th></tr>
             <tr th:if="${bankbookDto.isEmpty()}">
                 <td colspan="6">아직 충전되지 않았습니다! 충전 고고!</td>
             </tr>
             <tr th:if="${!bankbookDto.isEmpty()}" th:each="list : ${bankbookDto}">
-                <td th:text="${list.dno}"></td>
+                <!-- <td th:text="${list.dno}"></td> -->
                 <td th:text="${#temporals.format(list.bankbookDate, 'yyyy.MM.dd HH:mm')}"></td>
                 <td th:text="${list.dealList}"></td>
                 <td th:if="${list.bankbookDeposit != 0}" th:text="${#numbers.formatInteger(list.bankbookDeposit, 3, 'COMMA')}"></td>
                 <td th:if="${list.bankbookDeposit == 0}">-</td>
                 <td th:if="${list.bankbookWithdraw != 0}" th:text="${#numbers.formatInteger(list.bankbookWithdraw, 3, 'COMMA')}"></td>
                 <td th:if="${list.bankbookWithdraw == 0}">-</td>
-                <td th:text="${#numbers.formatInteger(list.bankbookTotal, 3, 'COMMA')}"></td>
+                <td th:if="${list.bankbookTotal != 0}" th:text="${#numbers.formatInteger(list.bankbookTotal, 3, 'COMMA')}"></td>
+                <td th:if="${list.bankbookTotal == 0}">-</td>
             </tr>
         </table>
         <!-- paging -->
