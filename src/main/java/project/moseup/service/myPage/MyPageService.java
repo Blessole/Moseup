@@ -112,7 +112,7 @@ public class MyPageService {
     }
 
     public Page<Team> getMyLikeList(Member member, int startAt) {
-        Pageable pageable = PageRequest.of(startAt, 10);
+        Pageable pageable = PageRequest.of(startAt, 8);
         return teamInterfaceRepository.findMyLikeTeam(member, pageable);
     }
 

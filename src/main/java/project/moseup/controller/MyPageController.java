@@ -322,7 +322,7 @@ public class MyPageController {
 
         model.addAttribute("map", map);
         model.addAttribute("likeList", myPageService.getMyLikeList(member, page));
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 8);
         return "myPage/myLikeList";
     }
 
