@@ -38,7 +38,7 @@
                 <div class="reply" th:if="${!askBoardReplies.isEmpty()}">
                     <div class="oneReply" th:each="replys : ${askBoardReplies}">
                         <div class="replyInfo">
-                            <div class="nickname" th:text="${replys.member.nickname}"></div>
+                            <div class="nickname">관리자</div>
                             <div class="date" th:text="${#temporals.format(replys.askReplyDate, 'yyyy.MM.dd HH:mm')}"></div>
                         </div>
                         <div class="content"><p th:text="${replys.askReplyContent}"></p></div>
