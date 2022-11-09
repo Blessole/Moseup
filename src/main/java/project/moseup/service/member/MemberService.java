@@ -148,9 +148,6 @@ public class MemberService {
 	/** 마이페이지 사진, 닉네임 불러오기 메소드 **/
 	public Map<String, Object> getPhotoAndNickname(Principal principal) {
 		Map<String, Object> map = new HashMap<>();
-//		if (principal == null) {
-//			throw new NoLoginException();
-//		}
 		Member member = this.getMember(principal.getName());
 		map.put("member", member);
 

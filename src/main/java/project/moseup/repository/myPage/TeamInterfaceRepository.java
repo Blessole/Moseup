@@ -28,8 +28,6 @@ public interface TeamInterfaceRepository extends JpaRepository<Team, Long> {
     String findByMemberAndStartDateBeforeAndEndDateAfter = "select t from Team t where t.endDate >= :localDate and t.startDate <= :localDate and t.tno in ( select tm.team.tno from TeamMember tm where tm.member = :member and tm.teamMemberDelete = :deleteStat)";
     String findByMemberAndLikes = "select t from Team t where t.tno in (select l.team.tno from Likes l where l.member = :member)";
 
-//    String updateTeamMemberDelete = "update "
-
     /** 마이페이지용 - 가입 팀 조회 **/
     @Query(value=findTeamMember)
     Page<Team> findTeamMember(@Param("member") Member member, @Param("deleteStat") DeleteStatus deleteStatus, Pageable pageable);

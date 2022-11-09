@@ -331,7 +331,6 @@ public class MyPageController {
     @ResponseBody
     public String likeUnlike(Long tno, String name, LikeSaveReqDto likesDto, Model model, Principal principal){
 
-        System.out.println("team : "+ tno);
         String result="";
         Map<String, Object> map = memberService.getPhotoAndNickname(principal);
         model.addAttribute("map", map);
@@ -346,19 +345,18 @@ public class MyPageController {
             myPageService.likeUnlike(name, likes);
             result = "1";
         }
-        System.out.println("result : " + result);
         return result;
     }
 
 
     /** 회원 탈퇴 **/
     @GetMapping("/deleteMember")
-    public String deleteMember(Model model, Principal principal, SecurityContextLogoutHandler handler, HttpServletRequest req, HttpServletResponse res, Authentication authentication){
+    public String deleteMember(Model model, Principal principal, SecurityContextLogoutHandler handler,
+                               HttpServletRequest req, HttpServletResponse res, Authentication authentication){
         int result;
 
         // 진행중인 팀 여부 확인하기
         List<Team> ing = myPageService.beforeDelete(memberService.getMember(principal.getName()));
-        System.out.println("ing : " + ing);
         if (ing.isEmpty()){
             // LogoutHandler가 Authentication을 파라미터로 요구함(굳이 principal을 또 받아오지 않아도 됨)
             memberService.delete(authentication.getName());
@@ -385,8 +383,6 @@ public class MyPageController {
 
         Member member = memberService.getMember(principal.getName());
         int result = myPageService.deleteTeamMember(tno, member);
-
-        System.out.println("result : " + result);
         model.addAttribute("result", result);
         return "myPage/teamMemberDelete";
     }

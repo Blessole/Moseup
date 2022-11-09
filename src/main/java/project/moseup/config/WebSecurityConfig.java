@@ -41,11 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/teams/teamPage", "/members/**", "/search/**").permitAll()
                     .antMatchers("/myPage/**", "/teams/**").authenticated()
                     .antMatchers("/admin/**").hasRole("ADMIN")
-//                    .anyRequest().authenticated()   //위에 적은 패턴 외에는 모두 로그인인증하도록 만듦
                 .and()
                     .formLogin()
                     .loginPage("/members/login")
-//                    .defaultSuccessUrl("/")
                     .usernameParameter("email")
                     .successHandler(authenticationSuccessHandler) // 로그인 성공 시!
                     .permitAll()        // 로그인 하지 않은 사용자도 로그인 페이지에 접근할 수 있도록
@@ -53,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                     .logoutSuccessUrl("/members/login")
-                    .invalidateHttpSession(true);   //세션 날리기
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/error");
+                    .invalidateHttpSession(true)   //세션 날리기
+                .and()
+                    .exceptionHandling().accessDeniedPage("/error");
 //                .and()
 //                    .sessionManagement()
 //                    .maximumSessions(1)

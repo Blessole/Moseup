@@ -1,16 +1,11 @@
 package project.moseup.repository.member;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import project.moseup.domain.Member;
-import project.moseup.domain.Team;
 
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository

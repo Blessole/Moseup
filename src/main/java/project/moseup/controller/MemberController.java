@@ -133,7 +133,6 @@ public class MemberController {
 
         // 이전 페이지로 돌아가기 위한 Referer 헤더 값을 세션 prevPage attribute로 저장
         String uri = request.getHeader("Referer");
-        System.out.println("uri : "+uri);
         if (uri != null && !uri.contains("/login")){
             request.getSession().setAttribute("prevPage",uri);
         }
@@ -180,7 +179,6 @@ public class MemberController {
     @PostMapping("/findPW")
     public String findPWAction(@ModelAttribute MemberSaveReqDto memberSaveReqDto, Model model){
         log.info("findPW 진입");
-        log.info("이메일 : " + memberSaveReqDto.getEmail());
 
         int result = 0;
         Member member = memberService.findByEmail(memberSaveReqDto);
@@ -196,8 +194,6 @@ public class MemberController {
             // 메일 생성 & 전송
             Mail mail = mailService.createMail(tmpPw, member.getEmail());
             mailService.sendMail(mail);
-            
-            log.info("임시 비밀번호 전송 완료");
         } else {
             result = -1;
         } model.addAttribute("result", result);
