@@ -97,6 +97,7 @@ public class AdminTeamService {
             int size = teamBankbook.getTeamBankbookDetails().size();
             total = teamBankbook.getTeamBankbookDetails().get(size - 1).getTeamBankbookTotal();
         }
+        resultMap.put("teamBankbook", teamBankbook);
         resultMap.put("total", total);
 
         return resultMap;
