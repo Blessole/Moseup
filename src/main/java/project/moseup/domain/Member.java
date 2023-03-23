@@ -40,7 +40,7 @@ public class Member implements UserDetails {
 	private String password;
 	
 	@NotEmpty
-	@Column(name = "member_nickname")
+	@Column(name = "member_nickname", unique = true)
 	private String nickname;
 	
 	@NotEmpty
