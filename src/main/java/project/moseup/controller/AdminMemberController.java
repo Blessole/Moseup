@@ -9,13 +9,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import project.moseup.domain.*;
 import project.moseup.dto.*;
 import project.moseup.dto.searchDto.AskBoardSearchDto;
 import project.moseup.dto.searchDto.MemberDateSearchDto;
+import project.moseup.exception.MemberNotFoundException;
 import project.moseup.exception.NoLoginException;
 import project.moseup.repository.admin.AdminMemberRepository;
 import project.moseup.service.admin.AdminFreeBoardService;
@@ -25,9 +25,6 @@ import project.moseup.service.admin.FreeBoardReplyService;
 import project.moseup.service.member.MemberService;
 import project.moseup.service.myPage.AskBoardReplyService;
 import project.moseup.service.myPage.AskBoardService;
-import project.moseup.validator.CheckEmailValidator;
-import project.moseup.validator.CheckNicknameValidator;
-import project.moseup.validator.CheckPasswordValidator;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -54,20 +51,6 @@ public class AdminMemberController {
     private final AdminIndexService adminIndexService;
 
 
-    // 유효성 검사
-    private final CheckEmailValidator checkEmailValidator;
-    private final CheckNicknameValidator checkNicknameValidator;
-    private final CheckPasswordValidator checkPasswordValidator;
-
-
-    /* 커스텀 유효성 검증 */
-    // 컨트롤러가 실행 될 때 마다 검증
-    @InitBinder
-    public void validatorBinder(WebDataBinder binder) {
-        binder.addValidators(checkNicknameValidator);
-        binder.addValidators(checkEmailValidator);
-        binder.addValidators(checkPasswordValidator);
-    }
     // 공용 데이터 (사이드바에 들어갈 회원 정보)
     @ModelAttribute
     public void loginMember(Principal principal, Model model){
@@ -202,7 +185,7 @@ public class AdminMemberController {
             model.addAttribute("memberMap", memberMap);
             model.addAttribute("bankbookMap", bankbookMap);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
 
         }
         return "admin/memberBankbook";
@@ -214,7 +197,7 @@ public class AdminMemberController {
         if(map != null){
             model.addAttribute("memberMap", map);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
         }
         return "admin/memberFreeBoard";
     }
@@ -225,7 +208,7 @@ public class AdminMemberController {
         if(map != null){
             model.addAttribute("memberMap", map);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
         }
         return "admin/memberLikes";
     }
@@ -238,7 +221,7 @@ public class AdminMemberController {
             model.addAttribute("memberMap", map);
             model.addAttribute("checkBoards", checkBoards);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
         }
         return "admin/memberCheckBoard";
     }
@@ -249,7 +232,7 @@ public class AdminMemberController {
         if(map != null){
             model.addAttribute("memberMap", map);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
         }
         return "admin/memberAskBoard";
     }
@@ -260,7 +243,7 @@ public class AdminMemberController {
         if(map != null){
             model.addAttribute("memberMap", map);
         }else{
-            throw new RuntimeException("회원 정보가 없습니다");
+            throw new MemberNotFoundException(mno);
         }
         return "admin/memberTeamAskBoard";
     }
